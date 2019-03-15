@@ -9,10 +9,10 @@ import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
 import { HomeComponent } from './component/body/home/home.component';
 import { AboutComponent } from './component/body/about/about.component';
-import { SteeringCommiteeComponent } from './component/component/about/steering-commitee/steering-commitee.component';
-import { ContactIsqedComponent } from './component/component/about/contact-isqed/contact-isqed.component';
-import { ImagesForYouComponent } from './component/component/about/images-for-you/images-for-you.component';
-import { PrivacyPolicyComponent } from './component/component/about/privacy-policy/privacy-policy.component';
+import { SteeringCommiteeComponent } from './component/body/about/steering-commitee/steering-commitee.component';
+import { ContactIsqedComponent } from './component/body/about/contact-isqed/contact-isqed.component';
+import { ImagesForYouComponent } from './component/body/about/images-for-you/images-for-you.component';
+import { PrivacyPolicyComponent } from './component/body/about/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
