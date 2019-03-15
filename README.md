@@ -1,6 +1,10 @@
 # isQED Project
 
+  
+
 ## Clone the isQED team project skeleton to your desktop.
+
+  
 
 1. Open your terminal and type in commands:
 -[ ] `git clone $ git clone https://github.com/kimdo7/isQED.git`
@@ -9,30 +13,31 @@
 -[ ] `cd public`
 -[ ] `npm install`
 -[ ] `node install`
-2. Open vscode to your project.  All files should be downloaded
 
+2. Open your project in VSCode editor. All files should be downloaded
+  
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
 2. check that you are on the master branch
+3. Check status before pulling files
+-[] git status
 
-    -[] `git status`
+		On branch master
+		Your branch is up to date with 'origin/master'.
+		Changes not staged for commit:
+		(use "git add <file>..." to update what will be committed)
+		(use "git checkout -- <file>..." to discard changes in working directory)
+		modified: README.md
+		no changes added to commit (use "git add" and/or "git commit -a")`
 
-    On branch master
-    Your branch is up to date with 'origin/master'.
+4. Pull the file before attempting to push to avoid any errors
+-[ ] `git pull`
 
-    Changes not staged for commit:
-    (use "git add <file>..." to update what will be committed)
-    (use "git checkout -- <file>..." to discard changes in working directory)
+5. In the command line, add the file
+-[ ] `git add <filename.extention>`
 
-	modified:   README.md
+6. Commit file
+-[ ] `git commit -m "add comment to changes you made"`
 
-    no changes added to commit (use "git add" and/or "git commit -a")
-
-3. Pull the file before attempting to push to avoid any errors
-    -[ ] `git pull`
-4. In the command line, add the file
-    -[ ] `git add <filename.extention>`
-5. Commit file
-    -[ ] `git commit -m "add comment to changes you made"`
-6. Push to Master branch
-    -[ ] `git push` 
+7. Push to Master branch
+-[ ] `git push`
