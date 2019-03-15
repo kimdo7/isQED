@@ -16,6 +16,17 @@ import { PrivacyPolicyComponent } from './component/body/about/privacy-policy/pr
 import { ConferencesComponent } from './component/body/conferences/conferences.component';
 import { AboutHomeComponent } from './component/body/about/about-home/about-home.component';
 import { ConferencesHomeComponent } from './component/body/conferences/conferences-home/conferences-home.component';
+import { IsqedEventsComponent } from './component/body/conferences/isqed-events/isqed-events.component';
+import { IsqedCalendarComponent } from './component/body/conferences/isqed-calendar/isqed-calendar.component';
+import { AffiliateEventsComponent } from './component/body/conferences/affiliate-events/affiliate-events.component';
+import { SponsorshipOpportunitiesComponent } from './component/body/conferences/sponsorship-opportunities/sponsorship-opportunities.component';
+import { AwardsComponent } from './component/body/awards/awards.component';
+import { AwardsHomeComponent } from './component/body/awards/awards-home/awards-home.component';
+import { TrainingComponent } from './component/body/training/training.component';
+import { TrainingHomeComponent } from './component/body/training/training-home/training-home.component';
+import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
+import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
+import { MembershipComponent } from './component/body/membership/membership.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +41,18 @@ import { ConferencesHomeComponent } from './component/body/conferences/conferenc
     PrivacyPolicyComponent,
     ConferencesComponent,
     AboutHomeComponent,
-    ConferencesHomeComponent
+    ConferencesHomeComponent,
+    IsqedEventsComponent,
+    IsqedCalendarComponent,
+    AffiliateEventsComponent,
+    SponsorshipOpportunitiesComponent,
+    AwardsComponent,
+    AwardsHomeComponent,
+    TrainingComponent,
+    TrainingHomeComponent,
+    TrainingCalendarComponent,
+    RegistrationFormComponent,
+    MembershipComponent
   ],
   imports: [
     BrowserModule,

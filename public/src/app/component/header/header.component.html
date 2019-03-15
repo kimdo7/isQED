@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div class="row mt-4 form-group">
         <img alt="ISQED - Society" src="assets/img/logo/ISQED_Society_logo.svgz" class="col-2" style="height: 100px;">
         <h2 class="col-10 text-primary">International Society for Quality Electronic Design</h2>
     </div>
@@ -24,9 +24,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" [routerLink]="['about/steering_commitee']">ISQED Steering Committee</a>
-                        <a class="dropdown-item" href="#">Contact ISQED</a>
-                        <a class="dropdown-item" href="#">Images for You</a>
-                        <a class="dropdown-item" href="#">Privacy Policy</a>
+                        <a class="dropdown-item" [routerLink]="['about/contact']">Contact ISQED</a>
+                        <a class="dropdown-item" [routerLink]="['about/image_for_you']">Images for You</a>
+                        <a class="dropdown-item" [routerLink]="['about/privacy_policy']">Privacy Policy</a>
                     </div>
                 </li>
 
@@ -37,39 +37,39 @@
                         Conferences
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">ISQED Events</a>
-                        <a class="dropdown-item" href="#">ISQED Calendar</a>
-                        <a class="dropdown-item" href="#">Affillate Events</a>
-                        <a class="dropdown-item" href="#">Become a Sponsor</a>
+                        <a class="dropdown-item" [routerLink]="['conferences/isqed_events']">ISQED Events</a>
+                        <a class="dropdown-item" [routerLink]="['conferences/isqed_calendar']">ISQED Calendar</a>
+                        <a class="dropdown-item" [routerLink]="['conferences/affiliate_events']">Affillate Events</a>
+                        <a class="dropdown-item" [routerLink]="['conferences/sponsorship_opportunities']">Become a Sponsor</a>
                     </div>
                 </li>
 
                 <!-- Awards -->
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" [routerLink]="['awards']" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Awards
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">ISQED Awards</a>
+                        <a class="dropdown-item" [routerLink]="['awards']">ISQED Awards</a>
                     </div>
                 </li>
 
                 <!-- Trainning -->
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" [routerLink]="['training']" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Training
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Training Calendar</a>
-                        <a class="dropdown-item" href="#">Registration Form</a>
+                        <a class="dropdown-item" [routerLink]="['training/calendar']">Training Calendar</a>
+                        <a class="dropdown-item" [routerLink]="['training/registration_form']">Registration Form</a>
                     </div>
                 </li>
 
                 <!-- Membership -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Membership</a>
+                    <a class="nav-link" [routerLink]="['membership']">Membership</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

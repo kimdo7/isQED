@@ -28,7 +28,7 @@
 		(use "git add <file>..." to update what will be committed)
 		(use "git checkout -- <file>..." to discard changes in working directory)
 		modified: README.md
-		no changes added to commit (use "git add" and/or "git commit -a")`
+		no changes added to commit (use "git add" and/or "git commit -A")`
 
 4. Pull the file before attempting to push to avoid any errors
 -[ ] `git pull`
