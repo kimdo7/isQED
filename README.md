@@ -13,9 +13,9 @@
 
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
-2. check that you are on the master branchy
+2. check that you are on the master branch
 
-    -[] git status
+    -[] `git status`
 
     On branch master
     Your branch is up to date with 'origin/master'.
@@ -28,9 +28,11 @@
 
     no changes added to commit (use "git add" and/or "git commit -a")
 
-3. In the commadn line, add the file
+3. Pull the file before attempting to push to avoid any errors
+    -[ ] `git pull`
+4. In the command line, add the file
     -[ ] `git add <filename.extention>`
-4. Commit file
-    -[ ] `git commit -m "add readme"`
-5. Push to Master branch
+5. Commit file
+    -[ ] `git commit -m "add comment to changes you made"`
+6. Push to Master branch
     -[ ] `git push` 
