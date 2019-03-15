@@ -14,6 +14,8 @@ import { ContactIsqedComponent } from './component/body/about/contact-isqed/cont
 import { ImagesForYouComponent } from './component/body/about/images-for-you/images-for-you.component';
 import { PrivacyPolicyComponent } from './component/body/about/privacy-policy/privacy-policy.component';
 import { ConferencesComponent } from './component/body/conferences/conferences.component';
+import { AboutHomeComponent } from './component/body/about/about-home/about-home.component';
+import { ConferencesHomeComponent } from './component/body/conferences/conferences-home/conferences-home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ConferencesComponent } from './component/body/conferences/conferences.c
     ContactIsqedComponent,
     ImagesForYouComponent,
     PrivacyPolicyComponent,
-    ConferencesComponent
+    ConferencesComponent,
+    AboutHomeComponent,
+    ConferencesHomeComponent
   ],
   imports: [
     BrowserModule,
