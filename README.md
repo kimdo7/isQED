@@ -16,6 +16,28 @@
 
 2. Open your project in VSCode editor. All files should be downloaded
   
+## Start the Server
+1. leave mongoose running
+    `cd~/ 
+    sudo mongod`
+* Kill server if needed `ps -ax | grep mongo sudo kill that_number`
+
+2. open to query database
+    `cd~/ 
+    mongo`
+
+3. path to angular public project folder and run the server
+    `cd project_name/public
+    ng build --watch`
+
+4. open terminal window in vscode terminal
+    `ng serve`
+
+5. open another terminal window for terminal operations
+    `~/Desktop/isQed`
+
+6. In chrome, go to url `localhost: 4200`
+
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
 2. check that you are on the master branch
