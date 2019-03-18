@@ -7,12 +7,12 @@
   
 
 1. Open your terminal and type in commands:
-    -[ ] `$ git clone https://github.com/kimdo7/isQED.git`
-    -[ ] `$ cd isQED`
-    -[ ] `$ npm install`
-    -[ ] `$ cd public`
-    -[ ] `$ npm install`
-    -[ ] `$ node install`
+    * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
+    * [ ] `$ cd isQED`
+    * [ ] `$ npm install`
+    * [ ] `$ cd public`
+    * [ ] `$ npm install`
+    * [ ] `$ node install`
 
 2. Open your project in VSCode editor. All files should be downloaded
   
