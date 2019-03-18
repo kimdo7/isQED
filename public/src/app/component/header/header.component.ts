@@ -8,22 +8,42 @@ import * as $ from 'jquery';
 })
 export class HeaderComponent implements OnInit {
 
+    isHamburgerOpen = false
     constructor() { }
 
     ngOnInit() {
         $(document).ready(function () {
+            $("#navbar-brand").hide();
+
             $(window).scroll(function () {
                 var headerTop = $('#header-logo').height();
-                // console.log(aTop)
                 if ($(this).scrollTop() >= headerTop + 50) {
                     $("#navbar").addClass("fixed-top")
-                }else{
+                    $("#navbar-brand").show();
+                } else {
                     $("#navbar").removeClass("fixed-top")
+                    $("#navbar-brand").hide();
                 }
             })
         });
     }
 
-}
 
-// fixed-top
+
+    button_click() {
+        //if it is a mobile version then click the hamberger btn
+        if ($(window).width() < 992) {
+            if (this.isHamburgerOpen)
+                $("#hamburgerbtn").click()
+        }
+
+        //auto scroll to top of the page
+        $('html, body').animate({ scrollTop: 0 }, 'slow', function () {
+        });
+    }
+
+    openHamburger() {
+        this.isHamburgerOpen = !this.isHamburgerOpen;
+    }
+
+}

@@ -5,77 +5,97 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="container">
+        <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
+            <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" class="h-100" width="100" alt="">
+        </a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['']">Home</a>
-            </li>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            id="hamburgerbtn" (click)="openHamburger()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto text-right">
+                <li class="nav-item active">
+                    <a class="nav-link" [routerLink]="['']" (click)="button_click()">Home</a>
+                </li>
 
-            <!-- About -->
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" [routerLink]="['about']" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    About ISQED
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" [routerLink]="['about/steering_commitee']">ISQED Steering Committee</a>
-                    <a class="dropdown-item" [routerLink]="['about/contact']">Contact ISQED</a>
-                    <a class="dropdown-item" [routerLink]="['about/image_for_you']">Images for You</a>
-                    <a class="dropdown-item" [routerLink]="['about/privacy_policy']">Privacy Policy</a>
-                </div>
-            </li>
+                <!-- About -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" (click)="button_click()" [routerLink]="['about']"
+                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        About ISQED
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['about/steering_commitee']">ISQED Steering Committee</a>
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['about/contact']">Contact
+                            ISQED</a>
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['about/image_for_you']">Images
+                            for You</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['about/privacy_policy']">Privacy Policy</a>
+                    </div>
+                </li>
 
-            <!-- Conferences -->
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" [routerLink]="['conferences']" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Conferences
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" [routerLink]="['conferences/isqed_events']">ISQED Events</a>
-                    <a class="dropdown-item" [routerLink]="['conferences/isqed_calendar']">ISQED Calendar</a>
-                    <a class="dropdown-item" [routerLink]="['conferences/affiliate_events']">Affillate Events</a>
-                    <a class="dropdown-item" [routerLink]="['conferences/sponsorship_opportunities']">Become a
-                        Sponsor</a>
-                </div>
-            </li>
+                <!-- Conferences -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" [routerLink]="['conferences']"
+                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Conferences
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['conferences/isqed_events']">ISQED Events</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['conferences/isqed_calendar']">ISQED Calendar</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['conferences/affiliate_events']">Affillate Events</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['conferences/sponsorship_opportunities']">Become a
+                            Sponsor</a>
+                    </div>
+                </li>
 
-            <!-- Awards -->
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" [routerLink]="['awards']" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Awards
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" [routerLink]="['awards']">ISQED Awards</a>
-                </div>
-            </li>
+                <!-- Awards -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle"  [routerLink]="['awards']"
+                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Awards
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['awards']">ISQED Awards</a>
+                    </div>
+                </li>
 
-            <!-- Trainning -->
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" [routerLink]="['training']" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Training
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" [routerLink]="['training/calendar']">Training Calendar</a>
-                    <a class="dropdown-item" [routerLink]="['training/registration_form']">Registration Form</a>
-                </div>
-            </li>
+                <!-- Trainning -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle"  [routerLink]="['training']"
+                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Training
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"  [routerLink]="['training/calendar']">Training
+                            Calendar</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['training/registration_form']">Registration Form</a>
+                    </div>
+                </li>
 
-            <!-- Membership -->
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['membership']">Membership</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+                <!-- Membership -->
+                <li class="nav-item active">
+                    <a class="nav-link" (click)="button_click()" [routerLink]="['membership']">Membership</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
     </div>
 </nav>
