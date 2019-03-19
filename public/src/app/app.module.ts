@@ -27,7 +27,6 @@ import { TrainingHomeComponent } from './component/body/training/training-home/t
 import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/body/membership/membership.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations: [
@@ -60,7 +59,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
         AppRoutingModule,
         BrowserAnimationsModule,
         MaterialModule,
-        PdfViewerModule
     ],
     providers: [],
     bootstrap: [AppComponent]
