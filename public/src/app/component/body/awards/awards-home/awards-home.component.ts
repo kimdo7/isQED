@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-
-
 @Component({
     selector: 'app-awards-home',
     templateUrl: './awards-home.component.html',
