@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {BrowserAnimationsModule}  from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materials';
 import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
@@ -27,40 +27,42 @@ import { TrainingHomeComponent } from './component/body/training/training-home/t
 import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/body/membership/membership.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    FooterComponent,
-    HeaderComponent,
-    AboutComponent,
-    SteeringCommiteeComponent,
-    ContactIsqedComponent,
-    ImagesForYouComponent,
-    PrivacyPolicyComponent,
-    ConferencesComponent,
-    AboutHomeComponent,
-    ConferencesHomeComponent,
-    IsqedEventsComponent,
-    IsqedCalendarComponent,
-    AffiliateEventsComponent,
-    SponsorshipOpportunitiesComponent,
-    AwardsComponent,
-    AwardsHomeComponent,
-    TrainingComponent,
-    TrainingHomeComponent,
-    TrainingCalendarComponent,
-    RegistrationFormComponent,
-    MembershipComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        FooterComponent,
+        HeaderComponent,
+        AboutComponent,
+        SteeringCommiteeComponent,
+        ContactIsqedComponent,
+        ImagesForYouComponent,
+        PrivacyPolicyComponent,
+        ConferencesComponent,
+        AboutHomeComponent,
+        ConferencesHomeComponent,
+        IsqedEventsComponent,
+        IsqedCalendarComponent,
+        AffiliateEventsComponent,
+        SponsorshipOpportunitiesComponent,
+        AwardsComponent,
+        AwardsHomeComponent,
+        TrainingComponent,
+        TrainingHomeComponent,
+        TrainingCalendarComponent,
+        RegistrationFormComponent,
+        MembershipComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        PdfViewerModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
