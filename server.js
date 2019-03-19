@@ -12,7 +12,7 @@ app.use(express.static( __dirname + '/public/dist/public' ));
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://localhost/isQED', { useNewUrlParser: true });
 
-require("./server/config/mongoose.js")
+// require("./server/config/mongoose.js")
 require('./server/config/routes.js')(app)
 
 // Setting our Server to Listen on Port: 8000
