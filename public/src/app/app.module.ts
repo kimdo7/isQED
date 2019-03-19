@@ -28,6 +28,13 @@ import { TrainingCalendarComponent } from './component/body/training/training-ca
 import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/body/membership/membership.component';
 
+/**
+ * Calendar
+ */
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -59,6 +66,11 @@ import { MembershipComponent } from './component/body/membership/membership.comp
         AppRoutingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        FormsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]
