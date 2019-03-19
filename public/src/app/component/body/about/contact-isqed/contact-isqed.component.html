@@ -4,18 +4,34 @@
         <img class="w-75" src="assets/img/contacts/svpti_skyscraper.png" alt="SVPTI" class="SkyscraperAdvert" />
     </div>
 
-    <div class="col-lg-9">
+    <div class="col-lg-8">
         <div class="ml-4">
-            <h5 class="text-primary">Contact Us</h5>
-            <h5 class="text-primary">ISQED</h5>
-            <p><br>P.O. BOX 607
-                <br>Los Altos, CA 94023-0607
-                <br>
-                <br>Tel:+1.408.573.0100
-                <br>Fax: +1.408.573.0200 and
-                <br>eFAX: +1.408.516.8228
-                <br><a href="mailto: info@ISQED.com">Email: info@ISQED.com</a>
-            </p>
+            <mat-card class="w-100">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>Contact Us</mat-card-title>
+                    <mat-card-subtitle>ISQED</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="assets/img/logo/ISQED_Society_logo.svgz" style="height:100px;" alt="ISQED">
+                <mat-card-content>
+                    <mat-list role="list">
+                        <mat-list-item role="listitem">P.O. BOX 607<br>
+                            Los Altos, CA 94023-0607</mat-list-item>
+                        <mat-list-item role="listitem"><b>Phone: </b> +1.408.573.0100</mat-list-item>
+                        <mat-list-item role="listitem"><b>Fax: </b> +1.408.573.0200</mat-list-item>
+                        <mat-list-item role="listitem"><b>eFAX: </b> +1.408.516.8228</mat-list-item>
+                        <mat-list-item role="listitem"><b>Email: </b> info@ISQED.com</mat-list-item>
+                    </mat-list>
+
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <a href="mailto: info@ISQED.com" class="btn" mat-raised-button color="primary">Email</a>
+                    <a href="tell:4085730100" class="btn" mat-raised-button color="primary">Call</a>
+                </mat-card-actions>
+            </mat-card>
+
+
         </div>
     </div>
 </div>

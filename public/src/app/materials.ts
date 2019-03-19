@@ -22,7 +22,7 @@ import { MatTableModule } from '@angular/material/table';
         MatBottomSheetModule,
         MatTreeModule,
         MatProgressBarModule,
-        MatExpansionModule
+        MatExpansionModule,
     ],
     exports: [
         MatButtonModule,
