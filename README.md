@@ -1,5 +1,6 @@
 # isQED Project
-
+1. Current Deploy
+    http://13.58.86.32
   
 
 ## Clone the isQED team project skeleton to your desktop.
