@@ -7,8 +7,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static( __dirname + '/public/dist/public' ));
 
-// app.use(express.static(path.join(__dirname, './static')));
-
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://localhost/isQED', { useNewUrlParser: true });
 
