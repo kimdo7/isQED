@@ -10,3 +10,4 @@
 <app-footer id="footer"></app-footer>
 
 
+<button *ngIf="pwaService.promptEvent" (click)="installPwa()">Install</button>

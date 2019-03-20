@@ -39,7 +39,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './service/http.service';
-
+import { PwaService } from './service/pwa.service';
 
 
 @NgModule({
@@ -82,7 +82,7 @@ import { HttpService } from './service/http.service';
         }),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
-    providers: [HttpService],
+    providers: [HttpService, PwaService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

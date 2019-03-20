@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker'
-import { HttpService } from './service/http.service';
+import { PwaService } from './service/pwa.service';
 
 @Component({
     selector: 'app-root',
@@ -9,18 +8,14 @@ import { HttpService } from './service/http.service';
 })
 export class AppComponent {
 
-    joke : any
-    constructor(update: SwUpdate, private httpService: HttpService) {
-        update.available.subscribe(event => {
-            update.activateUpdate().then(() => document.location.reload())
-        })
+    constructor(
+        public pwaService: PwaService
+        ) {}
 
-    }
+    ngOnInit() {}
 
-    ngOnInit(){
-        this.httpService.gimmeJoke().subscribe(res => {
-            this.joke = res
-        })
+    installPwa(): void {
+        this.pwaService.promptEvent.prompt();
     }
 
 }
