@@ -9,6 +9,7 @@ import * as $ from 'jquery';
 export class HeaderComponent implements OnInit {
 
     isHamburgerOpen = false
+    isSearch = false
     constructor() { }
 
     ngOnInit() {
@@ -28,8 +29,6 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-
-
     button_click() {
         //if it is a mobile version then click the hamberger btn
         if ($(window).width() < 992) {
@@ -42,6 +41,11 @@ export class HeaderComponent implements OnInit {
         });
     }
 
+    
+    search_btn_click(){
+        this.button_click();
+        this.isSearch = !this.isSearch
+    }
     openHamburger() {
         this.isHamburgerOpen = !this.isHamburgerOpen;
     }

@@ -170,8 +170,6 @@ export class IsqedCalendarComponent implements OnInit {
         this.activeDayIsOpen = false;
     }
 
-
-    // constructor() { }
     ngOnInit() {
     }
 

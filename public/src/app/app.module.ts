@@ -27,13 +27,20 @@ import { TrainingHomeComponent } from './component/body/training/training-home/t
 import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/body/membership/membership.component';
+import { FormsModule } from '@angular/forms';
+import { SearchComponent } from './component/search/search.component';
 
 /**
  * Calendar
  */
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpService } from './service/http.service';
+
+
 
 @NgModule({
     declarations: [
@@ -59,7 +66,8 @@ import { FormsModule } from '@angular/forms';
         TrainingHomeComponent,
         TrainingCalendarComponent,
         RegistrationFormComponent,
-        MembershipComponent
+        MembershipComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,
@@ -67,12 +75,14 @@ import { FormsModule } from '@angular/forms';
         BrowserAnimationsModule,
         MaterialModule,
         FormsModule,
+        HttpClientModule,
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory
-        })
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
-    providers: [],
+    providers: [HttpService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
