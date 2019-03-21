@@ -27,7 +27,7 @@ import { TrainingHomeComponent } from './component/body/training/training-home/t
 import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/body/membership/membership.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './component/search/search.component';
 
 /**
@@ -76,6 +76,7 @@ import { PwaService } from './service/pwa.service';
         MaterialModule,
         FormsModule,
         HttpClientModule,
+        ReactiveFormsModule,
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory

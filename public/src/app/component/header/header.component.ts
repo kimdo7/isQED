@@ -10,22 +10,46 @@ export class HeaderComponent implements OnInit {
 
     isHamburgerOpen = false
     isSearch = false
+    lastScrollTop = 0;
+
     constructor() { }
 
     ngOnInit() {
         $(document).ready(function () {
+            /**
+             * Set up navbar brand height
+             */
             $("#navbar-brand").hide();
+            $("#navbar-brand").height($("#navbar").height() - 10)
 
+            /**
+             * Window scroll down up event
+             */
             $(window).scroll(function () {
                 var headerTop = $('#header-logo').height();
-                if ($(this).scrollTop() >= headerTop + 50) {
+                var st = $(this).scrollTop();
+                // console.log(st + $(window).height())
+                if (st + $(window).height() >= $(document).height()) {
+                    
+                    if (st == 0) {
+                        $("#navbar").removeClass("fixed-top")
+                        $("#navbar-brand").hide();
+                        $('html, body').animate({ scrollTop: 0 }, 'slow', function () {
+                        });
+                    }
+                } else if (st > this.lastScrollTop) {
                     $("#navbar").addClass("fixed-top")
                     $("#navbar-brand").show();
-                } else {
+                } else if (st <= headerTop) {
+                    console.log(st)
                     $("#navbar").removeClass("fixed-top")
                     $("#navbar-brand").hide();
                 }
+                this.lastScrollTop = st;
             })
+
+
+            // console.log($("#wrapper").height())
         });
     }
 
@@ -41,8 +65,8 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    
-    search_btn_click(){
+
+    search_btn_click() {
         this.button_click();
         this.isSearch = !this.isSearch
     }
