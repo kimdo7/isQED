@@ -1,7 +1,4 @@
 # isQED Project
-1. Current Deploy
-    http://18.222.127.230/
-  
 
 ## Clone the isQED team project skeleton to your desktop.
 1. Open your terminal and type in commands:
