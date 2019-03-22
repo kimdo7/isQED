@@ -1,0 +1,30 @@
+<!-- Header -->
+<app-header id="header"></app-header>
+
+<!-- Body Home -->
+<div *ngIf="route=='Home'" class="mt-4 mb-4" id="body">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- Body Not Home -->
+<div *ngIf="route!='Home'" class="mt-4 mb-4" id="body">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-xl-2 col-lg-2 col-md-2 d-none d-md-block d-lg-block d-xl-block text-center form-group">
+            <app-banner></app-banner>
+        </div>
+
+        <div class="col-xl-8 col-lg-8 col-md-8" style="padding-top: 15px;">
+            <div class="ml-4">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+    <!-- <router-outlet ></router-outlet> -->
+</div>
+
+<!-- footer -->
+<app-footer id="footer"></app-footer>
+<!-- pwa install -->
+<!-- <button *ngIf="pwaService.promptEvent" (click)="installPwa()">Install</button> -->

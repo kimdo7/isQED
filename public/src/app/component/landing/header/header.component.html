@@ -1,0 +1,107 @@
+<div id="wrapper">
+    <div class="row mt-4 form-group" id="header-logo">
+        <div class="col-1"></div>
+        <img alt="ISQED - Society" src="assets/img/logo/ISQED_Society_logo.svgz" class="col-2" style="height: 100px;">
+        <h2 class="col-9 text-primary align-self-center">International Society for Quality Electronic Design</h2>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
+                <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                id="hamburgerbtn" (click)="openHamburger()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto text-right">
+                    <li class="nav-item active">
+                        <a class="nav-link" [routerLink]="['']" (click)="button_click()" matRipple>Home</a>
+                    </li>
+
+                    <!-- About -->
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" [routerLink]="['/about']" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                            About ISQED
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'steering_commitee']"
+                                matRipple>ISQED Steering Committee</a>
+                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
+                                matRipple>Contact
+                                ISQED</a>
+                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
+                                matRipple>Images
+                                for You</a>
+                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'privacy_policy']"
+                                matRipple>Privacy Policy</a>
+                        </div>
+                    </li>
+
+                    <!-- Conferences -->
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" [routerLink]="['/conferences']" id="navbarDropdown"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                            Conferences
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/conferences' ,'isqed_events']" matRipple>ISQED Events</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/conferences', 'isqed_calendar']" matRipple>ISQED Calendar</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/conferences', 'affiliate_events']" matRipple>Affillate Events</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/conferences', 'sponsorship_opportunities']" matRipple>Become a
+                                Sponsor</a>
+                        </div>
+                    </li>
+
+                    <!-- Awards -->
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" [routerLink]="['/awards']" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                            Awards
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/awards']" matRipple>ISQED
+                                Awards</a>
+                        </div>
+                    </li>
+
+                    <!-- Trainning -->
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" [routerLink]="['/training']" id="navbarDropdown"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                            Training
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" [routerLink]="['/training', 'calendar']" matRipple>Training
+                                Calendar</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/training' ,'registration_form']" matRipple>Registration Form</a>
+                        </div>
+                    </li>
+
+                    <!-- Membership -->
+                    <li class="nav-item active">
+                        <a class="nav-link" (click)="button_click()" [routerLink]="['/membership']"
+                            matRipple>Membership</a>
+                    </li>
+                </ul>
+                <div class="text-right">
+                    <button mat-fab color="primary" (click)="search_btn_click()" matRipple>
+                        <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <app-search *ngIf="isSearch==true"></app-search>
+</div>

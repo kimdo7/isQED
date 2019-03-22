@@ -5,30 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materials';
-import { FooterComponent } from './component/footer/footer.component';
-import { HeaderComponent } from './component/header/header.component';
-import { HomeComponent } from './component/body/home/home.component';
-import { AboutComponent } from './component/body/about/about.component';
-import { SteeringCommiteeComponent } from './component/body/about/steering-commitee/steering-commitee.component';
-import { ContactIsqedComponent } from './component/body/about/contact-isqed/contact-isqed.component';
-import { ImagesForYouComponent } from './component/body/about/images-for-you/images-for-you.component';
-import { PrivacyPolicyComponent } from './component/body/about/privacy-policy/privacy-policy.component';
-import { ConferencesComponent } from './component/body/conferences/conferences.component';
-import { AboutHomeComponent } from './component/body/about/about-home/about-home.component';
-import { ConferencesHomeComponent } from './component/body/conferences/conferences-home/conferences-home.component';
-import { IsqedEventsComponent } from './component/body/conferences/isqed-events/isqed-events.component';
-import { IsqedCalendarComponent } from './component/body/conferences/isqed-calendar/isqed-calendar.component';
-import { AffiliateEventsComponent } from './component/body/conferences/affiliate-events/affiliate-events.component';
-import { SponsorshipOpportunitiesComponent } from './component/body/conferences/sponsorship-opportunities/sponsorship-opportunities.component';
-import { AwardsComponent } from './component/body/awards/awards.component';
-import { AwardsHomeComponent } from './component/body/awards/awards-home/awards-home.component';
-import { TrainingComponent } from './component/body/training/training.component';
-import { TrainingHomeComponent } from './component/body/training/training-home/training-home.component';
-import { TrainingCalendarComponent } from './component/body/training/training-calendar/training-calendar.component';
-import { RegistrationFormComponent } from './component/body/training/registration-form/registration-form.component';
-import { MembershipComponent } from './component/body/membership/membership.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchComponent } from './component/search/search.component';
 
 /**
  * Calendar
@@ -40,6 +17,33 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './service/http.service';
 import { PwaService } from './service/pwa.service';
+import { HomeComponent } from './component/landing/body/home/home.component';
+import { FooterComponent } from './component/landing/footer/footer.component';
+import { HeaderComponent } from './component/landing/header/header.component';
+import { AboutComponent } from './component/landing/body/about/about.component';
+import { SteeringCommiteeComponent } from './component/landing/body/about/steering-commitee/steering-commitee.component';
+import { ContactIsqedComponent } from './component/landing/body/about/contact-isqed/contact-isqed.component';
+import { ImagesForYouComponent } from './component/landing/body/about/images-for-you/images-for-you.component';
+import { PrivacyPolicyComponent } from './component/landing/body/about/privacy-policy/privacy-policy.component';
+import { ConferencesComponent } from './component/landing/body/conferences/conferences.component';
+import { AboutHomeComponent } from './component/landing/body/about/about-home/about-home.component';
+import { ConferencesHomeComponent } from './component/landing/body/conferences/conferences-home/conferences-home.component';
+import { IsqedEventsComponent } from './component/landing/body/conferences/isqed-events/isqed-events.component';
+import { IsqedCalendarComponent } from './component/landing/body/conferences/isqed-calendar/isqed-calendar.component';
+import { AffiliateEventsComponent } from './component/landing/body/conferences/affiliate-events/affiliate-events.component';
+import { SponsorshipOpportunitiesComponent } from './component/landing/body/conferences/sponsorship-opportunities/sponsorship-opportunities.component';
+import { AwardsComponent } from './component/landing/body/awards/awards.component';
+import { AwardsHomeComponent } from './component/landing/body/awards/awards-home/awards-home.component';
+import { TrainingComponent } from './component/landing/body/training/training.component';
+import { TrainingHomeComponent } from './component/landing/body/training/training-home/training-home.component';
+import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
+import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
+import { MembershipComponent } from './component/landing/body/membership/membership.component';
+import { SearchComponent } from './component/landing/search/search.component';
+import { LoginComponent } from './component/landing/body/login/login.component';
+import { RegisterationComponent } from './component/landing/body/registeration/registeration.component';
+import { LandingComponent } from './component/landing/landing.component';
+import { BannerComponent } from './component/landing/banner/banner.component';
 
 
 @NgModule({
@@ -67,7 +71,11 @@ import { PwaService } from './service/pwa.service';
         TrainingCalendarComponent,
         RegistrationFormComponent,
         MembershipComponent,
-        SearchComponent
+        SearchComponent,
+        LoginComponent,
+        RegisterationComponent,
+        LandingComponent,
+        BannerComponent
     ],
     imports: [
         BrowserModule,
