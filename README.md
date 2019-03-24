@@ -32,12 +32,13 @@
     * [ ] `ng build --watch`
 
 6. In chrome, go to url 
-    * [] `localhost: 8000`
-
+    * [] `localhost: 8000
+    `
+# Github Instructions
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
 2. Check that you are on the master branch and status  before pulling files
-    -[] `git status`
+    * [] `git status`
 		On branch master
 		Your branch is up to date with 'origin/master'.
 		Changes not staged for commit:
@@ -47,28 +48,28 @@
 		no changes added to commit (use "git add" and/or "git commit -A")`
 
 3. Pull the file before attempting to push to avoid any errors
-    - [ ] `git pull --rebase` if you have any local commits that hasn't been pushed yet,     it rebases it on top of remote.  It also keeps it more linear by preventing       unnecessary merge commits
+    * [ ] `git pull --rebase` if you have any local commits that hasn't been pushed yet,     it rebases it on top of remote.  It also keeps it more linear by preventing       unnecessary merge commits
 
 4. Creates a new branch and Checks it out. This will automatically switch you to your new branch.  Make sure you work off of master 
-    - [] `git checkout -b branch-name` 
+    * [] `git checkout -b branch-name` 
 
 5. To switch between branches
-    -[] `git checkout branch-name`
+    *[] `git checkout branch-name`
 
 6. When you are ready to push code up stream, In the command line, add the file
     a. Adds the file <filename> to index (stage) to be tracked
-    - [ ] `git add <filename>` 
-    
+    * [ ] `git add <filename>` 
+
     or
 
     b. Adds all files to index (stage) to be tracked
-    - [ ] `git add .`  adds everything in a directory and below 
+    * [ ] `git add .`  adds everything in a directory and below 
 
 6. Commit files
-    - [ ] `git commit -m "comment what you did"`
+    * [ ] `git commit -m "comment what you did"`
 
 7. Push the branch to github
-    - [ ] `git push`
+    * [ ] `git push`
     (`git push -u origin branch-name`) the first time because you need to track it
 
 8. Create a pull request between your branch-name and master
@@ -80,6 +81,6 @@
 9. When ready, approve the pull request. It will merge into master
 
 10. Get your local branches up to date
-    - [ ] `git pull` 
-    - [ ] `git checkout master`
-    - [ ] `git pull` now are up to date on master.
+* [ ] `git pull` 
+* [ ] `git checkout master`
+* [ ] `git pull` now are up to date on master.
