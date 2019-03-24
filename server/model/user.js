@@ -10,8 +10,11 @@ var UserSchema = new Schema({
     password: { type: String, required: true , },
     email: { type: String, required: true, minlength: 6 },
     phone: { type: String, trim: true },
-
-}, { timestamps: true, upsert:true });
+}, { 
+    timestamps: true, 
+    upsert:true, 
+    collection: 'user',
+});
 
 console.log("SY running user.js");
 

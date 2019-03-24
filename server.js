@@ -10,10 +10,10 @@ app.use(express.static( __dirname + '/public/dist/public' ));
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://localhost/isQED', { useNewUrlParser: true });
 
-var geese = require("./server/config/mongoose.js");// array of required mongoose models
-require('./server/config/routes.js')(app, geese);
+require("./server/config/mongoose.js");
+require('./server/config/routes.js')(app);
 
 // Setting our Server to Listen on Port: 8000
 app.listen(8000, function () {
-    console.log("SY listening on port 8000");
+    console.log("listening on port 8000");
 })
