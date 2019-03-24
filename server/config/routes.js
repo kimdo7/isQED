@@ -16,8 +16,8 @@ fs.readdirSync(controllers_path).forEach(function(file) {
 
 module.exports = function (app) {
     // each controller sets up its own routes. This stops routes from beommig a huge mess.
-    // routes no longer needs to be touched for routes. 
-    // See controllers/users
+    // routes portion no longer needs to be touched. 
+    // Copy controllers/users format
     for (controller of controllers) {
         controller.routes(app);
      };
