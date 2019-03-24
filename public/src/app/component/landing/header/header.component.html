@@ -5,6 +5,10 @@
         <h2 class="col-9 text-primary align-self-center">International Society for Quality Electronic Design</h2>
     </div>
 
+
+    <li class="nav-item active">
+        <a class="nav-link" routerLink="/sign-in">Sign in<span class="sr-only">(current)</span></a>
+    </li>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
         <div class="container">
             <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
@@ -29,16 +33,16 @@
                             About ISQED
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'steering_commitee']"
-                                matRipple>ISQED Steering Committee</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/about', 'steering_commitee']" matRipple>ISQED Steering Committee</a>
                             <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
                                 matRipple>Contact
                                 ISQED</a>
                             <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
                                 matRipple>Images
                                 for You</a>
-                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'privacy_policy']"
-                                matRipple>Privacy Policy</a>
+                            <a class="dropdown-item" (click)="button_click()"
+                                [routerLink]="['/about', 'privacy_policy']" matRipple>Privacy Policy</a>
                         </div>
                     </li>
 

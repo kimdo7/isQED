@@ -44,6 +44,11 @@ import { LoginComponent } from './component/landing/body/login/login.component';
 import { RegisterationComponent } from './component/landing/body/registeration/registeration.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { BannerComponent } from './component/landing/banner/banner.component';
+import { UserDashboardComponent } from './component/user/user-dashboard/user-dashboard.component';
+import { UserUpdateComponent } from './component/user/user-update/user-update.component';
+import { UserCreateComponent } from './component/user/user-create/user-create.component';
+import { UserViewComponent } from './component/user/user-view/user-view.component';
+import { AdministratorDashboardComponent } from './component/administrator/administrator-dashboard/administrator-dashboard.component';
 
 
 @NgModule({
@@ -75,7 +80,12 @@ import { BannerComponent } from './component/landing/banner/banner.component';
         LoginComponent,
         RegisterationComponent,
         LandingComponent,
-        BannerComponent
+        BannerComponent,
+        UserDashboardComponent,
+        UserUpdateComponent,
+        UserCreateComponent,
+        UserViewComponent,
+        AdministratorDashboardComponent,
     ],
     imports: [
         BrowserModule,

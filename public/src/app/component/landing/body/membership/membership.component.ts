@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MembershipComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+     console.log("SY constructing MembershipComponent");
+  }
 
   ngOnInit() {
+    console.log("SY constructing MembershipComponent");
   }
 
 }

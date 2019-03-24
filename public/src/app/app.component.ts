@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import { HttpService } from './http.service';
 import { PwaService } from './service/pwa.service';
 // import * as $ from 'jquery';
 
@@ -10,12 +11,13 @@ import { PwaService } from './service/pwa.service';
 export class AppComponent {
 
     constructor(
-        public pwaService: PwaService
+        public pwaService: PwaService, 
+        // private _httpService: HttpService
     ) { }
 
     ngOnInit() {
         // $(document).ready(function () {
-        //     var windowHeight = $(window).height();
+        //     var windowHeigHttpService.height();
         //     var headearHeight = 188;
         //     var footerHeight = 188;
 

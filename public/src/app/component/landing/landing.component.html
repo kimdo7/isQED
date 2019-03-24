@@ -2,12 +2,15 @@
 <app-header id="header"></app-header>
 
 <!-- Body Home -->
-<div *ngIf="route=='Home'" class="mt-4 mb-4" id="body">
-    <router-outlet></router-outlet>
+<div *ngIf="route=='Home'" class="mt-4 mb-4">
+    <router-outlet><div class="IAmAnOutlet"></div></router-outlet>
+    <div class="IAmAHome">
 </div>
 
 <!-- Body Not Home -->
-<div *ngIf="route!='Home'" class="mt-4 mb-4" id="body">
+<div *ngIf="route!='Home'" class="mt-4 mb-4">
+    <div class="IAmNotAHome">
+
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-xl-2 col-lg-2 col-md-2 d-none d-md-block d-lg-block d-xl-block text-center form-group">
@@ -17,6 +20,7 @@
         <div class="col-xl-8 col-lg-8 col-md-8" style="padding-top: 15px;">
             <div class="ml-4">
                 <router-outlet></router-outlet>
+                <div class="IAmNextToAnOutlet">
             </div>
 
         </div>
