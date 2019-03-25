@@ -24,6 +24,8 @@ import { LandingComponent } from './component/landing/landing.component';
 import { SigninComponent } from './component/landing/body/user/signin/signin.component';
 import { SignupComponent } from './component/landing/body/user/signup/signup.component';
 import { LearningComponent } from './component/learning/learning.component';
+import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
+import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
 
 const routes: Routes = [
     {
@@ -61,8 +63,11 @@ const routes: Routes = [
             },
 
             { path: "membership", component: MembershipComponent },
-            { path: "signin", component: SigninComponent },
-            { path: "signup", component: SignupComponent }
+            { path: "signup", component: SignupComponent },
+            { path: "signin", component: SigninComponent, children:[
+				{path: "", component: SignInDefaultComponent},
+				{path: "validation/:id", component: SignInValidationComponent}
+			] },
         ]
         
     },

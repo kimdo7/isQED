@@ -48,6 +48,8 @@ import { SignupComponent } from './component/landing/body/user/signup/signup.com
 import { SearchComponent } from './component/landing/header/search/search.component';
 import { BannerComponent } from './component/landing/body/banner/banner.component';
 import { LearningComponent } from './component/learning/learning.component';
+import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
+import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
 
 
 @NgModule({
@@ -84,6 +86,8 @@ import { LearningComponent } from './component/learning/learning.component';
         SigninComponent,
         SignupComponent,
         LearningComponent,
+        SignInDefaultComponent,
+        SignInValidationComponent,
     ],
     imports: [
         BrowserModule,
