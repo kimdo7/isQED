@@ -1,3 +1,36 @@
-<p>
-  sign-in-default works!
-</p>
+<form class="example-form" [formGroup]='user_form'>
+	<div class="form-group">
+		<mat-form-field class="w-50">
+			<input matInput type="email" matInput placeholder="Email" formControlName='email' required>
+
+			<!-- Error for email -->
+			<mat-error *ngFor="let validation of validation_messages.email">
+				<mat-error class="error-message"
+					*ngIf="user_form.get('email').hasError(validation.type) && (user_form.get('email').dirty || user_form.get('email').touched)">
+					{{validation.message}}</mat-error>
+			</mat-error>
+
+		</mat-form-field>
+	</div>
+
+	<div class="form-group">
+		<mat-form-field class="w-50">
+			<input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+				formControlName='password' required>
+			<mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+
+			<!-- Error for password -->
+			<mat-error *ngFor="let validation of validation_messages.password">
+				<mat-error class="error-message"
+					*ngIf="user_form.get('password').hasError(validation.type) && (user_form.get('password').dirty || user_form.get('password').touched)">
+					{{validation.message}}</mat-error>
+			</mat-error>
+		</mat-form-field>
+	</div>
+
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary" />
+	</div>
+
+</form>
