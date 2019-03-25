@@ -26,7 +26,7 @@ export class SignInDefaultComponent implements OnInit {
 		});
 	}
 
-	onSubmit() {
+	onSignIn() {
 		// this.submitted = true;
 
 		// stop here if form is invalid
