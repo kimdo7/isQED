@@ -39,16 +39,15 @@ import { TrainingHomeComponent } from './component/landing/body/training/trainin
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/landing/body/membership/membership.component';
-import { SearchComponent } from './component/landing/search/search.component';
 import { LoginComponent } from './component/landing/body/login/login.component';
 import { RegisterationComponent } from './component/landing/body/registeration/registeration.component';
 import { LandingComponent } from './component/landing/landing.component';
-import { BannerComponent } from './component/landing/banner/banner.component';
-import { UserDashboardComponent } from './component/user/user-dashboard/user-dashboard.component';
-import { UserUpdateComponent } from './component/user/user-update/user-update.component';
-import { UserCreateComponent } from './component/user/user-create/user-create.component';
-import { UserViewComponent } from './component/user/user-view/user-view.component';
 import { AdministratorDashboardComponent } from './component/administrator/administrator-dashboard/administrator-dashboard.component';
+import { SigninComponent } from './component/landing/body/user/signin/signin.component';
+import { SignupComponent } from './component/landing/body/user/signup/signup.component';
+import { SearchComponent } from './component/landing/header/search/search.component';
+import { BannerComponent } from './component/landing/body/banner/banner.component';
+import { LearningComponent } from './component/learning/learning.component';
 
 
 @NgModule({
@@ -81,11 +80,10 @@ import { AdministratorDashboardComponent } from './component/administrator/admin
         RegisterationComponent,
         LandingComponent,
         BannerComponent,
-        UserDashboardComponent,
-        UserUpdateComponent,
-        UserCreateComponent,
-        UserViewComponent,
         AdministratorDashboardComponent,
+        SigninComponent,
+        SignupComponent,
+        LearningComponent,
     ],
     imports: [
         BrowserModule,

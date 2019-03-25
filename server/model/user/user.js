@@ -8,7 +8,9 @@ var UserSchema = new Schema({
 	user_name: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	email: { type: String, required: true, minlength: 6, unique: true },
-	phone: { type: String, trim: true }
+	phone: { type: String, trim: true },
+	isActivate: { type: Boolean, default: false },
+	tempActivationCode : {type: String, minlength:5}
 }, { timestamps: true, upsert: true, collection: 'user' })
 
 module.exports = mongoose.model('User', UserSchema)

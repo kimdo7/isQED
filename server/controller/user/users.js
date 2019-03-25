@@ -74,6 +74,18 @@ module.exports = {
 		})
 	},
 
+	activeUserById: (req, res) => {
+		User.findById(req.params.id, function (err, data) {
+			if (err) {
+				res.json({ message: 'Error', error: err })
+			} else {
+				data.isActivate = true
+				data.save()
+				res.json({ message: 'Success', data: data })
+			}
+		})
+	},
+
 	login: (req, res) => {
 		// do login stuff
 	}

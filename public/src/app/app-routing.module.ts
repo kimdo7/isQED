@@ -21,7 +21,9 @@ import { TrainingCalendarComponent } from './component/landing/body/training/tra
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/landing/body/membership/membership.component';
 import { LandingComponent } from './component/landing/landing.component';
-import { UserDashboardComponent } from './component/user/user-dashboard/user-dashboard.component';
+import { SigninComponent } from './component/landing/body/user/signin/signin.component';
+import { SignupComponent } from './component/landing/body/user/signup/signup.component';
+import { LearningComponent } from './component/learning/learning.component';
 
 const routes: Routes = [
     {
@@ -58,16 +60,14 @@ const routes: Routes = [
                 ]
             },
 
-            { path: "membership", component: MembershipComponent }
+            { path: "membership", component: MembershipComponent },
+            { path: "signin", component: SigninComponent },
+            { path: "signup", component: SignupComponent }
         ]
         
     },
 
-    { path: 'user-dashboard', component: UserDashboardComponent },
-    // { path: 'user-create', component: UserCreateComponent},
-    // { path: 'user-update/:_id', component: UserUpdateComponent},
-    // { path: 'user-view/:_id', component: UserViewComponent},
-
+    { path: 'learning', component: LearningComponent },
     // { path: 'administrator', component: AdministratorDashboardComponent },
 
 ];
