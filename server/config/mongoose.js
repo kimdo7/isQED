@@ -9,9 +9,11 @@ var models_path = path.join(__dirname, './../model')
 
 readFiles(models_path)
 
-function readFiles (curr_path) {
-    fs.readdirSync(curr_path).forEach(function (file) {
-    if (file.indexOf('.js') >= 0) require(curr_path + '/' + file)
-        else readFiles(curr_path + '/' + file)
-  })
+function readFiles(curr_path) {
+	fs.readdirSync(curr_path).forEach(function (file) {
+		if (file.indexOf('.js') >= 0)
+			require(curr_path + '/' + file)
+		else
+			readFiles(curr_path + '/' + file)
+	})
 }
