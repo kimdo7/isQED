@@ -12,16 +12,9 @@ export class AppComponent {
 
     constructor(
         public pwaService: PwaService, 
-        // private _httpService: HttpService
     ) { }
 
     ngOnInit() {
-        // $(document).ready(function () {
-        //     var windowHeigHttpService.height();
-        //     var headearHeight = 188;
-        //     var footerHeight = 188;
-
-        // });
 
     }
 

@@ -50,6 +50,7 @@ import { BannerComponent } from './component/landing/body/banner/banner.componen
 import { LearningComponent } from './component/learning/learning.component';
 import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
 import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
+import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { SignInValidationComponent } from './component/landing/body/user/signin/
         LearningComponent,
         SignInDefaultComponent,
         SignInValidationComponent,
+        ForgotPasswordComponent,
     ],
     imports: [
         BrowserModule,

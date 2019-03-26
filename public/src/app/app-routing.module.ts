@@ -26,6 +26,7 @@ import { SignupComponent } from './component/landing/body/user/signup/signup.com
 import { LearningComponent } from './component/learning/learning.component';
 import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
 import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
+import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
 
 const routes: Routes = [
     {
@@ -66,7 +67,8 @@ const routes: Routes = [
             { path: "signup", component: SignupComponent },
             { path: "signin", component: SigninComponent, children:[
 				{path: "", component: SignInDefaultComponent},
-				{path: "validation/:id", component: SignInValidationComponent}
+				{path: "validation/:id", component: SignInValidationComponent},
+				{path: "forgot_password", component: ForgotPasswordComponent}
 			] },
         ]
         
