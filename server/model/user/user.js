@@ -8,6 +8,7 @@ var UserSchema = new Schema({
     password: { type: String, required: true },
     email: { type: String, required: true, minlength: 6, unique: true },
     phone: { type: String, trim: true },
+    type: { type: Number, required: true, default: 9 },
     isActivate: { type: Boolean, default: false },
     tempActivationCode: { type: String, minlength: 5 }
 }, { timestamps: true, upsert: true, collection: 'user' })

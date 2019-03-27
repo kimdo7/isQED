@@ -9,7 +9,10 @@ import { Location } from "@angular/common";
 })
 export class BannerComponent implements OnInit {
 
-    route : string
+    route: string
+    images = []
+    random = 0
+    image: string
 
     constructor(location: Location, router: Router) {
         router.events.subscribe(val => {
@@ -18,12 +21,21 @@ export class BannerComponent implements OnInit {
             } else {
                 this.route = "Home";
             }
+            this.random = Math.floor(Math.random() * 4)
         });
 
-        console.log(this.route)
     }
 
     ngOnInit() {
+        this.initImage()
+    }
+
+    initImage() {
+        this.images = []
+        this.images.push("assets/img/banner/asqed_skyscraper.png")
+        this.images.push("assets/img/banner/IOT_Summit_skyscraper.png")
+        this.images.push("assets/img/banner/isqed_skyscraper.png")
+        this.images.push("assets/img/banner/svpti_skyscraper.png")
     }
 
 }
