@@ -1,24 +1,53 @@
 var nodemailer = require('nodemailer')
-
 var transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: 'youremail@gmail.com',
-		pass: 'yourpassword'
-	}
+    service: 'gmail',
+    auth: {
+        user: 'kim.h.do.seven@gmail.com',
+        pass: 'dorke5-maWciz-gygtup'
+    }
 })
 
 var mailOptions = {
-	from: 'youremail@gmail.com',
-	to: 'myfriend@yahoo.com',
-	subject: 'Sending Email using Node.js',
-	text: 'That was easy!'
+    from: 'kim.h.do.seven@gmail.com',
+    to: 'myfriend@yahoo.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
 }
 
-transporter.sendMail(mailOptions, function (error, info) {
-	if (error) {
-		console.log(error)
-	} else {
-		console.log('Email sent: ' + info.response)
-	}
-})
+module.exports = {
+    sendMail: (req, res) => {
+        /**
+         * @param id user id
+         * find user email
+         */
+        User.findById(req.params.id, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+            } else {
+
+                var code = Math.floor(Math.random() * 900000) + 100000;     // returns a random integer from 100 000 to 10
+                // mailOptions.to = "dohoangkimpy@gmail.com"
+
+                /**
+                 * *update to db*
+                 */
+                mailOptions.to = data.email
+                mailOptions.text = code.toString()
+
+                data.code = code.toString()
+                data.save()
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        res.json({ message: 'Error', error: err })
+                    } else {
+                        res.json({ message: 'Success', data: info.response })
+                    }
+                })
+            }
+        })
+
+
+    }
+
+}

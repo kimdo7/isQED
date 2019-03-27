@@ -1,4 +1,5 @@
 var users = require('../../controller/user/users')
+var email = require('../../gateway/email')
 
 module.exports = function (app) {
 	app.post('/api/user', (req, res) => {
@@ -23,5 +24,10 @@ module.exports = function (app) {
 
 	app.post('/api/login', (req, res) => {
 		users.login(req, res)
-	})
+    })
+    
+
+    app.get('/api/user/email/:id', (req, res) =>{
+        email.sendMail(req, res)
+    })
 }
