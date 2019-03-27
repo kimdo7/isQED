@@ -30,4 +30,6 @@ export class LearningCourseComponent implements OnInit {
     ngOnInit() {
     }
 
+    test = "<h1>Hello</h1> <p>there</p>"
+
 }
