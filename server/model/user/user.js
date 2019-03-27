@@ -3,21 +3,9 @@ var Schema = mongoose.Schema
 
 
 var UserSchema = new Schema({
-	first_name: { 
-		type: String, 
-		required: [true, "test"], 
-		trim:true
-	},
-	last_name: {
-		 type: String, 
-		 required: true, 
-		 trim: true 
-		},
-	email: { 
-		type: String, 
-		required: true, 
-		minlength: 6, 
-		unique: true },
+	first_name: { type: String, required: true, minlength: 2, trim: true },
+	last_name: { type: String, required: true, minlength: 2, trim: true },
+	email: { type: String, required: true, minlength: 6, unique: true },
 	phone: { 
 		type: String, 
 		validate:[{
@@ -33,40 +21,17 @@ var UserSchema = new Schema({
 			message: "{ VALUE } failed this validator"
 		}
 		],
-	required: [true, "Customer phone number required"]
+	required: false[false, "Customer phone number required"]
 	},
-
-	gender: {
-		type: String,
-		enum: ['MALE', 'FEMALE'],
-		uppercase: true,
-		trim: true, 
-		default: "MALE"
-	},
-
-	age: {
-		type: Number,
-		min:[18, "You must be 18 years or older to sign in"],
-		required: false
-	},
-
-	// admin: 1, teacher: 5, student: 9 minimum
-	// user is student sccount.
-	type: {
-		type: Number,
-		required: true,
-		default: 9
-	},
-
-
-	loginId: {
-    	type: mongoose.Schema.Types.ObjectId,
-    	ref: 'Login'
-  	},
-
+	gender: { type: String, enum: ['MALE', 'FEMALE'], uppercase: true, trim: true },
+	age: { type: Number, required: false },
+	type: { type: Number, required: true, default: 9 }, // admin: 1, teacher: 5, student: 9 minimum
+	loginId: { type: mongoose.Schema.Types.ObjectId, ref: 'Login', unique: true, required: true },// has to be created before the user
 	isActivated: { type: Boolean, default: false },
 	tempActivationCode : {type: String, minlength:5}
 }, { 
+	createdAt: 'created_at',
+	updatedAt: 'updated_at',
 	timestamps: true, 
 	upsert: true, 
 	collection: 'user' 

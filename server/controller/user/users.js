@@ -84,8 +84,4 @@ module.exports = {
 			}
 		})
 	},
-
-	login: (req, res) => {
-		// do login stuff
-	}
 }

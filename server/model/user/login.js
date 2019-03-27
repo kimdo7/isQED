@@ -4,10 +4,10 @@ var Schema = mongoose.Schema
 
 // To register a login
 // var Login = mongoose.model('Login');
-// var newLogin = new Login({ user_name: 'someone@gmail.com' });
+// var newLogin = new Login({ userName: 'someone@gmail.com' });
 // if (newLogin.setPassword('AGreatPassword')) {
 //     // This is a good user login
-//     newLogin.save();// If upserts are allowed, this should either create (if the user_name doesn't exist) or update (if the user_name already exists)
+//     newLogin.save();// If upserts are allowed, this should either create (if the userName doesn't exist) or update (if the userName already exists)
 // } else {
 //    // This is not a good user login
 //    error("bad password. Try harder.")	
@@ -16,7 +16,7 @@ var Schema = mongoose.Schema
 var LoginSchema = new Schema({
 	// An _id field will be generated automatically
 
-	user_name: { // probably will be the email from the user schema
+	userName: { // probably will be the email from the user schema
 		type: String, 
 		required: true, 
 		index: { unique: true } 
@@ -34,6 +34,27 @@ var LoginSchema = new Schema({
 	upsert: false, 
 	collection: 'login' 
 });
+
+// May be able to do this. we never want to set the real password in mongodb
+// If someone tries to update the DB with a password, it wont' get saved.
+// You can:
+//    1.     var login = new Login(); // could be Login.findById or Login.findByUserName
+//           login.userName = 'foo@bar.com';
+//           login.password = 'password'; // virtual set
+//           login.save(); // pre-save middleware runs, set passwordHash
+//           https://stackoverflow.com/questions/14588032/mongoose-password-hashing/14595363#14595363
+//    2.     var login = new Login();
+//           login.userName = 'foo@bar.com';
+//           login.setPassword('password'); // sets passwordHash
+//           login.save(); // doesn't need middleware to save
+// You cannot Login.findOneAndUpdate({userName:'foo@bar.com'}, {set: {password: 'password'}})
+//  because there is no password in the database and the pre 'save' middleware doesnt' work
+LoginSchema
+    .virtual('password')
+    // set methods
+    .set(function (password) {
+        this._password = password;
+    });
 
 zxcvbn = require('../../config/zxcvbn');
 LoginSchema.methods.isStrongPassword = function(newPassword){
@@ -77,16 +98,6 @@ LoginSchema.methods.isValidPassword = function(newPassword){
 	return true;
 };
 
-// WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
-LoginSchema.methods.passwordMatchesHash = function(candidatePassword, callback){
-    bcrypt.compare(candidatePassword, this.passwordHash, function(err, isMatch) {
-        if (err) {
-			return callback(err);
-		}
-        callback(null /* no error */, isMatch);
-    });
-};
-
 // WHEN SOMEONE REGISTERS A NEW USERNAME/PASSWORD, OR CHANGES PASSWORD
 LoginSchema.methods.setPassword = function(newPassword) {
 	if (!isValidPassword(newPassword)) {
@@ -95,8 +106,19 @@ LoginSchema.methods.setPassword = function(newPassword) {
 	if (!isStrongPassword(newPassword)) {
 		return false;
 	}
+    // generate a salt
+    var SALT_WORK_FACTOR = 20;
+    var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR)
+    if (!salt) {
+        return false;
+    }
 
-	this.passwordHash = Bcrypt.hashSync(password, 20);
+    // hash the password using our new salt
+    var passwordHash = bcrypt.hashSync(password, salt);
+    if (!passwordHash) {
+        return false;
+    }
+    this.passwordHash = passwordHash;
 	return true;
 } 
 
@@ -104,25 +126,70 @@ LoginSchema.pre('save', function(next) {
     var login = this;
 
     // only hash the password if it has been modified (or is new)
-    if (!login.isModified('password')) {
-		return next();
-	}
+    if (login._password === undefined) {
+        return next();
+    }
 
-    // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if (err) {
-			return next(err);
-		} 
-
-        // hash the password using our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) return next(err);
-
-            // override the cleartext password with the hashed one
-            user.password = hash;
-            next();
-        });
-    });
+    // password is modified
+    if (!setPassword(login._password)) {
+        return next("Password not strong enough");
+    }
+    return next(null, login);
 });
+
+
+// WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
+LoginSchema.methods.passwordMatchesHash = function(givenPassword, callback){
+    bcrypt.compare(givenPassword, this.passwordHash, function(err, isMatch) {
+        if (err) {
+			return callback(err);
+		}
+        callback(null /* no error */, isMatch);
+    });
+};
+
+LoginSchema.methods.isSameUserName = function(expectedUserName) {
+    if (!expectedUserName) {
+        return false;
+    }
+
+    if (!this.userName) {
+        return false;
+    }
+
+    if (this.userName !== expectedUserName) {
+        return false;
+    }
+
+    // If we get this far, it's the same name
+    return true;
+};
+
+LoginSchema.methods.isSamePasswordHash = function(givenPasswordHash) {
+    if (!givenPasswordHash) {
+        return false;
+    }
+
+    if (!this.passwordHash) {
+        return false;
+    }
+
+    if (this.passwordHash !== givenPasswordHash) {
+        return false;
+    }
+
+    // If we get this far, it's the same hash
+    return true;
+};
+
+
+LoginSchema.methods.passwordMatchesHash = function(candidatePassword, callback){
+    bcrypt.compare(candidatePassword, this.passwordHash, function(err, isMatch) {
+        if (err) {
+			return callback(err);
+		}
+        callback(null /* no error */, isMatch);
+    });
+};
 
 module.exports = mongoose.model('Login', LoginSchema)

@@ -20,8 +20,4 @@ module.exports = function (app) {
 	app.delete('/api/user/:id', (req, res) => {
 		users.deleteById(req, res)
 	})
-
-	app.post('/api/login', (req, res) => {
-		users.login(req, res)
-	})
 }
