@@ -47,8 +47,17 @@ var UserSchema = new Schema({
 	age: {
 		type: Number,
 		min:[18, "You must be 18 years or older to sign in"],
-		required: true
+		required: false
 	},
+
+	// admin: 1, teacher: 5, student: 9 minimum
+	// user is student sccount.
+	type: {
+		type: Number,
+		required: true,
+		default: 9
+	},
+
 
 	loginId: {
     	type: mongoose.Schema.Types.ObjectId,
@@ -58,8 +67,6 @@ var UserSchema = new Schema({
 	isActivated: { type: Boolean, default: false },
 	tempActivationCode : {type: String, minlength:5}
 }, { 
-	createdAt: 'created_at',
-	updatedAt: 'updated_at',
 	timestamps: true, 
 	upsert: true, 
 	collection: 'user' 
