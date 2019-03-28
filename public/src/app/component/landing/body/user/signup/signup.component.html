@@ -1,18 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Survey Form</title>
-</head>
-<body>
-    <form action ='/user_dashboard' method='post'>
-        Email: <input type="text" name="username" placeholder='user@email.com'>
-        <br>
-        Password: <input type="text" name="password" placeholder='strong password'>
-        <br><br>
-        <input type='submit' value='submit'>
+<div class="text-center">
+    <form class="example-form" [formGroup]='user_form' (submit)="onRegister()">
+        <div class="row" for="first_last_name">
+            <div class="col-2"></div>
+            <div class="col-4" for="first_name">
+                <mat-form-field class="w-100">
+                    <input matInput type="text" matInput placeholder="First Name" formControlName='first_name' required>
+                    <mat-error *ngFor="let validation of validation_messages.first_name">
+                        <mat-error class="error-message"
+                            *ngIf="user_form.get('first_name').hasError(validation.type) && (user_form.get('first_name').dirty || user_form.get('first_name').touched)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+
+                </mat-form-field>
+            </div>
+
+            <div class="col-4" for="last_name">
+                <mat-form-field class="w-100">
+                    <input matInput type="text" matInput placeholder="Last Name" formControlName='last_name' required>
+
+                    <!-- error for last name -->
+                    <mat-error *ngFor="let validation of validation_messages.last_name">
+                        <mat-error class="error-message"
+                            *ngIf="user_form.get('last_name').hasError(validation.type) && (user_form.get('last_name').dirty || user_form.get('last_name').touched)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <!-- Eamil -->
+        <div class="form-group" for="email">
+            <div class="row">
+                <div class="col-2"></div>
+
+                <div class="col-8">
+                    <mat-form-field class="w-100">
+                        <input matInput type="email" matInput placeholder="Email" formControlName='email' required>
+
+                        <!-- Error for email -->
+                        <mat-error *ngFor="let validation of validation_messages.email">
+                            <mat-error class="error-message"
+                                *ngIf="user_form.get('email').hasError(validation.type) && (user_form.get('email').dirty || user_form.get('email').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" for="password">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+                            formControlName='password' required>
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+
+                        <!-- Error for password -->
+                        <mat-error *ngFor="let validation of validation_messages.password">
+                            <mat-error class="error-message"
+                                *ngIf="user_form.get('password').hasError(validation.type) && (user_form.get('password').dirty || user_form.get('password').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" for="confirm_password">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Confirm your password" [type]="hide ? 'password' : 'text'"
+                            formControlName='confirm_password' required>
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+
+                        <!-- Error for password -->
+                        <mat-error *ngFor="let validation of validation_messages.confirm_password">
+                            <mat-error class="error-message"
+                                *ngIf="user_form.get('confirm_password').hasError(validation.type) && (user_form.get('confirm_password').dirty || user_form.get('confirm_password').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" for="sign_up_btn">
+            <button mat-raised-button class="btn-lg btn bg-primary text-white">Sign Up</button>
+        </div>
+
+        <div class="form-group">
+            <a href [routerLink]="['/signin/forgot_password']">Forgot Password?</a>
+        </div>
+
+        <div class="form-group">
+            <a href [routerLink]="['/signin']">Already Had Account With Us?</a>
+        </div>
+
+
     </form>
-</body>
-</html>
+</div>

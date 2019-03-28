@@ -15,27 +15,27 @@ var bcrypt = require('bcrypt');
 // }
 
 var LoginSchema = new Schema({
-	// An _id field will be generated automatically
+    // An _id field will be generated automatically
 
-	userName: { // probably will be the email from the user schema
-		type: String, 
-        required: true, 
+    userName: { // probably will be the email from the user schema
+        type: String,
+        required: true,
         minlength: 6,
-		unique: true, 
-	},
-	passwordHash: { 
-		type: String, 
-		required: true,
-		minlength: 60,
-		maxlength: 60,
-	},
-}, { 
-	createdAt: 'created_at',
-	updatedAt: 'updated_at',
-	timestamps: true, 
-	upsert: false, 
-	collection: 'login' 
-});
+        unique: true,
+    },
+    passwordHash: {
+        type: String,
+        required: true,
+        minlength: 60,
+        maxlength: 60,
+    },
+}, {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        timestamps: true,
+        upsert: false,
+        collection: 'login'
+    });
 
 // May be able to do this. we never want to set the real password in mongodb
 // If someone tries to update the DB with a password, it wont' get saved.
@@ -64,58 +64,58 @@ LoginSchema
     });
 
 zxcvbn = require('../../config/zxcvbn');
-LoginSchema.methods.isStrongPassword = function(newPassword){
-	var strength = zxcvbn(newPassword);
-	if (strength.score < 2) { // goes up to 4, which is strong
-		return false; // not strong enough
-	}
+LoginSchema.methods.isStrongPassword = function (newPassword) {
+    var strength = zxcvbn(newPassword);
+    if (strength.score < 2) { // goes up to 4, which is strong
+        return false; // not strong enough
+    }
 
-	// If we passed all that, it is acceptable
-	return true;
+    // If we passed all that, it is acceptable
+    return true;
 }
 
 // Explicitly check each rule for the password
 // Easier to read than one regex
 // Test username and password dev1testing@gmail.com Lav3Lam0!
-LoginSchema.methods.isValidPassword = function(newPassword){
-	if (!newPassword || typeof(newPassword) !== 'string') {
-		return false;// has to be a non-empty string
-	}
+LoginSchema.methods.isValidPassword = function (newPassword) {
+    if (!newPassword || typeof (newPassword) !== 'string') {
+        return false;// has to be a non-empty string
+    }
 
-	if (newPassword.length < 8 || newPassword.length > 64) {
-		return false;// has to be from 8-32 chars
-	}
+    if (newPassword.length < 8 || newPassword.length > 64) {
+        return false;// has to be from 8-32 chars
+    }
 
-	if (! /[A-Z]/.test(newPassword)) {
-		return false;// has to have an ASCII capital
-	}
+    if (! /[A-Z]/.test(newPassword)) {
+        return false;// has to have an ASCII capital
+    }
 
-	if (! /[a-z]/.test(newPassword)) {
-		return false;// has to have an ASCII lowercase
-	}
+    if (! /[a-z]/.test(newPassword)) {
+        return false;// has to have an ASCII lowercase
+    }
 
-	if (! /[0-9]/.test(newPassword)) {
-		return false;// has to have an ASCII digit
-	}
+    if (! /[0-9]/.test(newPassword)) {
+        return false;// has to have an ASCII digit
+    }
 
-	if (! /[!@#$%^&*()=.-]/.test(newPassword)) {
-		return false;// has to have punctuation
-	}
+    if (! /[!@#$%^&*()=.-]/.test(newPassword)) {
+        return false;// has to have punctuation
+    }
 
-	// If we passed all that, it is acceptable
-	return true;
+    // If we passed all that, it is acceptable
+    return true;
 };
 
 // WHEN SOMEONE REGISTERS A NEW USERNAME/PASSWORD, OR CHANGES PASSWORD
-LoginSchema.methods.setPassword = function(newPassword) {
-	if (!this.isValidPassword(newPassword)) {
+LoginSchema.methods.setPassword = function (newPassword) {
+    if (!this.isValidPassword(newPassword)) {
         console.log("password is not valid");
-		return false;
-	}
-	if (!this.isStrongPassword(newPassword)) {
+        return false;
+    }
+    if (!this.isStrongPassword(newPassword)) {
         console.log("password is not strong");
-		return false;
-	}
+        return false;
+    }
     // generate a salt
     var SALT_WORK_FACTOR = 10;
     var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR)
@@ -126,7 +126,7 @@ LoginSchema.methods.setPassword = function(newPassword) {
 
     // hash the password using our new salt
     var passwordHash = bcrypt.hashSync(newPassword, salt);
-    if (!passwordHash ) {
+    if (!passwordHash) {
         console.log("can't generate hash");
         return false;
     } else if (passwordHash.length < 60) {
@@ -142,10 +142,10 @@ LoginSchema.methods.setPassword = function(newPassword) {
     }
 
     this.passwordHash = passwordHash;
-	return true;
-} 
+    return true;
+}
 
-LoginSchema.pre('save', function(next) {
+LoginSchema.pre('save', function (next) {
     var login = this;
 
     // only hash the password if it has been modified (or is new)
@@ -162,7 +162,7 @@ LoginSchema.pre('save', function(next) {
 
 
 // WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
-LoginSchema.methods.passwordMatchesHash = function(givenPassword) {
+LoginSchema.methods.passwordMatchesHash = function (givenPassword) {
     if (!givenPassword) {
         console.log("Login passwordMatchesHash cannot match empty password");
         return false;
@@ -174,7 +174,7 @@ LoginSchema.methods.passwordMatchesHash = function(givenPassword) {
     return bcrypt.compareSync(givenPassword, this.passwordHash);
 };
 
-LoginSchema.methods.isSameUserName = function(expectedUserName) {
+LoginSchema.methods.isSameUserName = function (expectedUserName) {
     if (!expectedUserName) {
         return false;
     }
@@ -191,7 +191,7 @@ LoginSchema.methods.isSameUserName = function(expectedUserName) {
     return true;
 };
 
-LoginSchema.methods.isSamePasswordHash = function(givenPasswordHash) {
+LoginSchema.methods.isSamePasswordHash = function (givenPasswordHash) {
     if (!givenPasswordHash) {
         return false;
     }
