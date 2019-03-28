@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public/dist/public'))
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   name: 'user',
-  secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-syu-awesome', // uuidgen
+  secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
   resave: false,
   saveUninitialized: true,
   cookie: { 
