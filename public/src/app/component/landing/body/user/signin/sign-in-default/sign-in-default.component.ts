@@ -42,39 +42,4 @@ export class SignInDefaultComponent implements OnInit {
 	 * *Validation  Message*
 	 */
 
-
-   
-
-
-	/**
-	 * Sample for Sylvia
-	 */
-    firstFormGroup: FormGroup
-    test() {
-        this.firstFormGroup = this.formBuilder.group({
-            first_name: ['', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.pattern('^[A-Za-z ]+$')]
-            ],
-            last_name: ['', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.pattern('^[A-Za-z ]+$')]
-            ],
-
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.minLength(8)]],
-            confirm_password: ['', [Validators.required, Validators.minLength(8)]],
-            phone: ['', [
-                Validators.required,
-                Validators.pattern('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
-            ]],
-
-
-        }, (formGroup: FormGroup) => {
-            return PasswordValidator.areEqual(formGroup);
-        });
-    }
-
 }

@@ -37,7 +37,7 @@ module.exports = {
                 mailOptions.to = data.email
                 mailOptions.text = code.toString()
 
-                data.code = code.toString()
+                data.tempActivationCode = code.toString()
                 data.save()
 
                 transporter.sendMail(mailOptions, function (error, info) {

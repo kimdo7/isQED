@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordValidator } from 'src/app/validator/PasswordValidator';
 import { UserValidatorMessage } from '../user_validation_message';
+import { UserService } from 'src/app/service/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-signup',
@@ -15,7 +17,11 @@ export class SignupComponent implements OnInit {
 
     user_form: FormGroup
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private userService: UserService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.initForm()
@@ -25,7 +31,16 @@ export class SignupComponent implements OnInit {
         if (this.user_form.invalid) {
             return;
         }
-        alert('SUCCESS!! :-)')
+
+        let tempObservable = this.userService.register(this.user_form.value)
+        tempObservable.subscribe(data => {
+            if (data["message"] === "Success"){
+                this.router.navigate(["/signin/validation/"+data["data"]["_id"]])
+            }else{
+
+            }
+            console.log("Got our tasks!", data)
+        });
     }
 
 

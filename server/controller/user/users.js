@@ -1,18 +1,44 @@
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
+var bcrypt = require("bcrypt")
+var email = require("../../gateway/email")
 
 module.exports = {
 	/**
 	 * @Create a *new* user
 	 */
-    create: (req, res) => {
-        User.create(req.body, (err, data) => {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-            } else {
-                res.json({ message: 'Success', data: data })
-            }
-        })
+    register: (req, res) => {
+        if (req.body.password !== req.body.confirm_password) {
+            res.json({ message: 'Error', error: "Not match password" })
+            return
+        }else if (req.body.password.length < 8){
+            res.json({ message: 'Error', error: "Password must be 8 characters or more" })
+            return
+        }
+
+        bcrypt.hash(req.body.password, 10)
+            .then(hashed_password => {
+                User.create({
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    
+                    email: req.body.email,
+                    type: 9,
+                    password: hashed_password
+                }, (err, data) => {
+                    if (err) {
+                        res.json({ message: 'Error', error: err })
+                    } else {
+                        // console.log(data["_id"])
+                        email.send(data["_id"])
+                        res.json({ message: 'Success', data: data })
+                    }
+                })
+            })
+            .catch(error => {
+                res.json({ message: 'Error', error: "Hasing password error" })
+                return
+            });
     },
 
 	/**
@@ -73,11 +99,17 @@ module.exports = {
         })
     },
 
-    activeUserById: (req, res) => {
+    activateById: (req, res) => {
         User.findById(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
             } else {
+                if (req.params.code !== data.tempActivationCode){
+                    res.json({ message: 'Error', error: "wrong activation code" })
+                    return
+                }
+
+
                 data.isActivate = true
                 data.save()
                 res.json({ message: 'Success', data: data })

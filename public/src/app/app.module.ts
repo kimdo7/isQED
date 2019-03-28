@@ -15,8 +15,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpService } from './service/http.service';
-import { PwaService } from './service/pwa.service';
+import { PwaService } from './service/pwa/pwa.service';
 import { HomeComponent } from './component/landing/body/home/home.component';
 import { FooterComponent } from './component/landing/footer/footer.component';
 import { HeaderComponent } from './component/landing/header/header.component';
@@ -52,6 +51,8 @@ import { SignInValidationComponent } from './component/landing/body/user/signin/
 import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
 import { LearningDashboardComponent } from './component/learning/learning-dashboard/learning-dashboard.component';
 import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
+import { UserService } from './service/user/user.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { LearningCourseComponent } from './component/learning/learning-course/le
         LearningCourseComponent,
     ],
     imports: [
+        NgbModule,
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
@@ -107,7 +109,8 @@ import { LearningCourseComponent } from './component/learning/learning-course/le
         }),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
-    providers: [HttpService, PwaService],
-    bootstrap: [AppComponent]
+    providers: [UserService, PwaService],
+    bootstrap: [AppComponent],
+    entryComponents: [ ],
 })
 export class AppModule { }

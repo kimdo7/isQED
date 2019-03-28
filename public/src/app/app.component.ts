@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 // import { HttpService } from './http.service';
-import { PwaService } from './service/pwa.service';
+import { PwaService } from './service/pwa/pwa.service';
 // import * as $ from 'jquery';
 
 @Component({

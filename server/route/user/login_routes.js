@@ -29,8 +29,8 @@ module.exports = function (app) {
 	}
 
 	app.post('/api/register', (req, res) => {
-        // logins.registerUserPass(req, res)
-        logins.register(req, res)
+        logins.registerUserPass(req, res)
+        // logins.register(req, res)
 	})
 	
 	app.post('/api/login', (req, res) => {
