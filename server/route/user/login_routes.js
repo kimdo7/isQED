@@ -31,7 +31,7 @@ module.exports = function (app) {
 	app.post('/api/register', (req, res) => {
 		logins.registerUserPass(req, res)
 	})
-
+	
 	app.post('/api/login', (req, res) => {
 		logins.loginWithUserPass(req, res)
 	})

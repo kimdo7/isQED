@@ -114,6 +114,13 @@ module.exports = {
 		var givenPassword = req.body.password;
 		var givenPasswordHash = req.body.passwordHash;// The client could instead send us the hashed password
 
+		
+		// when i creae a user, i need to register
+		// create login and user record then
+		// return the id and response
+		// put it in a session - remember how user is going to be logged in
+
+		
 		if (!username) {
 			res.json({ message: 'Error', error: "username is required" })
 		} else if (!givenPassword && !givenPasswordHash) { // must have at least one of the two
