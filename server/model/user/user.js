@@ -10,7 +10,8 @@ var UserSchema = new Schema({
     type: { type: Number, required: true, default: 9 },
     password: { type: String, required: true },
     isActivate: { type: Boolean, default: false },
-    tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" }
+    isForgotPassword: { type: Boolean, default: false },
+    tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" },
 }, { timestamps: true, upsert: true, collection: 'user' })
 
 module.exports = mongoose.model('User', UserSchema)
