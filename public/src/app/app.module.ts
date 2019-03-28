@@ -50,6 +50,8 @@ import { LearningComponent } from './component/learning/learning.component';
 import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
 import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
 import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
+import { LearningDashboardComponent } from './component/learning/learning-dashboard/learning-dashboard.component';
+import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
 
 
 @NgModule({
@@ -88,6 +90,8 @@ import { ForgotPasswordComponent } from './component/landing/body/user/signin/fo
         SignInDefaultComponent,
         SignInValidationComponent,
         ForgotPasswordComponent,
+        LearningDashboardComponent,
+        LearningCourseComponent,
     ],
     imports: [
         BrowserModule,

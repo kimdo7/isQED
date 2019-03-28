@@ -1,13 +1,14 @@
 var users = require('../../controller/user/users')
+var email = require('../../gateway/email')
 
 module.exports = function (app) {
 	
 	app.get('/api', function(req, res){
-		if(reg.session.page_views){
-			reg.session.page_views++;  // session counter
-			res.send("You visied this page " + reg.session.page_views + " times");
+		if(req.session.page_views){
+			req.session.page_views++;  // session counter
+			res.send("You visited this page " + req.session.page_views + " times");
 		}else{
-			reg.session.page_views = 1;
+			req.session.page_views = 1;
 			res.send("Welcome to this page for the first time!");
 		}
 	});
@@ -31,4 +32,8 @@ module.exports = function (app) {
 	app.delete('/api/user/:id', (req, res) => {
 		users.deleteById(req, res)
 	})
+
+    app.get('/api/user/email/:id', (req, res) =>{
+        email.sendMail(req, res)
+    })
 }

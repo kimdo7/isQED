@@ -3,22 +3,14 @@ var Schema = mongoose.Schema
 
 
 var UserSchema = new Schema({
-	first_name: { type: String, required: false, minlength: 2, trim: true },
-	last_name: { type: String, required: false, minlength: 2, trim: true },
-	email: { type: String, required: false, minlength: 6, unique: true },
-	phone: { type: String, retuired: false },
-	gender: { type: String, enum: ['MALE', 'FEMALE'], uppercase: true, trim: false },
-	type: { type: Number, required: false, default: 9 }, // admin: 1, teacher: 5, student: 9 minimum
-	loginId: { type: mongoose.Schema.Types.ObjectId, ref: 'Login', unique: true, required: false },// has to be created before the user
-	isActivated: { type: Boolean, default: false },
-	tempActivationCode : {type: String, minlength:5}
-}, { 
-	createdAt: 'created_at',
-	updatedAt: 'updated_at',
-	timestamps: true, 
-	upsert: true, 
-	collection: 'user' 
-});
-
+    first_name: { type: String, required: true, minlength: 2 },
+    last_name: { type: String, required: true, minlength: 2 },
+    email: { type: String, required: true, minlength: 6, unique: true },
+    phone: { type: String, trim: true },
+    type: { type: Number, required: true, default: 9 },
+    //loginId: { type: mongoose.Schema.Types.ObjectId, ref: 'Login', unique: false, required: false },
+    isActivate: { type: Boolean, default: false },
+    tempActivationCode: { type: String, minlength: 5 }
+}, { timestamps: true, upsert: true, collection: 'user' })
 
 module.exports = mongoose.model('User', UserSchema)

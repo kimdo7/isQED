@@ -27,6 +27,8 @@ import { LearningComponent } from './component/learning/learning.component';
 import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
 import { SignInValidationComponent } from './component/landing/body/user/signin/sign-in-validation/sign-in-validation.component';
 import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
+import { LearningDashboardComponent } from './component/learning/learning-dashboard/learning-dashboard.component';
+import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
 
 const routes: Routes = [
     {
@@ -74,7 +76,10 @@ const routes: Routes = [
         
     },
 
-    { path: 'learning', component: LearningComponent },
+    { path: 'learning', component: LearningComponent, children:[
+        {path: "", component: LearningDashboardComponent},
+        {path: "course", component: LearningCourseComponent}
+    ] },
     // { path: 'administrator', component: AdministratorDashboardComponent },
 
 ];
