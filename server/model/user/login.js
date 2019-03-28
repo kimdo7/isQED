@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
+var bcrypt = require('bcrypt');
 
 
 // To register a login
@@ -18,8 +19,9 @@ var LoginSchema = new Schema({
 
 	userName: { // probably will be the email from the user schema
 		type: String, 
-		required: true, 
-		index: { unique: true } 
+        required: true, 
+        minlength: 6,
+		unique: true, 
 	},
 	passwordHash: { 
 		type: String, 
@@ -43,6 +45,11 @@ var LoginSchema = new Schema({
 //           login.password = 'password'; // virtual set
 //           login.save(); // pre-save middleware runs, set passwordHash
 //           https://stackoverflow.com/questions/14588032/mongoose-password-hashing/14595363#14595363
+//    1.5.   Login.create({userName: username, password: password},
+//               function(err, login) {});
+//           https://mongoosejs.com/docs/middleware.html
+//           Note: The create() function fires save() hooks.
+
 //    2.     var login = new Login();
 //           login.userName = 'foo@bar.com';
 //           login.setPassword('password'); // sets passwordHash
@@ -69,6 +76,7 @@ LoginSchema.methods.isStrongPassword = function(newPassword){
 
 // Explicitly check each rule for the password
 // Easier to read than one regex
+// Test username and password dev1testing@gmail.com Lav3Lam0!
 LoginSchema.methods.isValidPassword = function(newPassword){
 	if (!newPassword || typeof(newPassword) !== 'string') {
 		return false;// has to be a non-empty string
@@ -100,24 +108,39 @@ LoginSchema.methods.isValidPassword = function(newPassword){
 
 // WHEN SOMEONE REGISTERS A NEW USERNAME/PASSWORD, OR CHANGES PASSWORD
 LoginSchema.methods.setPassword = function(newPassword) {
-	if (!isValidPassword(newPassword)) {
+	if (!this.isValidPassword(newPassword)) {
+        console.log("password is not valid");
 		return false;
 	}
-	if (!isStrongPassword(newPassword)) {
+	if (!this.isStrongPassword(newPassword)) {
+        console.log("password is not strong");
 		return false;
 	}
     // generate a salt
-    var SALT_WORK_FACTOR = 20;
+    var SALT_WORK_FACTOR = 10;
     var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR)
     if (!salt) {
+        console.log("can't generate salt");
         return false;
     }
 
     // hash the password using our new salt
-    var passwordHash = bcrypt.hashSync(password, salt);
-    if (!passwordHash) {
+    var passwordHash = bcrypt.hashSync(newPassword, salt);
+    if (!passwordHash ) {
+        console.log("can't generate hash");
+        return false;
+    } else if (passwordHash.length < 60) {
+        console.log("hash isn't long enough");
+        return false;
+    } else if (passwordHash.length > 60) {
+        console.log("hash is too long");
         return false;
     }
+
+    if (!bcrypt.compareSync(newPassword, passwordHash)) {
+        return false;
+    }
+
     this.passwordHash = passwordHash;
 	return true;
 } 
@@ -139,13 +162,16 @@ LoginSchema.pre('save', function(next) {
 
 
 // WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
-LoginSchema.methods.passwordMatchesHash = function(givenPassword, callback){
-    bcrypt.compare(givenPassword, this.passwordHash, function(err, isMatch) {
-        if (err) {
-			return callback(err);
-		}
-        callback(null /* no error */, isMatch);
-    });
+LoginSchema.methods.passwordMatchesHash = function(givenPassword) {
+    if (!givenPassword) {
+        console.log("Login passwordMatchesHash cannot match empty password");
+        return false;
+    }
+    if (!this.passwordHash) {
+        console.log("Login passwordMatchesHash cannot compare to empty hash");
+        return false;
+    }
+    return bcrypt.compareSync(givenPassword, this.passwordHash);
 };
 
 LoginSchema.methods.isSameUserName = function(expectedUserName) {
@@ -182,14 +208,5 @@ LoginSchema.methods.isSamePasswordHash = function(givenPasswordHash) {
     return true;
 };
 
-
-LoginSchema.methods.passwordMatchesHash = function(candidatePassword, callback){
-    bcrypt.compare(candidatePassword, this.passwordHash, function(err, isMatch) {
-        if (err) {
-			return callback(err);
-		}
-        callback(null /* no error */, isMatch);
-    });
-};
 
 module.exports = mongoose.model('Login', LoginSchema)
