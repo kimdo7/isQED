@@ -39,7 +39,6 @@ import { TrainingHomeComponent } from './component/landing/body/training/trainin
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/landing/body/membership/membership.component';
-import { LoginComponent } from './component/landing/body/login/login.component';
 import { RegisterationComponent } from './component/landing/body/registeration/registeration.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { AdministratorDashboardComponent } from './component/administrator/administrator-dashboard/administrator-dashboard.component';
@@ -81,7 +80,6 @@ import { LearningCourseComponent } from './component/learning/learning-course/le
         RegistrationFormComponent,
         MembershipComponent,
         SearchComponent,
-        LoginComponent,
         RegisterationComponent,
         LandingComponent,
         BannerComponent,
