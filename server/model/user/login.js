@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var bcrypt = require('bcrypt');
+var base32 = require('base32');
 
 
 // To register a login
@@ -28,6 +29,23 @@ var LoginSchema = new Schema({
         required: true,
         minlength: 60,
         maxlength: 60,
+    },
+    // When a user forgets their password, we basically email them a second temp password
+    tempForgotHash: { 
+        type: String,
+        required: true,
+        minlength: 60,
+        maxlength: 60,
+    },
+    tempForgotExpiry: { // if missing, the tempForgotHash is invalid
+        type: Date,
+        required: false
+    },
+    tempForgotAttemptsRemaining: { // if 0, the tempForgotHash is invalid
+        type: Number,
+        required: true,
+        max: 5,
+        min: 0,
     },
 }, {
         createdAt: 'created_at',
@@ -172,6 +190,74 @@ LoginSchema.methods.passwordMatchesHash = function (givenPassword) {
         return false;
     }
     return bcrypt.compareSync(givenPassword, this.passwordHash);
+};
+
+LoginSchema.methods.invalidateTempForgot = function () {
+    this.tempForgotAttemptsRemaining = 0;
+    this.tempForgotCode = null;
+    this.tempForgotExpiry = null;
+}
+
+LoginSchema.methods.createTempForgottenPassword = function () {
+    // Get rid of any existing temp passcode first
+    this.invalidateTempForgot();
+    
+    this.tempForgotAttemptsRemaining = 5;
+    this.tempForgotExpiry = Date.now() + 3 * 60 * 60 * 1000;// 3 hours from now?
+    var tempPasscode = base32.sha1(bcrypt.genSaltSync(10));// this is just random, but the letters are typable
+    this.tempForgotHash = bcrypt.hashSync(tempPasscode, 10);
+
+    if (!this.tempForgotHash) {
+        return null;
+    }
+
+    // If we made it here, there is a temp  forgotten password
+    // The caller needs to mail it out
+    return tempPasscode;
+}
+
+LoginSchema.methods.isTempForgottenPassword = function () {
+    if (!this.tempForgotCode) {
+        console.log("Login isTempForgottenPassword cannot compare to empty tempForgotCode");
+        this.invalidateTempForgot();
+        return false;
+    }
+    if (!this.tempForgotExpiry || temp.tempForgotExpiry < Date.now()) { // if expired before now
+        console.log("Login isTempForgottenPassword cannot compare to empty tempForgotCode");
+        this.invalidateTempForgot();
+        return false;
+    }
+
+    if (!this.tempForgotAttemptsRemaining  || this.tempForgotAttemptsRemaining < 1 || this.tempForgotAttemptsRemaining > 5) {
+        console.log("Login isTempForgottenPassword has no more tempForgotAttemptsRemaining");
+        this.invalidateTempForgot();
+        return false;
+    }
+
+    // Make sure it's an integer
+    var remainingAttempts = Math.floor(this.tempForgotAttemptsRemaining);
+    this.tempForgotAttemptsRemaining = remainingAttempts;
+
+
+    // If we made it here, there is a temp  forgotten password
+    return true;
+}
+
+
+LoginSchema.methods.forgottenPasswordCodeIsValid = function (givenForgotCode) {
+    if (!givenForgotCode) {
+        console.log("Login forgottenPasswordCodeIsValid cannot match empty givenForgotCode");
+        return false;
+    }
+
+    if (!this.isTempForgottenPassword()) {
+        return false;
+    }
+
+    // We are attempting the forgotten password (this is an integer from 1 to 5)
+    this.tempForgotAttemptsRemaining -= 1;
+
+    return bcrypt.compareSync(givenForgotCode, this.tempForgotHash);
 };
 
 LoginSchema.methods.isSameUserName = function (expectedUserName) {

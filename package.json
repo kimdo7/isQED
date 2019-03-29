@@ -22,6 +22,7 @@
     "@angular/animations": "^7.2.9",
     "@angular/cdk": "^7.3.4",
     "@angular/material": "^7.3.4",
+    "base32": "0.0.6",
     "bcrypt": "^3.0.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",

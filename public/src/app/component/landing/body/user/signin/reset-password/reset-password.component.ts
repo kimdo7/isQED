@@ -18,6 +18,9 @@ export class ResetPasswordComponent implements OnInit {
     hide: boolean = true
     validation_messages = UserValidatorMessage.message
     user_form: FormGroup
+    useLoginSchema: boolean = false
+    login_id : string = ""
+    user_name : string = ""
 
     constructor(
         private route: ActivatedRoute,
@@ -31,7 +34,9 @@ export class ResetPasswordComponent implements OnInit {
        */
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            this.user_id = params["id"]
+            this.user_id = params["id"];
+            this.login_id = params["login_id"];
+            this.user_name = params["user_name"];
         });
 
         this.initForm()
@@ -45,7 +50,17 @@ export class ResetPasswordComponent implements OnInit {
             return;
         }
 
-        let tempObservable = this.userService.resetPassword(this.user_id, this.user_form.value)
+        var body = this.user_form.value;
+        if (this.useLoginSchema) {
+            body = {
+                id: this.login_id,
+                userName: this.user_name,
+                newPassword: this.user_form.value.password,
+                forgotPasswordCode: this.user_form.value.temp_passcode,
+            };
+        } 
+
+        let tempObservable = this.userService.resetForgottenPassword(this.user_id, body, this.useLoginSchema)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
                 this.router.navigate(["/learning"])

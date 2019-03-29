@@ -78,6 +78,39 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+
+    sendForgotMail: (email, tempPasscode, next) => {
+        console.log("sendForgotMail: " + user_id);
+
+        if (!next) {
+            console.log("sendForgotMail missing next callback");
+        } else if (!email) {
+            console.log("sendForgotMail missing email");
+            next("missing email");
+        } else if (!tempPasscode) {
+            console.log("sendForgotMail missing tempPasscode");
+            next("missing tempPasscode");
+        } else {
+            mailOptions.to = data.email
+            mailOptions.text = code.toString()
+            var forgotMailOptions = { 
+                from: mailOptions.from,
+                // shoudl be to: email,
+                to: mailOptions.to,// Using the fake address for now
+                subject: "isQED Password Reset",
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode,
+            };
+            transporter.sendMail(forgotMailOptions, function (err, info) {
+                if (err) {
+                    console.log("sendForgotMail error to "+ email + " : " + err)
+                    next(err);
+                } else {
+                    console.log("sendForgotMail success to " + email)
+                    next(null, "Success")
+                }
+            });
+        }
+    },
 
 }

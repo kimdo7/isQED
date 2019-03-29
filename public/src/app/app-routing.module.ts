@@ -72,7 +72,8 @@ const routes: Routes = [
 				{path: "", component: SignInDefaultComponent},
 				{path: "validation/:id", component: SignInValidationComponent},
 				{path: "forgot_password", component: ForgotPasswordComponent},
-				{path: "reset_password/:id", component: ResetPasswordComponent}
+                {path: "reset_password/:id", component: ResetPasswordComponent},
+                {path: "reset_password/:id/:login_id/:user_name", component: ResetPasswordComponent},
 			] },
         ]
         
