@@ -30,7 +30,6 @@ export class SignInValidationComponent implements OnInit {
     }
 
     /**
-     * 
      * @param route 
      * @param router 
      * @param userService 
@@ -55,6 +54,8 @@ export class SignInValidationComponent implements OnInit {
 
     /**
      * check activation code
+     * @return to *reset password* if *isForgotPassowr = TRUE*
+     * @return to *Dashboard* 
      */
     checkValidation() {
         if (this.activationCode == "") {
@@ -67,7 +68,7 @@ export class SignInValidationComponent implements OnInit {
                 if (data["isForgotPassword"] == false) {
                     this.router.navigate(["/learning"])
                 } else {
-                    this.router.navigate(["/learning"])
+                    this.router.navigate(["/signin/reset_password/" + this.user_id])
                 }
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
