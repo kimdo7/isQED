@@ -3,9 +3,9 @@ const DEBUG = true;
 
 module.exports = function (app) {
 	if (DEBUG) {
-		app.post('/api/login', (req, res) => {
-			logins.create(req, res)
-		})
+		// app.post('/api/login', (req, res) => {
+		// 	logins.create(req, res)
+		// })
 
 		app.get('/api/login', (req, res) => {
 			logins.getAll(req, res)

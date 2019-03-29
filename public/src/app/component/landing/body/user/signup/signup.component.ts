@@ -4,6 +4,8 @@ import { PasswordValidator } from 'src/app/validator/PasswordValidator';
 import { UserValidatorMessage } from '../user_validation_message';
 import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-signup',
@@ -25,6 +27,7 @@ export class SignupComponent implements OnInit {
 
     ngOnInit() {
         this.initForm()
+        this.initAlert()
     }
 
     onRegister() {
@@ -34,12 +37,13 @@ export class SignupComponent implements OnInit {
 
         let tempObservable = this.userService.register(this.user_form.value)
         tempObservable.subscribe(data => {
-            if (data["message"] === "Success"){
-                this.router.navigate(["/signin/validation/"+data["data"]["_id"]])
-            }else{
-
+            if (data["message"] === "Success") {
+                this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
+            } else {
+                this.showDangerMessage("Error!!! Please confirm your password")
             }
-            console.log("Got our tasks!", data)
+
+
         });
     }
 
@@ -60,15 +64,40 @@ export class SignupComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirm_password: ['', [Validators.required, Validators.minLength(8)]],
-            // phone: ['', [
-            //     Validators.required,
-            //     Validators.pattern('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
-            // ]],
+        }, {
+            // return PasswordValidator.areEqual(formGroup);
+            // validator: PasswordValidator.validate.bind(this)
+        })
+
+    }
+
+    /**
+     * alert
+     */
+
+     
+    private _danger = new Subject<string>();
+
+    staticAlertClosed = false;
+    errorMessage: string;
 
 
-        }, (formGroup: FormGroup) => {
-            return PasswordValidator.areEqual(formGroup);
-        });
+    public showDangerMessage(message) {
+        this._danger.next(message);
+    }
+
+    /**
+     * set alert
+     */
+    initAlert() {
+        setTimeout(() => this.staticAlertClosed = true, 20000);
+
+
+        this._danger.subscribe((message) => this.errorMessage = message);
+        this._danger.pipe(
+            debounceTime(5000)
+        ).subscribe(() => this.errorMessage = null);
+
     }
 
 }

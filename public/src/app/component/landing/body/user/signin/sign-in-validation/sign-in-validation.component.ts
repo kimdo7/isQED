@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { UserService } from 'src/app/service/user/user.service';
-import { MatSnackBar } from '@angular/material';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -43,25 +42,6 @@ export class SignInValidationComponent implements OnInit {
         private userService: UserService
     ) { }
 
-
-    /**
-     * check activation code
-     */
-    checkValidation() {
-        if (this.activationCode == "") {
-            return
-        }
-
-        let tempObservable = this.userService.checkActivate(this.user_id, this.activationCode)
-        tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-                this.router.navigate(["/learning"])
-            } else {
-                this.showDangerMessage("Error!!! Please confirm your validation code")
-            }
-        });
-    }
-
     /**
      * init alert and user
      */
@@ -74,6 +54,31 @@ export class SignInValidationComponent implements OnInit {
         this.initAlert();
 
     }
+
+
+    /**
+     * check activation code
+     */
+    checkValidation() {
+        if (this.activationCode == "") {
+            return
+        }
+
+        let tempObservable = this.userService.checkActivate(this.user_id, this.activationCode)
+        tempObservable.subscribe(data => {
+            if (data["message"] === "Success") {
+                if (data["isForgotPassword"] == false) {
+                    this.router.navigate(["/learning"])
+                } else {
+                    this.router.navigate(["/learning"])
+                }
+            } else {
+                this.showDangerMessage("Error!!! Please confirm your validation code")
+            }
+        });
+    }
+
+
 
     /**
      * set alert

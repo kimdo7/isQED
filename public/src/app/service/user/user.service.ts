@@ -12,7 +12,10 @@ export class UserService {
         return;
     }
 
-
+    /**
+     * 
+     * @param data is first, last name, email, pass and confirmpass
+     */
     register(data) {
         return this.http.post("/api/user", data)
     }
@@ -26,7 +29,32 @@ export class UserService {
     }
 
     resendActivationCode(id){
-        return this.http.get("/api/user/email/"+id)
+        return this.http.get("/api/user/activateCode/email/"+id)
+    }
+
+    /**
+     * 
+     * @param data is email and password
+     */
+    login(data){
+        return this.http.post("/api/user/login", data)
+    }
+
+    /**
+     * 
+     * @param data is user's email
+     */
+    requestForgotPassword(data){
+        return this.http.post("/api/user/requestForgotPassword", data)
+    }
+
+    /**
+     * 
+     * @param id user id
+     * @param data password and confirm_password
+     */
+    resetPassword(id, data){
+        return this.http.post("/api/user/resetPassword/"+id, data)
     }
 
 }

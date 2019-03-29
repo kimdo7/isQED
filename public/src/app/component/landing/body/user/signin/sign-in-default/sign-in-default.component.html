@@ -43,3 +43,7 @@
 
 
 </form>
+
+
+<!-- Alert -->
+<ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>

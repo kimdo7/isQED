@@ -11,7 +11,7 @@ module.exports = {
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
-        }else if (req.body.password.length < 8){
+        } else if (req.body.password.length < 8) {
             res.json({ message: 'Error', error: "Password must be 8 characters or more" })
             return
         }
@@ -21,7 +21,7 @@ module.exports = {
                 User.create({
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
-                    
+
                     email: req.body.email,
                     type: 9,
                     password: hashed_password
@@ -29,7 +29,6 @@ module.exports = {
                     if (err) {
                         res.json({ message: 'Error', error: err })
                     } else {
-                        // console.log(data["_id"])
                         email.send(data["_id"])
                         res.json({ message: 'Success', data: data })
                     }
@@ -38,7 +37,7 @@ module.exports = {
             .catch(error => {
                 res.json({ message: 'Error', error: "Hasing password error" })
                 return
-            });
+            })
     },
 
 	/**
@@ -99,16 +98,18 @@ module.exports = {
         })
     },
 
+    /**
+     * @activate acount by id
+     */
     activateById: (req, res) => {
         User.findById(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
             } else {
-                if (req.params.code !== data.tempActivationCode){
+                if (req.params.code !== data.tempActivationCode) {
                     res.json({ message: 'Error', error: "wrong activation code" })
                     return
                 }
-
 
                 data.isActivate = true
                 data.save()
@@ -117,7 +118,80 @@ module.exports = {
         })
     },
 
+
+    /**
+     * @login
+     */
     login: (req, res) => {
-        // do login stuff
+        User.find({ email: req.body.email }, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+            } else if (data.length == 0) {
+                res.json({ message: 'Error', error: "email is not exist" })
+            } else {
+                bcrypt.compare(req.body.password, data[0]["password"])
+                    .then(result => {
+                        if (result) {
+                            data[0].isForgotPassword = true
+                            data[0].save()
+                            res.json({ message: 'Success', data: data[0] })
+                        } else {
+                            res.json({ message: 'Error', error: "Wrong password" })
+                        }
+                    })
+                    .catch(error => {
+                        res.json({ message: 'Error', error: error })
+                    })
+            }
+        })
+    },
+
+    /**
+     * @Request *FORGOT PASS*
+     */
+    requestForgotPassword: (req, res) => {
+        User.find({ email: req.body.email }, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+            } else if (data.length == 0) {
+                res.json({ message: 'Error', error: "email is not exist" })
+            } else {
+                data[0].isForgotPassword = true
+                data[0].save()
+                email.send(data[0]["_id"])
+                res.json({ message: 'Success', data: data[0] })
+            }
+        })
+    },
+    /**
+     * @Request *FORGOT PASS*
+     */
+    resetPassword: (req, res) => {
+        if (req.body.password !== req.body.confirm_password) {
+            res.json({ message: 'Error', error: "Not match password" })
+            return
+        } else if (req.body.password.length < 8) {
+            res.json({ message: 'Error', error: "Password must be 8 characters or more" })
+            return
+        }
+
+        User.findById(req.params.id, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+            } else {
+                bcrypt.hash(req.body.password, 10)
+                    .then(hashed_password => {
+                        data.password = hashed_password
+                        data.isActivate = true
+                        data.isForgotPassword = false
+                        data.save()
+                        res.json({ message: 'Success', data: data })
+                    })
+                    .catch(error => {
+                        res.json({ message: 'Error', error: "Hasing password error" })
+                        return
+                    })
+            }
+        })
     }
 }

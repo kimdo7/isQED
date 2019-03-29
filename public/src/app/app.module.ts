@@ -53,6 +53,7 @@ import { LearningDashboardComponent } from './component/learning/learning-dashbo
 import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
 import { UserService } from './service/user/user.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         ForgotPasswordComponent,
         LearningDashboardComponent,
         LearningCourseComponent,
+        ResetPasswordComponent,
     ],
     imports: [
         NgbModule,

@@ -23,9 +23,11 @@ export class UserValidatorMessage {
             { type: 'minlength', message: 'Must be at least 8 characters long' },
             { type: 'pattern', message: 'Pattern problem' },
         ],
-        'confirmPassword': [
+        'confirm_password': [
             { type: 'required', message: 'Confirm Password is required' },
-            { type: 'areEqual', message: 'Password mismatch' }
+            { type: 'areEqual', message: 'Password mismatch' },
+            { type: 'pattern', message: 'Pattern problem' },
+            { type: 'minlength', message: 'Must be at least 8 characters long' }
         ],
     }
 }

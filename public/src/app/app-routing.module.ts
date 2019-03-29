@@ -29,6 +29,7 @@ import { SignInValidationComponent } from './component/landing/body/user/signin/
 import { ForgotPasswordComponent } from './component/landing/body/user/signin/forgot-password/forgot-password.component';
 import { LearningDashboardComponent } from './component/learning/learning-dashboard/learning-dashboard.component';
 import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
+import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
 
 const routes: Routes = [
     {
@@ -70,7 +71,8 @@ const routes: Routes = [
             { path: "signin", component: SigninComponent, children:[
 				{path: "", component: SignInDefaultComponent},
 				{path: "validation/:id", component: SignInValidationComponent},
-				{path: "forgot_password", component: ForgotPasswordComponent}
+				{path: "forgot_password", component: ForgotPasswordComponent},
+				{path: "reset_password/:id", component: ResetPasswordComponent}
 			] },
         ]
         
