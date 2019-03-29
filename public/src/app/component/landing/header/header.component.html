@@ -1,16 +1,12 @@
 <div id="wrapper">
-    <div class="row mt-4 form-group" id="header-logo">
-        <div class="col-1"></div>
-        <img alt="ISQED - Society" src="assets/img/logo/ISQED_Society_logo.svgz" class="col-2" style="height: 100px;">
-        <h2 class="col-9 text-primary align-self-center">International Society for Quality Electronic Design</h2>
-    </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="navbar">
         <div class="container">
             <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
                 <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
             </a>
 
+            <!-- Hamburger -->
             <div class="d-block d-lg-none d-xl-none">
                 <button mat-button [matMenuTriggerFor]="menu">
                     <i class="fas fa-user text-white"></i>
@@ -26,6 +22,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
+
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto text-right">
                     <li class="nav-item active">

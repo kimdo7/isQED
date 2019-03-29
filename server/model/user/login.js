@@ -23,11 +23,9 @@ var LoginSchema = new Schema({
         minlength: 6,
         unique: true,
     },
-    passwordHash: {
+    password: {
         type: String,
         required: true,
-        minlength: 60,
-        maxlength: 60,
     },
 }, {
         createdAt: 'created_at',
