@@ -12,7 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class SignInValidationComponent implements OnInit {
 
-    user = {}
+    user = { email: "" }
     user_id = ""
     command = "Active Your Account"
     activationCode = ""
