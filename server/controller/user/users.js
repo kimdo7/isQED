@@ -8,6 +8,9 @@ module.exports = {
 	 * @Create a *new* user
 	 */
     register: (req, res) => {
+        /**
+         * @Validation of password
+         */
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
@@ -15,6 +18,13 @@ module.exports = {
             res.json({ message: 'Error', error: "Password must be 8 characters or more" })
             return
         }
+
+        /**
+         * @Passed *validation*
+         * *more validation* will be check automaticly with schema
+         * After passed *ALL* validation
+         * Send email to *user* with activation code
+         */
 
         bcrypt.hash(req.body.password, 10)
             .then(hashed_password => {
@@ -100,6 +110,7 @@ module.exports = {
 
     /**
      * @activate acount by id
+     * *Confirm* with the *activation code*
      */
     activateById: (req, res) => {
         User.findById(req.params.id, function (err, data) {
@@ -120,7 +131,9 @@ module.exports = {
 
 
     /**
-     * @login
+     * @login Email will be unique
+     * 
+     * *decrypt* and check password
      */
     login: (req, res) => {
         User.find({ email: req.body.email }, function (err, data) {
@@ -132,7 +145,7 @@ module.exports = {
                 bcrypt.compare(req.body.password, data[0]["password"])
                     .then(result => {
                         if (result) {
-                            data[0].isForgotPassword = true
+                            data[0].isForgotPassword = true //Password already confirmed
                             data[0].save()
                             res.json({ message: 'Success', data: data[0] })
                         } else {
@@ -148,6 +161,7 @@ module.exports = {
 
     /**
      * @Request *FORGOT PASS*
+     * 
      */
     requestForgotPassword: (req, res) => {
         User.find({ email: req.body.email }, function (err, data) {
@@ -156,6 +170,10 @@ module.exports = {
             } else if (data.length == 0) {
                 res.json({ message: 'Error', error: "email is not exist" })
             } else {
+                /**
+                 * @param isForgotPassword to *TRUE*
+                 * *SEND out email*
+                 */
                 data[0].isForgotPassword = true
                 data[0].save()
                 email.send(data[0]["_id"])
@@ -165,8 +183,13 @@ module.exports = {
     },
     /**
      * @Request *FORGOT PASS*
+     * 
+     * 
      */
     resetPassword: (req, res) => {
+        /**
+         * @Valdiation
+         */
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
@@ -175,16 +198,23 @@ module.exports = {
             return
         }
 
+        /**
+         * *Find* user base on id
+         */
         User.findById(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
             } else {
+                /**
+                 * @encrypt password
+                 */
                 bcrypt.hash(req.body.password, 10)
                     .then(hashed_password => {
                         data.password = hashed_password
                         data.isActivate = true
                         data.isForgotPassword = false
                         data.save()
+                        
                         res.json({ message: 'Success', data: data })
                     })
                     .catch(error => {
