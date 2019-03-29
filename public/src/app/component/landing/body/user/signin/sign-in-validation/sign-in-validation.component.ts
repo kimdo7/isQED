@@ -16,7 +16,6 @@ export class SignInValidationComponent implements OnInit {
     user_id = ""
     command = "Active Your Account"
     activationCode = ""
-    durationInSeconds = 5;
 
     /**
      * 
@@ -52,9 +51,7 @@ export class SignInValidationComponent implements OnInit {
         });
 
         this.initAlert();
-
     }
-
 
     /**
      * check activation code
@@ -76,26 +73,6 @@ export class SignInValidationComponent implements OnInit {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }
         });
-    }
-
-
-
-    /**
-     * set alert
-     */
-    initAlert() {
-        setTimeout(() => this.staticAlertClosed = true, 20000);
-
-        this._success.subscribe((message) => this.successMessage = message);
-        this._success.pipe(
-            debounceTime(5000)
-        ).subscribe(() => this.successMessage = null);
-
-        this._danger.subscribe((message) => this.errorMessage = message);
-        this._danger.pipe(
-            debounceTime(5000)
-        ).subscribe(() => this.errorMessage = null);
-
     }
 
     /**
@@ -123,7 +100,6 @@ export class SignInValidationComponent implements OnInit {
         });
     }
 
-
     /**
      * alert
      */
@@ -140,6 +116,24 @@ export class SignInValidationComponent implements OnInit {
 
     public showDangerMessage(message) {
         this._danger.next(message);
+    }
+
+    /**
+     * set alert
+     */
+    initAlert() {
+        setTimeout(() => this.staticAlertClosed = true, 20000);
+
+        this._success.subscribe((message) => this.successMessage = message);
+        this._success.pipe(
+            debounceTime(5000)
+        ).subscribe(() => this.successMessage = null);
+
+        this._danger.subscribe((message) => this.errorMessage = message);
+        this._danger.pipe(
+            debounceTime(5000)
+        ).subscribe(() => this.errorMessage = null);
+
     }
 }
 

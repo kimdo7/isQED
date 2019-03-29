@@ -1,5 +1,8 @@
 <div class="text-center">
     <form class="example-form" [formGroup]='user_form' (submit)="onRegister()">
+        <h2 class="form-group">Register Account</h2>
+
+        <!-- First and last name -->
         <div class="row" for="first_last_name">
             <div class="col-2"></div>
             <div class="col-4" for="first_name">
@@ -29,7 +32,6 @@
             </div>
         </div>
 
-
         <!-- Eamil -->
         <div class="form-group" for="email">
             <div class="row">
@@ -50,6 +52,7 @@
             </div>
         </div>
 
+        <!-- Password -->
         <div class="form-group" for="password">
             <div class="row">
                 <div class="col-2"></div>
@@ -71,6 +74,7 @@
             </div>
         </div>
 
+        <!-- confirm password -->
         <div class="form-group" for="confirm_password">
             <div class="row">
                 <div class="col-2"></div>
@@ -92,14 +96,17 @@
             </div>
         </div>
 
+        <!-- Register Account -->
         <div class="form-group" for="sign_up_btn">
-            <button mat-raised-button class="btn-lg btn bg-primary text-white">Sign Up</button>
+            <button mat-raised-button class="btn-lg btn bg-primary text-white">Register Account</button>
         </div>
 
+        <!-- Forgot password -->
         <div class="form-group">
             <a href [routerLink]="['/signin/forgot_password']">Forgot Password?</a>
         </div>
 
+        <!-- Sign in -->
         <div class="form-group">
             <a href [routerLink]="['/signin']">Already Had Account With Us?</a>
         </div>

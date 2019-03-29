@@ -16,22 +16,38 @@ export class SignupComponent implements OnInit {
 
     validation_messages = UserValidatorMessage.message
     hide: boolean = true
-
     user_form: FormGroup
 
+    /**
+     * 
+     * @param formBuilder 
+     * @param userService 
+     * @param router 
+     */
     constructor(
         private formBuilder: FormBuilder,
         private userService: UserService,
         private router: Router
     ) { }
 
+    /**
+     * @param user_form *init*
+     * @param alert *init*
+     */
     ngOnInit() {
         this.initForm()
         this.initAlert()
     }
 
+    /**
+     * *Validation*
+     * @register account
+     * @alert if failure
+     * @navigate to validation acount that sent by email
+     */
     onRegister() {
         if (this.user_form.invalid) {
+            this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
 
@@ -40,14 +56,18 @@ export class SignupComponent implements OnInit {
             if (data["message"] === "Success") {
                 this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
             } else {
-                this.showDangerMessage("Error!!! Please confirm your password")
+                this.showDangerMessage("Error!!! Please confirm email and password")
             }
-
-
         });
     }
 
-
+    /**
+     * @param first_name  minLength : 2, pattern check
+     * @param last_name minLength : 2, pattern check
+     * @param email validation check
+     * @param password validation check
+     * @param confirm_password validation check
+     */
     initForm() {
         this.user_form = this.formBuilder.group({
             first_name: ['', [
@@ -64,9 +84,6 @@ export class SignupComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirm_password: ['', [Validators.required, Validators.minLength(8)]],
-        }, {
-            // return PasswordValidator.areEqual(formGroup);
-            // validator: PasswordValidator.validate.bind(this)
         })
 
     }
@@ -75,12 +92,10 @@ export class SignupComponent implements OnInit {
      * alert
      */
 
-     
     private _danger = new Subject<string>();
 
     staticAlertClosed = false;
     errorMessage: string;
-
 
     public showDangerMessage(message) {
         this._danger.next(message);
@@ -91,7 +106,6 @@ export class SignupComponent implements OnInit {
      */
     initAlert() {
         setTimeout(() => this.staticAlertClosed = true, 20000);
-
 
         this._danger.subscribe((message) => this.errorMessage = message);
         this._danger.pipe(
