@@ -102,17 +102,36 @@
                         <a class="nav-link" (click)="button_click()" [routerLink]="['/membership']"
                             matRipple>Membership</a>
                     </li>
-                    <li class="nav-item active d-block d-md-none d-sm-none d-xs-none">
+                    <!-- <li class="nav-item active">
                         <a class="nav-link" (click)="button_click()" [routerLink]="['/signin']" matRipple>Sign In</a>
                     </li>
-                    <li class="nav-item active d-block d-md-none d-sm-none d-xs-none">
+                    <li class="nav-item active">
                         <a class="nav-link" (click)="button_click()" [routerLink]="['/signup']" matRipple>Sign Up</a>
-                    </li>
+                    </li> -->
                 </ul>
                 <div class="text-right">
-                    <button mat-fab color="primary" (click)="search_btn_click()" matRipple>
-                        <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
-                    </button>
+                    <div class="row">
+                        <div class="d-none d-lg-block">
+                            <button mat-fab  class="mr-4 bg-primary" [matMenuTriggerFor]="menu" matRipple>
+                                <i class="fas fa-user text-white"></i>
+                            </button>
+
+                            <mat-menu #menu="matMenu" class="w-100 bg-primary text-white">
+                                <button class="text-white w-100" mat-menu-item [routerLink]="['/signin']" matRipple>Sign
+                                    In</button>
+                                <button class="text-white w-100" mat-menu-item [routerLink]="['/signup']" matRipple>Sign
+                                    Up</button>
+                            </mat-menu>
+                        </div>
+
+                        <div class="col">
+                            <div class="text-right">
+                                <button mat-fab class="bg-primary" (click)="search_btn_click()" matRipple>
+                                    <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
