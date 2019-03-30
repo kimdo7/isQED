@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
 var bcrypt = require("bcrypt")
-var email = require("../../gateway/email")
+var emailGateway = require("../../gateway/email")
 
 // Instead of logd, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
 // To see this output, you have to pass it into nodemon when you run it:
@@ -14,8 +14,8 @@ const DEBUG_DONT_SEND_MAIL = true;
 // This makes it easy to read error handling
 // and cuts down on code length and nesting
 // For example each check only takes one line instead of 5, even with logging
-//  if (guard(!email, res, "error for client", "extra log info")) { return; }
-//  if (guard(!email, res, "error for client", "extra log info")) { return; }
+//  if (guard( !email, res, "error for client", "extra log info")) { return; }
+//  if (guard( !email, res, "error for client", "extra log info")) { return; }
 const guard = (errorCondition, res, err, logInfo) => { 
     if (errorCondition){
         // something has gone wrong, so we are going to log if we can
@@ -69,7 +69,7 @@ module.exports = {
                     if (err) {
                         res.json({ message: 'Error', error: err })
                     } else {
-                        email.send(data["_id"])
+                        emailGateway.send(data["_id"])
                         res.json({ message: 'Success', data: data })
                     }
                 })
@@ -208,7 +208,7 @@ module.exports = {
                  */
                 data[0].isForgotPassword = true
                 data[0].save()
-                email.send(data[0]["_id"])
+                emailGateway.send(data[0]["_id"])
                 res.json({ message: 'Success', data: data[0] })
             }
         })
@@ -257,7 +257,7 @@ module.exports = {
         })
     },
 
-    //
+    //****************************************************************************************************** */
     // LOGIN
     //
 
@@ -281,14 +281,14 @@ module.exports = {
      */
     getByEmail: (req, res) => {
         var email = req.body.email;
-        User.findOne({ email: email }, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-            } else if (!data || !data.id || data.email !== email || !data.passwordHash) {
-                res.json({ message: 'Error', error: "bad user record" })
-            } else {
-                res.json({ message: 'Success', data: data })
-            }
+        logd("getbyEmail: %s", email);
+        User.findOne({ email: email }, function (err, user) {
+            if (guard(  err, res, err, "getByEmail failed -- " + err)) { return; }
+            if (guard(  !user, res, "no user found", "getbyEmail failed -- no user found")) { return; }
+            if (guard(  !user.id, res, "no valid user found", "getByEmail failed -- user has no id")) { return; }
+            if (guard(  !user.passwordHash, res, "no valid user found", "getByEmail failed -- user has no passwordHash")) { return; }
+            if (guard(  !user.isSameEmail(email), res, "no valid user found", "getByEmail failed -- user has no id")) { return; }
+            res.json({ message: 'Success', data: user });
         });
     },
 
@@ -451,58 +451,57 @@ module.exports = {
             res.json({ message: 'Error', error: "missing id in URL" });
         } else {
             // 1. The user has to exist if we want to change a password
-            User.findOne({ email: email, _id: id }, function (err, user) {
-                if (err) {
-                    res.json({ message: 'Error', error: err })
-                } else if (!user || !user.id || !user.isSameEmail(email) || !user.passwordHash) {
-                    res.json({ message: 'Error', error: "bad user record" })
-                } else {
-                    // 2. the user exists, let's make sure the user knows the forgottenpassword code
-                    tempPasscode = user.createTempForgottenPassword();
-                    // passcode doesn't work unless we save it
-                    user.save(function(err, savedUser) {
-                        if (err) {
-                            logd("createAndMailForgottenPasscode could not save the new temp passcode. Wont' take effect.");
-                            res.json({ message: 'Error', error: err })
-                        } else if (!tempPasscode) {
-                            logd("createAndMailForgottenPasscode did not create a temp passcode.");
-                            res.json({ message: 'Error', error: "Could not generate temp passcode" })
-                        } else if (DEBUG_DONT_SEND_MAIL) {
-                            // Normally in production we would send mail
-                            // But we are debugging and want to avoid that.
-                            // So instead just log the temp passcode
-                            logd("createAndMailForgottenPasscode DEBUG not sending mail, would have sent to: %s the temp passcode: %s", email, tempPasscode)
-                            res.json({ message: 'Success', error: "Passcode was generated, DEBUG success" })
-                        } else {
-                            // We should send the email from here
-                            email.sendForgotMail(user.email, tempPasscode, function(err, success) {
-                                if (err) {
-                                    res.json({ message: 'Error', error: "Could not send mail for forgotten passcode" });
+            User.findOne({ email: email, _id: id }, function (findErr, existingUser) {
+                if (guard( findErr, res, "Failed to find user", "createAndMailForgottenPasscode failed to find user for: " + id + " : " + email + " -- " + findErr)) { return; }
+                if (guard( !existingUser, res, "Failed to find user", "createAndMailForgottenPasscode no user object for: " + id + " : " + email)) { return; }
+                if (guard( !existingUser.passwordHash, res, "Failed to find user", "createAndMailForgottenPasscode user has no hash: " + id + " : " + email)) { return; }
+                if (guard( !existingUser.isSameEmail(email), res, "Failed to find user", "registerUserPass user email doesn't match")) { return; }
 
-                                    // Clean up since the temp passcode can never be used
-                                    savedUser.invalidateTempForgot();
-                                    savedUser.save(function(err, secondSavedUser) {
-                                        if (err) {
-                                            logd("createAndMailForgottenPasscode could not save the invalidateTempForgot after an error");
-                                            // already sent a response
-                                        } else if (!secondSavedUser) {
-                                            logd("createAndMailForgottenPasscode got a null without an err when tryign to save invalidateTempForgot after an error");
-                                            // already sent a response
-                                        } else {
-                                            // Succeeded to invalidate the temp passcode
-                                            // but it still was an error sending the mail
-                                            // already sent a response
-                                        }
-                                    });
-                                } else if (!success) { // shouldn't happen
-                                    res.json({ message: 'Error', error: "Internal server error sending mail" })
-                                } else {
-                                    res.json({ message: 'Success', error: "Passcode was generated, please check mail" })
-                                }
-                            });
-                        }
-                    });
-                }
+                // 2. the user exists, let's make sure the user creates a 'forgotten password' code (it's really like a separate password)
+                tempPasscode = existingUser.createTempForgottenPassword();
+                // passcode doesn't work unless we save it
+                existingUser.save(function(err, savedUser) {
+                    if (err) {
+                        logd("createAndMailForgottenPasscode could not save the new temp passcode. Wont' take effect.");
+                        res.json({ message: 'Error', error: err })
+                    } else if (!tempPasscode) {
+                        logd("createAndMailForgottenPasscode did not create a temp passcode.");
+                        res.json({ message: 'Error', error: "Could not generate temp passcode" })
+                    } else if (DEBUG_DONT_SEND_MAIL) {
+                        // Normally in production we would send mail
+                        // But we are debugging and want to avoid that.
+                        // So instead just log the temp passcode
+                        logd("createAndMailForgottenPasscode DEBUG not sending mail, would have sent to: %s the temp passcode: %s", email, tempPasscode)
+                        res.json({ message: 'Success', error: "Passcode was generated, DEBUG success" })
+                    } else {
+                        // We should send the email from here
+                        emailGateway.sendForgotMail(existingUser.email, tempPasscode, function(err, success) {
+                            if (err) {
+                                res.json({ message: 'Error', error: "Could not send mail for forgotten passcode" });
+
+                                // Clean up since the temp passcode can never be used
+                                savedUser.invalidateTempForgot();
+                                savedUser.save(function(err, secondSavedUser) {
+                                    if (err) {
+                                        logd("createAndMailForgottenPasscode could not save the invalidateTempForgot after an error");
+                                        // already sent a response
+                                    } else if (!secondSavedUser) {
+                                        logd("createAndMailForgottenPasscode got a null without an err when tryign to save invalidateTempForgot after an error");
+                                        // already sent a response
+                                    } else {
+                                        // Succeeded to invalidate the temp passcode
+                                        // but it still was an error sending the mail
+                                        // already sent a response
+                                    }
+                                });
+                            } else if (!success) { // shouldn't happen
+                                res.json({ message: 'Error', error: "Internal server error sending mail" })
+                            } else {
+                                res.json({ message: 'Success', error: "Passcode was generated, please check mail" })
+                            }
+                        });
+                    }
+                });
             });
         }
 
@@ -513,7 +512,6 @@ module.exports = {
         // do change password stuff
         // - to change the password you have to know the old password
         // - and the email, and the id
-        var id = req.params.id;
         var email = req.body.email;
         var newPassword = req.body.newPassword;
         var forgotPasswordCode = req.body.forgotPasswordCode;
@@ -521,9 +519,6 @@ module.exports = {
         if (!email) {
             logd("changeForgottenPassword email is null or empty");
             res.json({ message: 'Error', error: "missing email" });
-        } else if (!id) {
-            logd("changeForgottenPassword id is null or empty");
-            res.json({ message: 'Error', error: "missing id in URL" });
         } else if (!newPassword) {
             logd("changeForgottenPassword newPassword is null or empty");
             res.json({ message: 'Error', error: "missing newPassword" });
@@ -535,7 +530,7 @@ module.exports = {
             // Validate new password is good enough? That happens in setPassword
 
             // 1. The user has to exist if we want to change a password
-            User.findOne({ email: email, _id: id }, function (err, user) {
+            User.findOne({ email: email }, function (err, user) {
                 if (err) {
                     res.json({ message: 'Error', error: err })
                 } else if (!user || !user.id || !user.isSameEmail(email) || !user.passwordHash) {
@@ -586,42 +581,50 @@ module.exports = {
     },
 
     /**
-     *  
+     *  LOGIN
      */
     registerUserPassword: (req, res) => {
         // do registration stuff
         var email = req.body.email;
         var password = req.body.password;
+        var first_name = req.body.first_name;
+        var last_name = req.body.last_name;
 
-        if (guard(!email, res, "missing email", "registerUserPass email is null or empty")) { return; }
-        if (guard(!password, res, "missing password", "registerUserPass password is null or empty")) { return; }
+        if (guard( !email, res, "missing email", "registerUserPass email is null or empty")) { return; }
+        if (guard( !password, res, "missing password", "registerUserPass password is null or empty")) { return; }
+        if (guard( !first_name, res, "missing first_name", "registerUserPass first_name is null or empty")) { return; }
+        if (guard( !last_name, res, "missing last_name", "registerUserPass last_name is null or empty")) { return; }
 
         // 1. Make sure the email is not in use
         User.findOne({ email: email }, function (findErr, existingUser) {
-            if (guard(existingUser, res, "email already exists", "registerUserPass findOne existing")) { return; }
-            if (guard(findErr && findErr != "Not found", res, "can't find email", "registerUserPass findOne findErr")) { return; }
+            if (guard( existingUser, res, "email already exists", "registerUserPass findOne existing")) { return; }
+            if (guard( findErr && findErr != "Not found", res, "can't find email", "registerUserPass findOne findErr")) { return; }
             
             // 2. Create a User and set the password
             logd("registerUserPass findOne nothing found");
-            var newUser = new User();
-            newUser.email = email;
+            var newUser = new User({
+                email: email,
+                password: password,
+                first_name: first_name,
+                last_name: last_name,
+            });
 
             // 3. Make sure the password is strong and valid 
             if (!newUser.setPassword(password)) { // sets passwordHash
                 // Password is no good. Let's give the best error we can
                 const passwordRules = "Password must be 8-64 characters, with at least one A-Z, one a-z, one 0-9 and one from '!@#$%^&*()=.-'";
-                if (guard(!newUser.isValidPassword(password), res, passwordRules, null)) { return; }
-                if (guard(!newUser.isStrongPassword(password), res, "Password isn't strong enough. Try to make it more random.", null)) { return; }
+                if (guard( !newUser.isValidPassword(password), res, passwordRules, null)) { return; }
+                if (guard( !newUser.isStrongPassword(password), res, "Password isn't strong enough. Try to make it more random.", null)) { return; }
                 res.json({ message: 'Error', error: "Password isn't set" });
                 return;
             } 
             // not relying on middleware to hash the password, because setPassword does that
             logd("registerUserPass newUser %s: %s", newUser.email, newUser.passwordHash);// eventually we won't log hash
             newUser.save(function (saveErr, savedUser) {
-                if (guard(saveErr, res, "Failed to create new user", "registerUserPass saveErr")) { return; }
-                if (guard(!savedUser, res, "failed to create new user", "registerUserPass create failed to give a user")) { return; }
-                if (guard(!savedUser.isSameEmail(email), res, "failed to create new user", "registerUserPass create failed to give a user the same email")) { return; }
-                if (guard(!savedUser.passwordMatchesHash(password), res, "internal error creating user", "registerUserPass create no hash")) { return; }
+                if (guard( saveErr, res, "Failed to create new user", "registerUserPass save error: " + saveErr)) { return; }
+                if (guard( !savedUser, res, "failed to create new user", "registerUserPass create failed to give a user")) { return; }
+                if (guard( !savedUser.isSameEmail(email), res, "failed to create new user", "registerUserPass create failed to give a user the same email")) { return; }
+                if (guard( !savedUser.passwordMatchesHash(password), res, "internal error creating user", "registerUserPass create no hash")) { return; }
 
                 // 4. Success!  The user should really have to re-login to ensure the password worked
                 //              We shouldn't let the user stay logged in with the old password on any

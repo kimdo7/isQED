@@ -84,12 +84,13 @@ module.exports = function (app) {
 			users.getAll(req, res)
 		})
 
-		app.get('/api/login/:id', (req, res) => {
-			users.getById(req, res)
+		app.get('/api/login/byEmail', (req, res) => {
+			console.log("login/byEmail");
+			users.getByEmail(req, res)
 		})
 
-		app.get('/api/login/name/:username', (req, res) => {
-			users.getByUserName(req, res)
+		app.get('/api/login/:id', (req, res) => {
+			users.getById(req, res)
 		})
 
 		app.put('/api/login/:id', (req, res) => {
@@ -117,7 +118,7 @@ module.exports = function (app) {
 		users.createAndMailForgottenPasscode(req, res) 
 	})
 
-	app.post('/api/changeForgottenPassword/:id', (req, res) => {
+	app.post('/api/changeForgottenPassword', (req, res) => {
 		users.changeForgottenPassword(req, res)
 	})
 

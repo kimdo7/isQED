@@ -3,6 +3,12 @@ var Schema = mongoose.Schema
 var bcrypt = require('bcrypt');
 var base32 = require('base32');
 
+const MAX_FORGOTTEN_ATTEMPTS = 3;
+const MAX_FORGET_TIME_IN_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+const MIN_PASSWORD_LEN = 8;
+const MAX_PASSWORD_LEN = 64;
+
 
 var UserSchema = new Schema({
     first_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z ]+$/ },
@@ -19,15 +25,18 @@ var UserSchema = new Schema({
     // When a user forgets their password, we basically email them a second temp password
     tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 },
     tempForgotExpiry: { type: Date, required: false },// if null, the tempForgotHash is invalid 
-    tempForgotAttemptsRemaining: { type: Number, required: false, max: 3, min: 0 },// if 0 or null, the tempForgotHash is invalid
+    tempForgotAttemptsRemaining: { type: Number, required: false, max: MAX_FORGOTTEN_ATTEMPTS, min: 0, validate : { 
+        validator : Number.isInteger, message : '{VALUE} is not an integer value' } },// if 0 or null, the tempForgotHash is invalid
 }, { timestamps: true, upsert: true, collection: 'user' })
 
+// NOTE: E11000 duplicate key error collection: isQED.user index: user_name_1 dup key: { : null }
+// If you hit this, go to mongo and db.user.dropIndex("user_name_1")
 
 
 // Instead of logd, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
 // To see this output, you have to pass it into nodemon when you run it:
 //    DEBUG=userlog nodemon server.js
-const logd = require('debug')('userlog')
+const logd = require('debug')('isQED.user')
 
 //           var user = new User();
 //           user.email = 'foo@bar.com';
@@ -55,8 +64,8 @@ UserSchema.methods.isValidPassword = function (newPassword) {
         return false;// has to be a non-empty string
     }
 
-    if (newPassword.length < 8 || newPassword.length > 64) {
-        return false;// has to be from 8-32 chars
+    if (newPassword.length < MIN_PASSWORD_LEN || newPassword.length > MAX_PASSWORD_LEN) {
+        return false;// has to be a valid length
     }
 
     if (! /[A-Z]/.test(newPassword)) {
@@ -79,7 +88,7 @@ UserSchema.methods.isValidPassword = function (newPassword) {
     return true;
 };
 
-// WHEN SOMEONE REGISTERS A NEW USERNAME/PASSWORD, OR CHANGES PASSWORD, 
+// WHEN SOMEONE REGISTERS A NEW USER/PASSWORD, OR CHANGES PASSWORD, 
 // YOU HAVE TO CALL setPassword and then save()
 UserSchema.methods.setPassword = function (newPassword) {
     if (!this.isValidPassword(newPassword)) {
@@ -135,7 +144,7 @@ UserSchema.pre('save', function (next) {
 });
 
 
-// WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
+// WHEN SOMEONE LOGS IN WITH EMAIL/PASSWORD
 UserSchema.methods.passwordMatchesHash = function (givenPassword) {
     if (!givenPassword) {
         logd("Login passwordMatchesHash cannot match empty password");
@@ -158,8 +167,8 @@ UserSchema.methods.createTempForgottenPassword = function () {
     // Get rid of any existing temp passcode first
     this.invalidateTempForgot();
     
-    this.tempForgotAttemptsRemaining = 5;
-    this.tempForgotExpiry = Date.now() + 3 * 60 * 60 * 1000;// 3 hours from now?
+    this.tempForgotAttemptsRemaining = MAX_FORGOTTEN_ATTEMPTS;
+    this.tempForgotExpiry = Date.now() + MAX_FORGET_TIME_IN_MS;
     var tempPasscode = base32.sha1(bcrypt.genSaltSync(10));// this is just random, but the letters are typable
     this.tempForgotHash = bcrypt.hashSync(tempPasscode, 10);
 
@@ -190,12 +199,14 @@ UserSchema.methods.isTempForgottenPassword = function () {
         return false;
     }
 
+    // The schema allows some flexibility (like null) and the DB can contain older invalid data
+    // so we do a check here to be sure
     if (!this.tempForgotAttemptsRemaining  || this.tempForgotAttemptsRemaining < 1) {
         logd("Login isTempForgottenPassword: false -- no tempForgotAttemptsRemaining");
         this.invalidateTempForgot();
         return false;
     }
-    if (!this.tempForgotAttemptsRemaining > 5) {
+    if (!this.tempForgotAttemptsRemaining > MAX_FORGOTTEN_ATTEMPTS) {
         logd("Login isTempForgottenPassword: false -- too many tempForgotAttemptsRemaining: " + this.tempForgotAttemptsRemaining);
         this.invalidateTempForgot();
         return false;
@@ -220,7 +231,7 @@ UserSchema.methods.forgottenPasswordCodeIsValid = function (givenForgotCode) {
         return false;
     }
 
-    // We are attempting the forgotten password (this is an integer from 1 to 5)
+    // We are attempting the forgotten password (this is an integer from 1 to max)
     this.tempForgotAttemptsRemaining -= 1;
 
     if (!bcrypt.compareSync(givenForgotCode, this.tempForgotHash)) {
@@ -232,16 +243,18 @@ UserSchema.methods.forgottenPasswordCodeIsValid = function (givenForgotCode) {
     return true;
 };
 
-UserSchema.methods.isSameEmail = function (expectedUserName) {
-    if (!expectedUserName) {
+UserSchema.methods.isSameEmail = function (expectedEmail) {
+    if (!expectedEmail) {
+        logd("isSameEmail: false -- expectedEmail was null or empty");
         return false;
     }
 
-    if (!this.userName) {
+    if (!this.email) {
+        logd("isSameEmail: false -- this.email was null or empty");
         return false;
     }
 
-    if (this.userName !== expectedUserName) {
+    if (this.email !== expectedEmail) {
         return false;
     }
 
