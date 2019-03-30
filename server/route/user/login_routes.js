@@ -37,6 +37,10 @@ module.exports = function (app) {
 		logins.loginWithUserPassword(req, res)
 	})
 
+	app.post('/api/doLogout', (req, res) => {
+		logins.logout(req, res)
+	})
+
 	app.post('/api/forgotPassword/:id', (req, res) => {
         logins.createAndMailForgottenPasscode(req, res) 
 	})

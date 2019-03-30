@@ -33,7 +33,7 @@ var LoginSchema = new Schema({
     // When a user forgets their password, we basically email them a second temp password
     tempForgotHash: { 
         type: String,
-        required: true,
+        required: false,
         minlength: 60,
         maxlength: 60,
     },
@@ -43,7 +43,7 @@ var LoginSchema = new Schema({
     },
     tempForgotAttemptsRemaining: { // if 0, the tempForgotHash is invalid
         type: Number,
-        required: true,
+        required: false,
         max: 5,
         min: 0,
     },
@@ -217,29 +217,39 @@ LoginSchema.methods.createTempForgottenPassword = function () {
 }
 
 LoginSchema.methods.isTempForgottenPassword = function () {
-    if (!this.tempForgotCode) {
-        console.log("Login isTempForgottenPassword cannot compare to empty tempForgotCode");
+    if (!this.tempForgotHash) {
+        console.log("Login isTempForgottenPassword: false  -- no tempForgotHash");
         this.invalidateTempForgot();
         return false;
     }
-    if (!this.tempForgotExpiry || temp.tempForgotExpiry < Date.now()) { // if expired before now
-        console.log("Login isTempForgottenPassword cannot compare to empty tempForgotCode");
-        this.invalidateTempForgot();
-        return false;
-    }
-
-    if (!this.tempForgotAttemptsRemaining  || this.tempForgotAttemptsRemaining < 1 || this.tempForgotAttemptsRemaining > 5) {
-        console.log("Login isTempForgottenPassword has no more tempForgotAttemptsRemaining");
+    if (!this.tempForgotExpiry) {
+        console.log("Login isTempForgottenPassword: false -- no expiry");
         this.invalidateTempForgot();
         return false;
     }
 
-    // Make sure it's an integer
+    if (this.tempForgotExpiry < Date.now()) {
+        console.log("Login isTempForgottenPassword: false -- expired! " + temp.tempForgotExpiry);
+        this.invalidateTempForgot();
+        return false;
+    }
+
+    if (!this.tempForgotAttemptsRemaining  || this.tempForgotAttemptsRemaining < 1) {
+        console.log("Login isTempForgottenPassword: false -- no tempForgotAttemptsRemaining");
+        this.invalidateTempForgot();
+        return false;
+    }
+    if (!this.tempForgotAttemptsRemaining > 5) {
+        console.log("Login isTempForgottenPassword: false -- too many tempForgotAttemptsRemaining: " + this.tempForgotAttemptsRemaining);
+        this.invalidateTempForgot();
+        return false;
+    }
+
+    // Make sure it's an integer 
     var remainingAttempts = Math.floor(this.tempForgotAttemptsRemaining);
     this.tempForgotAttemptsRemaining = remainingAttempts;
 
-
-    // If we made it here, there is a temp  forgotten password
+    // If we made it here, there is a temp forgotten password
     return true;
 }
 
@@ -257,7 +267,13 @@ LoginSchema.methods.forgottenPasswordCodeIsValid = function (givenForgotCode) {
     // We are attempting the forgotten password (this is an integer from 1 to 5)
     this.tempForgotAttemptsRemaining -= 1;
 
-    return bcrypt.compareSync(givenForgotCode, this.tempForgotHash);
+    if (!bcrypt.compareSync(givenForgotCode, this.tempForgotHash)) {
+        console.log("Login forgottenPasswordCodeIsValid: false -- attempt failed! invalid provided temp passcode");
+        return false;
+    }
+
+    console.log("Login forgottenPasswordCodeIsValid: true -- success!");
+    return true;
 };
 
 LoginSchema.methods.isSameUserName = function (expectedUserName) {

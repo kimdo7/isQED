@@ -14,13 +14,14 @@ app.use(session({
   name: 'user',
   secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,// we use this for login
   cookie: { 
 	  maxAge: 60000,
 	  sameSite: true, // why not
 	 }
 }))
 
+  
 // https://stackoverflow.com/questions/37183766/how-to-get-the-session-value-in-ejs
 // this should make the session variable always defined in ejs
 app.use(function(req, res, next) {
