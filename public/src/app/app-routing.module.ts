@@ -30,11 +30,13 @@ import { ForgotPasswordComponent } from './component/landing/body/user/signin/fo
 import { LearningDashboardComponent } from './component/learning/learning-dashboard/learning-dashboard.component';
 import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
 import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
+import { CertificationComponent } from './component/landing/body/certification/certification.component';
 
 const routes: Routes = [
     {
         path: "", component: LandingComponent, children: [
             { path: "", component: HomeComponent },
+            { path: "certification", component: CertificationComponent },
             {
                 path: "about", component: AboutComponent, children: [
                     { path: "", component: AboutHomeComponent },

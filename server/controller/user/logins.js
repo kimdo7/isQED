@@ -5,8 +5,6 @@ var User = mongoose.model('User')
 var email = require("../../gateway/email")
 
 module.exports = {
-    
-
 	/**
 	 * @Create a *new* login
 	 * ALLOWS ANYONE TO CREATE A LOGIN. MAY NOT ENSURE PASSWORD IS STRONG. DEBUGGING ONLY

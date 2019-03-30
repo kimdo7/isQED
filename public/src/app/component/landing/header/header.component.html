@@ -23,7 +23,7 @@
                 </button>
             </div>
 
-            
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto text-right">
                     <li class="nav-item active">
@@ -48,6 +48,11 @@
                             <a class="dropdown-item" (click)="button_click()"
                                 [routerLink]="['/about', 'privacy_policy']" matRipple>Privacy Policy</a>
                         </div>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" (click)="button_click()" [routerLink]="['/certification']"
+                            matRipple>Certfication</a>
                     </li>
 
                     <!-- Conferences -->
@@ -100,17 +105,11 @@
                         <a class="nav-link" (click)="button_click()" [routerLink]="['/membership']"
                             matRipple>Membership</a>
                     </li>
-                    <!-- <li class="nav-item active">
-                        <a class="nav-link" (click)="button_click()" [routerLink]="['/signin']" matRipple>Sign In</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="button_click()" [routerLink]="['/signup']" matRipple>Sign Up</a>
-                    </li> -->
                 </ul>
                 <div class="text-right">
                     <div class="row">
                         <div class="d-none d-lg-block">
-                            <button mat-fab  class="mr-4 bg-primary" [matMenuTriggerFor]="menu" matRipple>
+                            <button mat-fab class="mr-4 bg-primary" [matMenuTriggerFor]="menu" matRipple>
                                 <i class="fas fa-user text-white"></i>
                             </button>
 
