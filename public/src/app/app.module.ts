@@ -55,6 +55,7 @@ import { UserService } from './service/user/user.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
 import { CertificationComponent } from './component/landing/body/certification/certification.component';
+import { CopyRightComponent } from './component/landing/body/about/copy-right/copy-right.component';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { CertificationComponent } from './component/landing/body/certification/c
         LearningCourseComponent,
         ResetPasswordComponent,
         CertificationComponent,
+        CopyRightComponent,
     ],
     imports: [
         NgbModule,
