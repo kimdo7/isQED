@@ -8,7 +8,7 @@ var UserSchema = new Schema({
     email: { type: String, required: true, unique: true, match: /\S+@\S+\.\S+/ },
     phone: { type: String, match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/ },
     type: { type: Number, required: true, default: 9 },
-    password: { type: String, required: true },
+    passwordHash: { type: String, required: true },
     isActivate: { type: Boolean, default: false },
     isForgotPassword: { type: Boolean, default: false },
     tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" },

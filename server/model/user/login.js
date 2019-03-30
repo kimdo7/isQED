@@ -276,7 +276,7 @@ LoginSchema.methods.forgottenPasswordCodeIsValid = function (givenForgotCode) {
     return true;
 };
 
-LoginSchema.methods.isSameUserName = function (expectedUserName) {
+LoginSchema.methods.isSameEmail = function (expectedUserName) {
     if (!expectedUserName) {
         return false;
     }
