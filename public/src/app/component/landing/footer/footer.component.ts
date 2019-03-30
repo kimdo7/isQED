@@ -11,9 +11,6 @@ export class FooterComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        $(document).ready(function () {
-            console.log($(".jumbotron").height())
-        })
     }
 
 }

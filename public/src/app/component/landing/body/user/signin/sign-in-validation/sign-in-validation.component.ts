@@ -46,7 +46,7 @@ export class SignInValidationComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             this.user_id = params["id"]
-            this.getUser(params['id'])
+            this.getLoginEmail(params['id'])
         });
 
         this.initAlert();
@@ -65,7 +65,7 @@ export class SignInValidationComponent implements OnInit {
         let tempObservable = this.userService.checkActivate(this.user_id, this.activationCode)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                if (data["isForgotPassword"] == false) {
+                if (data["data"]["isForgotPassword"] == false) {
                     this.router.navigate(["/learning"])
                 } else {
                     this.router.navigate(["/signin/reset_password/" + this.user_id])
@@ -80,10 +80,10 @@ export class SignInValidationComponent implements OnInit {
      * 
      * @param id user id
      */
-    getUser(id) {
-        let tempObservable = this.userService.getUser(id)
+    getLoginEmail(id) {
+        let tempObservable = this.userService.getLoginEmail(id)
         tempObservable.subscribe(data => {
-            this.user = data["data"]
+            this.user.email = data["email"]
         });
     }
 

@@ -74,7 +74,6 @@ export class SignInDefaultComponent implements OnInit {
             } else {
                 this.showDangerMessage("Error!!! Please check your email and password.")
             }
-            console.log("Got our tasks!", data)
         });
     }
 

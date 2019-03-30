@@ -1,4 +1,6 @@
 var logins = require('../../controller/user/logins')
+var email = require('../../gateway/email')
+
 const DEBUG = true;
 
 module.exports = function (app) {
@@ -28,16 +30,44 @@ module.exports = function (app) {
 		})
 	}
 
-	app.post('/api/register', (req, res) => {
-        logins.registerUserPass(req, res)
-        // logins.register(req, res)
-	})
-	
 	app.post('/api/login', (req, res) => {
 		logins.loginWithUserPass(req, res)
-	})
+    })
 
-	app.post('/api/changePassword/:id', (req, res) => {
+
+	app.get('/api/login/email/:id', (req, res) => {
+		logins.getLoginEmail(req, res)
+    })
+    
+	app.post('/api/login/changePassword/:id', (req, res) => {
 		logins.changePassword(req, res)
-	})
+    })
+    
+    /**
+     * @ativate user
+     */
+    app.get("/api/login/activate/:id/:code", (req, res) => {
+        logins.activateById(req, res)
+    })
+
+    /**
+     * @request *forgot pass*
+     */
+    app.post("/api/login/requestForgotPassword", (req, res) => {
+        logins.requestForgotPassword(req, res)
+    })
+
+    /**
+     * @reset password
+     */
+    app.post("/api/user/resetPassword/:id", (req, res) => {
+        logins.resetPassword(req, res)
+    })
+
+    /**
+     * @send new action code to user
+     */
+    app.get('/api/login/activateCode/email/:id', (req, res) => {
+        email.sendMail(req, res)
+    })
 }

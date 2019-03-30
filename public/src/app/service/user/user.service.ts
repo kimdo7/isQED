@@ -19,17 +19,16 @@ export class UserService {
     register(data) {
         return this.http.post("/api/user", data)
     }
-
-    getUser(id){
-        return this.http.get("/api/user/" + id)
+    
+    getLoginEmail(id){
+        return this.http.get("/api/login/email/" + id)
     }
-
     checkActivate(id, code){
-        return this.http.get("/api/user/activate/"+id+"/"+code)
+        return this.http.get("/api/login/activate/"+id+"/"+code)
     }
 
     resendActivationCode(id){
-        return this.http.get("/api/user/activateCode/email/"+id)
+        return this.http.get("/api/login/activateCode/email/"+id)
     }
 
     /**
@@ -37,7 +36,7 @@ export class UserService {
      * @param data is email and password
      */
     login(data){
-        return this.http.post("/api/user/login", data)
+        return this.http.post("/api/login", data)
     }
 
     /**
@@ -45,7 +44,7 @@ export class UserService {
      * @param data is user's email
      */
     requestForgotPassword(data){
-        return this.http.post("/api/user/requestForgotPassword", data)
+        return this.http.post("/api/login/requestForgotPassword", data)
     }
 
     /**
