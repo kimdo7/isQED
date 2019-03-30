@@ -5,7 +5,6 @@ var email = require("../../gateway/email")
 var DEBUG_DONT_SEND_MAIL = true;
 
 module.exports = {
-
 	/**
 	 * @Create a *new* login
 	 * ALLOWS ANYONE TO CREATE A LOGIN. MAY NOT ENSURE PASSWORD IS STRONG. DEBUGGING ONLY

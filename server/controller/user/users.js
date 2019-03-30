@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
+var Login = mongoose.model('Login')
 var bcrypt = require("bcrypt")
 var email = require("../../gateway/email")
 
