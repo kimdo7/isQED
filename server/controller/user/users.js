@@ -584,9 +584,9 @@ module.exports = {
             });
         }
     },
-    
+
     /**
-     * 
+     *  
      */
     registerUserPassword: (req, res) => {
         // do registration stuff
@@ -608,7 +608,7 @@ module.exports = {
 
             // 3. Make sure the password is strong and valid 
             if (!newUser.setPassword(password)) { // sets passwordHash
-                // Paasword is no good. Let's give the best error we can
+                // Password is no good. Let's give the best error we can
                 const passwordRules = "Password must be 8-64 characters, with at least one A-Z, one a-z, one 0-9 and one from '!@#$%^&*()=.-'";
                 if (guard(!newUser.isValidPassword(password), res, passwordRules, null)) { return; }
                 if (guard(!newUser.isStrongPassword(password), res, "Password isn't strong enough. Try to make it more random.", null)) { return; }
