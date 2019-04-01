@@ -25,6 +25,9 @@ export class ForgotPasswordComponent implements OnInit {
         private router: Router
     ) { }
 
+    /**
+     * 
+     */
     sendEmail() {
         if (this.emailFormControl.invalid) {
             return
@@ -33,11 +36,10 @@ export class ForgotPasswordComponent implements OnInit {
         let tempObservable = this.userService.requestForgotPassword({ email: this.emailFormControl.value })
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                this.router.navigate(["/signin/validation/"+data["data"]["_id"]])
+                this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
             } else {
                 this.showDangerMessage("Error!!! Your email doesn't existed in our system.")
             }
-            console.log("Got our tasks!", data)
         });
 
 

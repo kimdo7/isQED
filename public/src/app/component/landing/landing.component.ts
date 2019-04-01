@@ -26,8 +26,6 @@ export class LandingComponent implements OnInit {
             } else {
                 this.route = "Home";
             }
-
-            console.log(location.path())
         });
     }
 

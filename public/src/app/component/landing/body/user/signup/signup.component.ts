@@ -54,7 +54,7 @@ export class SignupComponent implements OnInit {
         let tempObservable = this.userService.register(this.user_form.value)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
+                this.router.navigate(["/signin/validation/" + data["id"]])
             } else {
                 this.showDangerMessage("Error!!! Please confirm email and password")
             }
@@ -85,7 +85,6 @@ export class SignupComponent implements OnInit {
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirm_password: ['', [Validators.required, Validators.minLength(8)]],
         })
-
     }
 
     /**
@@ -111,7 +110,6 @@ export class SignupComponent implements OnInit {
         this._danger.pipe(
             debounceTime(5000)
         ).subscribe(() => this.errorMessage = null);
-
     }
 
 }

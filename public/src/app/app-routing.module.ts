@@ -31,6 +31,7 @@ import { LearningDashboardComponent } from './component/learning/learning-dashbo
 import { LearningCourseComponent } from './component/learning/learning-course/learning-course.component';
 import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
 import { CertificationComponent } from './component/landing/body/certification/certification.component';
+import { CopyRightComponent } from './component/landing/body/about/copy-right/copy-right.component';
 
 const routes: Routes = [
     {
@@ -44,6 +45,7 @@ const routes: Routes = [
                     { path: "contact", component: ContactIsqedComponent },
                     { path: "image_for_you", component: ImagesForYouComponent },
                     { path: "privacy_policy", component: PrivacyPolicyComponent },
+                    { path: "copy_right", component: CopyRightComponent },
                 ]
             },
             {
