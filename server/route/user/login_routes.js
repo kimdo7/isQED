@@ -60,7 +60,6 @@ module.exports = function (app) {
              logins.changeForgottenPassword(req, res)
              })
     
-    
 	app.post('/api/login/changePassword/:id', (req, res) => {
 		logins.changePassword(req, res)
     })
@@ -73,7 +72,7 @@ module.exports = function (app) {
     })
 
     /**
-     * @request *forgot pass*
+     * @request *forgot password*
      */
     app.post("/api/login/requestForgotPassword", (req, res) => {
         logins.requestForgotPassword(req, res)
@@ -93,15 +92,3 @@ module.exports = function (app) {
         email.sendMail(req, res)
     })
 }
-
-/**
- * @PostmanTestCases
- * 
- * Get	localhost:8000/api/login
- * 
- * 
- * 
- * 
- * 
- * 
- */

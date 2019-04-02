@@ -27,7 +27,7 @@ module.exports = {
         Login.findById(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
-            } else if (!data || data.id !== id || !data.userName || !data.passwordHash) {
+            } else if (!data || data.id !== id || !data.userName || !data.passwordHash || !data.password) {
                 res.json({ message: 'Error', error: "bad login record" })
             } else {
                 res.json({ message: 'Success', data: data })
@@ -51,7 +51,7 @@ module.exports = {
     },
 
 	/**
-	 * @DELETE login BY *ID*
+	 * @DELETE BY *ID*
 	 * ALLOWS MAKING ANY USER LOGIN GO AWAY. SHOULD MAKE THIS HARD TO DO
 	 */
     deleteById: (req, res) => {
@@ -65,6 +65,11 @@ module.exports = {
         })
     },
     
+
+
+    /**
+	 * @Logout by *ID*
+	 */
     logout: (req, res) => {
         console.log("logout");
         // This is from the user
@@ -74,7 +79,7 @@ module.exports = {
 
 
     /**
-     * @return the log in email base on user request
+     * @return the log in email base on user request *
      */
     getLoginEmail: (req, res) => {
         Login.findById(req.params.id, function (err, data) {
@@ -88,7 +93,7 @@ module.exports = {
 
 
     /**
-     * 
+     * @Login Logs in by email* 
      */
     loginWithUserPass: (req, res) => {
         Login.find({ email: req.body.email }, function (err, data) {
@@ -115,8 +120,7 @@ module.exports = {
     },
 
     /**
-     * @Request *FORGOT PASS*
-     * 
+     * @Request *Forgot password *
      */
     requestForgotPassword: (req, res) => {
         Login.find({ email: req.body.email }, function (err, data) {
@@ -197,74 +201,64 @@ module.exports = {
         })
     },
 
-        
-    loginWithUserPassword: (req, res) => {
-        console.log("loginWithUserPassword");
-        // This is from the user
-        var username = req.body.userName;
-        var givenPassword = req.body.password;
-        var givenPasswordHash = req.body.passwordHash;// The client could instead send us the hashed password
-        
-        
-        // when i creae a user, i need to register
-        // create login and user record then
-        // return the id and response
-        // put it in a session - remember how user is going to be logged in
-        
-        
-        if (!username) {
-            res.json({ message: 'Error', error: "username is required" })
-        } else if (!givenPassword && !givenPasswordHash) { // must have at least one of the two
-            res.json({ message: 'Error', error: "password is required" })
-        } else {
-            // Don't leave the client logged in if they are trying to re-login and fail
-            if (req.session) {
-                req.session.login_id = null;
-            }
-            
-            // 1. The login has to exist if we want to change a password
-            Login.findOne({ userName: username }, function (err, login) {
-                        if (err) {
-                        console.log("loginWithUserPassword error finding: " + username);
-                        res.json({ message: 'Error', error: err })
-                        } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash) {
-                        console.log("loginWithUserPassword none found: " + username);
-                        res.json({ message: 'Error', error: "bad login record" })
-                        } else {
-                        console.log("loginWithUserPassword found: " + username);
-                        // 2. the login exists, let's make sure the user knows the password
-                        var goodPassword = false;
-                        if (givenPassword) {
-                        if (login.passwordMatchesHash(givenPassword)) {
-                        goodPassword = true;
-                        } else {
-                        console.log("loginWithUserPassword given password is bad");
-                        }
-                        } else {
-                        if (givenPasswordHash) {
-                        if (login.isSamePasswordHash(givenPasswordHash)) {
-                        goodPassword = true;
-                        }
-                        else
-                        {
-                        console.log("loginWithUserPassword givne passwordHash is bad");
-                        }
-                        }
-                        }
-                        
-                        if (goodPassword) {
-                        res.json({ message: 'Success', data: { login_id: login.id } });// DO NOT return password/hash
-                        if (req.session) {
-                        req.session.login_id = login.id;
-                        }
-                        } else {
-                        res.json({ message: 'Error', error: "correct password wasn't given" });
-                        }
-                        }
-                        });
-        }
+    /**
+     * @login with user and password
+     * *Confirm* with the *activation code*
+     */    
+    loginWithUserPass: (req, res) => {	
+        // This is from the user	
+        var username = req.body.userName;	
+        var givenPassword = req.body.password;	
+        var givenPasswordHash = req.body.passwordHash;// The client could instead send us the hashed password	
+
+
+        // when i creae a user, i need to register	
+        // create login and user record then	
+        // return the id and response	
+        // put it in a session - remember how user is going to be logged in	
+
+
+         if (!username) {	
+            res.json({ message: 'Error', error: "username is required" })	
+        } else if (!givenPassword && !givenPasswordHash) { // must have at least one of the two	
+            res.json({ message: 'Error', error: "password is required" })	
+        } else {	
+            // 1. The login has to exist if we want to change a password	
+            Login.findOne({ userName: username }, function (err, login) {	
+                if (err) {	
+                    res.json({ message: 'Error', error: err })	
+                } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash || !login.password) {	
+                    res.json({ message: 'Error', error: "bad login record" })	
+                } else {	
+                    // 2. the login exists, let's make sure the user knows the password	
+                    var login = data;	
+                    var goodPassword = false;	
+                    if (givenPassword) {	
+                        if (login.passwordMatchesHash(givenPassword, givenPasswordHash)) {	
+                            goodPassword = true;	
+                        }	
+                    } else {	
+                        if (givenPasswordHash) {	
+                            if (login.isSamePasswordHash(givenPassword, givenPasswordHash)) {	
+                                goodPassword = true;	
+                            }
+                        }	
+                    }	
+
+                     if (goodPassword) {	
+                        res.json({ message: 'Success', data: "yay" });// not sure we should return the password hash	
+                        // TODO: remember this in the session	
+                    } else {	
+                        res.json({ message: 'Error', error: "password wasn't given" });	
+                    }	
+                }	
+            });	
+        }	
     },
         
+    /*
+    * @Change 
+    */
     changePassword: (req, res) => {
         // do change password stuff
         // - to change the password you have to know the old password
@@ -287,14 +281,12 @@ module.exports = {
             console.log("changePassword oldPassword is null or empty");
             res.json({ message: 'Error', error: "missing oldPassword" });
         } else {
-            
             // Validate new password is good enough? That happens in setPassword
-            
             // 1. The login has to exist if we want to change a password
             Login.findOne({ userName: username, _id: id }, function (err, login) {
-                        if (err) {
-                        res.json({ message: 'Error', error: err })
-                        } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash) {
+                if (err) {
+                    res.json({ message: 'Error', error: err })
+                } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash || !login.password) {
                         res.json({ message: 'Error', error: "bad login record" })
                         } else {
                         // 2. the login exists, let's make sure the user knows the old password
@@ -350,7 +342,7 @@ module.exports = {
             Login.findOne({ userName: username, _id: id }, function (err, login) {
                         if (err) {
                         res.json({ message: 'Error', error: err })
-                        } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash) {
+                        } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash || !login.password) {
                         res.json({ message: 'Error', error: "bad login record" })
                         } else {
                         // 2. the login exists, let's make sure the user knows the forgottenpassword code
@@ -426,59 +418,57 @@ module.exports = {
             console.log("changeForgottenPassword forgotPasswordCode is null or empty");
             res.json({ message: 'Error', error: "missing forgotPasswordCode" });
         } else {
-            
+
             // Validate new password is good enough? That happens in setPassword
-            
             // 1. The login has to exist if we want to change a password
             Login.findOne({ userName: username, _id: id }, function (err, login) {
-                        if (err) {
-                        res.json({ message: 'Error', error: err })
-                        } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash) {
-                        res.json({ message: 'Error', error: "bad login record" })
-                        } else {
-                        // 2. the login exists, let's make sure the user knows the forgottenpassword code
-                        if (!login.forgottenPasswordCodeIsValid(forgotPasswordCode)) { // security gate
+                if (err) {
+                    res.json({ message: 'Error', error: err })
+                } else if (!login || !login.id || !login.isSameUserName(username) || !login.passwordHash || !login.password) {
+                    res.json({ message: 'Error', error: "bad login record" })
+                } else {
+                    // 2. the login exists, let's make sure the user knows the forgottenpassword code
+                    if (!login.forgottenPasswordCodeIsValid(forgotPasswordCode)) { // security gate
                         // We need to save because an attempt was made
                         login.save(function(err, savedAttempt){
-                                    if (err) {
-                                    // this is bad,someone got a free attempt!
-                                    console.log("ERROR: changeForgottenPassword attempt was made but couldn't save after invalid code!")
-                                    } else {
-                                    console.log("changeForgottenPassword saved failed attempt");
-                                    }
-                                    });
-                        res.json({ message: 'Error', error: "forgotPasswordCode is invalid" });
+                        if (err) {
+                            // this is bad,someone got a free attempt!
+                            console.log("ERROR: changeForgottenPassword attempt was made but couldn't save after invalid code!")
                         } else {
-                        // 3. Now change the password
-                        if (!login.setPassword(newPassword)) { // this generates the hash
+                            console.log("changeForgottenPassword saved failed attempt");
+                        }
+                    });
+                        res.json({ message: 'Error', error: "forgotPasswordCode is invalid" });
+                } else {
+                    // 3. Now change the password
+                    if (!login.setPassword(newPassword)) { // this generates the hash
                         console.log("changeForgottenPassword newPassword is not valid");
                         res.json({ message: 'Error', error: "new password is not strong enough" });
-                        } else if (!login.passwordMatchesHash(newPassword)) {
+                    } else if (!login.passwordMatchesHash(newPassword)) {
                         console.log("changeForgottenPassword newPassword cannot validate hash");
                         res.json({ message: 'Error', error: "internal error seting password" });
-                        } else {
+                    } else {
                         login.save(function (err, save_data) {
-                                    if (err) {
-                                    console.log("changeForgottenPassword save failed: " + err);
-                                    res.json({ message: 'Error', error: "failed to save updated password" });
-                                    } else if (!save_data) {
-                                    console.log("changeForgottenPassword save didn't work properly");// should never happen
-                                    res.json({ message: 'Error', error: "save didn't return data" });
-                                    } else {
-                                    // Log out the user to force using the new password
-                                    req.session.login_id = null;
+                            if (err) {
+                                console.log("changeForgottenPassword save failed: " + err);
+                                res.json({ message: 'Error', error: "failed to save updated password" });
+                            } else if (!save_data) {
+                                console.log("changeForgottenPassword save didn't work properly");// should never happen
+                                res.json({ message: 'Error', error: "save didn't return data" });
+                            } else {
+                                // Log out the user to force using the new password
+                                req.session.login_id = null;
                                     
-                                    // 4. Success!  The user should really have to re-login to ensure the password worked
-                                    //              We shouldn't let the user stay logged in with the old password on any
-                                    //              other browser either. HOW?
-                                    res.json({ message: 'Success', data: "yay" });// not sure we should return the password hash
-                                    }
-                                    });
-                        }
-                        }
-                        
-                        }
+                                // 4. Success!  The user should really have to re-login to ensure the password worked
+                                //              We shouldn't let the user stay logged in with the old password on any
+                                //              other browser either. HOW?
+                                res.json({ message: 'Success', data: "yay" });// not sure we should return the password hash
+                            }
                         });
+                    }
+                    }
+                }
+            });
         }
     },
         
@@ -487,69 +477,69 @@ module.exports = {
         // do registration stuff
         var username = req.body.userName;
         var password = req.body.password;
-        console.log("registerUserPass");
+        console.log("registerUserPassword");
         
         if (!username) {
-            console.log("registerUserPass username is null or empty");
+            console.log("registerUserPassword username is null or empty");
             res.json({ message: 'Error', error: "missing userName" });
             
         } else if (!password) {
-            console.log("registerUserPass password is null or empty");
+            console.log("registerUserPassword password is null or empty");
             res.json({ message: 'Error', error: "missing password" });
             
         } else {
             // 1. Make sure the username is not in use
             Login.findOne({ userName: username }, function (findErr, existingLogin) {
-                        console.log("registerUserPass findOne");
-                        if (existingLogin) {
-                        console.log("registerUserPass findOne existing");
-                        res.json({ message: 'Error', error: "username already exists" });
-                        } else if (findErr && findErr != "Not found") {
-                        console.log("registerUserPass findOne findErr");
-                        res.json({ message: 'Error', error: findErr, errorMessage: "can't find username" });
-                        } else {
-                        console.log("registerUserPass findOne nothing found");
-                        // 2. Make sure the password is strong and valid
-                        //    (rely on middleware save() called by create())
-                        // 3. Create a Login and set the password
+                console.log("registerUserPassword findOne");
+                if (existingLogin) {
+                    console.log("registerUserPassword findOne existing");
+                    res.json({ message: 'Error', error: "username already exists" });
+                } else if (findErr && findErr != "Not found") {
+                    console.log("registerUserPassword findOne findErr");
+                    res.json({ message: 'Error', error: findErr, errorMessage: "can't find username" });
+                } else {
+                    console.log("registerUserPassword findOne nothing found");
+                    // 2. Make sure the password is strong and valid
+                    //    (rely on middleware save() called by create())
+                    // 3. Create a Login and set the password
                         
-                        var newLogin = new Login();
-                        newLogin.userName = username;
-                        newLogin.tempForgotAttemptsRemaining = 0;
-                        if (!newLogin.setPassword(password)) { // sets passwordHash
-                        console.log("registerUserPass newLogin setPassword error");
+                    var newLogin = new Login();
+                    newLogin.userName = username;
+                    newLogin.tempForgotAttemptsRemaining = 0;
+                    if (!newLogin.setPassword(password) || !newLogin.setPassword(passwordHash)) { // sets passwordHash
+                        console.log("registerUserPassword newLogin setPassword error");
                         if (!newLogin.isValidPassword(password)) {
-                        res.json({ message: 'Error', error: { message: "Password isn't valid", info: "Password must be 8-64 characters, with at least one A-Z, one a-z, one 0-9 and one from '!@#$%^&*()=.-'" } });
+                            res.json({ message: 'Error', error: { message: "Password isn't valid", info: "Password must be 8-64 characters, with at least one A-Z, one a-z, one 0-9 and one from '!@#$%^&*()=.-'" } });
                         } else if (!newLogin.isStrongPassword(password)) {
-                        res.json({ message: 'Error', error: "Password isn't strong enough" });
+                            res.json({ message: 'Error', error: "Password isn't strong enough" });
                         } else {
-                        res.json({ message: 'Error', error: "Password isn't set" });
+                            res.json({ message: 'Error', error: "Password isn't set" });
                         }
-                        } else {
-                        console.log("registerUserPass newLogin " + newLogin.userName + ": " + newLogin.passwordHash);
+                    } else {
+                        console.log("registerUserPassword newLogin " + newLogin.userName + ": " + newLogin.passwordHash + newLogin.password);
                         // doesn't need middleware to save
                         newLogin.save(function (saveErr, savedLogin) {
-                                        console.log("registerUserPass create");
-                                        if (saveErr) {
-                                        console.log("registerUserPass saveErr");
-                                        res.json({ message: 'Error', error: saveErr, errorMessage: "Failed to create new login" })
-                                        } else if (!savedLogin || !savedLogin.isSameUserName(username)) {
-                                        console.log("registerUserPass create no login");
-                                        res.json({ message: 'Error', error: "failed to create new login" });
-                                        } else if (!savedLogin.passwordMatchesHash(password)) {
-                                        console.log("registerUserPass create no hash");
-                                        res.json({ message: 'Error', error: "internal error creating login" });
-                                        } else {
-                                        console.log("registerUserPass create success");
-                                        // 4. Success!  The user should really have to re-login to ensure the password worked
-                                        //              We shouldn't let the user stay logged in with the old password on any
-                                        //              other browser either. HOW?
-                                        res.json({ message: 'Success', data: "Yay, you are now registered" });// not sure we should return the password hash
-                                        }
-                                        });
-                        }
-                        }
+                            console.log("registerUserPassword create");
+                            if (saveErr) {
+                                console.log("registerUserPassword saveErr");
+                                res.json({ message: 'Error', error: saveErr, errorMessage: "Failed to create new login" })
+                            } else if (!savedLogin || !savedLogin.isSameUserName(username)) {
+                                console.log("registerUserPassword create no login");
+                                res.json({ message: 'Error', error: "failed to create new login" });
+                            } else if (!savedLogin.passwordMatchesHash(password)) {
+                                console.log("registerUserPassword create no hash");
+                                res.json({ message: 'Error', error: "internal error creating login" });
+                            } else {
+                                console.log("registerUserPassword create success");
+                                // 4. Success!  The user should really have to re-login to ensure the password worked
+                                //              We shouldn't let the user stay logged in with the old password on any
+                                //              other browser either. HOW?
+                                res.json({ message: 'Success', data: "Yay, you are now registered" });// not sure we should return the password hash
+                            }
                         });
+                    }
+                }
+            });
         }
         // 5. Success!  The user should now be asked to login
     },

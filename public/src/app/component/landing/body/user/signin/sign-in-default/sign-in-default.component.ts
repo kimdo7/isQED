@@ -40,7 +40,7 @@ export class SignInDefaultComponent implements OnInit {
     }
 
     /**
-     * @param emai
+     * @param email
      * @param password
      */
     initUserForm() {

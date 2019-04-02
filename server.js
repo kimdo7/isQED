@@ -38,7 +38,7 @@ app.post('/user_dashboard', function(req, res) {
 // modify this code
 app.post('/sessions', (req, res) => {
     console.log(" req.body: ", req.body);
-    User.findOne({email:req.body.email, password: req.body.password}, (err, user) => {
+    User.findOne({email:req.body.email, password: req.body.passwordHash, passwordHash: req.body.passwordHash}, (err, user) => {
         if (err) {
             // Code...
         }

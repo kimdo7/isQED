@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var bcrypt = require('bcrypt');
-var base32 = require('base32');
+// var base32 = require('base32');
 
 
 
@@ -13,7 +13,7 @@ var LoginSchema = new Schema({
     isForgotPassword: { type: Boolean, default: false },
     tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" },
     type: { type: Number, required: true, default: 9 },
-    passwordHash: { type: String, required: false, minlength: 60, maxlength: 60 },
+    passwordHash: { type: String, required: true, minlength: 60, maxlength: 60 },
     // When a user forgets their password, we basically email them a second temp password
     tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 },
     tempForgotExpiry: { /* if missing, the tempForgotHash is invalid */ type: Date, required: false },
@@ -101,23 +101,9 @@ LoginSchema.methods.setPassword = function (newPassword) {
     }
     
     this.passwordHash = passwordHash;
+    this.password = passwordHash;
     return true;
 }
-
-LoginSchema.pre('save', function (next) {
-                var login = this;
-                
-                // only hash the password if it has been modified (or is new)
-                if (login._password === undefined) {
-                return next();
-                }
-                
-                // password is modified
-                if (!setPassword(login._password)) {
-                return next("Password not strong enough");
-                }
-                return next(null, login);
-                });
 
 
 // WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
@@ -127,10 +113,16 @@ LoginSchema.methods.passwordMatchesHash = function (givenPassword) {
         return false;
     }
     if (!this.passwordHash) {
-        console.log("Login passwordMatchesHash cannot compare to empty hash");
-        return false;
+        if (this.password) {
+            // Compatibility for code still using Kim's password code
+            this.passwordHash = this.password;
+        }
+        if (!this.passwordHash) {
+            console.log("Login passwordMatchesHash cannot compare to empty hash");
+            return false;
+        }
     }
-    return bcrypt.compareSync(givenPassword, this.passwordHash);
+    return bcrypt.compareSync(givenPassword, this.passwordHash, this.password);
 };
 
 LoginSchema.methods.invalidateTempForgot = function () {
@@ -240,7 +232,13 @@ LoginSchema.methods.isSamePasswordHash = function (givenPasswordHash) {
     }
     
     if (!this.passwordHash) {
-        return false;
+        if (this.password) {
+            // for those who created passwords using Kim's password code
+            this.passwordHash = this.password;
+        }
+        if (!this.passwordHash) {
+            return false;
+        }
     }
     
     if (this.passwordHash !== givenPasswordHash) {

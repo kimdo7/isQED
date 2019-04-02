@@ -60,7 +60,8 @@ export class ResetPasswordComponent implements OnInit {
             };
         } 
 
-        let tempObservable = this.userService.resetForgottenPassword(this.user_id, body, this.useLoginSchema)
+        // let tempObservable = this.userService.requestForgotPassword(this.user_id, body, this.useLoginSchema)
+        let tempObservable = this.userService.requestForgotPassword(this.user_id)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
                 this.router.navigate(["/learning"])
