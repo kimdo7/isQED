@@ -79,7 +79,7 @@ module.exports = {
 
 
     /**
-     * 
+     * @login *USER*
      */
     loginWithUserPass: (req, res) => {
         Login.find({ email: req.body.email }, function (err, data) {
@@ -93,6 +93,13 @@ module.exports = {
                         if (result) {
                             data[0].isForgotPassword = false //turn forgot password flag off
                             data[0].save()
+
+                            /**
+                             * @REMOVE *PASSOWRD* (on return)
+                             */
+
+                            data[0].password = ""
+
                             res.json({ message: 'Success', data: data[0] })
                         } else {
                             res.json({ message: 'Error', error: "Wrong password" })
@@ -123,6 +130,11 @@ module.exports = {
                 data[0].isForgotPassword = true
                 data[0].save()
                 email.send(data[0]["_id"])
+
+                /**
+                 * @REMOVE *PASSOWRD* (on return)
+                */
+                data[0].password = ""
                 res.json({ message: 'Success', data: data[0] })
             }
         })
