@@ -15,8 +15,8 @@ module.exports = {
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
-        } else if (req.body.password.length < 8) {
-            res.json({ message: 'Error', error: "Password must be 8 characters or more" })
+        } else if (!req.body.password.match('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')) {
+            res.json({ message: 'Error', error: "Password parttern" })
             return
         }
 

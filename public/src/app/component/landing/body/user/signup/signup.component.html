@@ -57,20 +57,104 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-8">
+                    <!-- <mat-progress-bar mode="determinate" value="0"></mat-progress-bar> -->
+
                     <mat-form-field class="w-100">
                         <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
                             formControlName='password' required>
+                        <mat-icon matSuffix (click)="showErrors = !showErrors">
+                            {{showErrors == false ? 'report_off' : 'report'}}</mat-icon>
                         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
 
-
                         <!-- Error for password -->
-                        <mat-error *ngFor="let validation of validation_messages.password">
+
+
+                        <!-- <mat-error *ngFor="let validation of validation_messages.password" class="mt-2">
                             <mat-error class="error-message"
                                 *ngIf="user_form.get('password').hasError(validation.type) && (user_form.get('password').dirty || user_form.get('password').touched)">
                                 {{validation.message}}</mat-error>
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
+
+                    <!-- Password Strength -->
+                    <mat-progress-bar mode="determinate" [color]="getPasswordColor()" class="bg-primary"
+                        [value]="getPasswordStrength()" style="margin-top:-20px;"></mat-progress-bar>
+
+                    <div *ngIf="showErrors == true" class="text-left mt-2">
+                        <!-- Lower case -->
+                        <div for="lowercase">
+                            <div class="d-inline text-success" *ngIf="isContatinLowerCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+
+                            <div class="d-inline text-danger" *ngIf="!isContatinLowerCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+                        </div>
+
+                        <!-- Upper case -->
+                        <div for="upper case">
+                            <div class="d-inline text-success" *ngIf="isContatinUpperCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+
+                            <div class="d-inline text-danger" *ngIf="!isContatinUpperCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+                        </div>
+
+                        <!-- Digit case -->
+                        <div for="digit case">
+                            <div class="d-inline text-success" *ngIf="isContatinDigitCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+
+                            <div class="d-inline text-danger" *ngIf="!isContatinDigitCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+                        </div>
+
+
+                        <!-- Special case -->
+                        <div for="special case">
+                            <div class="d-inline text-success" *ngIf="isContatinSpecialCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Special Character $@$!%*?&</p>
+                            </div>
+
+                            <div class="d-inline text-danger" *ngIf="!isContatinSpecialCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Special Character $@$!%*?&</p>
+                            </div>
+                        </div>
+
+                        <!-- Min Length -->
+                        <div for="min length">
+                                <div class="d-inline text-success" *ngIf="isMinLength(user_form.value.password)">
+                                    <mat-icon>check</mat-icon>
+                                    <!-- <mat-icon>close</mat-icon> -->
+                                    <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                                </div>
+    
+                                <div class="d-inline text-danger" *ngIf="!isMinLength(user_form.value.password)">
+                                    <mat-icon>close</mat-icon>
+                                    <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                                </div>
+                            </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
 
@@ -95,6 +179,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- <div class="form-group" for="password-strength">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-7">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
 
         <!-- Register Account -->
         <div class="form-group" for="sign_up_btn">
