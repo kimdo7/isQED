@@ -112,6 +112,15 @@ export class SignupComponent implements OnInit {
     }
 
 
+    /**
+     * @return boolean
+     * @PasswordStrength 
+        * *At least 8 characters in length*
+        * *Lowercase letters*
+        * *Uppercase letters*
+        * *Numbers*
+        * *Special characters*
+     */
     getPasswordStrength() {
         var match = 0;
         var password = this.user_form.value.password
@@ -148,26 +157,61 @@ export class SignupComponent implements OnInit {
         return match;
     }
 
+    /**
+     * 
+     * @return boolean
+     * @param password 
+     * Match the *lower case*
+     */
     isContatinLowerCase(password) {
         return password.match(/[a-z]/g)
     }
 
+    /**
+     * 
+     * @return boolean
+     * @param password 
+     * Match the *upper case*
+     */
     isContatinUpperCase(password) {
         return password.match(/[A-Z]/g)
     }
 
+    /**
+     * 
+     * @return boolean
+     * @param password 
+     * Match the *digit case*
+     */
     isContatinDigitCase(password) {
         return password.match(/[0-9]/g)
     }
 
+    /**
+     * 
+     * @return boolean
+     * @param password 
+     * Match the *special case*
+     */
     isContatinSpecialCase(password) {
         return password.match(/[$@$!%*?&]/g)
     }
 
+    /**
+     * 
+     * @return boolean
+     * @param password 
+     * Match the *min length case*
+     */
     isMinLength(password) {
         return password.length >= 8
     }
 
+    /**
+     * 
+     * @return int *range* 0-100 *percent*
+     * 
+     */
     getPasswordColor() {
         return (this.getPasswordStrength() == 100) ? "priamry" : "warn"
     }
