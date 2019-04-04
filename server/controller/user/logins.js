@@ -98,8 +98,6 @@ module.exports = {
                              * @REMOVE *PASSOWRD* (on return)
                              */
 
-                            data[0].password = ""
-
                             res.json({ message: 'Success', data: data[0] })
                         } else {
                             res.json({ message: 'Error', error: "Wrong password" })
@@ -134,7 +132,6 @@ module.exports = {
                 /**
                  * @REMOVE *PASSOWRD* (on return)
                 */
-                data[0].password = ""
                 res.json({ message: 'Success', data: data[0] })
             }
         })
@@ -142,13 +139,21 @@ module.exports = {
 
     resetPassword: (req, res) => {
         /**
-         * @Valdiation
+         * @Validation of password
+         * @PasswordStrength 
+            * *At least 8 characters in length*
+            * *Lowercase letters*
+            * *Uppercase letters*
+            * *Numbers*
+            * *Special characters*
          */
+        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}/;
+
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
-        } else if (req.body.password.length < 8) {
-            res.json({ message: 'Error', error: "Password must be 8 characters or more" })
+        } else if (!req.body.password.match(regex)) {
+            res.json({ message: 'Error', error: "Password parttern" })
             return
         }
 

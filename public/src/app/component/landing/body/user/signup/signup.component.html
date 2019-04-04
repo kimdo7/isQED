@@ -57,39 +57,29 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-8">
-                    <!-- <mat-progress-bar mode="determinate" value="0"></mat-progress-bar> -->
-
                     <mat-form-field class="w-100">
-                        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+                        <input matInput placeholder="Enter your password" [type]="hidePassword ? 'password' : 'text'"
                             formControlName='password' required>
-                        <mat-icon matSuffix (click)="showErrors = !showErrors">
-                            {{showErrors == false ? 'report_off' : 'report'}}</mat-icon>
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-
-                        <!-- Error for password -->
-
-
-                        <!-- <mat-error *ngFor="let validation of validation_messages.password" class="mt-2">
-                            <mat-error class="error-message"
-                                *ngIf="user_form.get('password').hasError(validation.type) && (user_form.get('password').dirty || user_form.get('password').touched)">
-                                {{validation.message}}</mat-error>
-                        </mat-error> -->
+                        <mat-icon matSuffix (click)="hideErrors = !hideErrors">
+                            {{hideErrors ? 'report_off' : 'report'}}</mat-icon>
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword; hideConfirm_Password = true">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </mat-form-field>
 
                     <!-- Password Strength -->
-                    <mat-progress-bar mode="determinate" [color]="getPasswordColor()" class="bg-primary"
-                        [value]="getPasswordStrength()" style="margin-top:-20px;"></mat-progress-bar>
+                    <mat-progress-bar mode="determinate" [color]="passwordStrengthValidator.getColor(user_form.value.password)" class="bg-primary"
+                        [value]="passwordStrengthValidator.getStrength(user_form.value.password)" style="margin-top:-20px;"></mat-progress-bar>
 
-                    <div *ngIf="showErrors == true" class="text-left mt-2">
+                    <!-- Show errors -->
+                    <div *ngIf="!hideErrors" class="text-left mt-2">
                         <!-- Lower case -->
                         <div for="lowercase">
-                            <div class="d-inline text-success" *ngIf="isContatinLowerCase(user_form.value.password)">
+                            <div class="d-inline text-success" *ngIf="passwordStrengthValidator.passLowerCase(user_form.value.password)">
                                 <mat-icon>check</mat-icon>
                                 <!-- <mat-icon>close</mat-icon> -->
                                 <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
                             </div>
 
-                            <div class="d-inline text-danger" *ngIf="!isContatinLowerCase(user_form.value.password)">
+                            <div class="d-inline text-danger" *ngIf="!passwordStrengthValidator.passLowerCase(user_form.value.password)">
                                 <mat-icon>close</mat-icon>
                                 <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
                             </div>
@@ -97,13 +87,13 @@
 
                         <!-- Upper case -->
                         <div for="upper case">
-                            <div class="d-inline text-success" *ngIf="isContatinUpperCase(user_form.value.password)">
+                            <div class="d-inline text-success" *ngIf="passwordStrengthValidator.passUpperCase(user_form.value.password)">
                                 <mat-icon>check</mat-icon>
                                 <!-- <mat-icon>close</mat-icon> -->
                                 <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
                             </div>
 
-                            <div class="d-inline text-danger" *ngIf="!isContatinUpperCase(user_form.value.password)">
+                            <div class="d-inline text-danger" *ngIf="!passwordStrengthValidator.passUpperCase(user_form.value.password)">
                                 <mat-icon>close</mat-icon>
                                 <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
                             </div>
@@ -111,13 +101,13 @@
 
                         <!-- Digit case -->
                         <div for="digit case">
-                            <div class="d-inline text-success" *ngIf="isContatinDigitCase(user_form.value.password)">
+                            <div class="d-inline text-success" *ngIf="passwordStrengthValidator.passDigitCase(user_form.value.password)">
                                 <mat-icon>check</mat-icon>
                                 <!-- <mat-icon>close</mat-icon> -->
                                 <p class="d-inline my-auto h-100">At Least 1 Number</p>
                             </div>
 
-                            <div class="d-inline text-danger" *ngIf="!isContatinDigitCase(user_form.value.password)">
+                            <div class="d-inline text-danger" *ngIf="!passwordStrengthValidator.passDigitCase(user_form.value.password)">
                                 <mat-icon>close</mat-icon>
                                 <p class="d-inline my-auto h-100">At Least 1 Number</p>
                             </div>
@@ -126,13 +116,13 @@
 
                         <!-- Special case -->
                         <div for="special case">
-                            <div class="d-inline text-success" *ngIf="isContatinSpecialCase(user_form.value.password)">
+                            <div class="d-inline text-success" *ngIf="passwordStrengthValidator.passSpecialCase(user_form.value.password)">
                                 <mat-icon>check</mat-icon>
                                 <!-- <mat-icon>close</mat-icon> -->
                                 <p class="d-inline my-auto h-100">At Least 1 Special Character $@$!%*?&</p>
                             </div>
 
-                            <div class="d-inline text-danger" *ngIf="!isContatinSpecialCase(user_form.value.password)">
+                            <div class="d-inline text-danger" *ngIf="!passwordStrengthValidator.passSpecialCase(user_form.value.password)">
                                 <mat-icon>close</mat-icon>
                                 <p class="d-inline my-auto h-100">At Least 1 Special Character $@$!%*?&</p>
                             </div>
@@ -140,17 +130,17 @@
 
                         <!-- Min Length -->
                         <div for="min length">
-                                <div class="d-inline text-success" *ngIf="isMinLength(user_form.value.password)">
-                                    <mat-icon>check</mat-icon>
-                                    <!-- <mat-icon>close</mat-icon> -->
-                                    <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
-                                </div>
-    
-                                <div class="d-inline text-danger" *ngIf="!isMinLength(user_form.value.password)">
-                                    <mat-icon>close</mat-icon>
-                                    <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
-                                </div>
+                            <div class="d-inline text-success" *ngIf="passwordStrengthValidator.passMinLength(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
                             </div>
+
+                            <div class="d-inline text-danger" *ngIf="!passwordStrengthValidator.passMinLength(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -164,9 +154,9 @@
                 <div class="col-2"></div>
                 <div class="col-8">
                     <mat-form-field class="w-100">
-                        <input matInput placeholder="Confirm your password" [type]="hide ? 'password' : 'text'"
+                        <input matInput placeholder="Confirm your password" [type]="hideConfirm_Password ? 'password' : 'text'"
                             formControlName='confirm_password' required>
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-icon matSuffix (click)="hideConfirm_Password = !hideConfirm_Password; hidePassword = true">{{hideConfirm_Password ? 'visibility_off' : 'visibility'}}</mat-icon>
 
 
                         <!-- Error for password -->

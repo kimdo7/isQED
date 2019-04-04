@@ -6,6 +6,7 @@ import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
 
@@ -17,8 +18,10 @@ import { debounceTime } from 'rxjs/operators';
 export class SignupComponent implements OnInit {
 
     validation_messages = UserValidatorMessage.message
-    hide: boolean = true
-    showErrors: boolean = false
+    passwordStrengthValidator = PasswordStrengthValidator
+
+    hideConfirm_Password: boolean = true
+    hideErrors: boolean = true
     user_form: FormGroup
 
     /**
@@ -99,122 +102,18 @@ export class SignupComponent implements OnInit {
             password: ['',
                 [
                     Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
                 ]
             ],
             confirm_password: ['',
                 [
                     Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
                 ]
             ],
         })
     }
 
-
-    /**
-     * @return boolean
-     * @PasswordStrength 
-        * *At least 8 characters in length*
-        * *Lowercase letters*
-        * *Uppercase letters*
-        * *Numbers*
-        * *Special characters*
-     */
-    getPasswordStrength() {
-        var match = 0;
-        var password = this.user_form.value.password
-        /**
-         * Match lower case
-         */
-        if (this.isContatinLowerCase(password))
-            match += 20
-
-        /**
-         * Match upper case
-         */
-        if (this.isContatinUpperCase(password))
-            match += 20
-
-        /**
-         * Match digit
-         */
-        if (this.isContatinDigitCase(password))
-            match += 20
-
-        /**
-         * Match speicail character
-         */
-        if (this.isContatinSpecialCase(password))
-            match += 20
-
-        /**
-         * Length
-         */
-        if (this.isMinLength(password))
-            match += 20
-
-        return match;
-    }
-
-    /**
-     * 
-     * @return boolean
-     * @param password 
-     * Match the *lower case*
-     */
-    isContatinLowerCase(password) {
-        return password.match(/[a-z]/g)
-    }
-
-    /**
-     * 
-     * @return boolean
-     * @param password 
-     * Match the *upper case*
-     */
-    isContatinUpperCase(password) {
-        return password.match(/[A-Z]/g)
-    }
-
-    /**
-     * 
-     * @return boolean
-     * @param password 
-     * Match the *digit case*
-     */
-    isContatinDigitCase(password) {
-        return password.match(/[0-9]/g)
-    }
-
-    /**
-     * 
-     * @return boolean
-     * @param password 
-     * Match the *special case*
-     */
-    isContatinSpecialCase(password) {
-        return password.match(/[$@$!%*?&]/g)
-    }
-
-    /**
-     * 
-     * @return boolean
-     * @param password 
-     * Match the *min length case*
-     */
-    isMinLength(password) {
-        return password.length >= 8
-    }
-
-    /**
-     * 
-     * @return int *range* 0-100 *percent*
-     * 
-     */
-    getPasswordColor() {
-        return (this.getPasswordStrength() == 100) ? "priamry" : "warn"
-    }
     /**
      * alert
      */

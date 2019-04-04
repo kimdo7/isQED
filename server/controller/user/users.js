@@ -11,11 +11,19 @@ module.exports = {
     register: (req, res) => {
         /**
          * @Validation of password
+         * @PasswordStrength 
+            * *At least 8 characters in length*
+            * *Lowercase letters*
+            * *Uppercase letters*
+            * *Numbers*
+            * *Special characters*
          */
+        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}/;
+
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
             return
-        } else if (!req.body.password.match('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')) {
+        } else if (!req.body.password.match(regex)) {
             res.json({ message: 'Error', error: "Password parttern" })
             return
         }
