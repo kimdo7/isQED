@@ -8,7 +8,7 @@
 
         <!-- Hamburger -->
         <div class="d-block d-lg-none d-xl-none">
-            <button mat-button [matMenuTriggerFor]="menu">
+            <button mat-fab color="primary" [matMenuTriggerFor]="menu">
                 <i class="fas fa-user text-white"></i>
             </button>
             <mat-menu #menu="matMenu" class="w-100 bg-primary">
@@ -16,7 +16,7 @@
                 <button mat-menu-item [routerLink]="['/signup']" matRipple>Sign Up</button>
             </mat-menu>
 
-            <button class="btn btn-primary ml-4" type="button" data-toggle="collapse"
+            <button  mat-button color="primary" type="button"  class="text-white" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation" id="hamburgerbtn" (click)="openHamburger()">
                 <i class="fas fa-bars"></i>
