@@ -13,27 +13,27 @@ export class PasswordStrengthValidator {
         /**
          * Match lower case
          */
-        match += this.passLowerCase(password) ? 20 : 0
+        match += this.passLowerCase(password) ? 25 : 0
         
         /**
          * Match upper case
          */
-        match += this.passUpperCase(password) ? 20 : 0
+        match += this.passUpperCase(password) ? 25 : 0
         
         /**
          * Match digit
          */
-        match += this.passDigitCase(password) ? 20 : 0
+        match += this.passDigitCase(password) ? 25 : 0
 
         /**
          * Match speicail character
          */
-        match += this.passSpecialCase(password) ? 20 : 0
+        // match += this.passSpecialCase(password) ? 25 : 0
 
         /**
          * Length
          */
-        match += this.passMinLength(password) ? 20 : 0
+        match += this.passMinLength(password) ? 25 : 0
 
         return match;
     }

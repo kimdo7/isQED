@@ -86,13 +86,13 @@ export class ResetPasswordComponent implements OnInit {
             password: new FormControl('', Validators.compose(
                 [
                     Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
                 ]
             )),
             confirm_password: new FormControl('', Validators.compose(
                 [
                     Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
                 ]))
         }, (formGroup: FormGroup) => {
             return PasswordValidator.areEqual(formGroup);

@@ -26,40 +26,33 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto text-right">
-                    <li class="nav-item active">
-                        <a class="nav-link" [routerLink]="['']" (click)="button_click()" matRipple>Home</a>
-                    </li>
-
-                    <!-- About -->
+                    <!-- Trainning -->
                     <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" [routerLink]="['/about']" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            About ISQED
+                        <a class="nav-link dropdown-toggle" [routerLink]="['/training']" id="navbarDropdown"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                            Training
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" [routerLink]="['/training', 'calendar']" matRipple>Training
+                                Calendar</a>
                             <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/about', 'steering_commitee']" matRipple>ISQED Steering Committee</a>
-                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
-                                matRipple>Contact
-                                ISQED</a>
-                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
-                                matRipple>Images
-                                for You</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/about', 'privacy_policy']" matRipple>Privacy Policy</a>
+                                [routerLink]="['/training' ,'registration_form']" matRipple>Registration Form</a>
                         </div>
                     </li>
-
+                    <!-- Certification -->
                     <li class="nav-item active">
                         <a class="nav-link" (click)="button_click()" [routerLink]="['/certification']"
                             matRipple>Certfication</a>
                     </li>
 
-                    <!-- Conferences -->
+                    
+
+
+                    <!-- Events -->
                     <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" [routerLink]="['/conferences']" id="navbarDropdown"
                             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Conferences
+                            Events
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" (click)="button_click()"
@@ -74,11 +67,11 @@
                         </div>
                     </li>
 
-                    <!-- Awards -->
+                    <!-- Publication -->
                     <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" [routerLink]="['/awards']" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Awards
+                            Publication
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" (click)="button_click()" [routerLink]="['/awards']" matRipple>ISQED
@@ -86,25 +79,27 @@
                         </div>
                     </li>
 
-                    <!-- Trainning -->
+                    <!-- About -->
                     <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" [routerLink]="['/training']" id="navbarDropdown"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Training
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" [routerLink]="['/training', 'calendar']" matRipple>Training
-                                Calendar</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/training' ,'registration_form']" matRipple>Registration Form</a>
-                        </div>
-                    </li>
+                            <a class="nav-link dropdown-toggle" [routerLink]="['/about']" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                                About ISQED
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" (click)="button_click()"
+                                    [routerLink]="['/about', 'steering_commitee']" matRipple>ISQED Steering Committee</a>
+                                <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
+                                    matRipple>Contact
+                                    ISQED</a>
+                                <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
+                                    matRipple>Images
+                                    for You</a>
+                                <a class="dropdown-item" (click)="button_click()"
+                                    [routerLink]="['/about', 'privacy_policy']" matRipple>Privacy Policy</a>
+                            </div>
+                        </li>
 
-                    <!-- Membership -->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="button_click()" [routerLink]="['/membership']"
-                            matRipple>Membership</a>
-                    </li>
+
                 </ul>
                 <div class="text-right">
                     <div class="row">

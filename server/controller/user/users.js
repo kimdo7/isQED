@@ -18,7 +18,7 @@ module.exports = {
             * *Numbers*
             * *Special characters*
          */
-        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}/;
+        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}/;
 
         if (req.body.password !== req.body.confirm_password) {
             res.json({ message: 'Error', error: "Not match password" })
