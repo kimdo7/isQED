@@ -1,132 +1,125 @@
 <div id="wrapper">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="navbar">
-        <div class="container">
-            <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
-                <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
-            </a>
 
-            <!-- Hamburger -->
-            <div class="d-block d-lg-none d-xl-none">
-                <button mat-button [matMenuTriggerFor]="menu">
-                    <i class="fas fa-user text-white"></i>
-                </button>
-                <mat-menu #menu="matMenu" class="w-100 bg-primary">
-                    <button mat-menu-item [routerLink]="['/signin']" matRipple>Sign In</button>
-                    <button mat-menu-item [routerLink]="['/signup']" matRipple>Sign Up</button>
-                </mat-menu>
+        <a class="navbar-brand" [routerLink]="['']" (click)="button_click()">
+            <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
+        </a>
 
-                <button class="btn btn-primary ml-4" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation" id="hamburgerbtn" (click)="openHamburger()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+        <!-- Hamburger -->
+        <div class="d-block d-lg-none d-xl-none">
+            <button mat-button [matMenuTriggerFor]="menu">
+                <i class="fas fa-user text-white"></i>
+            </button>
+            <mat-menu #menu="matMenu" class="w-100 bg-primary">
+                <button mat-menu-item [routerLink]="['/signin']" matRipple>Sign In</button>
+                <button mat-menu-item [routerLink]="['/signup']" matRipple>Sign Up</button>
+            </mat-menu>
 
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto text-right">
-                    <!-- Trainning -->
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" [routerLink]="['/training']" id="navbarDropdown"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Training
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" [routerLink]="['/training', 'calendar']" matRipple>Training
-                                Calendar</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/training' ,'registration_form']" matRipple>Registration Form</a>
-                        </div>
-                    </li>
-                    <!-- Certification -->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="button_click()" [routerLink]="['/certification']"
-                            matRipple>Certfication</a>
-                    </li>
-
-                    
+            <button class="btn btn-primary ml-4" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation" id="hamburgerbtn" (click)="openHamburger()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
 
 
-                    <!-- Events -->
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" [routerLink]="['/conferences']" id="navbarDropdown"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Events
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/conferences' ,'isqed_events']" matRipple>ISQED Events</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/conferences', 'isqed_calendar']" matRipple>ISQED Calendar</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/conferences', 'affiliate_events']" matRipple>Affillate Events</a>
-                            <a class="dropdown-item" (click)="button_click()"
-                                [routerLink]="['/conferences', 'sponsorship_opportunities']" matRipple>Become a
-                                Sponsor</a>
-                        </div>
-                    </li>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto text-right">
+                <!-- Trainning -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/training']" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                        Training
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" [routerLink]="['/training', 'calendar']" matRipple>Training
+                            Calendar</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['/training' ,'registration_form']" matRipple>Registration Form</a>
+                    </div>
+                </li>
+                <!-- Certification -->
+                <li class="nav-item active">
+                    <a class="nav-link" (click)="button_click()" [routerLink]="['/certification']"
+                        matRipple>Certfication</a>
+                </li>
 
-                    <!-- Publication -->
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" [routerLink]="['/awards']" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                            Publication
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" (click)="button_click()" [routerLink]="['/awards']" matRipple>ISQED
-                                Awards</a>
-                        </div>
-                    </li>
+                <!-- Events -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/conferences']" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                        Events
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['/conferences' ,'isqed_events']" matRipple>ISQED Events</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['/conferences', 'isqed_calendar']" matRipple>ISQED Calendar</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['/conferences', 'affiliate_events']" matRipple>Affillate Events</a>
+                        <a class="dropdown-item" (click)="button_click()"
+                            [routerLink]="['/conferences', 'sponsorship_opportunities']" matRipple>Become a
+                            Sponsor</a>
+                    </div>
+                </li>
 
-                    <!-- About -->
-                    <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" [routerLink]="['/about']" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
-                                About ISQED
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" (click)="button_click()"
-                                    [routerLink]="['/about', 'steering_commitee']" matRipple>ISQED Steering Committee</a>
-                                <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
-                                    matRipple>Contact
-                                    ISQED</a>
-                                <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
-                                    matRipple>Images
-                                    for You</a>
-                                <a class="dropdown-item" (click)="button_click()"
-                                    [routerLink]="['/about', 'privacy_policy']" matRipple>Privacy Policy</a>
-                            </div>
-                        </li>
+                <!-- Publication -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/awards']" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                        Publication
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/awards']" matRipple>ISQED
+                            Awards</a>
+                    </div>
+                </li>
+
+                <!-- About -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/about']" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
+                        About ISQED
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'steering_commitee']"
+                            matRipple>ISQED Steering Committee</a>
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'contact']"
+                            matRipple>Contact
+                            ISQED</a>
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'image_for_you']"
+                            matRipple>Images
+                            for You</a>
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/about', 'privacy_policy']"
+                            matRipple>Privacy Policy</a>
+                    </div>
+                </li>
 
 
-                </ul>
-                <div class="text-right">
-                    <div class="row">
-                        <div class="d-none d-lg-block">
-                            <button mat-fab class="mr-4 bg-primary" [matMenuTriggerFor]="menu" matRipple>
-                                <i class="fas fa-user text-white"></i>
+            </ul>
+            <div class="text-right">
+                <div class="row">
+                    <div class="d-none d-lg-block col my-auto">
+                        <button mat-raised-button color="primary" class="text-white" [routerLink]="['/signin']"
+                            style="background-color: #6202EE;">Sign In</button>
+                    </div>
+                    <div class="d-none d-lg-block col my-auto">
+                        <button mat-raised-button color="primary" class="text-white" [routerLink]="['/signup']"
+                            style="background-color: #6202EE;">Sign Up</button>
+                    </div>
+
+                    <div class="col">
+                        <div class="text-right">
+                            <button mat-fab class="bg-primary" (click)="search_btn_click()" matRipple>
+                                <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
                             </button>
-
-                            <mat-menu #menu="matMenu" class="w-100 bg-primary text-white">
-                                <button class="text-white w-100" mat-menu-item [routerLink]="['/signin']" matRipple>Sign
-                                    In</button>
-                                <button class="text-white w-100" mat-menu-item [routerLink]="['/signup']" matRipple>Sign
-                                    Up</button>
-                            </mat-menu>
-                        </div>
-
-                        <div class="col">
-                            <div class="text-right">
-                                <button mat-fab class="bg-primary" (click)="search_btn_click()" matRipple>
-                                    <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </nav>
 
 
