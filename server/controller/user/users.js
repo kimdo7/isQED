@@ -4,6 +4,16 @@ var Login = mongoose.model('Login')
 var bcrypt = require("bcrypt")
 var email = require("../../gateway/email")
 
+/**
+ * @DEBUG 
+ * Instead of logd, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+ *  - To see this output, you have to pass it into nodemon when you run it:
+ *          In isQED directory, run "DEBUG=userlog nodemon server.js" 
+ *  - To shut off logs, just run nodemon normally:
+ *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+ */
+const logd = require('debug')('userslog')
+
 module.exports = {
 	/**
 	 * @Create a *new* user
@@ -13,64 +23,71 @@ module.exports = {
          * @Validation of password
          */
         if (req.body.password !== req.body.confirm_password) {
-            res.json({ message: 'Error', error: "Not match password" })
+            res.json({ message: 'Error', error: "Confirmation password does not match" })
             return
         } else if (req.body.password.length < 8) {
             res.json({ message: 'Error', error: "Password must be 8 characters or more" })
             return
+        } else if (!req.body.email || req.body.email.length < 5) {
+            return
         }
-
+ 
         /**
-         * @Passed *validation*
-         * *more validation* will be check automaticly with schema
-         * After passed *ALL* validation
-         * Send email to *user* with activation code
+         * @Create Login first.
          */
-
-        bcrypt.hash(req.body.password, 10)
-            .then(hashed_password => {
-                /**
-                 * @create new user
-                 */
-                User.create({
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
-                }, (err, user_data) => {
-                    if (err) {
-                        res.json({ message: 'Error', error: err })
-                    } else {
-                        /**
-                         * @create new log in
-                         */
-
-                        Login.create({
-                            userId: user_data.id,
-                            email: req.body.email,
-                            password: hashed_password,
-                            type: 9,
-                        }, (err, login_data) => {
-                            if (err) {
-                                res.json({ message: 'Error', error: err })
-                            } else {
-                                /**
-                                 * @update user id
-                                 */
-
-                                user_data.loginId = login_data._id
-                                user_data.save()
-
-                                email.send(login_data["_id"])
-                                res.json({ message: 'Success', "id": login_data._id })
-                            }
-                        })
-                    }
-                })
-            })
-            .catch(error => {
-                res.json({ message: 'Error', error: "Hasing password error" })
+        var newLogin = new Login({
+            email: req.body.email,
+            type: 9,
+        })
+        
+        if (!newLogin.setPassword(req.body.password)) {
+            res.json({ message: 'Error', error: "Password must be 8 characters or more" })
+            return
+        }
+        newLogin.save((err, savedLogin) => {
+            if (!savedLogin) {
+                if (err && err.code === 11000) {
+                    // If there is a Login and no User, we can create the User
+                    // This is useful in development when our DB is messed up
+                    User.findOne({email: req.body.email}, (err, existingUser) => {
+                        if (!existingUser) {
+                            // There is a Login with no user.
+                            // We can hit this when there is a bug
+                            // For now we will DELETE the Login. DANGEROUS
+                            Login.findOneAndDelete({ email: req.body.email}, (err, existingLogin) => {
+                                // Deleted!
+                                res.json({ message: 'Error', error: "Error on server, please retry" })
+                                return
+                            })
+                            
+                        } else {
+                            res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
+                            return
+                        }
+                    })
+                    return
+                }
+                res.json({ message: 'Error', error: "Password must be 8 characters or more", errorDetail: err })
                 return
+            }
+            /**
+             * @create new user
+             */
+            User.create({
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                email: req.body.email,
+                loginId: savedLogin.id,
+            }, (err, newUser) => {
+                if (err) {
+                    res.json({ message: 'Error', error: err })
+                } else {
+                    // Success!
+                    email.send(newUser.loginId)
+                    res.json({ message: 'Success', "id": newUser.loginId })
+            }
             })
+        });
     },
 
 	/**

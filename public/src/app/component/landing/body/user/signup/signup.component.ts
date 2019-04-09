@@ -47,14 +47,19 @@ export class SignupComponent implements OnInit {
      */
     onRegister() {
         if (this.user_form.invalid) {
-            this.showDangerMessage("Error!!! Please confirm email and password")
+                // showDangerMessage shows up on the webpage.
+                this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
 
         let tempObservable = this.userService.register(this.user_form.value)
         tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
+            if (!data) {
+                this.showDangerMessage("Error!!! Server not available. Please try later.")
+            } if (data["message"] === "Success") {
                 this.router.navigate(["/signin/validation/" + data["id"]])
+            } else if (data["error"]) {
+                this.showDangerMessage("Error!!! " + data["error"])
             } else {
                 this.showDangerMessage("Error!!! Please confirm email and password")
             }

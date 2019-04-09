@@ -39,6 +39,7 @@ module.exports = {
 
                 data.tempActivationCode = code.toString()
                 data.save()
+                console.log("Activation code: " +code.toString())
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
