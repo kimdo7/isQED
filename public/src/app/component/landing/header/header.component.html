@@ -47,31 +47,31 @@
 
                 <!-- Events -->
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" [routerLink]="['/conferences']" id="navbarDropdown"
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/events']" id="navbarDropdown"
                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
                         Events
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" (click)="button_click()"
-                            [routerLink]="['/conferences' ,'isqed_events']" matRipple>ISQED Events</a>
+                            [routerLink]="['/events' ,'isqed_events']" matRipple>ISQED Events</a>
                         <a class="dropdown-item" (click)="button_click()"
-                            [routerLink]="['/conferences', 'isqed_calendar']" matRipple>ISQED Calendar</a>
+                            [routerLink]="['/events', 'isqed_calendar']" matRipple>ISQED Calendar</a>
                         <a class="dropdown-item" (click)="button_click()"
-                            [routerLink]="['/conferences', 'affiliate_events']" matRipple>Affillate Events</a>
+                            [routerLink]="['/events', 'affiliate_events']" matRipple>Affillate Events</a>
                         <a class="dropdown-item" (click)="button_click()"
-                            [routerLink]="['/conferences', 'sponsorship_opportunities']" matRipple>Become a
+                            [routerLink]="['/events', 'sponsorship_opportunities']" matRipple>Become a
                             Sponsor</a>
                     </div>
                 </li>
 
                 <!-- Publication -->
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" [routerLink]="['/awards']" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" [routerLink]="['/publications']" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" matRipple>
                         Publication
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/awards']" matRipple>ISQED
+                        <a class="dropdown-item" (click)="button_click()" [routerLink]="['/publications']" matRipple>ISQED
                             Awards</a>
                     </div>
                 </li>
@@ -109,19 +109,8 @@
                             style="background-color: #6202EE;">Sign Up</button>
                     </div>
 
-                    <div class="col">
-                        <div class="text-right">
-                            <button mat-fab class="bg-primary" (click)="search_btn_click()" matRipple>
-                                <mat-icon aria-label="Example icon-button with a heart icon">search</mat-icon>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-
     </nav>
-
-
-    <app-search *ngIf="isSearch==true"></app-search>
 </div>

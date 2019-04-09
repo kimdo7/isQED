@@ -9,3 +9,7 @@
     background-size: cover;
     background-image: url("https://images.pexels.com/photos/1105379/pexels-photo-1105379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")
 }
+
+.btn_theme {
+    background: #280096 !important;
+}

@@ -9,7 +9,6 @@ import * as $ from 'jquery';
 export class HeaderComponent implements OnInit {
 
     isHamburgerOpen = false
-    isSearch = false
     lastScrollTop = 0;
 
     constructor() { }
@@ -30,10 +29,6 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    search_btn_click() {
-        this.button_click();
-        this.isSearch = !this.isSearch
-    }
     openHamburger() {
         this.isHamburgerOpen = !this.isHamburgerOpen;
     }
