@@ -1,24 +1,46 @@
-<mat-card class="w-100">
-    <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Contact Us</mat-card-title>
-        <mat-card-subtitle>ISQED</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="assets/img/logo/ISQED_Society_logo.svgz" style="height:100px;" alt="ISQED">
-    <mat-card-content>
-        <mat-list role="list">
-            <mat-list-item role="listitem">P.O. BOX 607<br>
-                Los Altos, CA 94023-0607</mat-list-item>
-            <mat-list-item role="listitem"><b>Phone: </b> +1.408.573.0100</mat-list-item>
-            <mat-list-item role="listitem"><b>Fax: </b> +1.408.573.0200</mat-list-item>
-            <mat-list-item role="listitem"><b>eFAX: </b> +1.408.516.8228</mat-list-item>
-            <mat-list-item role="listitem"><b>Email: </b> info@ISQED.com</mat-list-item>
-        </mat-list>
+<div>
 
-    </mat-card-content>
+    <h3 class="text-primary form-group">Contact Us</h3>
+    <h4 class="text-primary form-group">ISQED</h4>
+    <div class="row">
+        <div class="col">
+            <p>P.O.Box 607</p>
+            <p>Los Altos, CA 94023-0607 USA</p>
 
-    <mat-card-actions>
-        <a href="mailto: info@ISQED.com" class="btn" mat-raised-button color="primary">Email</a>
-        <a href="tell:4085730100" class="btn" mat-raised-button color="primary">Call</a>
-    </mat-card-actions>
-</mat-card>
+            <p>Tel:+1.408.573.0100</p>
+            <p>Fax: +1.408.573.0200</p>
+            <p>eFAX: +1.408.516.8228</p>
+            <p>Email: info@ISQED.com</p>
+        </div>
+
+        <div class="col">
+            <form class="w-100">
+                <div class="row form-group">
+                    <mat-form-field class="w-75">
+                        <input matInput placeholder="Your First and Last Name"  required>
+                    </mat-form-field>
+                </div>
+
+                <div class="row form-group">
+                    <mat-form-field class="w-75">
+                        <input matInput placeholder="Email"  required>
+                    </mat-form-field>
+                </div>
+
+                <div class="row form-group">
+                    <mat-form-field class="w-75">
+                        <textarea matInput placeholder="Your Message" required></textarea>
+                    </mat-form-field>
+                </div>
+
+                <!-- Submit -->
+                <div class="row form-group">
+                    <div class="w-75 text-right">
+                        <button mat-raised-button color="primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

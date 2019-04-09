@@ -24,26 +24,24 @@ import { SteeringCommiteeComponent } from './component/landing/body/about/steeri
 import { ContactIsqedComponent } from './component/landing/body/about/contact-isqed/contact-isqed.component';
 import { ImagesForYouComponent } from './component/landing/body/about/images-for-you/images-for-you.component';
 import { PrivacyPolicyComponent } from './component/landing/body/about/privacy-policy/privacy-policy.component';
-import { ConferencesComponent } from './component/landing/body/conferences/conferences.component';
+import { ConferencesComponent } from './component/landing/body/events/conferences.component';
 import { AboutHomeComponent } from './component/landing/body/about/about-home/about-home.component';
-import { ConferencesHomeComponent } from './component/landing/body/conferences/conferences-home/conferences-home.component';
-import { IsqedEventsComponent } from './component/landing/body/conferences/isqed-events/isqed-events.component';
-import { IsqedCalendarComponent } from './component/landing/body/conferences/isqed-calendar/isqed-calendar.component';
-import { AffiliateEventsComponent } from './component/landing/body/conferences/affiliate-events/affiliate-events.component';
-import { SponsorshipOpportunitiesComponent } from './component/landing/body/conferences/sponsorship-opportunities/sponsorship-opportunities.component';
-import { AwardsComponent } from './component/landing/body/awards/awards.component';
-import { AwardsHomeComponent } from './component/landing/body/awards/awards-home/awards-home.component';
+import { ConferencesHomeComponent } from './component/landing/body/events/conferences-home/conferences-home.component';
+import { IsqedEventsComponent } from './component/landing/body/events/isqed-events/isqed-events.component';
+import { IsqedCalendarComponent } from './component/landing/body/events/isqed-calendar/isqed-calendar.component';
+import { AffiliateEventsComponent } from './component/landing/body/events/affiliate-events/affiliate-events.component';
+import { SponsorshipOpportunitiesComponent } from './component/landing/body/events/sponsorship-opportunities/sponsorship-opportunities.component';
+import { AwardsComponent } from './component/landing/body/publications/awards.component';
+import { AwardsHomeComponent } from './component/landing/body/publications/awards-home/awards-home.component';
 import { TrainingComponent } from './component/landing/body/training/training.component';
 import { TrainingHomeComponent } from './component/landing/body/training/training-home/training-home.component';
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
 import { MembershipComponent } from './component/landing/body/membership/membership.component';
-import { RegisterationComponent } from './component/landing/body/registeration/registeration.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { AdministratorDashboardComponent } from './component/administrator/administrator-dashboard/administrator-dashboard.component';
 import { SigninComponent } from './component/landing/body/user/signin/signin.component';
 import { SignupComponent } from './component/landing/body/user/signup/signup.component';
-import { SearchComponent } from './component/landing/header/search/search.component';
 import { BannerComponent } from './component/landing/body/banner/banner.component';
 import { LearningComponent } from './component/learning/learning.component';
 import { SignInDefaultComponent } from './component/landing/body/user/signin/sign-in-default/sign-in-default.component';
@@ -83,8 +81,6 @@ import { CopyRightComponent } from './component/landing/body/about/copy-right/co
         TrainingCalendarComponent,
         RegistrationFormComponent,
         MembershipComponent,
-        SearchComponent,
-        RegisterationComponent,
         LandingComponent,
         BannerComponent,
         AdministratorDashboardComponent,

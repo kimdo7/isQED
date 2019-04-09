@@ -6,6 +6,9 @@ import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
+
+// https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
 
 @Component({
     selector: 'app-signup',
@@ -15,7 +18,10 @@ import { debounceTime } from 'rxjs/operators';
 export class SignupComponent implements OnInit {
 
     validation_messages = UserValidatorMessage.message
-    hide: boolean = true
+    passwordStrengthValidator = PasswordStrengthValidator
+
+    hideConfirm_Password: boolean = true
+    hideErrors: boolean = true
     user_form: FormGroup
 
     /**
@@ -72,23 +78,38 @@ export class SignupComponent implements OnInit {
      * @param email validation check
      * @param password validation check
      * @param confirm_password validation check
+     * 
+     * @PasswordStrength 
+        * *At least 8 characters in length*
+        * *Lowercase letters*
+        * *Uppercase letters*
+        * *Numbers*
+        * *Special characters*
      */
     initForm() {
         this.user_form = this.formBuilder.group({
-            first_name: ['', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.pattern('^[A-Za-z ]+$')]
+            first_name: ['',
+                [
+                    Validators.required,
+                    Validators.minLength(2),
+                    Validators.pattern('^[A-Za-z ]+$')
+                ]
             ],
-            last_name: ['', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.pattern('^[A-Za-z ]+$')]
+            last_name: ['',
+                [
+                    Validators.required,
+                    Validators.minLength(2),
+                    Validators.pattern('^[A-Za-z ]+$')
+                ]
             ],
 
             email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.minLength(8)]],
-            confirm_password: ['', [Validators.required, Validators.minLength(8)]],
+            password: ['',
+                [
+                    Validators.required,
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
+                ]
+            ],
         })
     }
 
@@ -118,3 +139,4 @@ export class SignupComponent implements OnInit {
     }
 
 }
+

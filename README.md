@@ -52,9 +52,14 @@
 
 4. Creates a new branch and Checks it out. This will automatically switch you to your new branch.  Make sure you work off of master 
     * [] `git checkout -b branch-name` 
+> For example:
+>   git checkout -b signin
 
 5. To switch between branches
     *[] `git checkout branch-name`
+> For example:
+>   git checkout master
+>   git checkout signin
 
 6. When you are ready to push code up stream, In the command line, add the file
     a. Adds the file <filename> to index (stage) to be tracked
@@ -68,9 +73,17 @@
 6. Commit files
     * [ ] `git commit -m "comment what you did"`
 
+> For example:
+>   git commit -m "made changes to controller, mode and routes for user and login"
+
+
 7. Push the branch to github
-    * [ ] `git push`
+    * [ ] `git push origin branch-name`
     (`git push -u origin branch-name`) the first time because you need to track it
+
+> For example:
+>   git push -u origin signin
+
 
 8. Create a pull request between your branch-name and master
     `https://github.com/<user>/project`
@@ -78,9 +91,17 @@
 
     A pull request has a code review, you can add reviewers.
 
-9. When ready, approve the pull request. It will merge into master
+> For example:
+>   https://github.com/kimdo7/isQED/pull/2
 
-10. Get your local branches up to date
-* [ ] `git pull` 
+
+9. You may have to keep making changes before beign ready. Just make the changes locally and then push to your branch when you are ready. Github will update the pull request when the branch is updated.
+    * [ ] Do steps 5-7 again
+
+
+10. When ready, approve the pull request. It will merge into master
+
+11. Get your local branches up to date
+* [ ] `git pull` in case the branch was updated on the server by someone else
 * [ ] `git checkout master`
 * [ ] `git pull` now are up to date on master.

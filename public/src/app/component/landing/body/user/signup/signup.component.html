@@ -58,47 +58,123 @@
                 <div class="col-2"></div>
                 <div class="col-8">
                     <mat-form-field class="w-100">
-                        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+                        <input matInput placeholder="Enter your password" [type]="hidePassword ? 'password' : 'text'"
                             formControlName='password' required>
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-
-
-                        <!-- Error for password -->
-                        <mat-error *ngFor="let validation of validation_messages.password">
-                            <mat-error class="error-message"
-                                *ngIf="user_form.get('password').hasError(validation.type) && (user_form.get('password').dirty || user_form.get('password').touched)">
-                                {{validation.message}}</mat-error>
-                        </mat-error>
+                        <mat-icon matSuffix (click)="hideErrors = !hideErrors">
+                            {{hideErrors ? 'report_off' : 'report'}}</mat-icon>
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword; hideConfirm_Password = true">
+                            {{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </mat-form-field>
+
+                    <!-- Password Strength -->
+                    <mat-progress-bar mode="determinate"
+                        [color]="passwordStrengthValidator.getColor(user_form.value.password)" class="bg-primary"
+                        [value]="passwordStrengthValidator.getStrength(user_form.value.password)"
+                        style="margin-top:-20px;"></mat-progress-bar>
+
+                    <!-- Show errors -->
+                    <div *ngIf="!hideErrors" class="text-left mt-2">
+                        <!-- Lower case -->
+                        <div for="lowercase">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passLowerCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passLowerCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+                        </div>
+
+                        <!-- Upper case -->
+                        <div for="upper case">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passUpperCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passUpperCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+                        </div>
+
+                        <!-- Digit case -->
+                        <div for="digit case">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passDigitCase(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passDigitCase(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+                        </div>
+
+                        <!-- Min Length -->
+                        <div for="min length">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passMinLength(user_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                            </div>
+
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passMinLength(user_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
 
-        <!-- confirm password -->
-        <div class="form-group" for="confirm_password">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
-                    <mat-form-field class="w-100">
-                        <input matInput placeholder="Confirm your password" [type]="hide ? 'password' : 'text'"
-                            formControlName='confirm_password' required>
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <!-- Email or Text -->
 
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-radio-group aria-label="Select an option" color="primary">
+                    <mat-radio-button value="1" class="mr-4" color="primary" checked>Email</mat-radio-button>
+                    <mat-radio-button color="primary" value="2">SMS</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
 
-                        <!-- Error for password -->
-                        <mat-error *ngFor="let validation of validation_messages.confirm_password">
-                            <mat-error class="error-message"
-                                *ngIf="user_form.get('confirm_password').hasError(validation.type) && (user_form.get('confirm_password').dirty || user_form.get('confirm_password').touched)">
-                                {{validation.message}}</mat-error>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+        <!-- AGREEMENT -->
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-checkbox color="primary">I read and agree to Terms & Conditions</mat-checkbox>
+            </div>
+        </div>
+
+        <!-- Subcription -->
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-checkbox color="primary">Subcription</mat-checkbox>
             </div>
         </div>
 
         <!-- Register Account -->
         <div class="form-group" for="sign_up_btn">
-            <button mat-raised-button class="btn-lg btn bg-primary text-white">Register Account</button>
+            <button mat-raised-button class="btn-lg text-white" color="primary">Register Account</button>
         </div>
 
         <!-- Forgot password -->

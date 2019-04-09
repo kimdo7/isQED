@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { PasswordValidator } from 'src/app/validator/PasswordValidator';
 import { UserValidatorMessage } from '../../user_validation_message';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
     selector: 'app-reset-password',
@@ -15,8 +16,11 @@ import { UserValidatorMessage } from '../../user_validation_message';
 export class ResetPasswordComponent implements OnInit {
 
     user_id = ""
-    hide: boolean = true
+    hidePassword: boolean = true
+    hideConfirm_Password: boolean = true
+    hideErrors: boolean = true
     validation_messages = UserValidatorMessage.message
+    passwordStrengthValidator = PasswordStrengthValidator
     user_form: FormGroup
     useLoginSchema: boolean = false
     login_id : string = ""
@@ -26,7 +30,6 @@ export class ResetPasswordComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private formBuilder: FormBuilder
     ) { }
 
     /**
@@ -85,13 +88,28 @@ export class ResetPasswordComponent implements OnInit {
 
     }
 
+
+    /**
+     * @PasswordStrength 
+        * *At least 8 characters in length*
+        * *Lowercase letters*
+        * *Uppercase letters*
+        * *Numbers*
+        * *Special characters*
+     */
     initForm() {
         this.user_form = new FormGroup({
-            password: new FormControl('', Validators.compose([
-                Validators.minLength(5),
-                Validators.required,
-            ])),
-            confirm_password: new FormControl('', Validators.required)
+            password: new FormControl('', Validators.compose(
+                [
+                    Validators.required,
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
+                ]
+            )),
+            confirm_password: new FormControl('', Validators.compose(
+                [
+                    Validators.required,
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
+                ]))
         }, (formGroup: FormGroup) => {
             return PasswordValidator.areEqual(formGroup);
         });

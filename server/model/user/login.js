@@ -3,12 +3,15 @@ var Schema = mongoose.Schema
 var bcrypt = require('bcrypt');
 var base32 = require('base32');
 
+<<<<<<< HEAD
 const MAX_FORGOTTEN_ATTEMPTS = 6;
 const MAX_FORGOTTEN_TIME_IN_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 const MIN_PASSWORD_LEN = 8;
 const MAX_PASSWORD_LEN = 64;
 
+=======
+>>>>>>> origin
 var LoginSchema = new Schema({
     first_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z ]+$/ },
     last_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z ]+$/ },
@@ -19,6 +22,7 @@ var LoginSchema = new Schema({
     isActivate: { type: Boolean, default: false },
     isForgotPassword: { type: Boolean, default: false },
     tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" },
+<<<<<<< HEAD
     // LOGIN
     passwordHash: { type: String, required: true, minlength: 60, maxlength: 60 },
     // When a login user forgets their password, we basically email them a second temp password
@@ -310,3 +314,10 @@ LoginSchema.methods.isSamePasswordHash = function (givenPasswordHash) {
 };
 
 module.exports = mongoose.model('Login', LoginSchema)
+=======
+    type: { type: Number, required: true, default: 9 },
+
+}, { timestamps: true, upsert: true })
+
+module.exports = mongoose.model('Login', LoginSchema)
+>>>>>>> origin

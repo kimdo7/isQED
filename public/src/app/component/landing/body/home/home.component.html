@@ -1,58 +1,87 @@
-<div class="row">
-    <div class="col-lg-4 text-center form-group">
-        <!-- Get Email Update</button> -->
-        <div *ngIf="isEmailed" [@enterAnimation] class="form-group mb-4">
-            <mat-form-field class="w-75">
-                <input  matInput placeholder="Enter your email" [formControl]="email" required>
-                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
+<div id="main">
+    <div class="container" >
+        <div class="row my-auto" id="body">
+            <!-- Trainning -->
+            <div class="col-lg-3 col-md-6 form-group my-lg-auto">
+                <div class="card w-100 my-auto">
+                    <img class="card-img-top w-75 mx-auto mt-4"
+                        src="https://www.miro.co.za/wp-content/uploads/New-Icons_Final_2-05.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Training</h5>
+                        <p class="card-text form-group text-center">Some quick example text to build on the card title
+                            and
+                            make up the
+                            bulk of the
+                            card's content.</p>
+
+                        <div class="text-center">
+                            <a [routerLink]="['/training']" class="btn text-white text-center btn_theme">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="col-lg-3 col-md-6 form-group my-lg-auto">
+                <div class="card w-100">
+
+                    <img class="card-img-top w-75 mx-auto mt-4"
+                        src="https://www.miro.co.za/wp-content/uploads/New-Icons_Final_2-05.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Certifications</h5>
+                        <p class="card-text form-group text-center">Some quick example text to build on the card title
+                            and
+                            make up the
+                            bulk of the
+                            card's content.</p>
+
+                        <div class="text-center">
+                            <a [routerLink]="['/certification']" class="btn text-white text-center btn_theme">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events -->
+            <div class="col-lg-3 col-md-6 form-group my-lg-auto">
+                <div class="card w-100">
+                    <img class="card-img-top w-75 mx-auto mt-4"
+                        src="https://www.miro.co.za/wp-content/uploads/New-Icons_Final_2-05.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Events</h5>
+                        <p class="card-text form-group text-center">Some quick example text to build on the card title
+                            and
+                            make up the
+                            bulk of the
+                            card's content.</p>
+
+                        <div class="text-center">
+                            <a [routerLink]="['/events']" class="btn text-white text-center btn_theme">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publications -->
+            <div class="col-lg-3 col-md-6 form-group my-lg-auto">
+                <div class="card w-100">
+                    <img class="card-img-top w-75 mx-auto mt-4"
+                        src="https://www.miro.co.za/wp-content/uploads/New-Icons_Final_2-05.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Publications</h5>
+                        <p class="card-text form-group text-center">Some quick example text to build on the card title
+                            and
+                            make up the
+                            bulk of the
+                            card's content.</p>
+
+                        <div class="text-center">
+                            <a [routerLink]="['/publications']" class="btn text-white text-center btn_theme">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <button mat-raised-button (click)="onEmailUpdated()" class="bg-primary text-white form-group">
-            <mat-icon aria-label="">email</mat-icon> Get Email Update
-        </button>
-
-
-
     </div>
-
-    <div class="col-lg-4 form-group">
-        <div class="ml-4">
-            <p>The International Society for Quality Electronic Design (ISQED), is an international professional
-                organization
-                promoting innovations and "Quality" in design of micro, nano, and bio electronic, and electro-mechanical
-                devices,
-                circuits, and systems.
-            </p>
-            <a href="https://twitter.com/ISQED" class="text-left">
-                <i class="fab fa-twitter" style="font-size:48px;"></i>
-            </a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 form-group">
-        <h4 class="text-center text-primary form-group">Upcoming ISQED Events</h4>
-
-        <div class="row form-group">
-            <img class="mx-auto d-block w-50" style="height: 100px;"
-                src="assets/img/events/ISQED_Symposium_logo_2019 .svgz">
-        </div>
-
-        <div class="row form-group">
-            <img class="mx-auto d-block w-50" style="height: 100px;" src="assets/img/events/IEDEC_logo.png">
-        </div>
-
-        <div class="row form-group">
-            <img class="mx-auto d-block w-50" style="height: 100px;" src="assets/img/events/Sensorscon_logo.png">
-        </div>
-
-        <div class="row form-group">
-            <img class="mx-auto d-block w-50" style="height: 100px;"
-                src="assets/img/events/ASQED2012-Symposium-logo-125px.jpg">
-        </div>
-
-        <div class="row form-group">
-            <img class="mx-auto d-block w-50" style="height: 100px;" src="assets/img/events/ISETC_logo_125px.jpg">
-        </div>
-
-    </div>
+</div>
