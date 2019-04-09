@@ -74,7 +74,10 @@ module.exports = {
                         res.json({message: 'Error', error: err })
                     } else {
                         emailGateway.send(data["_id"])
-                        res.json({message: 'Success', data: data })
+                        res.json({message: 'Success', data: {
+                            login_id: data.id,
+                            email: data.email,
+                        } })
                     }
                 })
             })
@@ -147,7 +150,7 @@ module.exports = {
 
 
     /**
-     * @activate acount by id
+     * @activate account by id
      * *Confirm* with the *activation code*
      */
     activateById: (req, res) => {
@@ -162,7 +165,10 @@ module.exports = {
 
                 data.isActivate = true
                 data.save()
-                res.json({ message: 'Success', data: data })
+                res.json({ message: 'Success', data: {
+                    login_id: data.id,
+                    email: data.email,
+                } })
             }
         })
     },
@@ -182,22 +188,21 @@ module.exports = {
                 bcrypt.compare(req.body.password, data[0]["password"])
                     .then(result => {
                         if (result) {
-                            data[0].isForgotPassword = false //Pasword already confimed
-                            data[0].save()
-<<<<<<< HEAD
-                            res.json({message: 'Success', data: data[0]})
-                        }else{
-                            res.json({message: 'Error', error: "Wrong password"})
-=======
+                            var login = data[0]
+                            login.isForgotPassword = false //Pasword already confimed
+                            login.save()
 
                             /**
                              * @REMOVE *PASSOWRD* (on return)
+                             * we never give all information back to the client!!!!
                              */
 
-                            res.json({ message: 'Success', data: data[0] })
+                            res.json({ message: 'Success', data: {
+                                login_id: login.id,
+                                email: login.email
+                            } })
                         } else {
                             res.json({ message: 'Error', error: "Wrong password" })
->>>>>>> origin
                         }
                     })
                     .catch(error => {
@@ -216,21 +221,20 @@ module.exports = {
             if (err) {
                 res.json({ message: 'Error', error: err })
             } else if (data.length == 0) {
-                res.json({ message: 'Error', error: "email is not exist" })
+                res.json({ message: 'Error', error: "email does not exist" })
             } else {
                 /**
                  * @param isForgotPassword to *TRUE*
                  * *SEND out email*
                  */
-                data[0].isForgotPassword = true
-                data[0].save()
-                emailGateway.send(data[0]["_id"])
-                res.json({message: 'Success', data: data[0]})
-
-                /**
-                 * @REMOVE *PASSWORD* (on return)
-                */
-                res.json({ message: 'Success', data: data[0] })
+                var login = data[0]
+                login.isForgotPassword = true
+                login.save()
+                emailGateway.send(login["_id"])
+                res.json({message: 'Success', data: {
+                    login_id: login.id,
+                    email: login.email,
+                }})
             }
         })
     },
@@ -240,9 +244,6 @@ module.exports = {
      */
     resetPassword: (req, res) => {
         /**
-<<<<<<< HEAD
-         * @Validation
-=======
          * @Validation of password
          * @PasswordStrength 
             * *At least 8 characters in length*
@@ -250,7 +251,6 @@ module.exports = {
             * *Uppercase letters*
             * *Numbers*
             * *Special characters*
->>>>>>> origin
          */
         var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}/
 
@@ -279,7 +279,10 @@ module.exports = {
                         data.isForgotPassword = false
                         data.save()
 
-                        res.json({ message: 'Success', data: data })
+                        res.json({ message: 'Success', data: {
+                            login_id: data.id,
+                            email: data.email,
+                        } })
                     })
                     .catch(error => {
                         res.json({ message: 'Error', error: "Hasing password error" })
@@ -386,7 +389,10 @@ module.exports = {
                         }
                     }
                     if(goodPassword) {
-                        res.json({message: 'Success', data: {login_id: login.id} }); // DO NOT return a password/hash
+                        res.json({message: 'Success', data: {
+                            login_id: login.id,
+                            email: login.email,
+                        } }); // DO NOT return a password/hash
                         if(req.session) {
                             req.session.login_id = login.id;
                         }

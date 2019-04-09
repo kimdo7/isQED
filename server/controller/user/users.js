@@ -34,7 +34,7 @@ module.exports = {
             res.json({ message: 'Error', error: "Confirmation password does not match" })
             return
         } else if (!req.body.password.match(regex)) {
-            res.json({ message: 'Error', error: "Password parttern" })
+            res.json({ message: 'Error', error: "Password pattern" })
             return
         } else if (!req.body.email || req.body.email.length < 5) {
             return
