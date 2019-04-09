@@ -65,11 +65,7 @@ export class SignInValidationComponent implements OnInit {
         let tempObservable = this.userService.checkActivate(this.user_id, this.activationCode)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                if (data["data"]["isForgotPassword"] == false) {
-                    this.router.navigate(["/learning"])
-                } else {
-                    this.router.navigate(["/signin/reset_password/" + this.user_id])
-                }
+                this.router.navigate(["/learning"])
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }

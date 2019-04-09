@@ -69,7 +69,7 @@ export class SignInDefaultComponent implements OnInit {
                 if (data["data"]["isActivate"]) {
                     this.router.navigate(["/learning"])
                 } else {
-                    this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
+                    this.router.navigate(["/signin/validation/" + data["data"]["login_id"]])
                 }
             } else {
                 this.showDangerMessage("Error!!! Please check your email and password.")

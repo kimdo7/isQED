@@ -32,15 +32,16 @@ var LoginSchema = new Schema({
     // NOTE: E11000 duplicate key error collection: isQED.login index: user_name_1 dup key: { : null }
     // If you hit this, go to mongo and db.user.dropIndex("user_name_1")
 
-    /**
-     * @DEBUG 
-     * Instead of logd, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
-     *  - To see this output, you have to pass it into nodemon when you run it:
-     *          In isQED directory, run "DEBUG=userlog nodemon server.js" 
-     *  - To shut off logs, just run nodemon normally:
-     *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
-     */
-    const logd = require('debug')('loginlog')
+/**
+ * @DEBUG 
+ * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+ *  - To see this output, you have to pass it into nodemon when you run it:
+ *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+ *  - To shut off logs, just run nodemon normally:
+ *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+ */
+const logd = require('debug')('QEDlog')
+
 
     //              var login = new Login();
     //              login.email = 'foo@bar.com

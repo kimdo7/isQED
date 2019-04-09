@@ -7,11 +7,11 @@ var emailGateway = require("../../gateway/email")
  * @DEBUG 
  * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
  *  - To see this output, you have to pass it into nodemon when you run it:
- *          In isQED directory, run "DEBUG=userlog nodemon server.js" 
+ *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
  *  - To shut off logs, just run nodemon normally:
  *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
  */
-const logd = require('debug')('loginslog')
+const logd = require('debug')('QEDlog')
 const DEBUG_DONT_SEND_EMAIL = true; // Set this to false to use the gateway.  
 
 /**
@@ -47,10 +47,7 @@ module.exports = {
         /**
          * @Validation of password
          */
-        if (req.body.password !== req.body.confirm_password) {
-            res.json({message: 'Error', error: "Not match password" })
-            return
-        } else if (req.body.password.length < 8 ) {
+        if (req.body.password.length < 8 ) {
             res.json({message: 'Error', error: "Password must be 8 characters or more "})
             return;
         }
@@ -156,7 +153,7 @@ module.exports = {
     activateById: (req, res) => {
         Login.findById(req.params.id, function (err, data) {
             if (err) {
-                res.json({ message: 'Error', error: err })
+                res.json({ message: 'Error', error: err, errorDetail: "Couldn't find id" })
             } else {
                 if (req.params.code !== data.tempActivationCode) {
                     res.json({ message: 'Error', error: "wrong activation code" })
@@ -168,6 +165,7 @@ module.exports = {
                 res.json({ message: 'Success', data: {
                     login_id: data.id,
                     email: data.email,
+                    isActivate: data.isActivate
                 } })
             }
         })
@@ -196,11 +194,12 @@ module.exports = {
                              * @REMOVE *PASSOWRD* (on return)
                              * we never give all information back to the client!!!!
                              */
-
-                            res.json({ message: 'Success', data: {
+                            response = {
                                 login_id: login.id,
-                                email: login.email
-                            } })
+                                email: login.email,
+                                isActivate: login.isActivate
+                            }
+                            res.json({ message: 'Success', data: response })
                         } else {
                             res.json({ message: 'Error', error: "Wrong password" })
                         }

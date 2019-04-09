@@ -8,35 +8,7 @@ module.exports = function (app) {
      * @register a new user (create)
      */
     app.post('/api/login', (req, res) => {
-        logins.register(req, res)
-    })
-
-    /**
-     * @get all user
-     */
-    app.get('/api/login', (req, res) => {
-        logins.getAll(req, res)
-    })
-
-    /**
-     * @get user by id
-     */
-    app.get('/api/login/:id', (req, res) => {
-        logins.getById(req, res)
-    })
-
-    /**
-     * @update user by id
-     */
-    app.put('/api/login/:id', (req, res) => {
-        logins.updateById(req, res)
-    })
-
-    /**
-     * @delete user by id
-     */
-    app.delete('/api/login/:id', (req, res) => {
-        logins.deleteById(req, res)
+        logins.login(req, res)
     })
 
     /**
@@ -51,13 +23,6 @@ module.exports = function (app) {
      */
     app.get("/api/login/activate/:id/:code", (req, res) => {
         logins.activateById(req, res)
-    })
-
-    /**
-     * @login user
-     */
-    app.post('/api/login/login', (req, res) => {
-        logins.login(req, res)
     })
 
    /**
@@ -77,7 +42,7 @@ module.exports = function (app) {
     // LOGIN
 
         if (DEBUG) {
-            app.post('/api/login', (req, res) => {
+            app.post('/api/login/new', (req, res) => {
                 logins.create(req, res)
             })
             
