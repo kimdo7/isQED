@@ -144,45 +144,37 @@
             </div>
         </div>
 
-        <!-- confirm password -->
-        <div class="form-group" for="confirm_password">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
-                    <mat-form-field class="w-100">
-                        <input matInput placeholder="Confirm your password"
-                            [type]="hideConfirm_Password ? 'password' : 'text'" formControlName='confirm_password'
-                            required>
-                        <mat-icon matSuffix (click)="hideConfirm_Password = !hideConfirm_Password; hidePassword = true">
-                            {{hideConfirm_Password ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <!-- Email or Text -->
 
-
-                        <!-- Error for password -->
-                        <mat-error *ngFor="let validation of validation_messages.confirm_password">
-                            <mat-error class="error-message"
-                                *ngIf="user_form.get('confirm_password').hasError(validation.type) && (user_form.get('confirm_password').dirty || user_form.get('confirm_password').touched)">
-                                {{validation.message}}</mat-error>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-radio-group aria-label="Select an option" color="primary">
+                    <mat-radio-button value="1" class="mr-4" color="primary" checked>Email</mat-radio-button>
+                    <mat-radio-button color="primary" value="2">SMS</mat-radio-button>
+                </mat-radio-group>
             </div>
         </div>
 
-        <!-- <div class="form-group" for="password-strength">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-7">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                    </div>
-                </div>
+        <!-- AGREEMENT -->
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-checkbox color="primary">I read and agree to Terms & Conditions</mat-checkbox>
             </div>
-        </div> -->
+        </div>
+
+        <!-- Subcription -->
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-8 text-left">
+                <mat-checkbox color="primary">Subcription</mat-checkbox>
+            </div>
+        </div>
 
         <!-- Register Account -->
         <div class="form-group" for="sign_up_btn">
-            <button mat-raised-button class="btn-lg btn bg-primary text-white">Register Account</button>
+            <button mat-raised-button class="btn-lg text-white" color="primary">Register Account</button>
         </div>
 
         <!-- Forgot password -->

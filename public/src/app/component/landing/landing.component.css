@@ -9,3 +9,11 @@
     bottom: 125px;
     right: 25px;
 }
+
+#contact_us_form {
+    position: fixed;
+    bottom: 150px;
+    right: 25px;
+    z-index: 1;
+    width: 300px;
+}
