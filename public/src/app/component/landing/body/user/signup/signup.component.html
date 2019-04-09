@@ -8,6 +8,7 @@
             <div class="col-4" for="first_name">
                 <mat-form-field class="w-100">
                     <input matInput type="text" matInput placeholder="First Name" formControlName='first_name' required>
+                    <mat-icon matSuffix >account_circle</mat-icon>
                     <mat-error *ngFor="let validation of validation_messages.first_name">
                         <mat-error class="error-message"
                             *ngIf="user_form.get('first_name').hasError(validation.type) && (user_form.get('first_name').dirty || user_form.get('first_name').touched)">
@@ -20,6 +21,7 @@
             <div class="col-4" for="last_name">
                 <mat-form-field class="w-100">
                     <input matInput type="text" matInput placeholder="Last Name" formControlName='last_name' required>
+                    <mat-icon matSuffix >account_circle</mat-icon>
 
                     <!-- error for last name -->
                     <mat-error *ngFor="let validation of validation_messages.last_name">
@@ -40,6 +42,7 @@
                 <div class="col-8">
                     <mat-form-field class="w-100">
                         <input matInput type="email" matInput placeholder="Email" formControlName='email' required>
+                        <mat-icon matSuffix >email</mat-icon>
 
                         <!-- Error for email -->
                         <mat-error *ngFor="let validation of validation_messages.email">
@@ -141,18 +144,6 @@
 
                 </div>
 
-            </div>
-        </div>
-
-        <!-- Email or Text -->
-
-        <div class="row form-group">
-            <div class="col-2"></div>
-            <div class="col-8 text-left">
-                <mat-radio-group aria-label="Select an option" color="primary">
-                    <mat-radio-button value="1" class="mr-4" color="primary" checked>Email</mat-radio-button>
-                    <mat-radio-button color="primary" value="2">SMS</mat-radio-button>
-                </mat-radio-group>
             </div>
         </div>
 
