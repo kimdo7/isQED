@@ -28,27 +28,6 @@ app.use(session({
 app.use(function(req, res, next) {
     res.locals.session = req.session;
     next();
-  });
-
-// post route for adding a user  ?
-app.post('/user_dashboard', function(req, res) {
-    var user = {'username': req.body.username};
-    req.session.user = user;//**** */
-    res.redirect('/user_dashboard');//**** don't pass a dictionary into redirect */
-})
-// modify this code
-app.post('/sessions', (req, res) => {
-    console.log(" req.body: ", req.body);
-    User.findOne({email:req.body.email, password: req.body.passwordHash, passwordHash: req.body.passwordHash}, (err, user) => {
-        if (err) {
-            // Code...
-        }
-        else {
-            // Code...
-    		req.session.user_id = user._id;
-		req.session.email = user.email;
-        }
-    })
 })
 
 mongoose.set('useCreateIndex', true)
