@@ -41,6 +41,7 @@ testem.log
 
 # Filemerge backup files (on Mac)
 *.orig
+*.orig.js
 
 # System Files (created by Mac and Windows automatically)
 .DS_Store
