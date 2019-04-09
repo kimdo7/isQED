@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from "@angular/common";
-
+import * as $ from 'jquery';
 
 /**
  * *LandingComponent*
@@ -27,9 +27,27 @@ export class LandingComponent implements OnInit {
                 this.route = "Home";
             }
         });
+
+
     }
 
     ngOnInit() {
+        // $(document).ready(function () {
+        //     var lastScrollTop = 0;
+        //     $(window).scroll(function (event) {
+        //         var st = $(this).scrollTop();
+        //         if (st > lastScrollTop) {
+        //             // downscroll code
+        //             $("#header").hide()
+        //             $("#footer").show()
+        //         } else {
+        //             // upscroll code
+        //             $("#header").show()
+        //             $("#footer").hide()
+        //         }
+        //         lastScrollTop = st;
+        //     });
+        // })
     }
 
 }
