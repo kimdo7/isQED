@@ -5,5 +5,12 @@
 
 #footer {
     background: #280096 !important;
+    opacity: 0.9;
 }
+
+.logo{
+    color: #e97566;
+    font-size: 24pt;
+}
+
 

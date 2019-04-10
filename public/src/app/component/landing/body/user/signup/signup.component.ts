@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
     validation_messages = UserValidatorMessage.message
     passwordStrengthValidator = PasswordStrengthValidator
 
-    hideConfirm_Password: boolean = true
+    hidePassword: boolean = true
     hideErrors: boolean = true
     user_form: FormGroup
 
