@@ -2,6 +2,17 @@ var nodemailer = require('nodemailer')
 var mongoose = require('mongoose')
 var Login = mongoose.model('Login')
 
+/**
+ * @DEBUG 
+ * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+ *  - To see this output, you have to pass it into nodemon when you run it:
+ *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+ *  - To shut off logs, just run nodemon normally:
+ *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+ */
+const logd = require('debug')('QEDlog')
+
+
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -39,7 +50,7 @@ module.exports = {
 
                 data.tempActivationCode = code.toString()
                 data.save()
-                console.log("Activation code: " +code.toString())
+                logd("Activation code: " +code.toString())
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -55,7 +66,7 @@ module.exports = {
     send: (login_id) => {
         Login.findById(login_id, function (err, data) {
             if (err) {
-                console.log("Send email error 12" + err)
+                logd("Send email error 12" + err)
             } else {
                 var code = Math.floor(Math.random() * 900000) + 100000;     // returns a random integer from 100 000 to 10
 
@@ -70,9 +81,9 @@ module.exports = {
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        console.log("Send email error")
+                        logd("Send email error")
                     } else {
-                        console.log("Send email sucess")
+                        logd("Send email success")
                     }
                 })
             }
@@ -80,15 +91,15 @@ module.exports = {
     },
 
     sendForgotMail: (email, tempPasscode, next) => {
-        console.log("sendForgotMail: " + user_id);
+        logd("sendForgotMail: " + user_id);
 
         if (!next) {
-            console.log("sendForgotMail missing next callback");
+            logd("sendForgotMail missing next callback");
         } else if (!email) {
-            console.log("sendForgotMail missing email");
+            logd("sendForgotMail missing email");
             next("missing email");
         } else if (!tempPasscode) {
-            console.log("sendForgotMail missing tempPasscode");
+            logd("sendForgotMail missing tempPasscode");
             next("missing tempPasscode");
         } else {
             mailOptions.to = data.email
@@ -102,10 +113,10 @@ module.exports = {
             };
             transporter.sendMail(forgotMailOptions, function (err, info) {
                 if (err) {
-                    console.log("sendForgotMail error to "+ email + " : " + err)
+                    logd("sendForgotMail error to "+ email + " : " + err)
                     next(err);
                 } else {
-                    console.log("sendForgotMail success to " + email)
+                    logd("sendForgotMail success to " + email)
                     next(null, "Success")
                 }
             });

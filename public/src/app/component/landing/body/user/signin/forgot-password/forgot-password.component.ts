@@ -26,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
     ) { }
 
     /**
-     * 
+     * @RequestForgotPassword sends email
      */
     sendEmail() {
         if (this.emailFormControl.invalid) {
@@ -38,7 +38,8 @@ export class ForgotPasswordComponent implements OnInit {
             if (data["message"] === "Success") {
                 this.router.navigate(["/signin/validation/" + data["data"]["login_id"]])
             } else {
-                this.showDangerMessage("Error!!! Your email doesn't existed in our system.")
+
+                this.showDangerMessage("Error!!! That email account doesn’t exist. Please enter a different email address or create a new account")
             }
         });
 

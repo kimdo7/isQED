@@ -53,7 +53,7 @@ module.exports = {
         }
 
         /** @Passed validation
-         * more validation will vbve checked automatically with schema
+         * more validation will be checked automatically with schema
          * After passed ALL validation
          * Send email to login user with activation code
          */
