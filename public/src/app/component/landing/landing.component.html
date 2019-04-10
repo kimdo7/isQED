@@ -27,8 +27,8 @@
 
 <!-- Contact US -->
 <div>
-    <button *ngIf="route != '/about/contact'" mat-raised-button color="primary" [routerLink]="['/about', 'contact']" class="" id="contact_us_btn">
-        <i class="material-icons mr-4">mail_outline</i>
+    <button *ngIf="route != '/about/contact'" class="rounded-pill btn btn-large" mat-raised-button color="primary" [routerLink]="['/about', 'contact']"  id="contact_us_btn">
+        <i class="material-icons mr-2">mail_outline</i>
         <p class="d-inline">Contact Us</p>
     </button>
 </div>
@@ -37,5 +37,3 @@
 <!-- footer -->
 <app-footer id="footer"></app-footer>
 
-<!-- pwa install -->
-<!-- <button *ngIf="pwaService.promptEvent" (click)="installPwa()">Install</button> -->
