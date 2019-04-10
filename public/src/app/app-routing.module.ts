@@ -72,20 +72,24 @@ const routes: Routes = [
 
             { path: "membership", component: MembershipComponent },
             { path: "signup", component: SignupComponent },
-            { path: "signin", component: SigninComponent, children:[
-				{path: "", component: SignInDefaultComponent},
-				{path: "validation/:id", component: SignInValidationComponent},
-				{path: "forgot_password", component: ForgotPasswordComponent},
-				{path: "reset_password/:id", component: ResetPasswordComponent}
-			] },
+            {
+                path: "signin", component: SigninComponent, children: [
+                    { path: "", component: SignInDefaultComponent },
+                    { path: "validation/:id", component: SignInValidationComponent },
+                    { path: "forgot_password", component: ForgotPasswordComponent },
+                    { path: "reset_password/:id", component: ResetPasswordComponent }
+                ]
+            },
         ]
-        
+
     },
 
-    { path: 'learning', component: LearningComponent, children:[
-        {path: "", component: LearningDashboardComponent},
-        {path: "course", component: LearningCourseComponent}
-    ] },
+    {
+        path: 'learning', component: LearningComponent, children: [
+            { path: "", component: LearningDashboardComponent },
+            { path: "course", component: LearningCourseComponent }
+        ]
+    },
     // { path: 'administrator', component: AdministratorDashboardComponent },
 
 ];
