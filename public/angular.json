@@ -28,9 +28,11 @@
                             "src/manifest.json"
                         ],
                         "styles": [
-                            "src/styles.css"
+                            "styles.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -139,5 +141,10 @@
             }
         }
     },
-    "defaultProject": "public"
+    "defaultProject": "public",
+    "schematics": {
+        "@schematics/angular:component": {
+            "styleext": "scss"
+        }
+    }
 }

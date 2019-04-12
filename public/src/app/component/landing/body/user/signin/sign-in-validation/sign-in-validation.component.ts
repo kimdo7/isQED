@@ -8,7 +8,7 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
     selector: 'app-sign-in-validation',
     templateUrl: './sign-in-validation.component.html',
-    styleUrls: ['./sign-in-validation.component.css']
+    styleUrls: ['./sign-in-validation.component.scss']
 })
 export class SignInValidationComponent implements OnInit {
 
