@@ -23,7 +23,7 @@ export class UserService {
     getLoginEmail(id){
         return this.http.get("/api/login/email/" + id)
     }
-    checkActivate(id, code){
+    checkIsEmailVerified(id, code){
         return this.http.get("/api/login/activate/"+id+"/"+code)
     }
 
@@ -41,7 +41,7 @@ export class UserService {
 
     /**
      * 
-     * @param data is user's email
+     * @param data contains user's email
      */
     requestForgotPassword(data){
         return this.http.post("/api/login/requestForgotPassword", data)
@@ -49,11 +49,19 @@ export class UserService {
 
     /**
      * 
-     * @param id user id
-     * @param data password and confirm_password
+     * @param data contains user's email, tempPassword and newPassword
      */
-    resetPassword(id, data){
-        return this.http.post("/api/user/resetPassword/"+id, data)
+    changePasswordAfterForgetting(data){
+        return this.http.post("/api/login/changePassword/forgot", data)
+    }
+
+    /**
+     * 
+     * @param id user id
+     * @param data contains user's email, oldPassword and newPassword
+     */
+    changePassword(id, data){
+        return this.http.post("/api/user/changePassword/"+id, data)
     }
 
 }

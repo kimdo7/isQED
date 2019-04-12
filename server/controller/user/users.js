@@ -28,28 +28,49 @@ module.exports = {
             * *Numbers*
             * *Special characters*
          */
-        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}/;
+        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}/;
 
         if (!req.body.password.match(regex)) {
-            res.json({ message: 'Error', error: "Password pattern" })
+            res.json({ message: 'Error', error: "Password is not matching the rules" })
             return
         } else if (!req.body.email || req.body.email.length < 5) {
+            res.json({ message: 'Error', error: "Email is not long enough" })
+            return
+        } else if (!req.body.first_name) {
+            res.json({ message: 'Error', error: "First name is missing" })
+            return
+        } else if (!req.body.last_name) {
+            res.json({ message: 'Error', error: "Last name is missing" })
             return
         }
- 
+
         /**
          * @Create Login first.
          */
         var newLogin = new Login({
             email: req.body.email,
-            type: 9,
             first_name: req.body.first_name,
             last_name: req.body.last_name,
+            type: 9,
         })
         
         if (!newLogin.setPassword(req.body.password)) {
-            res.json({ message: 'Error', error: "Password must be a stronger password 8 characters or more" })
+            // Password is no good. Let's give the best error we can
+            if (!newLogin.isValidPassword(password)) {
+                res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
+                return
+            } else if (!newLogin.isStrongPassword(password)) {
+                res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
+                return
+            }
+            res.json({ message: 'Error', error: "Password isn't set" })
             return
+        }
+        if (!newLogin.passwordMatchesHash(req.body.password)) {
+            res.json({ message: 'Error', error: "Internal server error with password" })
+        }
+        if (!newLogin.isSameEmail(req.body.email)) {
+            res.json({ message: 'Error', error: "Internal server error with email" })
         }
         newLogin.save((err, savedLogin) => {
             if (!savedLogin) {
@@ -60,14 +81,13 @@ module.exports = {
                         if (!existingUser) {
                             // There is a Login with no user.
                             // We can hit this when there is a bug
-                            // For now we will DELETE the Login. DANGEROUS
+                            // For now we will DELETE the Login. DANGEROUS DEBUG ONLY
                             Login.findOneAndDelete({ email: req.body.email}, (err3, existingLogin) => {
                                 // Deleted!
                                 logd("register: didn't find a login user " + err + " then " + err2 + " then " + err3)
                                 res.json({ message: 'Error', error: "Error on server, please retry" })
                                 return
                             })
-                            
                         } else {
                             res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
                             return
@@ -79,23 +99,43 @@ module.exports = {
                 res.json({ message: 'Error', error: "Password must be 8 characters or more", errorDetail: err })
                 return
             }
-            /**
-             * @create new user
+
+            /** 
+             * We saved the login. 
+             * Now @Create new user
              */
-            User.create({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                email: req.body.email,
-                loginId: savedLogin.id,
-            }, (err, newUser) => {
-                if (err) {
-                    res.json({ message: 'Error', error: err })
-                } else {
-                    // Success!
-                    emailGateway.send(newUser.loginId)
-                    res.json({ message: 'Success', "id": newUser.loginId })
-            }
-            })
+            User.create(
+                {
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    email: req.body.email,
+                    loginId: savedLogin.id,
+                }, 
+                (err, newUser) => {
+                    if (err) {
+                        res.json({ message: 'Error', error: err })
+                        return
+                    } else if (!newLogin.isSameEmail(newUser.email)) {
+                        res.json({ message: 'Error', error: "Internal server error with user email" })
+                    } else {
+                        // Success!
+                        // Log in the user, send them activation mail
+                        req.session.last_stage = 'registered'
+                        req.session.login_id = savedLogin.id;
+                        req.session.save()
+                        emailGateway.sendActivation(savedLogin.id, (sendErr) => {
+                            if (sendErr) {
+                                // we weren't able to send the email
+                                // but we were able to create the user
+                                // pretend that we sent them the email
+                                // they can always click the button on the activation form to resend
+                                // SO DO NOTHING HERE!
+                            }
+                        })
+                        res.json({ message: 'Success', login_id: newUser.loginId })
+                    }
+                }
+            )
         });
     },
 

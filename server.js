@@ -10,25 +10,21 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public/dist/public'))
 
+// Allow someone to be logged in for days before having to re-login
+const day_in_ms = 24 * 60 * 60 * 1000
+const maximum_session_in_ms = 4 * day_in_ms
+
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  name: 'user',
+  name: 'isQED',
   secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
   resave: false,
   saveUninitialized: false,// we use this for login
   cookie: { 
-	  maxAge: 60000,
+	  maxAge: maximum_session_in_ms,
 	  sameSite: true, // why not
 	 }
 }))
-
-  
-// https://stackoverflow.com/questions/37183766/how-to-get-the-session-value-in-ejs
-// this should make the session variable always defined in ejs
-app.use(function(req, res, next) {
-    res.locals.session = req.session;
-    next();
-})
 
 mongoose.set('useCreateIndex', true)
 mongoose.connect(

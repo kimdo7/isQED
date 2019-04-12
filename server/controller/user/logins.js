@@ -15,80 +15,54 @@ const logd = require('debug')('QEDlog')
 const DEBUG_DONT_SEND_EMAIL = true; // Set this to false to use the gateway.  
 
 /**
- * @GUARD
- * This makes it easy to read error handling and cuts down code length and nesting.
- * EXAMPLE: 
- *          Each check only takes one line instead of 5, even with logging
- *          if (guard(!email, res, "error for client", "extra log info")) { return; }
- *          if (guard(!email, res, "error for client", "extra log info")) { return; }
+ * @Ensure the user is logged in
  */
-const guard = (errorCondition, res, err, logInfo) => { 
-    if (errorCondition){
-        // something has gone wrong, so we are going to log if we can
-        if(logInfo){
-            logd(logInfo);
-        }
-        // and we will send a json error back to the client
-        if (res){
-            res.json({message: 'Error', error: err});
-        }
-        // we return true so that the caller knows that there's an error or that the guard failed.
-        return true;
+var findByIdIfSignedIn = (req, login_id, next) => {
+    // If they have a session, they are signed in
+    var signed_in_login_id = req.session.login_id;
+    logd("session: %o", req.session)
+
+    if (!signed_in_login_id) {
+        next("User is not logged in", null)
+        return
     }
-    // no error
-    return false;
- }
+
+    // But the point of this function is to ensure that the login still
+    // exists and matches the one that you expect (that was passed in)
+    Login.findById(login_id, function (err, login) {
+        if (err) {
+            // We couldn't search the database, or it wasn't found
+            next("Login not found", null)
+            return
+        } else if (!login || login.id !== login_id) {
+            // We didn't have an error, but we didn't find the login (or the record is bad)
+            next("Bad login record", null)
+            return
+        }
+
+        // We do a === because it will only match if the string is the same
+        // and will return false if one is undefined
+        if (login.id === signed_in_login_id) {
+            // We didn't have any error
+            // And the signed in user is still in the DB
+            next(null, login)
+        } else {
+            // We found a login, but that's not the one in the session!
+            // Something bad is happening, don't say it's signed in
+            logd("isSignedIn: expected " + login_id + " but session had " + signed_in_login_id)
+            next("Wrong user login", null)
+        }
+    })
+};
+
 
 module.exports = {
+
     /**
-     * @Create a new login user
+     * @Get *ALL* LOGINS
+     * RETURNS EVERY PASSWORD HASH IN THE DATABASE!! DEBUGGING ONLY
      */
-    register: (req, res) => {
-        /**
-         * @Validation of password
-         */
-        if (req.body.password.length < 8 ) {
-            res.json({message: 'Error', error: "Password must be 8 characters or more "})
-            return;
-        }
-
-        /** @Passed validation
-         * more validation will be checked automatically with schema
-         * After passed ALL validation
-         * Send email to login user with activation code
-         */
-
-         bcrypt.hash(req.body.password, 10)
-            .then(hashed_password => {
-                Login.create({
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
-                    type: 9,
-                    password: hashed_password
-                }, (err, data) => {
-                    if(err){
-                        res.json({message: 'Error', error: err })
-                    } else {
-                        emailGateway.send(data["_id"])
-                        res.json({message: 'Success', data: {
-                            login_id: data.id,
-                            email: data.email,
-                        } })
-                    }
-                })
-            })
-            .catch(error => {
-                res.json({message: 'Error', error: "Hashing password error" })
-                return;
-            })
-    },
-
-	/**
-	 * @Get *ALL* LOGINS
-	 * RETURNS EVERY PASSWORD HASH IN THE DATABASE!! DEBUGGING ONLY
-	 */
-    getAll: (req, res) => {
+    debugGetAll: (req, res) => {
         Login.find({}, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
@@ -102,7 +76,7 @@ module.exports = {
 	 * @GET LOGIN BY *ID*
 	 * RETURNS PASSWORD HASH FOR ANY ID! DEBUGGING ONLY
 	 */
-    getById: (req, res) => {
+    debugGetById: (req, res) => {
         Login.findById(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
@@ -118,7 +92,7 @@ module.exports = {
 	 * @UPDATE *LOGIN WITH ID*
 	 * ALLOWS SETTING PASSWORD HASH FOR ANY ID! DEBUGGING ONLY
 	 */
-    updateById: (req, res) => {
+    debugUpdateById: (req, res) => {
         logd(req.body)
         var update = req.body
         Login.findByIdAndUpdate(req.params.id, update, { $set: req.body }, function (err, data) {
@@ -133,8 +107,9 @@ module.exports = {
 	/**
 	 * @DELETE LOGIN BY *ID*
 	 * ALLOWS MAKING ANY USER LOGIN GO AWAY. SHOULD MAKE THIS HARD TO DO
+     * DEBUG ONLY
 	 */
-    deleteById: (req, res) => {
+    debugDeleteById: (req, res) => {
         var id = req.params.id
         Login.findByIdAndDelete(id, function (err, data) {
             if (err) {
@@ -151,186 +126,38 @@ module.exports = {
      * *Confirm* with the *activation code*
      */
     activateById: (req, res) => {
-        Login.findById(req.params.id, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err, errorDetail: "Couldn't find id" })
-            } else {
-                if (req.params.code !== data.tempActivationCode) {
-                    res.json({ message: 'Error', error: "wrong activation code" })
-                    return
-                }
-
-                data.isActivate = true
-                data.save()
-                res.json({ message: 'Success', data: {
-                    login_id: data.id,
-                    email: data.email,
-                    isActivate: data.isActivate
-                } })
+        if (!req.params.id) {
+            res.json({ message: 'Error', error: "Missing id" })
+        }
+        if (!req.params.code) {
+            res.json({ message: 'Error', error: "Missing code" })
+        }
+        logd("About to find signed in ID " + req.params.id)
+        findByIdIfSignedIn(req, req.params.id, (err, login) => {
+            if (err && err == "User is not logged in") {
+                res.json({ message: 'Error', error: "You need to sign in", errorDetail: err, signInNeeded: true })
+            } else if (err || !login) {
+                logd("login can't be an error or null")
+                res.json({ message: 'Error', error: "You need to sign in", errorDetail: err })
+                return;
             }
-        })
-    },
-
-    /**
-     * @login Email will be unique (mine for testing)
-     * 
-     * *decrypt* and check password
-     */
-    login: (req, res) => {
-        Login.find({ email: req.body.email }, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-            } else if (data.length == 0) {
-                res.json({ message: 'Error', error: "email is not exist" })
-            } else {
-                bcrypt.compare(req.body.password, data[0]["password"])
-                    .then(result => {
-                        if (result) {
-                            var login = data[0]
-                            login.isForgotPassword = false //Pasword already confimed
-                            login.save()
-
-                            /**
-                             * @REMOVE *PASSOWRD* (on return)
-                             * we never give all information back to the client!!!!
-                             */
-                            response = {
-                                login_id: login.id,
-                                email: login.email,
-                                isActivate: login.isActivate
-                            }
-                            res.json({ message: 'Success', data: response })
-                        } else {
-                            res.json({ message: 'Error', error: "Wrong password" })
-                        }
-                    })
-                    .catch(error => {
-                        res.json({ message: 'Error', error: error })
-                    })
-            }
-        })
-    },
-
-    /**
-     * @Request *FORGOT PASS*
-     * 
-     */
-    requestForgotPassword: (req, res) => {
-        Login.find({ email: req.body.email }, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-            } else if (data.length == 0) {
-                res.json({ message: 'Error', error: "email does not exist" })
-            } else {
-                /**
-                 * @param isForgotPassword to *TRUE*
-                 * *SEND out email*
-                 */
-                var login = data[0]
-                login.isForgotPassword = true
+            // If we are signed in, now check the activation
+            logd("activateById: compare request " + req.params.code + " to "+ login.tempActivationCode)
+            if (req.params.code === ""+login.tempActivationCode) {
+                login.isEmailVerified = true
                 login.save()
-                emailGateway.send(login["_id"])
-                res.json({message: 'Success', data: {
+                res.json({ message: 'Success', data: {
                     login_id: login.id,
                     email: login.email,
-                }})
-            }
-        })
-    },
-
-    /**
-     * @Request *FORGOT PASSWORD* 
-     */
-    resetPassword: (req, res) => {
-        /**
-         * @Validation of password
-         * @PasswordStrength 
-            * *At least 8 characters in length*
-            * *Lowercase letters*
-            * *Uppercase letters*
-            * *Numbers*
-            * *Special characters*
-         */
-        var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}/
-
-        if (req.body.password !== req.body.confirm_password) {
-            res.json({ message: 'Error', error: "Not match password" })
-            return
-        } else if (!req.body.password.match(regex)) {
-            res.json({ message: 'Error', error: "Password parttern" })
-            return
-        }
-
-        /**
-         * *Find* user login based on id
-         */
-        Login.findById(req.params.id, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
+                    isEmailVerified: login.isEmailVerified
+                } })
             } else {
-                /**
-                 * @encrypt password
-                 */
-                bcrypt.hash(req.body.password, 10)
-                    .then(hashed_password => {
-                        data.password = hashed_password
-                        data.isActivate = true
-                        data.isForgotPassword = false
-                        data.save()
-
-                        res.json({ message: 'Success', data: {
-                            login_id: data.id,
-                            email: data.email,
-                        } })
-                    })
-                    .catch(error => {
-                        res.json({ message: 'Error', error: "Hasing password error" })
-                        return
-                    })
+                res.json({ message: 'Error', error: "Wrong activation code" })
+                return
             }
+
         })
     },
-
-//************************************************************************************* */
-// LOGIN
-// 
-    /**
-     * @Create a *new" login user
-     * ALLOWS ANYONE TO CREATE A LOGIN. MAY NOT ENSURE PASSWORD IS STRONG. DEBUGGING 
-     * ONLY
-     */
-    create: (req, res) => {
-        Login.create(req.body, (err, data) =>{
-            if(err){
-                res.json({message: 'Error', error: err })
-            }else{
-                res.json({message: 'Success', data: data })
-            }
-        })
-    },
-
-    /**
-     * @Get login user By *email*
-     * RETURNS PASSWORD HASH FOR ANY EMAIL! DEBUGGING ONLY
-     */
-
-     getByEmail:(req, res)=>{
-         var email = req.body.email;
-         logd("getbyEmail: %s", email);
-         Login.findOne({email:email }, function (err, data){
-            if (guard( err, res, err, "getByEmail failed -- " + err)) { return; }
-
-            if (guard(  !login, res, "no login found", "getbyEmail failed -- no login found")) { return; }
-
-            if (guard(  !login.id, res, "no valid login found", "getByEmail failed -- login has no id")) { return; }
-
-            if (guard(  !login.passwordHash, res, "no valid login found", "getByEmail failed -- login has no passwordHash")) { return; }
-
-            if (guard(  !login.isSameEmail(email), res, "no valid login found", "getByEmail failed -- login has no id")) { return; }
-            
-                res.json({message: 'Success', data: data })
-        });
-     },
 
     /**
      * @LOGOUT of *Login Session* (not being used yet. why?)
@@ -338,69 +165,9 @@ module.exports = {
     logout:(req, res) =>{
         logd("logout");
         // This is from the login
+        req.session.last_stage = 'logout'
         req.session.login_id = null;
         res.json({ message: 'Success', data: 'Logged out'});
-    },
-
-    /**
-     * @login USER PASSWORD
-     */
-    loginWithUserPassword: (req, res) => {
-        logd("loginWithUserPassword");
-        // This is given by end user
-        var email = req.body.email;
-        var given_assword = req.body.password;
-        var givenPasswordHash = req.body.passwordHash; // The client could instead send us the hashed password
-
-        if(!email){
-            res.json({message: 'Error', error: "email is required"})
-        }else if (!givenPassword && !givenPasswordHash) { // must have at least one of the two
-            res.json({message: 'Error', error: "password is required" })
-        } else {
-            // Don't leave the client logged in if they are trying to re-login and fail
-            if(req.session) {
-                req.session.user_id = null;
-            }
-
-            // 1. The user has to exist if we want to change a password
-            Login.findOne({ email: req.body.email }, function (err, login) {
-                if (err) {
-                    logd("loginWithUserPassword error finding: " + email);
-                    res.json({ message: 'Error', error: err })
-                } else if (!login || !login.id || !login.isSameEmail(email)|| !login.passwordHash){
-                    logd("loginWithUserPassword none found: " + email);
-                    res.json({message: 'Error', error: "bad user record" })
-                }else {
-                    logd("loginWithUserPassword found: " + email);
-                    // 2. the login user exists, lets make sure the login user knows the password
-                    var goodPassword = false;
-                    if(givenPassword) {
-                        if(login.passwordMatchesHash(givenPassword)){
-                            goodPassword = true;
-                        }else {
-                            logd("loginWithUserPassword given password is bad");
-                        }
-                    } else if (givenPasswordHash) {
-                        if(login.isSamePasswordHash(givenPasswordHash)){
-                            goodPassword = true;
-                        } else {
-                            logd("loginWithUserPassword given passwordHash is bad");
-                        }
-                    }
-                    if(goodPassword) {
-                        res.json({message: 'Success', data: {
-                            login_id: login.id,
-                            email: login.email,
-                        } }); // DO NOT return a password/hash
-                        if(req.session) {
-                            req.session.login_id = login.id;
-                        }
-                    } else {
-                        res.json({message: 'Error', error: "correct password wasn't given"});
-                    }
-                }
-            });
-        }
     },
 
     /**
@@ -443,12 +210,13 @@ module.exports = {
          */
 
         // 1. The login user has to exist if we want to change a password
-        Login.findOne({email: email, _id: id}, function (err, login){
+        findByIdIfSignedIn(req, id, function (err, login){
             if (err) {
                 logd("changePassword can't find email + id");
                 res.json({ message: 'Error', error: err });
                 return;
             }
+
             if (!login  || !login.id || !login.isSameEmail(email) || !login.passwordHash) {
                 logd("changePassword has bad login user record");
                 res.json({message: 'Error', error: "bad login user record"});
@@ -485,6 +253,7 @@ module.exports = {
                 // 4. Success! The login user should really have to re-login to ensure the password worked. 
                 //          We shouldn't let the login user stay logged in with the old password on any
                 //          other browser either. How?
+                req.session.last_stage = 'changePassword'
                 req.session.login_id = null;
                 res.json({ message: 'Success', data: "yay" }); // not sure we should return the password hash
             });
@@ -494,102 +263,116 @@ module.exports = {
     /**
      * @createAndMailForgottenPasscode
      */
-
-    createAndMailForgottenPassword: (req, res) => {
-        var id = req.params.id;
+    requestMailForForgottenPasscode: (req, res) => {
         var email = req.body.email;
         var tempPasscode = null;
 
-        // Don't allow the login user to stay logged in
+        // Don't allow the user to stay logged in if they forgot.
+        // This may let someone else log you out 
+        // if the session is on the server, but not if we are using cookies
+        req.session.last_stage = 'forgotPassword'
         req.session.login_id = null;
+        req.session.save()
 
         if (!email) {
-            logd("createAndMailForgottenPasscode email is null or empty");
+            logd("requestMailForForgottenPasscode email is null or empty");
             res.json({message: 'Error', error: "missing email" });
-        } else if (!id) {
-            logd("createAndMailForgottenPasscode id is null or empty");
-            res.json({ message: 'Error', error: "missing id in URL" });
-        } else {
-            // 1. The login user has to exist if we want to change a password
-            //Login.findOneAndDelete({ email: email, _id: id }, function (err, login) {
-            Login.findOne({ email: email, _id: id }, function (findErr, existingUser) {
-                if (guard( findErr, res, "Failed to find login user", "createAndMailForgottenPasscode failed to find login user for: " + id + " : " + email + " -- " + findErr)) { return; }
-                if (guard( !existingUser, res, "Failed to find login user", "createAndMailForgottenPasscode no login user object for: " + id + " : " + email)) { return; }
-                if (guard( !existingUser.passwordHash, res, "Failed to find login user", "createAndMailForgottenPasscode login user has no hash: " + id + " : " + email)) { return; }
-                if (guard( !existingUser.isSameEmail(email), res, "Failed to find login user", "registerUserPass login user email doesn't match")) { return; }
+            return
+        } 
 
-                // 2. the login user exists, lets make sure the login user knows the forgotten password code
-                tempPasscode = login.createTempForgottenPassword();
-                // passcode doesn't work unless we save it
-                existingUser.save(function(err, savedUser) {
-                    if (err) {
-                        logd("createAndMailForgottenPasscode could not save the new temp passcode. Wont' take effect.");
-                        res.json({ message: 'Error', error: err })
-                    } else if (!tempPasscode) {
-                        llogd("createAndMailForgottenPasscode did not create a temp passcode.");
-                        res.json({message: 'Error', error: "Could not generate temp passcode" })
-                    } else if (DEBUG_DONT_SEND_MAIL){
-                        // Normally in production we would send email
-                        // But we are debugging and want to avoid that
-                        // So instead just log the temp passcode
-                        logd("createAndMailForgottenPasscode DEBUG not sending email, would have sent to %s the temp passcode %s", email, tempPasscode);
-                        res.json({message: 'Success', error: "Passcode was generated, DEBUG success"})
+        // 1. The login user has to exist if we want to change a password
+        Login.findOne({ email: email }, function (findErr, existingUser) {
+            if (findErr) {
+                res.json({ message: 'Error', error: "Failed to find login user" })
+                logd("requestMailForForgottenPasscode failed to find login user for: " + id + " : " + email + " -- " + findErr)
+                return
+            } else if (!existingUser) {
+                res.json({ message: 'Error', error: "Failed to find login user"});
+                logd("requestMailForForgottenPasscode no login user object for: " + id + " : " + email)
+                return;
+            }
+            if (!existingUser.passwordHash) {
+                res.json({message: 'Error', error: "Failed to find login user"});
+                logd("requestMailForForgottenPasscode login user has no hash: " + id + " : " + email);
+                return;
+            }
+            if (!existingUser.isSameEmail(email)) {
+                res.json({message: 'Error', error: "Failed to find login user"});
+                logd("requestMailForForgottenPasscode login user email doesn't match");
+                return;
+            }
 
-                    } else {
-                        // we should send the email from here
-                        emailGateway.sendForgotEmail(login.email, tempPasscode, function(err, success){
-                            if(err) {
-                                res.json({message: 'Error', error: "Could not send mail for forgotten passcode"});
+            // 2. the login user exists, lets make sure the login user knows the forgotten password code
+            tempPasscode = login.createTempForgottenPassword();
+            // passcode doesn't work unless we save it
+            existingUser.save(function(err, savedUser) {
+                if (err) {
+                    logd("requestMailForForgottenPasscode could not save the new temp passcode. Wont' take effect.");
+                    res.json({ message: 'Error', error: err })
+                    return
+                } else if (!tempPasscode) {
+                    logd("requestMailForForgottenPasscode did not create a temp passcode.");
+                    res.json({message: 'Error', error: "Could not generate temp passcode" })
+                    return
 
-                                // Clean up since the temppasscode can never be used
-                                savedUser.invalidateTempForgot();
-                                savedUser.save(function(err, secondSavedUser){
-                                    if (err) {
-                                        logd("createAndMailForgottenPasscode could not save the invalidateTempForgot after an error");
-                                        // already sent a respons
-                                    } else if (!secondSavedUser) {
-                                        logd("createAndMailForgottenPasscode got a null without an err when trying to save invalidateTempForgot after an error");
-                                        // already sent a response
-                                    } else {
-                                        // Succeeded to invalidte the temp passcode
-                                        // but it still was an error sending the mail
-                                        //already sent a response
-                                    }
-                                });
-                            } else if (!success) { // shouldn't happen
-                                res.json({message: 'Error', error: "Internal server error sending mail"})
+                } else if (DEBUG_DONT_SEND_MAIL){
+                    // Normally in production we would send email
+                    // But we are debugging and want to avoid that
+                    // So instead just log the temp passcode
+                    logd("requestMailForForgottenPasscode DEBUG not sending email, would have sent to %s the temp passcode %s", email, tempPasscode);
+                    res.json({message: 'Success', error: "Passcode was generated, DEBUG success"})
+                    return
+                } 
+                
+                // we should send the email from here
+                emailGateway.sendTempPassword(login.id, tempPasscode, function(err, success){
+                    if(err) {
+                        res.json({message: 'Error', error: "Could not send mail for forgotten passcode"});
+
+                        // Clean up since the temppasscode can never be used
+                        savedUser.invalidateTempForgot();
+                        savedUser.save(function(err, secondSavedUser){
+                            if (err) {
+                                logd("requestMailForForgottenPasscode could not save the invalidateTempForgot after an error");
+                                // already sent a respons
+                            } else if (!secondSavedUser) {
+                                logd("requestMailForForgottenPasscode got a null without an err when trying to save invalidateTempForgot after an error");
+                                // already sent a response
                             } else {
-                                res.json({message: 'Success', error: "Passcode was generated, please check mail"})
+                                // Succeeded to invalidte the temp passcode
+                                // but it still was an error sending the mail
+                                //already sent a response
                             }
-                        
                         });
+                    } else if (!success) { // shouldn't happen
+                        res.json({message: 'Error', error: "Internal server error sending mail"})
+                    } else {
+                        res.json({message: 'Success', data: { info: "Passcode was generated, please check mail" }})
                     }
+                
                 });
             });
-        }
-        return tempPasscode;
+        });
     },
 
-    changeForgottenPassword: (res, req) =>{
+    changePasswordAfterForgetting: (res, req) =>{
         // do change password stuff
-        // - to change the password you hav eto know the old password
-        // - and the email, and the id
-        var id = req.params.id;
-        var email = req.body.newPassword
-        var forgottenPasswordCode = req.body.forgetPasswordCode;
+        // - to change the password you have to know the temp password
+        // - and the email
+        var email = req.body.email
+        var tempPassword = req.body.tempPassword;
+        var newPassword = req.body.newPassword
 
         if (!email) {
-            logd("changeForgottenPassword email is null or empty");
+            logd("changePasswordAfterForgetting email is null or empty");
             res.json({message: 'Error', error: "missing email"});
-
+        } else if (!tempPassword) {
+            logd("changePasswordAfterForgetting tempPassword is null or empty");
+            res.json({message: 'Error', error: "missing tempPassword"});
         } else if (!newPassword) {
-            logd("changeForgottenPassword newPassword is null or empty");
+            logd("changePasswordAfterForgetting newPassword is null or empty");
             res.json({message: 'Error', error: "missing newPassword"})
-        }else if (!forgotPasswordCode) {
-            logd("changeForgottenPassword forgotPasswordCode is null or empty");
-            res.json({message: 'Error', error: "missing forgotPasswordCode"});
-        }else {
-
+        } else {
             // Validate new password is good enough? That happens in setPassword
 
             // 1. The login user has to exist if we want to change a password
@@ -597,44 +380,45 @@ module.exports = {
                 if (err) {
                     res.json({message: 'Error', error: err})
                 } else if (!login || !login.id || !login.isSameEmail(email) || !login.passwordHash) {
-                    res.json({ message: 'Error', error: "bad login user record" })
+                    res.json({ message: 'Error', error: "Bad login user record" })
                 } else {
-                    // 2. the login User exists, lets make sure the login user knows the forgotten password code
-                    if(!login.forgottenPasswordCodeIsValid(forgotPasswordCode)) { // security gate
+                    // 2. the login User exists, l
+                    //    make sure the user knows the temp password
+                    if(!login.forgottenPasswordCodeIsValid(tempPassword)) { // security gate
                         // we need to save because an attempt was made
                         login.save(function(err, savedAttempt) {
                             if (err) {
                                 // this is bad, someone got a free attempt
-                                logd("ERROR: changeForgottenPassword attempt was made but couldn't save after invalid code")
+                                logd("ERROR: changePasswordAfterForgetting attempt was made but couldn't save after invalid code")
                             } else {
-                                logd("changeForgottenPassword saved failed attempt");
+                                logd("changePasswordAfterForgetting saved failed attempt");
                             }
                         });
                         res.json({message: 'Error', error: "forgotPasswordCode is invalid" });
                     } else {
-                        // 3. Now change the password
+                        // 3. They got the temp password correct.
+                        //    Now change to the new password they wanted
                         if (!login.setPassword(newPassword)) { // this generates the hash
-                            logd("changeForgottenPassword newPassword is not valid");
+                            logd("changePasswordAfterForgetting newPassword is not valid");
                             res.json({message: 'Error', error: "new password is not strong enough"});
                         } else if (!login.passwordMatchesHash(newPassword)) {
-                            logd("changeForgottenPassword newPassword cannot validate hash");
+                            logd("changePasswordAfterForgetting newPassword cannot validate hash");
                             res.json({ message: 'Error', error: "internal error setting password" });
                         } else {
-                            // 4. Save the password t0 the database
+                            // 4. Save the password to the database
                             login.save(function (err, save_data) {
                                 if (err) {
-                                    logd("changeForgottenPassword save failed: " + err);
-                                    res.json({message: 'Error', error: "failed to save updated password"});
-                                } else if ( !save.data ) {
-                                    logd("changeForgottenPassword save didn't work properly"); // should never happen
-                                    res.json({message: 'Error', error: "save didn't return data" });
-                                    
+                                    logd("changePasswordAfterForgetting save failed: " + err);
+                                    res.json({message: 'Error', error: "Failed to save updated password"});
+                                } else if ( !save_data ) {
+                                    logd("changePasswordAfterForgetting save didn't work properly"); // should never happen
+                                    res.json({message: 'Error', error: "Failed to update password" });
                                 } else {
                                     // Success! The login user should really have to re-login to ensure the password worked
                                     // We shouldn't let the login user stay logged in with the old password on any other brother. How?
-                                    res.json({message: 'Success, data: "yay'}); // not sure we should return the password hash
+                                    req.session.last_stage = 'changePasswordAfterForgetting'
                                     req.session.login_id = null;
-
+                                    res.json({message: 'Success', data: { login_id: save_data.id }}); 
                                 }
                             })
                         }
@@ -644,68 +428,10 @@ module.exports = {
         }
     },
 
-
     /**
-     * @registerUserPassword 
-     * do registration stuff
-     */
-    registerUserPassword: (req, res) => {
-        var email = req.body.email;
-        var password = req.body.password;
-        var first_name = req.body.first_name;
-        var last_name = req.body.last_name;
-
-        if (guard(!email, res, "missing email", "registerUserPass email is null or empty")) { return; }
-        if (guard(!password, res, "missing password", "registerUserPss password is null or empty")) { return; }
-        if (guard( !first_name, res, "missing first_name", "registerUserPass first_name is null or empty")) { return; }
-        if (guard( !last_name, res, "missing last_name", "registerUserPass last_name is null or empty")) { return; }
-
-        // 1. Make sure the email is not in use
-        Login.findOne({ email: email }, function (findErr, existingUser) {
-            if(guard(existingUser, res, "email already exists", "registerUserPass findOne existing")) { return; }
-
-            if(guard(findErr && findErr != "Not found", res, "can't find email", "registerUserPass findOne findErr")) { return; }
-        
-            // 2. create a User and set the password
-            logd("registerUserPass findOne nothing found");
-            var newUser = new User({
-                email: email,
-                password: password,
-                first_name: first_name,
-                last_name: last_name,
-            });
-
-            // 3. Make sure the password is strong and valid 
-            if (!newUser.setPassword(password)) { // sets passwordHash
-                // Paasword is no good. Let's give the best error we can
-                const passwordRules = "Password must be 8-64 characters, with at least one A-Z, one a-z, one 0-9 and one from '!@#$%^&*()=.-'";
-                if (guard(!newUser.isValidPassword(password), res, passwordRules, null)) { return; }
-                if (guard(!newUser.isStrongPassword(password), res, "Password isn't strong enough. Try to make it more random.", null)) { return; }
-                res.json({ message: 'Error', error: "Password isn't set" });
-                return;
-            } 
-            // not relying on middleware to hash the password, because setPassword does that
-            logd("registerUserPass newUser %s: %s", newUser.email, newUser.passwordHash); //eventually we won't log hash
-
-            newUser.save(function (saveErr, savedUser) {
-                if (guard(saveErr, res, "Failed to create new user", "registerUserPass saveErr")) { return; }
-                if (guard(!savedUser, res, "failed to create new user", "registerUserPass create failed to give a user")) { return; }
-                if (guard(!savedUser.isSameEmail(email), res, "failed to create new user", "registerUserPass create failed to give a user the same email")) { return; }
-                if (guard(!savedUser.passwordMatchesHash(password), res, "internal error creating user", "registerUserPass create no hash")) { return; }
-
-                 // 4. Success!  The user should really have to re-login to ensure the password worked
-                //              We shouldn't let the user stay logged in with the old password on any
-                //              other browser either. HOW?
-                logd("registerUserPass create success");
-                req.session.login_id = null;
-                res.json({ message: 'Success', data: "Yay, you are now registered" });// not sure we should return the password hash
-            });
-        
-        });
-    },
-
-       /**
-     * @loginWithUserPassword
+     * @Login the user
+     * Requires either the password
+     * or a hash of the password
      */
     loginWithUserPassword: (req, res) => {
         logd("loginWithUserPassword");
@@ -714,15 +440,18 @@ module.exports = {
         var givenPassword = req.body.password;
         var givenPasswordHash = req.body.passwordHash; // The client could instead send us the hashed password
 
-
         if (!email) {
             res.json({ message: 'Error', error: "email is required" })
-        } else if ( !givenPassword && !givenPasswordHash) { // must have at least one of the two
+        } else if ( !givenPassword && !givenPasswordHash) { 
+            // must have at least one of the two
             res.json({ message: 'Error', error: "password is required" })
         } else {
-            // Don't leave the client logged in if they are trying to re-oogin and fail
+            // Don't leave the client logged in
+            // if they are trying to re-login and fail they should be logged out
             if(req.session) {
-                req.session.login_id = null;
+                req.session.last_stage = 'startLogin'
+                req.session.login_id = null
+                req.session.save()
             }
 
             // 1. The user has to exist if we want to change a password
@@ -752,14 +481,15 @@ module.exports = {
                     }
                     
                     if(goodPassword) {
-                        res.json({ message: 'Success', data: {
-                            _id: login.id,
-                            email: login.email,
-                            isActivate: login.isActivate,
-                        } }) // DO NOT RETURN PASSWORD HASH
                         if(req.session) {
+                            req.session.last_stage = 'loggedIn'
                             req.session.login_id = login.id;
                         }
+                        res.json({ message: 'Success', data: {
+                            login_id: login.id,
+                            email: login.email,
+                            isEmailVerified: login.isEmailVerified,
+                        } }) // DO NOT RETURN PASSWORD HASH
                     } else {
                         res.json({message: 'Error', error: "correct password wasn't given"});
                     }
@@ -768,14 +498,11 @@ module.exports = {
         }
     },
 
-
-   
-
     /**
      * @return the log in email base on user request
      */
     getLoginEmail: (req, res) => {
-        Login.findById(req.params.id, function (err, data) {
+        findByIdIfSignedIn(req, req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
             } else {

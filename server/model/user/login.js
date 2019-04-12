@@ -16,12 +16,12 @@ var LoginSchema = new Schema({
     phone: { type: String, match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/ },
     type: { type: Number, required: true, default: 9 },
     password: { type: String, required: true },
-    isActivate: { type: Boolean, default: false },
+    isEmailVerified: { type: Boolean, default: false },
     isForgotPassword: { type: Boolean, default: false },
-    tempActivationCode: { type: String, minlength: 6, maxlength: 6, default: "000000" },
+    tempActivationCode: { type: Number, min: 100001, max: 999999 },
     // LOGIN
     passwordHash: { type: String, required: true, minlength: 60, maxlength: 60 },
-    // When a login user forgets their password, we basically email them a second temp password
+    // When a login user forgets thheir password, we basically email them a second temp password
     tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 },
     tempForgotExpiry: { /* if missing, the tempForgotHash is invalid */ type: Date, required: false },
     tempForgotAttemptsRemaining: { /* if 0, the tempForgotHash is invalid*/ type: Number, required: false, max: MAX_FORGOTTEN_ATTEMPTS, min: 0, 
@@ -65,6 +65,8 @@ LoginSchema.methods.isStrongPassword = function (newPassword) {
     // If we passed all that, it is acceptable
     return true;
 }
+
+
 
 /**
  * @isValidPassword explicitly checks eah rule for the password

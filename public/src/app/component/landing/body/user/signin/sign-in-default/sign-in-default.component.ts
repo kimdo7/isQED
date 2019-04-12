@@ -66,7 +66,7 @@ export class SignInDefaultComponent implements OnInit {
         let tempObservable = this.userService.login(this.user_form.value)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                if (data["data"]["isActivate"]) {
+                if (data["data"]["isEmailVerified"]) {
                     this.router.navigate(["/learning"])
                 } else {
                     this.router.navigate(["/signin/validation/" + data["data"]["login_id"]])

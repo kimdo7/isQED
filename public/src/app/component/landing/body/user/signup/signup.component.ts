@@ -63,7 +63,7 @@ export class SignupComponent implements OnInit {
             if (!data) {
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
-                this.router.navigate(["/signin/validation/" + data["id"]])
+                this.router.navigate(["/signin/validation/" + data["login_id"]])
             } else if (data["error"]) {
                 this.showDangerMessage("Error!!! " + data["error"])
             } else {
