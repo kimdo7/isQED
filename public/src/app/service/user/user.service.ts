@@ -24,11 +24,11 @@ export class UserService {
         return this.http.get("/api/login/email/" + id)
     }
     checkIsEmailVerified(id, code){
-        return this.http.get("/api/login/activate/"+id+"/"+code)
+        return this.http.get("/api/login/activate/email/"+id+"/"+code)
     }
 
     resendActivationCode(id){
-        return this.http.get("/api/login/activateCode/email/"+id)
+        return this.http.get("/api/login/requestActivationCode/email/"+id)
     }
 
     /**
@@ -52,7 +52,7 @@ export class UserService {
      * @param data contains user's email, tempPassword and newPassword
      */
     changePasswordAfterForgetting(data){
-        return this.http.post("/api/login/changePassword/forgot", data)
+        return this.http.post("/api/login/changePasswordForgot", data)
     }
 
     /**

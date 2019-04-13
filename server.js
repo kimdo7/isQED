@@ -26,6 +26,9 @@ app.use(session({
 	 }
 }))
 
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true)
 mongoose.connect(
 	'mongodb://localhost/isQED',

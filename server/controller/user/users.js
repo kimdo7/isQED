@@ -33,13 +33,16 @@ module.exports = {
         if (!req.body.password.match(regex)) {
             res.json({ message: 'Error', error: "Password is not matching the rules" })
             return
-        } else if (!req.body.email || req.body.email.length < 5) {
+        }
+        if (!req.body.email || req.body.email.length < 5) {
             res.json({ message: 'Error', error: "Email is not long enough" })
             return
-        } else if (!req.body.first_name) {
+        }
+        if (!req.body.first_name) {
             res.json({ message: 'Error', error: "First name is missing" })
             return
-        } else if (!req.body.last_name) {
+        }
+        if (!req.body.last_name) {
             res.json({ message: 'Error', error: "Last name is missing" })
             return
         }
@@ -59,7 +62,8 @@ module.exports = {
             if (!newLogin.isValidPassword(password)) {
                 res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
                 return
-            } else if (!newLogin.isStrongPassword(password)) {
+            }
+            if (!newLogin.isStrongPassword(password)) {
                 res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
                 return
             }
@@ -68,9 +72,11 @@ module.exports = {
         }
         if (!newLogin.passwordMatchesHash(req.body.password)) {
             res.json({ message: 'Error', error: "Internal server error with password" })
+            return
         }
         if (!newLogin.isSameEmail(req.body.email)) {
             res.json({ message: 'Error', error: "Internal server error with email" })
+            return
         }
         newLogin.save((err, savedLogin) => {
             if (!savedLogin) {
@@ -88,13 +94,12 @@ module.exports = {
                                 res.json({ message: 'Error', error: "Error on server, please retry" })
                                 return
                             })
-                        } else {
-                            res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
-                            return
-                        }
+                        }     
+                        res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
                     })
                     return
                 }
+
                 logd("register: couldn't save");
                 res.json({ message: 'Error', error: "Password must be 8 characters or more", errorDetail: err })
                 return
@@ -115,25 +120,27 @@ module.exports = {
                     if (err) {
                         res.json({ message: 'Error', error: err })
                         return
-                    } else if (!newLogin.isSameEmail(newUser.email)) {
-                        res.json({ message: 'Error', error: "Internal server error with user email" })
-                    } else {
-                        // Success!
-                        // Log in the user, send them activation mail
-                        req.session.last_stage = 'registered'
-                        req.session.login_id = savedLogin.id;
-                        req.session.save()
-                        emailGateway.sendActivation(savedLogin.id, (sendErr) => {
-                            if (sendErr) {
-                                // we weren't able to send the email
-                                // but we were able to create the user
-                                // pretend that we sent them the email
-                                // they can always click the button on the activation form to resend
-                                // SO DO NOTHING HERE!
-                            }
-                        })
-                        res.json({ message: 'Success', login_id: newUser.loginId })
                     }
+                    if (!newLogin.isSameEmail(newUser.email)) {
+                        res.json({ message: 'Error', error: "Internal server error with user email" })
+                        return
+                    }
+                    
+                    // Success!
+                    // Log in the user, send them activation mail
+                    req.session.last_stage = 'registered'
+                    req.session.login_id = savedLogin.id;
+                    req.session.save()
+                    emailGateway.sendActivation(savedLogin.id, (sendErr) => {
+                        if (sendErr) {
+                            // we weren't able to send the email
+                            // but we were able to create the user
+                            // pretend that we sent them the email
+                            // they can always click the button on the activation form to resend
+                            // SO DO NOTHING HERE!
+                        }
+                    })
+                    res.json({ message: 'Success', login_id: newUser.loginId })
                 }
             )
         });
@@ -146,9 +153,9 @@ module.exports = {
         User.find({}, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
-            } else {
-                res.json({ message: 'Success', data: data })
+                return
             }
+            res.json({ message: 'Success', data: data })
         })
     },
 
@@ -160,9 +167,9 @@ module.exports = {
         User.findById(id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
-            } else {
-                res.json({ message: 'Success', data: data })
-            }
+                return
+            } 
+            res.json({ message: 'Success', data: data })
         })
     },
 
@@ -175,9 +182,9 @@ module.exports = {
         User.findByIdAndUpdate(id, update, { $set: req.body }, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
-            } else {
-                res.json({ message: 'Success', data: data })
+                return
             }
+            res.json({ message: 'Success', data: data })
         })
     },
 
@@ -189,18 +196,21 @@ module.exports = {
         User.findByIdAndDelete(req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
-            } else if (data == null){
-                res.json({ message: 'Error', error: "id is invalid" })
-
-            } else {
-                Login.findByIdAndDelete(data.loginId, function(err, data){
-                    if (err) {
-                        res.json({ message: 'Error', error: err })
-                    }else{
-                        res.json({ message: 'Success', data: data })
-                    }
-                })
+                return
             }
+
+            if (data == null){
+                res.json({ message: 'Error', error: "id is invalid" })
+                return
+            } 
+            
+            Login.findByIdAndDelete(data.loginId, function(err, data){
+                if (err) {
+                    res.json({ message: 'Error', error: err })
+                    return
+                }
+                res.json({ message: 'Success', data: data })
+            })
         })
     },
 }

@@ -10,24 +10,29 @@ const MIN_PASSWORD_LEN = 8;
 const MAX_PASSWORD_LEN = 64;
 
 var LoginSchema = new Schema({
-    first_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z ]+$/ },
-    last_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z ]+$/ },
-    email: { type: String, required: true, unique: true, match: /\S+@\S+\.\S+/ },
-    phone: { type: String, match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/ },
-    type: { type: Number, required: true, default: 9 },
-    password: { type: String, required: true },
-    isEmailVerified: { type: Boolean, default: false },
-    isForgotPassword: { type: Boolean, default: false },
-    tempActivationCode: { type: Number, min: 100001, max: 999999 },
-    // LOGIN
+    // Needed for Login
     passwordHash: { type: String, required: true, minlength: 60, maxlength: 60 },
-    // When a login user forgets thheir password, we basically email them a second temp password
+    email: { type: String, required: true, unique: true, match: /\S+@\S+\.\S+/ },
+
+    // Email verification / activation
+    isEmailVerified: { type: Boolean, default: false },
+    tempActivationCode: { type: Number, min: 100001, max: 999999 },
+
+    // Phone number and verification
+    isPhoneVerified: { type: Boolean, default: false },
+    phone: { type: String, match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/ },
+
+    // Account role: what account is allowed to do
+    type: { type: Number, required: true, default: 9 },
+
+    // Password reset: we basically email them a second temp password
+    isForgotPassword: { type: Boolean, default: false },
     tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 },
-    tempForgotExpiry: { /* if missing, the tempForgotHash is invalid */ type: Date, required: false },
-    tempForgotAttemptsRemaining: { /* if 0, the tempForgotHash is invalid*/ type: Number, required: false, max: MAX_FORGOTTEN_ATTEMPTS, min: 0, 
+    tempForgotExpiry: { type: Date, required: false },
+    tempForgotAttemptsRemaining: { type: Number, required: false, max: MAX_FORGOTTEN_ATTEMPTS, min: 0, 
         validate: {
             validator: Number.isInteger, message: '{VALUE} is not an integer value' } }, // if 0 or null, the tempForgotHash is invalid
-    },{ timestamps: true, upsert: true, collection: 'login' })
+    }, { timestamps: true, upsert: true, collection: 'login' })
 
     // NOTE: E11000 duplicate key error collection: isQED.login index: user_name_1 dup key: { : null }
     // If you hit this, go to mongo and db.user.dropIndex("user_name_1")

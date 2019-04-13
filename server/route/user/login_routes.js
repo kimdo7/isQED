@@ -2,6 +2,17 @@ var logins = require('../../controller/user/logins')
 
 const DEBUG = true;
 
+/**
+ * @DEBUG 
+ * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+ *  - To see this output, you have to pass it into nodemon when you run it:
+ *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+ *  - To shut off logs, just run nodemon normally:
+ *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+ */
+const logd = require('debug')('QEDlog')
+
+
 module.exports = function (app) {
     /**
      * @Login the user, starting their session
@@ -38,7 +49,7 @@ module.exports = function (app) {
      * @Activate a user (they got the email from registration)
      * This requires the user to be logged in but not isEmailVerified
      */
-    app.get("/api/login/activate/:id/:code", (req, res) => {
+    app.post("/api/login/activate/:id/:code", (req, res) => {
         logins.activateById(req, res)
     })
 
@@ -47,8 +58,8 @@ module.exports = function (app) {
      *  (Note the users.register already sends the first mail, this is to get a new one)
      * This requires the user to be logged in but not isEmailVerified
      */
-    app.get("/api/login/activateCode/email/:id", (req, res) => {
-        logins.sendMail(req, res)
+    app.post("/api/login/requestActivationCode/email/:id", (req, res) => {
+        logins.requestMailForActivation(req, res)
     })
 
 
@@ -68,8 +79,9 @@ module.exports = function (app) {
      * And allows them to change their real password to something new
      * This does NOT log them in, they have to do that as the next step.
      */
-    app.post('/api/changePassword/forgot', (req, res) => {
-        logins.changePasswordAfterForgetting(req, res);
+    app.post('/api/login/changePasswordForgot', (req, res) => {
+        logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
+        logins.changePasswordAfterForgetting(req, res)
     })
 
     // DEBUG ONLY - don't use this in production!

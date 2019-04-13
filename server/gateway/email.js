@@ -32,13 +32,23 @@ module.exports = {
      * @param next a callback (err) which gets null for success
      */
     sendActivation: (login_id, next) => {
-        Login.findById(login_id, function (findErr, login) {
+        if (!login_id) {
+            logd("sendActivation: Missing required login_id: " +  login_id)
+            next("Missing user login id");
+            return;  
+        }
+        Login.findById(login_id, (findErr, login) => {
             if (findErr) {
                 logd("Send email error 12" + findErr)
                 next("Failed to send " + findErr);
                 return;
             } 
-            if(login.isEmailVerified) {
+            if (!login) {
+                logd("sendActivation: Could not find " +  login_id)
+                next("Could not find user");
+                return;  
+            }
+            if (login.isEmailVerified) {
                 logd("not sending email because it is already verified");
                 next("User is already activated ");
                 return;
@@ -55,7 +65,8 @@ module.exports = {
                 // Successfully saved the code, so we can send the email
                 var activateMailOptions = {
                     from: fromAddress, 
-                    to: fakeToAddress, // for now, instead of login.email,
+                    //to: fakeToAddress, // for now, instead of login.email,
+                    to: login.email, 
                     subject: "isQED account verification",
                     text: "Your activation code is " + codeString,
                 }
@@ -63,10 +74,10 @@ module.exports = {
                     if (sendErr) {
                         logd("Send email error");
                         next("Send email error " + sendErr);
-                    } else {
-                        logd("Send email success");
-                        next(null);
-                    }
+                        return
+                    } 
+                    logd("Send email success");
+                    next(null);
                 })
             });
         })
@@ -77,6 +88,7 @@ module.exports = {
 
         if (!next) {
             logd("sendTempPassword missing next callback");
+            return
         } else if (!login_id) {
             logd("sendTempPassword missing login_id");
             next("missing login_id");
@@ -96,7 +108,8 @@ module.exports = {
 
             var forgotMailOptions = { 
                 from: fromAddress,
-                to: fakeToAddress,// for now, instead of to: login.email
+                // to: fakeToAddress,// for now, instead of to: login.email
+                to: login.email,
                 subject: "isQED Password Reset",
                 // Still need to escape the email address
                 text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "reset_password/email/" + login.email + "/" + tempPasscode + "\n",
@@ -105,10 +118,11 @@ module.exports = {
                 if (err) {
                     logd("sendTempPassword error to "+ email + " : " + err)
                     next(err);
-                } else {
-                    logd("sendTempPassword success to " + email)
-                    next(null, "Success")
+                    return
                 }
+
+                logd("sendTempPassword success to " + email)
+                next(null, "Success")
             });
         })
     },

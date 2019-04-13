@@ -9,281 +9,376 @@
 			"name": "Login",
 			"item": [
 				{
-					"name": "Get Logins",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+					"name": "Debug",
+					"item": [
+						{
+							"name": "Debug: Get All Logins",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:8000/api/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8000/api/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"login"
-							]
+						{
+							"name": "Debug: Get Login by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/5cb13a2c1b50df7bc7096d0f",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"5cb13a2c1b50df7bc7096d0f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Debug: Update Login by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"isEmailVerified\": false,\n        \"isPhoneVerified\": false,\n        \"type\": 9,\n        \"isForgotPassword\": false,\n        \"_id\": \"5cb13a2c1b50df7bc7096d0f\",\n        \"email\": \"sylviah.yu@gmail.com\",\n        \"first_name\": \"Sylvia\",\n        \"last_name\": \"Yu\",\n        \"passwordHash\": \"$2b$10$6L6WLYOdJb60aVGn3vSJOuySSnIevbFB2/52HGnwWB15Q4DG/w4xG\",\n        \"createdAt\": \"2019-04-13T01:23:56.262Z\",\n        \"updatedAt\": \"2019-04-13T02:20:45.961Z\",\n        \"__v\": 0,\n        \"tempActivationCode\": 299344\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/5cb13a2c1b50df7bc7096d0f",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"5cb13a2c1b50df7bc7096d0f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Debug: Delete Login",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/5ca4efb82523c94ef0aa41a8",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"5ca4efb82523c94ef0aa41a8"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Get Login by ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+					"name": "Sign Up and Sign In / Out",
+					"item": [
+						{
+							"name": "User Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8000/api/login/5c9bf36e3bbdc941335c97a7",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"login",
-								"5c9bf36e3bbdc941335c97a7"
-							]
+						{
+							"name": "loginWithUserPassword",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"sylviah.yu@gmail.com\",\n    \"password\": \"0Ass294d!!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Log out",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/logout",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"logout"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Get Login by Username",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+					"name": "Changing Password",
+					"item": [
+						{
+							"name": "Signed In: Change Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\",\n\t\"oldPassword\": \"0Ass294d!\",\n\t\"newPassword\": \"0Ass294d!!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/changePassword/5cb13a2c1b50df7bc7096d0f",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"changePassword",
+										"5cb13a2c1b50df7bc7096d0f"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8000/api/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"login"
-							]
+						{
+							"name": "I Forgot: Get Temp Pass",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/requestForgotPassword",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"requestForgotPassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "I Forgot: Use Temp Pass to change pass",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\",\n\t\"tempPassword\": \"tu1zu8ruq14t6186c0xy6dbvdcxbj40c\",\n\t\"newPassword\": \"0Ass294d!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/changePasswordForgot",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"changePasswordForgot"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Delete Login",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+					"name": "Activation",
+					"item": [
+						{
+							"name": "Use Activation Code",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"notused\": \"ignored\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/login/activate/5cb13a2c1b50df7bc7096d0f/299344",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"login",
+										"activate",
+										"5cb13a2c1b50df7bc7096d0f",
+										"299344"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8000/api/login/5c9bf36e3bbdc941335c97a7",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"login",
-								"5c9bf36e3bbdc941335c97a7"
-							]
+						{
+							"name": "Resend Activation Code",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@example.org\",\n    \"password\": \"0Ass294d!\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8000/api/doRegister",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"doRegister"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/register",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Log in",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/register",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Log out",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/register",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Change Password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userName\": \"test111@gmail.com\",\n\t\"oldPassword\": \"\",\n\t\"newPassword\": \"\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/changePassword/",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"changePassword",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Temp Pass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userName\": \"test111@gmail.com\",\n\t\"oldPassword\": \"\",\n\t\"newPassword\": \"\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/changePassword/",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"changePassword",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Use Temp Pass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userName\": \"test111@gmail.com\",\n\t\"oldPassword\": \"\",\n\t\"newPassword\": \"\"\n}"
-						},
-						"url": {
-							"raw": "localhost:8000/api/changePassword/",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"changePassword",
-								""
-							]
-						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		}
