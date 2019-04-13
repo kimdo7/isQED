@@ -19,7 +19,6 @@ import { TrainingComponent } from './component/landing/body/training/training.co
 import { TrainingHomeComponent } from './component/landing/body/training/training-home/training-home.component';
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
-import { MembershipComponent } from './component/landing/body/membership/membership.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { SigninComponent } from './component/landing/body/user/signin/signin.component';
 import { SignupComponent } from './component/landing/body/user/signup/signup.component';
@@ -70,7 +69,6 @@ const routes: Routes = [
                 ]
             },
 
-            { path: "membership", component: MembershipComponent },
             { path: "signup", component: SignupComponent },
             {
                 path: "signin", component: SigninComponent, children: [

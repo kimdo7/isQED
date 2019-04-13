@@ -24,7 +24,7 @@ const colors: any = {
 @Component({
     selector: 'app-isqed-calendar',
     templateUrl: './isqed-calendar.component.html',
-    styleUrls: ['./isqed-calendar.component.css'],
+    styleUrls: ['./isqed-calendar.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IsqedCalendarComponent implements OnInit {

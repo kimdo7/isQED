@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
     selector: 'app-sign-in-default',
     templateUrl: './sign-in-default.component.html',
-    styleUrls: ['./sign-in-default.component.css']
+    styleUrls: ['./sign-in-default.component.scss']
 })
 export class SignInDefaultComponent implements OnInit {
 

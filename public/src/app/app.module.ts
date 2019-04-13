@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materials';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 /**
  * Calendar
@@ -37,7 +38,6 @@ import { TrainingComponent } from './component/landing/body/training/training.co
 import { TrainingHomeComponent } from './component/landing/body/training/training-home/training-home.component';
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
-import { MembershipComponent } from './component/landing/body/membership/membership.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { AdministratorDashboardComponent } from './component/administrator/administrator-dashboard/administrator-dashboard.component';
 import { SigninComponent } from './component/landing/body/user/signin/signin.component';
@@ -54,7 +54,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ResetPasswordComponent } from './component/landing/body/user/signin/reset-password/reset-password.component';
 import { CertificationComponent } from './component/landing/body/certification/certification.component';
 import { CopyRightComponent } from './component/landing/body/about/copy-right/copy-right.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 @NgModule({
     declarations: [
@@ -80,7 +79,6 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
         TrainingHomeComponent,
         TrainingCalendarComponent,
         RegistrationFormComponent,
-        MembershipComponent,
         LandingComponent,
         BannerComponent,
         AdministratorDashboardComponent,
@@ -112,8 +110,9 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
         }),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
+    schemas: [NO_ERRORS_SCHEMA],
     providers: [UserService, PwaService],
     bootstrap: [AppComponent],
-    entryComponents: [ ],
+    entryComponents: [],
 })
 export class AppModule { }
