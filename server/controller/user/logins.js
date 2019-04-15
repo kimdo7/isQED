@@ -128,15 +128,16 @@ module.exports = {
      * *Confirm* with the *activation code*
      */
     activateById: (req, res) => {
+        logd("activateById")
         if (!req.params.id) {
             res.json({ message: 'Error', error: "Missing id" })
             return
         }
-        if (!req.params.code) {
+        if (!req.body.code) {
             res.json({ message: 'Error', error: "Missing code" })
             return
         }
-        logd("About to find signed in ID " + req.params.id)
+        logd("activateById: About to find signed in ID " + req.params.id)
         findByIdIfSignedIn(req, req.params.id, (err, login) => {
             if (err && err == "User is not logged in") {
                 res.json({ message: 'Error', error: "You need to sign in", errorDetail: err, signInNeeded: true })
@@ -148,8 +149,8 @@ module.exports = {
             }
             
             // If we are signed in, now check the activation
-            logd("activateById: compare request " + req.params.code + " to "+ login["tempActivationCode"])
-            if (req.params.code === ""+login.tempActivationCode) {
+            logd("activateById: compare request " + req.body.code + " to "+ login["tempActivationCode"])
+            if (req.body.code === ""+login.tempActivationCode) {
                 login.isEmailVerified = true
                 login.save()
                 res.json({ message: 'Success', data: {
@@ -278,6 +279,16 @@ module.exports = {
             res.json({message: 'Error', error: "You need to be signed in"})
             return;
         } 
+
+        if (!req.body.id) {
+            res.json({message: 'Error', error: "No id given"})
+            return;
+        }
+
+        if (req.body.id !== req.session.login_id) {
+            res.json({message: 'Error', error: "ID is not logeed in"})
+            return;
+        }
 
         emailGateway.sendActivation(req.session.login_id, (err) => {
             if (err) {

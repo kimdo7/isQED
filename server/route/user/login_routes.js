@@ -49,7 +49,7 @@ module.exports = function (app) {
      * @Activate a user (they got the email from registration)
      * This requires the user to be logged in but not isEmailVerified
      */
-    app.post("/api/login/activate/:id/:code", (req, res) => {
+    app.post("/api/login/activate/email/:id", (req, res) => {
         logins.activateById(req, res)
     })
 
@@ -58,10 +58,9 @@ module.exports = function (app) {
      *  (Note the users.register already sends the first mail, this is to get a new one)
      * This requires the user to be logged in but not isEmailVerified
      */
-    app.post("/api/login/requestActivationCode/email/:id", (req, res) => {
+    app.post("/api/login/requestActivationCode/email", (req, res) => {
         logins.requestMailForActivation(req, res)
     })
-
 
     /**
      * @Send new temp password to user
