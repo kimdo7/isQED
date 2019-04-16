@@ -8,7 +8,7 @@
     * [ ] `cd frontend`
 2. Install all dependencies
     * [ ] `npm install`
-    * [ ] `cd..`
+    * [ ] `cd ..`
     * [ ] `./mdbpro-installation`
 3. Install mdpro
     * [ ] `cd frontend`
