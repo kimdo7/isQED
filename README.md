@@ -7,7 +7,7 @@
 1. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
     * [ ] `cd frontend`
 2. Install all dependencies
-    * [ ] `/npm install`
+    * [ ] `npm install`
     * [ ] `cd..`
     * [ ] `./mdbpro-installation`
 3. Install mdpro
@@ -16,7 +16,7 @@
 
 ##Serving Frontend for Building
 1. Serving angular
-    * [ ] `cd public` 
+    * [ ] `cd frontend` 
     * [ ] `ng serve` | angular serve is running on port 4200
 
 2. In chrome, go to url 
