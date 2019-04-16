@@ -51,7 +51,7 @@ a. Add this to the top of your code
 
 const logd = require('debug')('QEDlog')
 ```
-b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored.
+b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored
 
 logd("unique failure message")
 
@@ -133,4 +133,4 @@ logd("unique failure message")
 
 13.  When you want to pull the latest master into your working branch
 * [ ] `git branch`  ** make sure you NOT ON MASTER, but on your working branch **
-* [ ] `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there is no conflicts, your branch should be up to date. 
+* [ ] `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there are no conflicts, your branch should be up to date. 

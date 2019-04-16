@@ -61,7 +61,7 @@ export class UserService {
      * @param data contains user's email, oldPassword and newPassword
      */
     changePassword(id, data){
-        return this.http.post("/api/user/changePassword/"+id, data)
+        return this.http.post("/api/user/changePassword/" + id, data)
     }
 
 }

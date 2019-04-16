@@ -47,7 +47,6 @@ var LoginSchema = new Schema({
  */
 const logd = require('debug')('QEDlog')
 
-
     //              var login = new Login();
     //              login.email = 'foo@bar.com
     //              login.setPassword('password); // sets passwordHash
@@ -58,23 +57,22 @@ const logd = require('debug')('QEDlog')
 /**
  * @Password_Strength checks password strength
  *      Strength score must be greater than 2 to pass
- *      // we no longer need this because of regex
+ *      NOTE: if you want to get rid of easy to guess dictionary words, 
+ *      uncomment isStrongPassword.
  */
 zxcvbn = require('../../config/zxcvbn');
 LoginSchema.methods.isStrongPassword = function (newPassword) {
-    var strength = zxcvbn(newPassword);
-    if (strength.score < 2) { // goes up to 4, which is strong
-        return false; // not strong enough
-    }
+    //var strength = zxcvbn(newPassword);
+    // if (strength.score < 2) { // goes up to 4, which is strong
+    //     return false; // not strong enough
+    // }
     
     // If we passed all that, it is acceptable
-    return true;
+    //return true;
 }
 
-
-
 /**
- * @isValidPassword explicitly checks eah rule for the password
+ * @isValidPassword explicitly checks each rule for the password
  *      Easier to read then one regex
  */
 LoginSchema.methods.isValidPassword = function (newPassword) {
@@ -151,7 +149,7 @@ LoginSchema.methods.setPassword = function (newPassword) {
 
 /**
  * @passwordMatchesHash
- * WHEN SOMEON LOGS IN WITH USERNAME/PASSWORD
+ * WHEN SOMEONE LOGS IN WITH USERNAME/PASSWORD
  */
 LoginSchema.methods.passwordMatchesHash = function (givenPassword) {
     if (!givenPassword) {

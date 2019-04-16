@@ -67,7 +67,7 @@ module.exports = function (app) {
      * This sends a mail to the email address with a temp password.
      * This temp password will allow them to change their real password.
      * Of course, they don't have to be logged in. This will log them out if they are.
-     */
+     */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
         logins.requestMailForForgottenPasscode(req, res) 
     })
