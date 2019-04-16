@@ -19,6 +19,7 @@
 2. In chrome, go to url 
     * [] `localhost: 4200`
 
+
 ## Start the Server
 1. Leave mongoose running
     * [ ] `sudo mongod` | start a mongodb
@@ -26,13 +27,36 @@
 
 2. Open to query database
     * [ ]`mongo`
+    * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
 
 3. path to angular public project folder and run the server
     * [ ] `cd project_name/public `
     * [ ] `ng build --watch`
+ 
+4. Run nodemon with debug option to monitor for any changes in your source
+    * [ ] `nodemon server.js`
+    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to displays logs
 
-6. In chrome, go to url 
-    * [] `localhost: 8000
+a. Add this to the top of your code
+
+```
+/**
+* @DEBUG 
+* Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+*  - To see this output, you have to pass it into nodemon when you run it:
+*          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+*  - To shut off logs, just run nodemon normally:
+*          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+*/
+
+const logd = require('debug')('QEDlog')
+```
+b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored.
+
+logd("unique failure message")
+
+5. In chrome, go to url 
+    * [] `localhost: 8000`
     `
 # Github Instructions
 ## Push code changes back onto branch master
@@ -103,7 +127,7 @@
 
 12. Get your local branches up to date
 * [ ] `git pull` in case the branch was updated on the server by someone else
-* [ ] `git checkout master`
+* [ ] `git checkout master` 
 * [ ] `git pull` now are up to date on master.
 
 

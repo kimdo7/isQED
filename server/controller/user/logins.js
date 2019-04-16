@@ -350,12 +350,13 @@ module.exports = {
                     logd("requestMailForForgottenPasscode could not save the new temp passcode. Wont' take effect.");
                     res.json({ message: 'Error', error: err })
                     return
-                } else if (!tempPasscode) {
+                }
+                if (!tempPasscode) {
                     logd("requestMailForForgottenPasscode did not create a temp passcode.");
                     res.json({message: 'Error', error: "Could not generate temp passcode" })
                     return
-
-                } else if (DEBUG_DONT_SEND_EMAIL){
+                }
+                if (DEBUG_DONT_SEND_EMAIL){
                     // Normally in production we would send email
                     // But we are debugging and want to avoid that
                     // So instead just log the temp passcode

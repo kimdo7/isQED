@@ -54,7 +54,7 @@ export class SignInValidationComponent implements OnInit {
 
     /**
      * check activation code
-     * @return to *reset password* if *isForgotPassowr = TRUE*
+     * @return to *reset password* if *isForgotPasswword = TRUE*
      * @return to *Dashboard* 
      */
     checkValidation() {
