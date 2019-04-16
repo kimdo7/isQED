@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-forgot-password',
     templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.css']
+    styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
     ) { }
 
     /**
-     * 
+     * @RequestForgotPassword sends email
      */
     sendEmail() {
         if (this.emailFormControl.invalid) {
@@ -36,9 +36,11 @@ export class ForgotPasswordComponent implements OnInit {
         let tempObservable = this.userService.requestForgotPassword({ email: this.emailFormControl.value })
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
+                // We don't know the ID, and shouldn't
+                // We want to reset the passcode based only on the email
+                this.router.navigate(["/resetPassword/email/",this.emailFormControl.value.email])
             } else {
-                this.showDangerMessage("Error!!! Your email doesn't existed in our system.")
+                this.showDangerMessage("Error!!! That email account doesn’t exist. Please enter a different email address or create a new account")
             }
         });
 

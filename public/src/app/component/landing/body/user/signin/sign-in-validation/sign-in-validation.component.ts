@@ -8,7 +8,7 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
     selector: 'app-sign-in-validation',
     templateUrl: './sign-in-validation.component.html',
-    styleUrls: ['./sign-in-validation.component.css']
+    styleUrls: ['./sign-in-validation.component.scss']
 })
 export class SignInValidationComponent implements OnInit {
 
@@ -54,7 +54,7 @@ export class SignInValidationComponent implements OnInit {
 
     /**
      * check activation code
-     * @return to *reset password* if *isForgotPassowr = TRUE*
+     * @return to *reset password* if *isForgotPasswword = TRUE*
      * @return to *Dashboard* 
      */
     checkValidation() {
@@ -62,14 +62,17 @@ export class SignInValidationComponent implements OnInit {
             return
         }
 
-        let tempObservable = this.userService.checkActivate(this.user_id, this.activationCode)
+        let tempObservable = this.userService.checkIsEmailVerified(this.user_id, this.activationCode)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                if (data["data"]["isForgotPassword"] == false) {
-                    this.router.navigate(["/learning"])
-                } else {
-                    this.router.navigate(["/signin/reset_password/" + this.user_id])
-                }
+                this.router.navigate(["/learning"])
+            } else if (data["message"] == "Error" && data["signInNeeded"]) {
+                // If the server knows that we aren't signed in, 
+                // then we need to send the user to the sign in page.
+                // It would be better if we can tell them why,
+                // but the dangerMessage doens't show on the new page.
+                this.showDangerMessage("You must sign in")
+                this.router.navigate(["/signin"])
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }

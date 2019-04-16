@@ -13,7 +13,7 @@ import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthVal
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.css']
+    styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
 
@@ -53,14 +53,19 @@ export class SignupComponent implements OnInit {
      */
     onRegister() {
         if (this.user_form.invalid) {
-            this.showDangerMessage("Error!!! Please confirm email and password")
+                // showDangerMessage shows up on the webpage.
+                this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
 
         let tempObservable = this.userService.register(this.user_form.value)
         tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-                this.router.navigate(["/signin/validation/" + data["id"]])
+            if (!data) {
+                this.showDangerMessage("Error!!! Server not available. Please try later.")
+            } if (data["message"] === "Success") {
+                this.router.navigate(["/signin/validation/" + data["login_id"]])
+            } else if (data["error"]) {
+                this.showDangerMessage("Error!!! " + data["error"])
             } else {
                 this.showDangerMessage("Error!!! Please confirm email and password")
             }
@@ -102,7 +107,7 @@ export class SignupComponent implements OnInit {
             password: ['',
                 [
                     Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d].{7,}')
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
                 ]
             ],
         })

@@ -2,6 +2,7 @@ var express = require('express')
 var session = require('express-session')
 var mongoose = require('mongoose')
 
+
 var app = express()
 var bodyParser = require('body-parser')
 
@@ -9,46 +10,25 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public/dist/public'))
 
+// Allow someone to be logged in for days before having to re-login
+const day_in_ms = 24 * 60 * 60 * 1000
+const maximum_session_in_ms = 4 * day_in_ms
+
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  name: 'user',
+  name: 'isQED',
   secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,// we use this for login
   cookie: { 
-	  maxAge: 60000,
+	  maxAge: maximum_session_in_ms,
 	  sameSite: true, // why not
 	 }
 }))
 
-// https://stackoverflow.com/questions/37183766/how-to-get-the-session-value-in-ejs
-// this should make the session variable always defined in ejs
-app.use(function(req, res, next) {
-    res.locals.session = req.session;
-    next();
-  });
-
-// post route for adding a user  ?
-app.post('/user_dashboard', function(req, res) {
-    var user = {'username': req.body.username};
-    req.session.user = user;//**** */
-    res.redirect('/user_dashboard');//**** don't pass a dictionary into redirect */
-})
-// modify this code
-app.post('/sessions', (req, res) => {
-    console.log(" req.body: ", req.body);
-    User.findOne({email:req.body.email, password: req.body.password}, (err, user) => {
-        if (err) {
-            // Code...
-        }
-        else {
-            // Code...
-    		req.session.user_id = user._id;
-		req.session.email = user.email;
-        }
-    })
-})
-
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true)
 mongoose.connect(
 	'mongodb://localhost/isQED',

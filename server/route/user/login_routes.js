@@ -1,73 +1,104 @@
 var logins = require('../../controller/user/logins')
-var email = require('../../gateway/email')
 
 const DEBUG = true;
 
+/**
+ * @DEBUG 
+ * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+ *  - To see this output, you have to pass it into nodemon when you run it:
+ *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+ *  - To shut off logs, just run nodemon normally:
+ *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+ */
+const logd = require('debug')('QEDlog')
+
+
 module.exports = function (app) {
-	if (DEBUG) {
-		// app.post('/api/login', (req, res) => {
-		// 	logins.create(req, res)
-		// })
-
-		app.get('/api/login', (req, res) => {
-			logins.getAll(req, res)
-		})
-
-		app.get('/api/login/:id', (req, res) => {
-			logins.getById(req, res)
-		})
-
-		app.get('/api/login/name/:username', (req, res) => {
-			logins.getByUserName(req, res)
-		})
-
-		app.put('/api/login/:id', (req, res) => {
-			logins.updateById(req, res)
-		})
-
-		app.delete('/api/login/:id', (req, res) => {
-			logins.deleteById(req, res)
-		})
-	}
-
-	app.post('/api/login', (req, res) => {
-		logins.loginWithUserPass(req, res)
-    })
-
-
-	app.get('/api/login/email/:id', (req, res) => {
-		logins.getLoginEmail(req, res)
-    })
-    
-	app.post('/api/login/changePassword/:id', (req, res) => {
-		logins.changePassword(req, res)
-    })
-    
     /**
-     * @ativate user
+     * @Login the user, starting their session
      */
-    app.get("/api/login/activate/:id/:code", (req, res) => {
+    app.post('/api/login', (req, res) => {
+        logins.loginWithUserPassword(req, res)
+    })
+
+    /**
+     * @Logout the user, removing their session
+     * It is safe to call this even if they aren't logged in
+     */
+    app.post('/api/logout', (req, res) => {
+        logins.logout(req, res)
+    })
+
+    /**
+     * @Change password when signed in already
+     * This requires the user to be logged in. They don't have to be isEmailVerified
+     */
+    app.post('/api/changePassword/:id', (req, res) => {
+        logins.changePassword(req, res);
+    })
+
+    /**
+     * @Get the email for the signed in user
+     * This requires the user to be logged in.
+     */
+    app.get('/api/login/email/:id', (req, res) => {
+        logins.getLoginEmail(req, res)
+    })
+
+    /**
+     * @Activate a user (they got the email from registration)
+     * This requires the user to be logged in but not isEmailVerified
+     */
+    app.post("/api/login/activate/email/:id", (req, res) => {
         logins.activateById(req, res)
     })
 
     /**
-     * @request *forgot pass*
+     * @Send new activation code to user
+     *  (Note the users.register already sends the first mail, this is to get a new one)
+     * This requires the user to be logged in but not isEmailVerified
+     */
+    app.post("/api/login/requestActivationCode/email", (req, res) => {
+        logins.requestMailForActivation(req, res)
+    })
+
+    /**
+     * @Send new temp password to user
+     * This sends a mail to the email address with a temp password.
+     * This temp password will allow them to change their real password.
+     * Of course, they don't have to be logged in. This will log them out if they are.
      */
     app.post("/api/login/requestForgotPassword", (req, res) => {
-        logins.requestForgotPassword(req, res)
+        logins.requestMailForForgottenPasscode(req, res) 
     })
 
     /**
-     * @reset password
+     * @Change password after forgetting
+     * This takes the temp password that was emailed to the user
+     * And allows them to change their real password to something new
+     * This does NOT log them in, they have to do that as the next step.
      */
-    app.post("/api/user/resetPassword/:id", (req, res) => {
-        logins.resetPassword(req, res)
+    app.post('/api/login/changePasswordForgot', (req, res) => {
+        logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
+        logins.changePasswordAfterForgetting(req, res)
     })
 
-    /**
-     * @send new action code to user
-     */
-    app.get('/api/login/activateCode/email/:id', (req, res) => {
-        email.sendMail(req, res)
-    })
+    // DEBUG ONLY - don't use this in production!
+    if (DEBUG) {
+        app.get('/api/login', (req, res) => {
+            logins.debugGetAll(req, res)
+        })
+        
+        app.get('/api/login/:id', (req, res) => {
+            logins.debugGetById(req, res)
+        })
+        
+        app.put('/api/login/:id', (req, res) => {
+            logins.debugUpdateById(req, res)
+        })
+
+        app.delete('/api/login/:id', (req, res) => {
+            logins.debugDeleteById(req, res)
+        })
+    }
 }

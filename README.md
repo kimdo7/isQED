@@ -19,6 +19,7 @@
 2. In chrome, go to url 
     * [] `localhost: 4200`
 
+
 ## Start the Server
 1. Leave mongoose running
     * [ ] `sudo mongod` | start a mongodb
@@ -26,13 +27,36 @@
 
 2. Open to query database
     * [ ]`mongo`
+    * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
 
 3. path to angular public project folder and run the server
     * [ ] `cd project_name/public `
     * [ ] `ng build --watch`
+ 
+4. Run nodemon with debug option to monitor for any changes in your source
+    * [ ] `nodemon server.js`
+    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to displays logs
 
-6. In chrome, go to url 
-    * [] `localhost: 8000
+a. Add this to the top of your code
+
+```
+/**
+* @DEBUG 
+* Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
+*  - To see this output, you have to pass it into nodemon when you run it:
+*          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
+*  - To shut off logs, just run nodemon normally:
+*          In isQED directory, run "nodemon.server.js" (this shuts off logs)
+*/
+
+const logd = require('debug')('QEDlog')
+```
+b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored.
+
+logd("unique failure message")
+
+5. In chrome, go to url 
+    * [] `localhost: 8000`
     `
 # Github Instructions
 ## Push code changes back onto branch master
@@ -70,14 +94,14 @@
     b. Adds all files to index (stage) to be tracked
     * [ ] `git add .`  adds everything in a directory and below 
 
-6. Commit files
+7. Commit files
     * [ ] `git commit -m "comment what you did"`
 
 > For example:
 >   git commit -m "made changes to controller, mode and routes for user and login"
 
 
-7. Push the branch to github
+8. Push the branch to github
     * [ ] `git push origin branch-name`
     (`git push -u origin branch-name`) the first time because you need to track it
 
@@ -85,7 +109,7 @@
 >   git push -u origin signin
 
 
-8. Create a pull request between your branch-name and master
+9. Create a pull request between your branch-name and master
     `https://github.com/<user>/project`
     `https://github.com/<user>/isQED/compare?expand=1`
 
@@ -95,13 +119,18 @@
 >   https://github.com/kimdo7/isQED/pull/2
 
 
-9. You may have to keep making changes before beign ready. Just make the changes locally and then push to your branch when you are ready. Github will update the pull request when the branch is updated.
-    * [ ] Do steps 5-7 again
+10. You may have to keep making changes before begin ready. Just make the changes locally and then push to your branch when you are ready. Github will update the pull request when the branch is updated.
+    * [ ] Do steps 5-8 again
 
 
-10. When ready, approve the pull request. It will merge into master
+11. When ready, approve the pull request. It will merge into master
 
-11. Get your local branches up to date
+12. Get your local branches up to date
 * [ ] `git pull` in case the branch was updated on the server by someone else
-* [ ] `git checkout master`
+* [ ] `git checkout master` 
 * [ ] `git pull` now are up to date on master.
+
+
+13.  When you want to pull the latest master into your working branch
+* [ ] `git branch`  ** make sure you NOT ON MASTER, but on your working branch **
+* [ ] `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there is no conflicts, your branch should be up to date. 

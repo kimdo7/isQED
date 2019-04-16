@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
     selector: 'app-sign-in-default',
     templateUrl: './sign-in-default.component.html',
-    styleUrls: ['./sign-in-default.component.css']
+    styleUrls: ['./sign-in-default.component.scss']
 })
 export class SignInDefaultComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class SignInDefaultComponent implements OnInit {
     }
 
     /**
-     * @param emai
+     * @param email
      * @param password
      */
     initUserForm() {
@@ -66,10 +66,10 @@ export class SignInDefaultComponent implements OnInit {
         let tempObservable = this.userService.login(this.user_form.value)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
-                if (data["data"]["isActivate"]) {
+                if (data["data"]["isEmailVerified"]) {
                     this.router.navigate(["/learning"])
                 } else {
-                    this.router.navigate(["/signin/validation/" + data["data"]["_id"]])
+                    this.router.navigate(["/signin/validation/" + data["data"]["login_id"]])
                 }
             } else {
                 this.showDangerMessage("Error!!! Please check your email and password.")

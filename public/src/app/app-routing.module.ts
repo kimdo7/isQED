@@ -19,7 +19,6 @@ import { TrainingComponent } from './component/landing/body/training/training.co
 import { TrainingHomeComponent } from './component/landing/body/training/training-home/training-home.component';
 import { TrainingCalendarComponent } from './component/landing/body/training/training-calendar/training-calendar.component';
 import { RegistrationFormComponent } from './component/landing/body/training/registration-form/registration-form.component';
-import { MembershipComponent } from './component/landing/body/membership/membership.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { SigninComponent } from './component/landing/body/user/signin/signin.component';
 import { SignupComponent } from './component/landing/body/user/signup/signup.component';
@@ -70,14 +69,15 @@ const routes: Routes = [
                 ]
             },
 
-            { path: "membership", component: MembershipComponent },
             { path: "signup", component: SignupComponent },
             {
                 path: "signin", component: SigninComponent, children: [
                     { path: "", component: SignInDefaultComponent },
                     { path: "validation/:id", component: SignInValidationComponent },
                     { path: "forgot_password", component: ForgotPasswordComponent },
-                    { path: "reset_password/:id", component: ResetPasswordComponent }
+                    { path: "reset_password/email/:email", component: ResetPasswordComponent }, // Change after forgot password
+                    { path: "reset_password/email/:email/:tempPasscode", component: ResetPasswordComponent }, // Change after forgot password by clicking link in email
+                    { path: "reset_password/id/:login_id", component: ResetPasswordComponent } // Change password when logged in
                 ]
             },
         ]

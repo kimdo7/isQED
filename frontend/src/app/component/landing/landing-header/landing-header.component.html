@@ -1,0 +1,93 @@
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar">
+
+    <!-- Navbar brand -->
+    <mdb-navbar-brand>
+        <a class="navbar-brand" [routerLink]="['/']">
+            <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
+        </a>
+    </mdb-navbar-brand>
+
+    <!-- Collapsible content -->
+    <links>
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <!-- Trainning -->
+            <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                    mdbWavesEffect>
+                    Training<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']"
+                        mdbWavesEffect>Training
+                        Calendar</a>
+                    <a class="dropdown-item waves-light" (click)="button_click()"
+                        [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
+                </div>
+            </li>
+
+            <!-- Certification -->
+            <li class="nav-item">
+                <a class="nav-link waves-light" (click)="button_click()" [routerLink]="['/certification']"
+                    mdbWavesEffect>Certfication</a>
+            </li>
+
+            <!-- Events -->
+            <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                    mdbWavesEffect [routerLink]="['/events']">
+                    Events<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
+                        Events</a>
+                    <a class="dropdown-item waves-light" (click)="button_click()"
+                        [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
+                </div>
+            </li>
+
+            <!-- Events -->
+            <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                    mdbWavesEffect>
+                    Publication<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
+                        Events</a>
+                    <a class="dropdown-item waves-light" (click)="button_click()"
+                        [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
+                </div>
+            </li>
+
+            <!-- About -->
+            <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                    mdbWavesEffect>
+                    About<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
+                        Events</a>
+                    <a class="dropdown-item waves-light" (click)="button_click()"
+                        [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
+                </div>
+            </li>
+
+        </ul>
+
+        <!-- Links -->
+
+        <!-- Search form -->
+        <div class="form-inline waves-light" mdbWavesEffect>
+            <div class="md-form my-0">
+                <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search"> -->
+                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill" mdbWavesEffect>Log
+                    In</button>
+                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
+                    mdbWavesEffect>Register</button>
+            </div>
+        </div>
+    </links>
+    <!-- Collapsible content -->
+
+</mdb-navbar>
+<!--/.Navbar-->
