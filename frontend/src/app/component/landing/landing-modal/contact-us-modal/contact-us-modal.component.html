@@ -1,3 +1,4 @@
+<!-- Material form contact -->
 <mdb-card>
 
     <mdb-card-header class="info-color white-text text-center py-4">
@@ -6,47 +7,55 @@
         </h5>
     </mdb-card-header>
 
+
+    <!--Card content-->
     <mdb-card-body class="px-lg-5 pt-0">
 
-        <form class="text-center" style="color: #757575;" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <!-- Form -->
+        <form class="text-center" style="color: #757575;" (submit)="onSubmit()">
 
+            <!-- Name -->
             <div class="md-form mt-3">
-                <input type="text" formControlName="contactFormName" id="materialContactFormName" class="form-control"
-                    mdbInput>
+                <input type="text" id="materialContactFormName" class="form-control" mdbInput>
                 <label for="materialContactFormName">Name</label>
             </div>
 
+            <!-- E-mail -->
             <div class="md-form">
-                <input type="email" formControlName="contactFormEmail" id="materialContactFormEmail"
-                    class="form-control" mdbInput>
+                <input type="email" id="materialContactFormEmail" class="form-control" mdbInput>
                 <label for="materialContactFormEmail">E-mail</label>
             </div>
 
+            <!-- Subject -->
             <span>Subject</span>
             <div class="row">
                 <div class="col-md-12 mx-auto">
-                    <mdb-select formControlName="contactFormSubjects" [options]="optionsSelect"
-                        placeholder="Choose your option"></mdb-select>
+                    <mdb-select [options]="optionsSelect" placeholder="Choose your option"></mdb-select>
                 </div>
             </div>
 
+            <!--Message-->
             <div class="md-form">
-                <textarea type="text" formControlName="contactFormMessage" id="materialContactFormMessage"
-                    class="form-control md-textarea" mdbInput></textarea>
+                <textarea type="text" id="materialContactFormMessage" class="form-control md-textarea"
+                    mdbInput></textarea>
                 <label for="materialContactFormMessage">Message</label>
             </div>
 
+            <!-- Copy -->
             <div class="row">
-                <div class="col-md-6 mx-auto d-flex justify-content-center">
-                    <mdb-checkbox formControlName="contactFormCopy">Send me a copy of this message</mdb-checkbox>
+                <div class="col-md-10 mx-auto d-flex justify-content-center">
+                    <mdb-checkbox>Send me a copy of this message</mdb-checkbox>
                 </div>
             </div>
 
+            <!-- Send button -->
             <button mdbBtn color="info" outline="true" rounded="true" block="true" class="z-depth-0 my-4 waves-effect"
-                mdbWavesEffect type="submit" [disabled]="disabledSubmitButton">Send</button>
+                mdbWavesEffect type="submit">Send</button>
 
         </form>
+        <!-- Form -->
 
     </mdb-card-body>
 
 </mdb-card>
+<!-- Material form contact -->

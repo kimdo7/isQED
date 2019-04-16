@@ -10,6 +10,7 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { MaterialModule } from './materials';
+import { FormsModule } from '@angular/forms';
 
 /**
  * @Modal
@@ -28,6 +29,7 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
  */
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user.service';
+
 
 // import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
 
@@ -69,7 +71,8 @@ import { UserService } from './service/user.service';
         NgbModule,
         NgbPaginationModule,
         MaterialModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     entryComponents: [
         LogInModalComponent,

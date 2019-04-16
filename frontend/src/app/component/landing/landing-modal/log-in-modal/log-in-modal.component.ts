@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { Subject } from 'rxjs';
+
 
 @Component({
     selector: 'app-log-in',
@@ -8,7 +10,7 @@ import { RegisterModalComponent } from '../register-modal/register-modal.compone
     styleUrls: ['./log-in-modal.component.scss']
 })
 export class LogInModalComponent implements OnInit {
-    // modalRef: MDBModalRef;
+    action = new Subject();
 
     constructor(
         public modalRef: MDBModalRef,
@@ -19,15 +21,10 @@ export class LogInModalComponent implements OnInit {
     }
 
     openRegisterModal() {
-        this.modalRef = this.modalService.show(RegisterModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
-            containerClass: 'right',
-            animated: true
-        });
+        this.action.next('Register');
+    }
+
+    openForgotPasswordModal() {
+        this.action.next('Forgot Password');
     }
 }
