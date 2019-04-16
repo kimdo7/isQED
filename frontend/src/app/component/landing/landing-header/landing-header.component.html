@@ -10,19 +10,26 @@
 
     <!-- User Icon on table on mobile -->
     <div class="d-block d-lg-none d-xl-none ml-auto ">
-        
+
 
         <div class="dropdown" mdbDropdown>
 
-            <button mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light rounded-pill" type="button"
-                mdbWavesEffect>
+            <button mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light rounded-pill"
+                type="button" mdbWavesEffect>
                 <!-- Dropdown primary -->
-                <i class="fas fa-user text-white"></i>
+                <!-- <i class="fas fa-user text-white"></i> -->
+                <mdb-icon fas icon="user-alt"></mdb-icon>
             </button>
 
             <div class="dropdown-menu dropdown-primary">
-                <a class="dropdown-item" (click)="openLoginModal()">Log In</a>
-                <a class="dropdown-item" (click)="openRegisterModal()">Register</a>
+                <a class="dropdown-item" (click)="openLoginModal()">
+                    <mdb-icon fas icon="sign-in-alt"></mdb-icon>
+                    Log In
+                </a>
+                <a class="dropdown-item" (click)="openRegisterModal()">
+                    <mdb-icon fas icon="plus"></mdb-icon>
+                    Register
+                </a>
 
             </div>
         </div>
@@ -100,10 +107,15 @@
             <div class="md-form my-0">
                 <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search"> -->
                 <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
-                    (click)="openLoginModal()" mdbWavesEffect>Log
-                    In</button>
+                    (click)="openLoginModal()" mdbWavesEffect>
+                    <mdb-icon fas icon="sign-in-alt"></mdb-icon>
+                    Log In
+                </button>
                 <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
-                    (click)="openRegisterModal()" mdbWavesEffect>Register</button>
+                    (click)="openRegisterModal()" mdbWavesEffect>
+                    <mdb-icon fas icon="plus"></mdb-icon>
+                    Register
+                </button>
             </div>
         </div>
     </links>
