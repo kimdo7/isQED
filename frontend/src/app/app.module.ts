@@ -30,7 +30,6 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user/user.service';
 
-
 // import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
 
 

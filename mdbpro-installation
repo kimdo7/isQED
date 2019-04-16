@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cp -r mdbpro frontend/node_modules/ng-uikit-pro-standard

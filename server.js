@@ -16,14 +16,14 @@ const maximum_session_in_ms = 4 * day_in_ms
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  name: 'isQED',
-  secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
-  resave: false,
-  saveUninitialized: false,// we use this for login
-  cookie: { 
-	  maxAge: maximum_session_in_ms,
-	  sameSite: true, // why not
-	 }
+    name: 'isQED',
+    secret: 'A142F1A9-F694-46BE-9BB8-716B7C1CA4A0-isQED-awesome', // uuidgen
+    resave: false,
+    saveUninitialized: false,// we use this for login
+    cookie: { 
+        maxAge: maximum_session_in_ms,
+        sameSite: true, // why not
+    }
 }))
 
 // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
