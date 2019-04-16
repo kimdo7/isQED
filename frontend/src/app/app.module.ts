@@ -3,7 +3,6 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { LandingComponent } from './component/landing/landing.component';
 import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingFooterComponent } from './component/landing/landing-footer/landing-footer.component';
@@ -11,8 +10,20 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { MaterialModule } from './materials';
-import { LogInComponent } from './component/landing/landing-modal/log-in/log-in.component';
+
+/**
+ * Modal
+ */
+import { LogInModalComponent } from './component/landing/landing-modal/log-in/log-in-modal.component';
+
+/**
+ * MDPRO
+ */
+
+import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
+import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
 // import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
+
 
 @NgModule({
     declarations: [
@@ -34,22 +45,30 @@ import { LogInComponent } from './component/landing/landing-modal/log-in/log-in.
          * @Home
          */
         LandingHomeComponent,
-
         LandingEventComponent,
 
-        LogInComponent,
+        /**
+         * @Modal for login
+         */
+        LogInModalComponent,
+        RegisterModalComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        MDBBootstrapModule.forRoot(),
+        MDBBootstrapModulesPro.forRoot(),
         NgbModule,
         NgbPaginationModule,
         MaterialModule,
     ],
-    entryComponents: [LogInComponent],
+    entryComponents: [
+        LogInModalComponent,
+        RegisterModalComponent
+    ],
     schemas: [NO_ERRORS_SCHEMA],
-    providers: [],
+    providers: [
+        MDBSpinningPreloader,
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

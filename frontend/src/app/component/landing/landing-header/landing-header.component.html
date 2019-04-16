@@ -22,14 +22,14 @@
                     <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']"
                         mdbWavesEffect>Training
                         Calendar</a>
-                    <a class="dropdown-item waves-light" (click)="button_click()"
+                    <a class="dropdown-item waves-light" 
                         [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
                 </div>
             </li>
 
             <!-- Certification -->
             <li class="nav-item">
-                <a class="nav-link waves-light" (click)="button_click()" [routerLink]="['/certification']"
+                <a class="nav-link waves-light"  [routerLink]="['/certification']"
                     mdbWavesEffect>Certfication</a>
             </li>
 
@@ -41,7 +41,7 @@
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
-                    <a class="dropdown-item waves-light" (click)="button_click()"
+                    <a class="dropdown-item waves-light"
                         [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
                 </div>
             </li>
@@ -54,7 +54,7 @@
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
-                    <a class="dropdown-item waves-light" (click)="button_click()"
+                    <a class="dropdown-item waves-light" 
                         [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
                 </div>
             </li>
@@ -67,7 +67,7 @@
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
-                    <a class="dropdown-item waves-light" (click)="button_click()"
+                    <a class="dropdown-item waves-light" 
                         [routerLink]="['/training' ,'registration_form']" mdbWavesEffect>Registration Form</a>
                 </div>
             </li>
@@ -77,12 +77,12 @@
         <!-- Links -->
 
         <!-- Search form -->
-        <div class="form-inline waves-light" mdbWavesEffect>
+        <div class="form-inline waves-light" >
             <div class="md-form my-0">
                 <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search"> -->
-                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill" mdbWavesEffect>Log
+                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill" (click)="openLoginModal()" mdbWavesEffect>Log
                     In</button>
-                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
+                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill" (click)="openRegisterModal()"
                     mdbWavesEffect>Register</button>
             </div>
         </div>
