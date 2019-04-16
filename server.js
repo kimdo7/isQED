@@ -8,7 +8,7 @@ var bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(express.static(__dirname + '/public/dist/public'))
+app.use(express.static(__dirname + '/frontend/dist/frontend'))
 
 // Allow someone to be logged in for days before having to re-login
 const day_in_ms = 24 * 60 * 60 * 1000
