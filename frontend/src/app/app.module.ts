@@ -30,7 +30,10 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user/user.service';
 
-// import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
+
+import { ContactUsComponent } from './component/landing/landing-body/landing-about/contact-us/contact-us.component';
+
+
 
 
 @NgModule({
@@ -62,6 +65,7 @@ import { UserService } from './service/user/user.service';
         RegisterModalComponent,
         ForgotPasswordModalComponent,
         ContactUsModalComponent,
+        ContactUsComponent,
     ],
     imports: [
         BrowserModule,
