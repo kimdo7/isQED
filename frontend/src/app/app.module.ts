@@ -12,16 +12,23 @@ import { LandingEventComponent } from './component/landing/landing-body/landing-
 import { MaterialModule } from './materials';
 
 /**
- * Modal
+ * @Modal
  */
-import { LogInModalComponent } from './component/landing/landing-modal/log-in/log-in-modal.component';
+import { LogInModalComponent } from './component/landing/landing-modal/log-in-modal/log-in-modal.component';
+import { ForgotPasswordModalComponent } from './component/landing/landing-modal/forgot-password-modal/forgot-password-modal.component';
+import { ContactUsModalComponent } from './component/landing/landing-modal/contact-us-modal/contact-us-modal.component';
+import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
+/**
+ * @MDPRO
+ */
+import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
 
 /**
- * MDPRO
+ * @Service
  */
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from './service/user.service';
 
-import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
-import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
 // import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
 
 
@@ -52,6 +59,8 @@ import { RegisterModalComponent } from './component/landing/landing-modal/regist
          */
         LogInModalComponent,
         RegisterModalComponent,
+        ForgotPasswordModalComponent,
+        ContactUsModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -60,14 +69,18 @@ import { RegisterModalComponent } from './component/landing/landing-modal/regist
         NgbModule,
         NgbPaginationModule,
         MaterialModule,
+        HttpClientModule
     ],
     entryComponents: [
         LogInModalComponent,
-        RegisterModalComponent
+        RegisterModalComponent,
+        ForgotPasswordModalComponent,
+        ContactUsModalComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [
         MDBSpinningPreloader,
+        UserService
     ],
     bootstrap: [AppComponent]
 })

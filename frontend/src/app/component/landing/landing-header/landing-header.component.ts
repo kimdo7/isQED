@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
-import { LogInModalComponent } from '../landing-modal/log-in/log-in-modal.component';
+import { LogInModalComponent } from '../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../landing-modal/register-modal/register-modal.component';
 
 
@@ -11,7 +11,7 @@ import { RegisterModalComponent } from '../landing-modal/register-modal/register
 })
 export class LandingHeaderComponent implements OnInit {
 
-    logIn_modalRef: MDBModalRef;
+    modalRef: MDBModalRef;
 
     lastScrollTop = 0;
 
@@ -24,7 +24,7 @@ export class LandingHeaderComponent implements OnInit {
 
 
     openLoginModal() {
-        this.logIn_modalRef = this.modalService.show(LogInModalComponent, {
+        this.modalRef = this.modalService.show(LogInModalComponent, {
             backdrop: true,
             keyboard: true,
             focus: true,
@@ -37,7 +37,7 @@ export class LandingHeaderComponent implements OnInit {
     }
 
     openRegisterModal() {
-        this.logIn_modalRef = this.modalService.show(RegisterModalComponent, {
+        this.modalRef = this.modalService.show(RegisterModalComponent, {
             backdrop: true,
             keyboard: true,
             focus: true,
