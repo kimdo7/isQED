@@ -28,7 +28,7 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
  * @Service
  */
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from './service/user.service';
+import { UserService } from './service/user/user.service';
 
 
 // import { MDBSpinningPreloader } from 'ng-uikit-pro-standard';
