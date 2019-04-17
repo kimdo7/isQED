@@ -54,7 +54,7 @@ a. Add this to the top of your code
 
 const logd = require('debug')('QEDlog')
 ```
-b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored.
+b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find exactly where the errored occurred.
 
 logd("unique failure message")
 
@@ -70,7 +70,7 @@ logd("unique failure message")
     * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
     * [ ] `$ cd isQED`  
     * [ ] `$ npm install` | install all the backend packages
-    * [ ] `$ cd frontend`
+    * [ ] `$ cd public`
     * [ ] `$ npm install` | install all the fontend packages
     * [ ] `$ code ../.`   | open VSCOde
 
