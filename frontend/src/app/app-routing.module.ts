@@ -16,7 +16,6 @@ const routes: Routes = [
             { path: "events", component: LandingEventComponent },
             {
                 path: "about", component: LandingAboutComponent, children: [
-                    
                     { path: "steering-committee", component: SteeringCommitteeComponent },
                     { path: "contact-us", component: ContactUsComponent },
                     { path: "copyright", component: CopyrightComponent },

@@ -15,8 +15,8 @@ export class LandingComponent implements OnInit {
 
     route: string = "Home";
     modalRef: MDBModalRef;
-    notTransparentList
-    notSideBannerList 
+    notTransparentRoutes
+    notSideBannerRoutes 
 
     constructor(location: Location, router: Router, private modalService: MDBModalService) {
 
@@ -39,8 +39,8 @@ export class LandingComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.notSideBannerList = LandingPageRoutes.getNoSideBanerRoutes()
-        this.notTransparentList = LandingPageRoutes.getNonTransparentHeaderRoutes()
+        this.notSideBannerRoutes = LandingPageRoutes.getNoSideBanerRoutes()
+        this.notTransparentRoutes = LandingPageRoutes.getNonTransparentHeaderRoutes()
     }
 
     openContactUsModal() {
@@ -58,11 +58,11 @@ export class LandingComponent implements OnInit {
 
     isSideBanner() {
         // console.log("confirm val" + this.route)
-        return this.notSideBannerList.includes(this.route)
+        return this.notSideBannerRoutes.includes(this.route)
     }
 
     isTransparentNav(){
-        return this.notSideBannerList.includes(this.route)
+        return this.notSideBannerRoutes.includes(this.route)
     }
 
 }

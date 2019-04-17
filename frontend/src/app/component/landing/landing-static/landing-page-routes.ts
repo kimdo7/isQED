@@ -4,7 +4,6 @@ export class LandingPageRoutes {
             "/about/privacy_policy",
             "/about/copyright",
             "/about/steering-committee"
-
         ]
     }
 
