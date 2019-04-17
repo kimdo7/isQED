@@ -28,7 +28,7 @@ export class LandingComponent implements OnInit {
             // }
 
             if (val instanceof NavigationEnd){
-                console.log("val" + val.url)
+                // console.log("val" + val.url)
                 if (val.url != "/") {
                     this.route = val.url
                 } else {
@@ -57,7 +57,7 @@ export class LandingComponent implements OnInit {
     }
 
     isSideBanner() {
-        console.log("confirm val" + this.route)
+        // console.log("confirm val" + this.route)
         return this.notSideBannerList.includes(this.route)
     }
 
