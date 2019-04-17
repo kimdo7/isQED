@@ -21,6 +21,7 @@ export class LandingHeaderComponent implements OnInit {
     sideClass = 'navbar navbar-expand-lg indigo navbar-dark  fixed-top scrolling-navbar'
     lastScrollTop = 0;
 
+
     constructor(
         private modalService: MDBModalService,
         location: Location, router: Router
@@ -36,7 +37,7 @@ export class LandingHeaderComponent implements OnInit {
             : "navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar"
     }
 
-    get_authentication_button_color(){
+    get_authentication_button_color() {
         return this.notTransparentList.includes(this.route) ? "primary" : "transparent"
     }
 
@@ -44,7 +45,10 @@ export class LandingHeaderComponent implements OnInit {
         this.notTransparentList = LandingPageRoutes.getNonTransparentHeaderRoutes()
 
         $(document).ready(function () {
-
+            var isOpenHamburger = false
+            /**
+             * @scrool up and down
+             */
             $(window).scroll(function (event) {
                 var st = $(this).scrollTop();
                 if (st > this.lastScrollTop) {
@@ -58,7 +62,21 @@ export class LandingHeaderComponent implements OnInit {
                 }
                 this.lastScrollTop = st;
             });
+
+            $(".navbar-toggler").click(function () {
+                if (isOpenHamburger) {
+                    $(".navbar").css("background-color", "transparent")
+                    $(".authentication-buton").css("background-color", "transparent")
+                } else {
+                    $(".navbar").css("background-color", "#3f51b5")
+                    $(".authentication-buton").css("background-color", "#4285f4")
+                }
+
+                isOpenHamburger = !isOpenHamburger
+            })
         })
+
+
     }
 
 
