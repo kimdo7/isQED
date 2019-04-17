@@ -3,59 +3,18 @@ import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LogInModalComponent } from '../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../landing-modal/forgot-password-modal/forgot-password-modal.component';
-import * as $ from 'jquery';
 
 @Component({
-    selector: 'app-landing-header',
-    templateUrl: './landing-header.component.html',
-    styleUrls: ['./landing-header.component.scss']
+    selector: 'app-landing-non-transparent-header',
+    templateUrl: './landing-non-transparent-header.component.html',
+    styleUrls: ['./landing-non-transparent-header.component.scss']
 })
-export class LandingHeaderComponent implements OnInit {
+export class LandingNonTransparentHeaderComponent implements OnInit {
 
     modalRef: MDBModalRef;
-    route: string;
-    lastScrollTop = 0;
-
-
-    constructor(
-        private modalService: MDBModalService,
-    ) {
-    }
-
+    constructor(private modalService: MDBModalService) { }
 
     ngOnInit() {
-
-        $(document).ready(function () {
-            var isOpenHamburger = false
-            /**
-             * @scrool up and down
-             */
-            $(window).scroll(function (event) {
-                var st = $(this).scrollTop();
-                if (st > this.lastScrollTop) {
-                    // downscroll code
-                    $(".navbar").css("background-color", "#3f51b5")
-                    $(".authentication-buton").css("background-color", "#4285f4")
-                } else if (st == 0) {
-                    // upscroll code
-                    $(".navbar").css("background-color", "transparent")
-                    $(".authentication-buton").css("background-color", "transparent")
-                }
-                this.lastScrollTop = st;
-            });
-
-            $(".navbar-toggler").click(function () {
-                if (isOpenHamburger) {
-                    $(".navbar").css("background-color", "transparent")
-                    $(".authentication-buton").css("background-color", "transparent")
-                } else {
-                    $(".navbar").css("background-color", "#3f51b5")
-                    $(".authentication-buton").css("background-color", "#4285f4")
-                }
-
-                isOpenHamburger = !isOpenHamburger
-            })
-        })
     }
 
     openLoginModal() {
@@ -132,5 +91,4 @@ export class LandingHeaderComponent implements OnInit {
             }
         });
     }
-
 }

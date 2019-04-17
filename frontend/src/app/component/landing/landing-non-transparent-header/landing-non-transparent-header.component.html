@@ -1,5 +1,6 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar intro-fixed-nav" id="top-section">
+<mdb-navbar SideClass="navbar fixed-top indigo navbar-expand-lg navbar-dark scrolling-navbar intro-fixed-nav"
+    id="top-section">
 
     <!-- Navbar brand -->
     <mdb-navbar-brand>
@@ -12,7 +13,7 @@
     <div class="d-block d-lg-none d-xl-none ml-auto ">
         <div class="dropdown" mdbDropdown>
 
-            <button mdbDropdownToggle mdbBtn
+            <button mdbDropdownToggle mdbBtn color="primary"
                 class="text-white dropdown-toggle waves-light rounded-pill authentication-buton" type="button"
                 mdbWavesEffect>
                 <!-- Dropdown primary -->
@@ -115,13 +116,13 @@
         <div class="form-inline waves-light d-none d-lg-block">
             <div class="md-form my-0">
                 <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search"> -->
-                <button mdbBtn type="button" rounded="true" class="rounded-pill authentication-buton  text-white"
-                    (click)="openLoginModal()" mdbWavesEffect>
+                <button color="primary" mdbBtn type="button" rounded="true"
+                    class="rounded-pill authentication-buton  text-white" (click)="openLoginModal()" mdbWavesEffect>
                     <mdb-icon fas icon="sign-in-alt"></mdb-icon>
                     Log In
                 </button>
-                <button mdbBtn type="button" rounded="true" class="rounded-pill authentication-buton text-white"
-                    (click)="openRegisterModal()" mdbWavesEffect>
+                <button color="primary" mdbBtn type="button" rounded="true"
+                    class="rounded-pill authentication-buton text-white" (click)="openRegisterModal()" mdbWavesEffect>
                     <mdb-icon fas icon="plus"></mdb-icon>
                     Register
                 </button>

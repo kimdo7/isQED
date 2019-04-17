@@ -52,7 +52,7 @@ export class LandingComponent implements OnInit {
     }
 
     isTransparentNav(){
-        return !this.notSideBannerList.includes(this.route)
+        return this.notSideBannerList.includes(this.route)
     }
 
 }
