@@ -6,6 +6,7 @@ import { LandingEventComponent } from './component/landing/landing-body/landing-
 import { ContactUsComponent } from './component/landing/landing-body/landing-about/contact-us/contact-us.component';
 import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
 import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
+import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
     {
@@ -16,7 +17,8 @@ const routes: Routes = [
 
                     { path: "events", component: LandingEventComponent },
                     { path: "contact-us", component: ContactUsComponent },
-                    { path: "copyright", component: CopyrightComponent }
+                    { path: "copyright", component: CopyrightComponent },
+                    { path: "privacy_policy", component:  PrivacyPolicyComponent}
                 ]
             },
         ]

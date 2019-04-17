@@ -39,6 +39,7 @@ import { ContactUsComponent } from './component/landing/landing-body/landing-abo
 import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
 import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
 import { LandingBannerComponent } from './component/landing/landing-body/landing-banner/landing-banner.component';
+import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { LandingBannerComponent } from './component/landing/landing-body/landing
         CopyrightComponent,
         LandingAboutComponent,
         LandingBannerComponent,
+        PrivacyPolicyComponent,
     ],
     imports: [
         BrowserModule,
