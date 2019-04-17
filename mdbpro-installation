@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cp -r mdbpro/ng-uikit-pro-standard frontend/node_modules/ng-uikit-pro-standard
+cp -r mdbpro/ng-admin-pro frontend/node_modules/ng-admin-pro

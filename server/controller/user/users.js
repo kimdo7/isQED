@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
 var Login = mongoose.model('Login')
-var bcrypt = require("bcrypt")
 var emailGateway = require("../../gateway/email")
 
 /**
@@ -15,7 +14,22 @@ var emailGateway = require("../../gateway/email")
 const logd = require('debug')('QEDlog')
 
 module.exports = {
+
+
 	/**
+	 * @Get *ALL* users
+	 */
+    getAll: (req, res) => {
+        User.find({}, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+                return
+            }
+            res.json({ message: 'Success', data: data })
+        })
+    },
+
+    /**
 	 * @Create a *new* user
 	 */
     register: (req, res) => {
@@ -31,7 +45,7 @@ module.exports = {
         var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}/;
 
         if (!req.body.password.match(regex)) {
-            res.json({ message: 'Error', error: "Password is not matching the rules" })
+            res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
             return
         }
         if (!req.body.email || req.body.email.length < 5) {
@@ -56,20 +70,25 @@ module.exports = {
             last_name: req.body.last_name,
             type: 9,
         })
-        
-        if (!newLogin.setPassword(req.body.password)) {
+
+        var password = req.body.password
+
+        if (!newLogin.setPassword(password)) {
             // Password is no good. Let's give the best error we can
             if (!newLogin.isValidPassword(password)) {
                 res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
                 return
             }
+
             if (!newLogin.isStrongPassword(password)) {
                 res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
                 return
             }
+
             res.json({ message: 'Error', error: "Password isn't set" })
             return
         }
+
         if (!newLogin.passwordMatchesHash(req.body.password)) {
             res.json({ message: 'Error', error: "Internal server error with password" })
             return
@@ -83,18 +102,18 @@ module.exports = {
                 if (err && err.code === 11000) {
                     // If there is a Login and no User, we can create the User
                     // This is useful in development when our DB is messed up
-                    User.findOne({email: req.body.email}, (err2, existingUser) => {
+                    User.findOne({ email: req.body.email }, (err2, existingUser) => {
                         if (!existingUser) {
                             // There is a Login with no user.
                             // We can hit this when there is a bug
                             // For now we will DELETE the Login. DANGEROUS DEBUG ONLY
-                            Login.findOneAndDelete({ email: req.body.email}, (err3, existingLogin) => {
+                            Login.findOneAndDelete({ email: req.body.email }, (err3, existingLogin) => {
                                 // Deleted!
                                 logd("register: didn't find a login user " + err + " then " + err2 + " then " + err3)
                                 res.json({ message: 'Error', error: "Error on server, please retry" })
                                 return
                             })
-                        }     
+                        }
                         res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
                     })
                     return
@@ -115,7 +134,7 @@ module.exports = {
                     last_name: req.body.last_name,
                     email: req.body.email,
                     loginId: savedLogin.id,
-                }, 
+                },
                 (err, newUser) => {
                     if (err) {
                         res.json({ message: 'Error', error: err })
@@ -125,7 +144,7 @@ module.exports = {
                         res.json({ message: 'Error', error: "Internal server error with user email" })
                         return
                     }
-                    
+
                     // Success!
                     // Log in the user, send them activation mail
                     req.session.last_stage = 'registered'
@@ -147,19 +166,6 @@ module.exports = {
     },
 
 	/**
-	 * @Get *ALL* users
-	 */
-    getAll: (req, res) => {
-        User.find({}, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-                return
-            }
-            res.json({ message: 'Success', data: data })
-        })
-    },
-
-	/**
 	 * @GET USER BY *ID*
 	 */
     getById: (req, res) => {
@@ -168,7 +174,7 @@ module.exports = {
             if (err) {
                 res.json({ message: 'Error', error: err })
                 return
-            } 
+            }
             res.json({ message: 'Success', data: data })
         })
     },
@@ -199,12 +205,12 @@ module.exports = {
                 return
             }
 
-            if (data == null){
+            if (data == null) {
                 res.json({ message: 'Error', error: "id is invalid" })
                 return
-            } 
-            
-            Login.findByIdAndDelete(data.loginId, function(err, data){
+            }
+
+            Login.findByIdAndDelete(data.loginId, function (err, data) {
                 if (err) {
                     res.json({ message: 'Error', error: err })
                     return

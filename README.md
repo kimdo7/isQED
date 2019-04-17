@@ -1,24 +1,26 @@
 # isQED Project
 
-## Clone the isQED team project skeleton to your desktop.
-1. Open your terminal and type in commands:
-    * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
-    * [ ] `$ cd isQED`  
-    * [ ] `$ npm install` | install all the backend packages
-    * [ ] `$ cd public`
-    * [ ] `$ npm install` | install all the fontend packages
-    * [ ] `$ code ../.`   | open VSCOde
-
-2. Open your project in VSCode editor. All files should be downloaded
+## We are moving code from isQED/Public with isQED/Frontend
+1. Open your terminal to isQED/ and type in commands:
+    * [ ] `git status` Make sure you are on the master branch
+    * [ ] `git pull` pull the latest code down from master
+2. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
+    * [ ] `cd frontend`
+3. Install all dependencies
+    * [ ] `npm install`
+    * [ ] `cd ..`
+4. Install mdpro
+    * [ ] `./mdbpro-installation`
+    * [ ] `cd frontend`
+5. See Serving angular below 
 
 ##Serving Frontend for Building
 1. Serving angular
-    * [ ] `cd public` 
+    * [ ] `cd frontend` 
     * [ ] `ng serve` | angular serve is running on port 4200
 
 2. In chrome, go to url 
     * [] `localhost: 4200`
-
 
 ## Start the Server
 1. Leave mongoose running
@@ -29,8 +31,9 @@
     * [ ]`mongo`
     * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
 
+/******* IGNORE THIS FOR NOW
 3. path to angular public project folder and run the server
-    * [ ] `cd project_name/public `
+    * [ ] `cd project_name/public`
     * [ ] `ng build --watch`
  
 4. Run nodemon with debug option to monitor for any changes in your source
@@ -51,14 +54,28 @@ a. Add this to the top of your code
 
 const logd = require('debug')('QEDlog')
 ```
-b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find where it errored
+b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find exactly where the errored occurred.
 
 logd("unique failure message")
 
 5. In chrome, go to url 
     * [] `localhost: 8000`
     `
+************ END IGNORE THIS FOR NOW***/
+
 # Github Instructions
+
+## Clone the isQED team project skeleton to your desktop.
+1. Open your terminal and type in commands:
+    * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
+    * [ ] `$ cd isQED`  
+    * [ ] `$ npm install` | install all the backend packages
+    * [ ] `$ cd frontend`
+    * [ ] `$ npm install` | install all the fontend packages
+    * [ ] `$ code ../.`   | open VSCOde
+
+2. Open your project in VSCode editor. All files should be downloaded
+
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
 2. Check that you are on the master branch and status  before pulling files

@@ -23,6 +23,6 @@ module.exports = function (app) {
 
     // this route will be triggered if any of the routes above did not match
     app.all('*', (req, res) => {
-        res.sendFile(path.resolve('./public/dist/public/index.html'))
+        res.sendFile(path.resolve('./frontend/dist/frontend/index.html'))
     })
 }

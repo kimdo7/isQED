@@ -14,6 +14,16 @@ const logd = require('debug')('QEDlog')
 
 
 module.exports = function (app) {
+    
+
+    /**
+    * @get all user
+    */
+    app.get('/api/logins', (req, res) => {
+        logins.getAll(req, res)
+    })
+
+
     /**
      * @Login the user, starting their session
      */
@@ -69,7 +79,7 @@ module.exports = function (app) {
      * Of course, they don't have to be logged in. This will log them out if they are.
      */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
-        logins.requestMailForForgottenPasscode(req, res) 
+        logins.requestMailForForgottenPasscode(req, res)
     })
 
     /**
@@ -88,11 +98,11 @@ module.exports = function (app) {
         app.get('/api/login', (req, res) => {
             logins.debugGetAll(req, res)
         })
-        
+
         app.get('/api/login/:id', (req, res) => {
             logins.debugGetById(req, res)
         })
-        
+
         app.put('/api/login/:id', (req, res) => {
             logins.debugUpdateById(req, res)
         })
