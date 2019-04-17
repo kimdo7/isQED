@@ -21,18 +21,21 @@ export class LandingHeaderComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // $(document).ready(function () {
-        //     $(".nav-link").hover(
-        //         function () {
-        //             console.log("hover")
-        //             // $(this).click()
-        //             $("#test").click()
-        //             // $(this).addClass("hover");
-        //         }, function () {
-        //             // $(this).removeClass("hover");
-        //         }
-        //     );
-        // })
+        $(document).ready(function () {
+            $(window).scroll(function (event) {
+                var st = $(this).scrollTop();
+                if (st > this.lastScrollTop) {
+                    // downscroll code
+                    $(".navbar").css("background-color", "#3f51b5")
+                    $(".authentication-buton").css("background-color", "#4285f4")
+                } else if (st == 0){
+                    // upscroll code
+                    $(".navbar").css("background-color", "transparent")
+                    $(".authentication-buton").css("background-color", "transparent")
+                }
+                this.lastScrollTop = st;
+            });
+        })
     }
 
 

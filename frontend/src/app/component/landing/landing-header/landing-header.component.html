@@ -1,5 +1,5 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar" id="top-section">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark  fixed-top scrolling-navbar" id="top-section">
 
     <!-- Navbar brand -->
     <mdb-navbar-brand>
@@ -44,29 +44,34 @@
                     mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     Training<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Training
+                    <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']" mdbWavesEffect
+                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">Training
                         Calendar</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        Form</a>
                 </div>
             </li>
 
             <!-- Certification -->
             <li class="nav-item">
-                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Certfication</a>
+                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect mdbPageScroll
+                    href="#top-section" [pageScrollDuration]="750">Certfication</a>
             </li>
 
             <!-- Events -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect [routerLink]="['/events']" mdbPageScroll href="#top-section" [pageScrollDuration]="750">
+                    mdbWavesEffect [routerLink]="['/events']" mdbPageScroll href="#top-section"
+                    [pageScrollDuration]="750">
                     Events<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect
+                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        Form</a>
                 </div>
             </li>
 
@@ -76,10 +81,12 @@
                     mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     Publication<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect
+                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        Form</a>
                 </div>
             </li>
 
@@ -89,12 +96,13 @@
                     mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     About<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/about' ,'steering-committee']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750"> Steering Committee</a>
+                    <a class="dropdown-item waves-light" [routerLink]="['/about' ,'steering-committee']" mdbWavesEffect
+                        mdbPageScroll href="#top-section" [pageScrollDuration]="750"> Steering Committee</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        Form</a>
                 </div>
             </li>
 
@@ -106,12 +114,12 @@
         <div class="form-inline waves-light d-none d-lg-block">
             <div class="md-form my-0">
                 <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search"> -->
-                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
+                <button mdbBtn type="button" rounded="true" class="rounded-pill authentication-buton text-white"
                     (click)="openLoginModal()" mdbWavesEffect>
                     <mdb-icon fas icon="sign-in-alt"></mdb-icon>
                     Log In
                 </button>
-                <button mdbBtn type="button" color="primary" rounded="true" class="rounded-pill"
+                <button mdbBtn type="button" rounded="true" class="rounded-pill authentication-buton text-white"
                     (click)="openRegisterModal()" mdbWavesEffect>
                     <mdb-icon fas icon="plus"></mdb-icon>
                     Register
