@@ -508,7 +508,6 @@ module.exports = {
      * or a hash of the password
      */
     loginWithUserPassword: (req, res) => {
-        logd("loginWithUserPassword");
         // This is given by the end user
         var email = req.body.email;
         var givenPassword = req.body.password;
