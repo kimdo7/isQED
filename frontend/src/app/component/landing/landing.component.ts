@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Location } from "@angular/common";
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contact-us-modal.component';
@@ -13,7 +13,7 @@ import { LandingPageRoutes } from './landing-static/landing-page-routes';
 })
 export class LandingComponent implements OnInit {
 
-    route: string;
+    route: string = "Home";
     modalRef: MDBModalRef;
     notTransparentList
     notSideBannerList 
@@ -21,11 +21,20 @@ export class LandingComponent implements OnInit {
     constructor(location: Location, router: Router, private modalService: MDBModalService) {
 
         router.events.subscribe(val => {
-            if (location.path() != "") {
-                this.route = location.path();
-            } else {
-                this.route = "Home";
-            }
+            // if (location.path() != "") {
+            //     this.route = location.path();
+            // } else {
+            //     this.route = "Home";
+            // }
+
+            if (val instanceof NavigationEnd){
+                console.log("val" + val.url)
+                if (val.url != "/") {
+                    this.route = val.url
+                } else {
+                    this.route = "Home";
+                }
+            } 
         });
     }
 
@@ -48,6 +57,7 @@ export class LandingComponent implements OnInit {
     }
 
     isSideBanner() {
+        console.log("confirm val" + this.route)
         return this.notSideBannerList.includes(this.route)
     }
 
