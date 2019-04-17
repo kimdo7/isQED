@@ -4,6 +4,7 @@ import { Location } from "@angular/common";
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contact-us-modal.component';
 import * as $ from 'jquery';
+import { LandingPageRoutes } from './landing-static/landing-page-routes';
 
 @Component({
     selector: 'app-landing',
@@ -15,7 +16,7 @@ export class LandingComponent implements OnInit {
     route: string;
     modalRef: MDBModalRef;
     notTransparentList
-    notSideBannerList = []
+    notSideBannerList 
 
     constructor(location: Location, router: Router, private modalService: MDBModalService) {
 
@@ -29,16 +30,8 @@ export class LandingComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.notSideBannerList.push('Home')
-        this.notSideBannerList.push('/about/contact-us')
-        this.notSideBannerList.push('/events')
-
-
-        this.notTransparentList = []
-        this.notTransparentList.push("/about/privacy_policy")
-
-
-
+        this.notSideBannerList = LandingPageRoutes.getNoSideBanerRoutes()
+        this.notTransparentList = LandingPageRoutes.getNonTransparentHeaderRoutes()
     }
 
     openContactUsModal() {

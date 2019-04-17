@@ -6,6 +6,7 @@ import { ForgotPasswordModalComponent } from '../landing-modal/forgot-password-m
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
 import { Location } from "@angular/common";
+import { LandingPageRoutes } from '../landing-static/landing-page-routes';
 
 @Component({
     selector: 'app-landing-header',
@@ -40,8 +41,7 @@ export class LandingHeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.notTransparentList = []
-        this.notTransparentList.push("/about/privacy_policy")
+        this.notTransparentList = LandingPageRoutes.getNonTransparentHeaderRoutes()
 
         $(document).ready(function () {
 
