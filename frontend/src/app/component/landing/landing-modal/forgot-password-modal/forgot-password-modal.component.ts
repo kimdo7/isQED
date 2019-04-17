@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
+import { UserService } from 'src/app/service/user/user.service';
+
 
 @Component({
     selector: 'app-forgot-password-modal',
@@ -10,9 +12,27 @@ import { MDBModalRef } from 'ng-uikit-pro-standard';
 export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
 
-    constructor(public modalRef: MDBModalRef) { }
+    constructor(
+        private userService: UserService,
+        public modalRef: MDBModalRef
+    ) { }
 
     ngOnInit() {
+    }
+
+    sendMail() {
+        console.log("Pretending to send mail")
+        let tempObservable = this.userService.requestForgotPassword({ email: "fakeemail@example.org" })
+        tempObservable.subscribe(data => {
+            if (data["message"] === "Success") {
+                console.log("sendEmail: got success")
+                // We don't know the ID, and shouldn't
+                // We want to reset the passcode based only on the email
+                this.action.next('Change After Forgot Password');
+            } else {
+                console.log("sendEmail: got no success")
+            }
+        });
     }
 
     openRegisterModal() {

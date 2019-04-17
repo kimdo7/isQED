@@ -313,8 +313,7 @@ module.exports = {
         var tempPasscode = null;
 
         // Don't allow the user to stay logged in if they forgot.
-        // This may let someone else log you out 
-        // if the session is on the server, but not if we are using cookies
+        // We may want to change this later but it means more testings
         req.session.last_stage = 'forgotPassword'
         req.session.login_id = null;
         req.session.save()
@@ -333,7 +332,7 @@ module.exports = {
                 return
             } else if (!login) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
-                logd("requestMailForForgottenPasscode no login user object for: " + id + " : " + email)
+                logd("requestMailForForgottenPasscode no login user object for: " + email)
                 return;
             }
             if (!login.passwordHash) {
