@@ -16,7 +16,8 @@
     We collect the e-mail addresses of those who communicate with us via e-mail and through information volunteered by
     you, such as survey information, newsletter signups, business cards and site registrations.
     <br><br>
-    <strong class="font-weight-bold">The information we collect is used by us to contact visitors for marketing purposes</strong>. We <strong class="font-weight-bold">may share</strong> this information
+    <strong class="font-weight-bold">The information we collect is used by us to contact visitors for marketing
+        purposes</strong>. We <strong class="font-weight-bold">may share</strong> this information
     with other Ethernet-related organizations so they may tell you about products and/or services that could be of
     benefit to you.
     <br><br>
@@ -32,3 +33,20 @@
     regarding new products and services or upcoming events. If you do not wish to receive such telephone calls, e-mail,
     call or write to us using the above information. Please provide us with your correct phone number.
 </p>
+
+<div class="fixed-action-btn" (mouseleave)="fixed.toggle()">
+
+    <a class="btn-floating btn-large red waves-light" mdbWavesEffect (click)="fixed.toggle($event)"
+        (mouseenter)="fixed.toggle()">
+        <i class="fas fa-pencil-alt"></i>
+    </a>
+
+    <div class="fixed_collapse" mdbCollapse="isCollapsed" #fixed="bs-collapse">
+        <a class="btn-floating red waves-light" mdbWavesEffect><i class="fas fa-star"
+                (click)="fixed.toggle($event)"></i></a>
+        <a class="btn-floating yellow darken-1 waves-light" mdbWavesEffect><i class="fas fa-user"></i></a>
+        <a class="btn-floating green waves-light" mdbWavesEffect><i class="fas fa-envelope"></i></a>
+        <a class="btn-floating blue waves-light" mdbWavesEffect><i class="fas fa-shopping-cart"></i></a>
+    </div>
+
+</div>

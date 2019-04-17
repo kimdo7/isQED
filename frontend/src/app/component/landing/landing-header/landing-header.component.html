@@ -1,17 +1,15 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar" id="top-section">
 
     <!-- Navbar brand -->
     <mdb-navbar-brand>
-        <a class="navbar-brand" [routerLink]="['/']">
+        <a class="navbar-brand" [routerLink]="['/']" mdbPageScroll href="#top-section" [pageScrollDuration]="750">
             <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
         </a>
     </mdb-navbar-brand>
 
     <!-- User Icon on table on mobile -->
     <div class="d-block d-lg-none d-xl-none ml-auto ">
-
-
         <div class="dropdown" mdbDropdown>
 
             <button mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light rounded-pill"
@@ -42,61 +40,61 @@
         <ul class="navbar-nav mr-auto">
             <!-- Trainning -->
             <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" id="test"
+                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     Training<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']"
-                        mdbWavesEffect>Training
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Training
                         Calendar</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect>Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
                 </div>
             </li>
 
             <!-- Certification -->
             <li class="nav-item">
-                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect>Certfication</a>
+                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Certfication</a>
             </li>
 
             <!-- Events -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect [routerLink]="['/events']">
+                    mdbWavesEffect [routerLink]="['/events']" mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     Events<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect>Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
                 </div>
             </li>
 
             <!-- Events -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
+                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     Publication<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
+                    <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect>Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
                 </div>
             </li>
 
             <!-- About -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
+                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
                     About<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/about' ,'steering-committee']"
-                        mdbWavesEffect>Steering Committee</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750"> Steering Committee</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect>Registration Form</a>
+                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration Form</a>
                 </div>
             </li>
 

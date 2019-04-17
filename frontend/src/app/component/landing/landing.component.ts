@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Location } from "@angular/common";
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contact-us-modal.component';
-
-
+// import * as $ from 'jquery';
+// 
 @Component({
     selector: 'app-landing',
     templateUrl: './landing.component.html',
