@@ -2,19 +2,15 @@ var users = require('../../controller/user/users')
 
 module.exports = function (app) {
     /**
-     * @Regiseter new user
-     */
-    app.post('/api/user', (req, res) => {
-        users.register(req, res)
-    })
-
-    /**
      * @get all user
      */
     app.get('/api/users', (req, res) => {
         users.getAll(req, res)
     })
 
+    app.post('/api/user/register', (req, res) => {
+        users.register(req, res)
+    })
     /**
      * @get user by id
      */
@@ -36,5 +32,5 @@ module.exports = function (app) {
         users.deleteById(req, res)
     })
 
-    
+
 }

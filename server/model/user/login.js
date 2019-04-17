@@ -81,7 +81,7 @@ LoginSchema.methods.isValidPassword = function (newPassword) {
     if (!newPassword || typeof (newPassword) !== 'string') {
         return false;// has to be a non-empty string
     }
-    
+
     if (newPassword.length < MIN_PASSWORD_LEN || newPassword.length > MAX_PASSWORD_LEN) {
         return false;// has to be a valid length
     }
@@ -96,10 +96,6 @@ LoginSchema.methods.isValidPassword = function (newPassword) {
     
     if (! /[0-9]/.test(newPassword)) {
         return false;// has to have an ASCII digit
-    }
-    
-    if (! /[!@#$%^&*()=.-]/.test(newPassword)) {
-        return false;// has to have punctuation
     }
     
     // If we passed all that, it is acceptable

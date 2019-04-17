@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
 var Login = mongoose.model('Login')
-var bcrypt = require("bcrypt")
 var emailGateway = require("../../gateway/email")
 
 /**
@@ -15,7 +14,22 @@ var emailGateway = require("../../gateway/email")
 const logd = require('debug')('QEDlog')
 
 module.exports = {
+
+
 	/**
+	 * @Get *ALL* users
+	 */
+    getAll: (req, res) => {
+        User.find({}, function (err, data) {
+            if (err) {
+                res.json({ message: 'Error', error: err })
+                return
+            }
+            res.json({ message: 'Success', data: data })
+        })
+    },
+
+    /**
 	 * @Create a *new* user
 	 */
     register: (req, res) => {
@@ -31,7 +45,7 @@ module.exports = {
         var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}/;
 
         if (!req.body.password.match(regex)) {
-            res.json({ message: 'Error', error: "Password is not matching the rules" })
+            res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
             return
         }
         if (!req.body.email || req.body.email.length < 5) {
@@ -57,19 +71,24 @@ module.exports = {
             type: 9,
         })
 
-        if (!newLogin.setPassword(req.body.password)) {
+        var password = req.body.password
+
+        if (!newLogin.setPassword(password)) {
             // Password is no good. Let's give the best error we can
             if (!newLogin.isValidPassword(password)) {
                 res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
                 return
             }
+
             if (!newLogin.isStrongPassword(password)) {
                 res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
                 return
             }
+
             res.json({ message: 'Error', error: "Password isn't set" })
             return
         }
+
         if (!newLogin.passwordMatchesHash(req.body.password)) {
             res.json({ message: 'Error', error: "Internal server error with password" })
             return
@@ -144,19 +163,6 @@ module.exports = {
                 }
             )
         });
-    },
-
-	/**
-	 * @Get *ALL* users
-	 */
-    getAll: (req, res) => {
-        User.find({}, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-                return
-            }
-            res.json({ message: 'Success', data: data })
-        })
     },
 
 	/**
