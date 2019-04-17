@@ -455,7 +455,7 @@ module.exports = {
 
                     logd("changePasswordAfterForgetting saved updated attempt count");
                 });
-                res.json({ message: 'Error', error: "forgotPasswordCode is invalid" });
+                res.json({ message: 'Error', error: "tempPassword is invalid" });
                 return
             }
 

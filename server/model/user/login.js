@@ -27,12 +27,18 @@ var LoginSchema = new Schema({
 
     // Password reset: we basically email them a second temp password
     isForgotPassword: { type: Boolean, default: false },
-    tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 },
-    tempForgotExpiry: { type: Date, required: false },
-    tempForgotAttemptsRemaining: { type: Number, required: false, max: MAX_FORGOTTEN_ATTEMPTS, min: 0, 
+    tempForgotHash: { type: String, required: false, minlength: 60, maxlength: 60 }, // This is so we can validate the temporary password when the user has forgotten
+    tempForgotExpiry: { type: Date, required: false },// This is so that they only have a limited amount of time where the temp password is valid
+    tempForgotAttemptsRemaining: { // This is so they only have a limited number of failed attempts using the temp password
+        type: Number, 
+        required: false, 
+        min: 0, 
+        max: MAX_FORGOTTEN_ATTEMPTS, 
         validate: {
             validator: Number.isInteger, message: '{VALUE} is not an integer value' } }, // if 0 or null, the tempForgotHash is invalid
-    }, { timestamps: true, upsert: true, collection: 'login' })
+    }, 
+    { timestamps: true, upsert: true, collection: 'login' }
+)
 
     // NOTE: E11000 duplicate key error collection: isQED.login index: user_name_1 dup key: { : null }
     // If you hit this, go to mongo and db.user.dropIndex("user_name_1")
@@ -62,13 +68,14 @@ const logd = require('debug')('QEDlog')
  */
 zxcvbn = require('../../config/zxcvbn');
 LoginSchema.methods.isStrongPassword = function (newPassword) {
+    // NOTE: We aren't enforcing good passwords yet
     //var strength = zxcvbn(newPassword);
     // if (strength.score < 2) { // goes up to 4, which is strong
     //     return false; // not strong enough
     // }
     
     // If we passed all that, it is acceptable
-    //return true;
+    return true;
 }
 
 /**
@@ -138,8 +145,12 @@ LoginSchema.methods.setPassword = function (newPassword) {
         return false;
     }
     
+    // WE ARE GOOD. CHANGE THE PASSWORD.
     this.passwordHash = passwordHash;
-    this.password = passwordHash; // Testing Kims password is hashed
+
+    // Don't allow any temp passwords past this point
+    this.invalidateTempForgot()
+
     return true;
 }
 
@@ -167,8 +178,8 @@ LoginSchema.methods.passwordMatchesHash = function (givenPassword) {
 
 LoginSchema.methods.invalidateTempForgot = function () {
     this.tempForgotAttemptsRemaining = 0;
-    this.tempForgotCode = null;
     this.tempForgotExpiry = null;
+    this.tempForgotHash = null;
 }
 
 /**
