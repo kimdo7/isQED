@@ -4,7 +4,7 @@
 
     <!-- Navbar brand -->
     <mdb-navbar-brand>
-        <a class="navbar-brand" [routerLink]="['/']" mdbPageScroll href="#top-section" [pageScrollDuration]="750">
+        <a class="navbar-brand" [routerLink]="['/']" >
             <img id="navbar-brand" src="assets/img/logo/ISQED_Society_logo.svgz" width="100" alt="">
         </a>
     </mdb-navbar-brand>
@@ -43,36 +43,34 @@
             <!-- Trainning -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" id="test"
-                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
+                    mdbWavesEffect >
                     Training<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/training', 'calendar']" mdbWavesEffect
-                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">Training
+                        >Training
                         Calendar</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        mdbWavesEffect >Registration
                         Form</a>
                 </div>
             </li>
 
             <!-- Certification -->
             <li class="nav-item">
-                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect mdbPageScroll
-                    href="#top-section" [pageScrollDuration]="750">Certfication</a>
+                <a class="nav-link waves-light" [routerLink]="['/certification']" mdbWavesEffect >Certfication</a>
             </li>
 
             <!-- Events -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect [routerLink]="['/events']" mdbPageScroll href="#top-section"
-                    [pageScrollDuration]="750">
+                    mdbWavesEffect [routerLink]="['/events']" >
                     Events<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect
-                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
+                        >ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        mdbWavesEffect >Registration
                         Form</a>
                 </div>
             </li>
@@ -80,14 +78,14 @@
             <!-- Events -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
+                    mdbWavesEffect >
                     Publication<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect
-                        mdbPageScroll href="#top-section" [pageScrollDuration]="750">ISQED
+                        >ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        mdbWavesEffect >Registration
                         Form</a>
                 </div>
             </li>
@@ -95,15 +93,15 @@
             <!-- About -->
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">
+                    mdbWavesEffect >
                     About<span class="caret"></span></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
                     <a class="dropdown-item waves-light" [routerLink]="['/about' ,'steering-committee']" mdbWavesEffect
-                        mdbPageScroll href="#top-section" [pageScrollDuration]="750"> Steering Committee</a>
+                        > Steering Committee</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/events' ,'isqed_events']" mdbWavesEffect>ISQED
                         Events</a>
                     <a class="dropdown-item waves-light" [routerLink]="['/training' ,'registration_form']"
-                        mdbWavesEffect mdbPageScroll href="#top-section" [pageScrollDuration]="750">Registration
+                        mdbWavesEffect >Registration
                         Form</a>
                 </div>
             </li>
