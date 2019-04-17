@@ -40,6 +40,7 @@ import { CopyrightComponent } from './component/landing/landing-body/landing-abo
 import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
 import { LandingBannerComponent } from './component/landing/landing-body/landing-banner/landing-banner.component';
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
+import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { PrivacyPolicyComponent } from './component/landing/landing-body/landing
         LandingAboutComponent,
         LandingBannerComponent,
         PrivacyPolicyComponent,
+        SteeringCommitteeComponent,
     ],
     imports: [
         BrowserModule,

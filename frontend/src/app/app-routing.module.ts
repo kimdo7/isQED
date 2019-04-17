@@ -7,15 +7,17 @@ import { ContactUsComponent } from './component/landing/landing-body/landing-abo
 import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
 import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
+import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
 
 const routes: Routes = [
     {
         path: "", component: LandingComponent, children: [
             { path: "", component: LandingHomeComponent },
+            { path: "events", component: LandingEventComponent },
             {
                 path: "about", component: LandingAboutComponent, children: [
-
-                    { path: "events", component: LandingEventComponent },
+                    
+                    { path: "steering-committee", component: SteeringCommitteeComponent },
                     { path: "contact-us", component: ContactUsComponent },
                     { path: "copyright", component: CopyrightComponent },
                     { path: "privacy_policy", component:  PrivacyPolicyComponent}

@@ -1,0 +1,433 @@
+<div class="row form-group">
+
+    <!--Rotating card-->
+    <!--Dr. Chi-Foon Chan  -->
+    <div class="col-lg-4 col-md-6">
+        <mdb-flipping-card #cards1>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%2859%29.jpg"
+                        class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="data:image/jpeg;base64,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"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Dr. Chi-Foon Chan</h4>
+                    <p>ISQED Distinguished Fellow and Chair of the ISQED Steering Committee</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards1.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards1.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+    <!--Rotating card-->
+    <!-- Dr. Bernard Courtois -->
+    <div class="col-lg-4 col-md-6">
+        <mdb-flipping-card #cards2>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(41).jpg"
+                        class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(11).jpg"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Dr. Bernard Courtois</h4>
+                    <p>Director CMP-TIMA</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards2.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards2.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+    <!--Rotating card-->
+    <!-- Dr. Masahiro Fujita -->
+    <div class="col-lg-4 col-md-6 mt-md-4">
+        <mdb-flipping-card #cards3>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Others/photo7.jpg" class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="data:image/jpeg;base64,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"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Dr. Masahiro Fujita</h4>
+                    <p>ISQED Japan Representative</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards3.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards3.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+    <!--Rotating card-->
+    <!-- Dr. Antonio Núñez -->
+    <div class="col-lg-4 col-md-6 mt-lg-4 mt-md-4">
+        <mdb-flipping-card #cards4>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%2859%29.jpg"
+                        class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Dr. Antonio Núñez</h4>
+                    <p>Professor Dept. of Electrical Engineering</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards4.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards4.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+    <!--Rotating card-->
+    <!-- Mr. Joseph Sawicki -->
+    <div class="col-lg-4 col-md-6 mt-lg-4 mt-md-4">
+        <mdb-flipping-card #cards5>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(41).jpg"
+                        class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="https://media.licdn.com/dms/image/C4E03AQFwtod899SjIQ/profile-displayphoto-shrink_800_800/0?e=1560988800&v=beta&t=MppXQ6rRmeUAHWkEqwJmfGtafuxhozm7lH2H_Ddwiv4"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Mr. Joseph Sawicki</h4>
+                    <p>Vice President and General Manager</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards5.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards5.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+    <!--Rotating card-->
+    <!-- Dr. Ali Iranmanesh -->
+    <div class="col-lg-4 col-md-6 mt-lg-4 mt-md-4">
+        <mdb-flipping-card #cards6>
+            <!--Front Side-->
+            <div class="face front tp-box_side tp-box_front">
+
+                <!-- Image-->
+                <div class="card-up">
+                    <img src="https://mdbootstrap.com/img/Photos/Others/photo7.jpg" class="img-fluid">
+                </div>
+                <!--Avatar-->
+                <div class="avatar">
+                    <img src="https://media.licdn.com/dms/image/C5603AQFdpC3wa_Ru4A/profile-displayphoto-shrink_800_800/0?e=1560988800&v=beta&t=zsQLG6qQY3SlZKoP4oX6qWBXel9NQMfUIZSvX-sbWpM"
+                        class="rounded-circle img-responsive">
+                </div>
+                <!--Content-->
+                <div class="card-body">
+                    <h4>Dr. Ali Iranmanesh</h4>
+                    <p>ISQED Founder & Chairman</p>
+                    <!--Triggering button-->
+                    <a class="rotate-btn" data-card="card-1" (click)="cards6.toggle()">
+                        <i class="fas fa-redo"></i> Click here to rotate</a>
+                </div>
+            </div>
+            <!--/.Front Side-->
+
+            <!--Back Side-->
+            <div class="back tp-box_side tp-box_back">
+
+                <!--Content-->
+                <h4>About me</h4>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime quae, dolores dicta. Blanditiis rem
+                    amet repellat,
+                    dolores nihil quae in mollitia asperiores ut rerum repellendus, voluptatum eum, officia laudantium
+                    quaerat?</p>
+                <hr>
+                <!--Social Icons-->
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="icons-sm fb-ic">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm tw-ic">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm gplus-ic">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="icons-sm li-ic">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--Triggering button-->
+                <a class="rotate-btn" data-card="card-1" (click)="cards6.toggle()">
+                    <i class="fas fa-undo"></i> Click here to rotate back</a>
+
+            </div>
+            <!--/.Back Side-->
+        </mdb-flipping-card>
+    </div>
+    <!--/.Rotating card-->
+
+</div>
