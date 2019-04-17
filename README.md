@@ -9,10 +9,10 @@
 2. Install all dependencies
     * [ ] `npm install`
     * [ ] `cd ..`
-    * [ ] `./mdbpro-installation`
 3. Install mdpro
+    * [ ] `./mdbpro-installation`
     * [ ] `cd frontend`
-4. Serving angular below 
+4. See Serving angular below 
 
 ##Serving Frontend for Building
 1. Serving angular
