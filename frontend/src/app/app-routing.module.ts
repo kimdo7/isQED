@@ -4,13 +4,21 @@ import { LandingComponent } from './component/landing/landing.component';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { ContactUsComponent } from './component/landing/landing-body/landing-about/contact-us/contact-us.component';
+import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
+import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
 
 const routes: Routes = [
     {
         path: "", component: LandingComponent, children: [
             { path: "", component: LandingHomeComponent },
-            { path: "events", component:  LandingEventComponent},
-            { path: "contact-us", component:  ContactUsComponent}
+            {
+                path: "about", component: LandingAboutComponent, children: [
+
+                    { path: "events", component: LandingEventComponent },
+                    { path: "contact-us", component: ContactUsComponent },
+                    { path: "copyright", component: CopyrightComponent }
+                ]
+            },
         ]
     }
 ];

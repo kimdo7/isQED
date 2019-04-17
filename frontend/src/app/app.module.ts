@@ -31,9 +31,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user/user.service';
 
 
+/**
+ * @landing body
+ */
+
 import { ContactUsComponent } from './component/landing/landing-body/landing-about/contact-us/contact-us.component';
-
-
+import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
+import { LandingAboutComponent } from './component/landing/landing-body/landing-about/landing-about.component';
+import { LandingBannerComponent } from './component/landing/landing-body/landing-banner/landing-banner.component';
 
 
 @NgModule({
@@ -66,6 +71,9 @@ import { ContactUsComponent } from './component/landing/landing-body/landing-abo
         ForgotPasswordModalComponent,
         ContactUsModalComponent,
         ContactUsComponent,
+        CopyrightComponent,
+        LandingAboutComponent,
+        LandingBannerComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,27 +1,28 @@
 <!-- Header -->
 <app-landing-header id="header"></app-landing-header>
 
-<!-- Body Home -->
-<div class="body" *ngIf="route=='Home' || route =='/contact-us' || route =='/events' ">
+<!-- Body Wthout banner -->
+<div class="body" *ngIf="isSideBanner()">
     <router-outlet></router-outlet>
 </div>
 
-<!-- Body Not Home -->
-<!-- <div class="body" *ngIf="route!='Home' && route !='/certification' && route !='/events'" style="margin-top: 120px;">
-    <div class="row">
+<!-- Body with banner -->
+<div class="body " *ngIf="!isSideBanner()">
+    <div class="row pt-5">
         <div class="col-lg-1"></div>
         <div class="col-xl-2 col-lg-2 col-md-2 d-none d-md-block d-lg-block d-xl-block text-center form-group">
-            <app-banner></app-banner>
+            <app-landing-banner></app-landing-banner>
         </div>
 
-        <div class="col-xl-8 col-lg-8 col-md-8" style="padding-top: 15px;">
-            <div class="ml-4"> -->
-<!-- <router-outlet></router-outlet> -->
-<!-- </div>
-
+        <div class="col-xl-8 col-lg-8 col-md-8" >
+            <div class="ml-4">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-    </div> -->
-<!-- </div> -->
+    </div>
+</div>
+
+
 
 <!-- Contact US -->
 <div>

@@ -15,6 +15,8 @@ export class LandingComponent implements OnInit {
     route: string;
     modalRef: MDBModalRef;
 
+    notSideBannerList = []
+
     constructor(location: Location, router: Router, private modalService: MDBModalService) {
 
         router.events.subscribe(val => {
@@ -27,6 +29,9 @@ export class LandingComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.notSideBannerList.push('Home')
+        this.notSideBannerList.push('/about/contact-us')
+        this.notSideBannerList.push('/events')
     }
 
     openContactUsModal() {
@@ -42,5 +47,8 @@ export class LandingComponent implements OnInit {
         });
     }
 
+    isSideBanner(){
+        return this.notSideBannerList.includes(this.route)
+    }
 
 }

@@ -15,7 +15,7 @@
                     Policy</button>
                 <p class="text-white d-inline"> | </p>
                 <button class="btn btn-link text-white" style="color:white !important"
-                    [routerLink]="['/contact-us']">Contact Us</button>
+                    [routerLink]="['/about', 'contact-us']">Contact Us</button>
             </div>
             <!-- Grid column -->
 
@@ -41,7 +41,7 @@
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">© 2019 ISQED Copyright.
-        <a href="https://mdbootstrap.com/education/angular/"> All rights reserved.</a>
+        <a  [routerLink]="['/about', 'copyright']"> All rights reserved.</a>
     </div>
     <!-- Copyright -->
 </footer>
