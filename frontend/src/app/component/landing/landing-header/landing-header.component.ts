@@ -4,6 +4,8 @@ import { LogInModalComponent } from '../landing-modal/log-in-modal/log-in-modal.
 import { RegisterModalComponent } from '../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../landing-modal/forgot-password-modal/forgot-password-modal.component';
 import * as $ from 'jquery';
+import { Router } from '@angular/router';
+import { Location } from "@angular/common";
 
 @Component({
     selector: 'app-landing-header',
@@ -13,22 +15,43 @@ import * as $ from 'jquery';
 export class LandingHeaderComponent implements OnInit {
 
     modalRef: MDBModalRef;
-
+    route: string;
+    notTransparentList
+    sideClass = 'navbar navbar-expand-lg indigo navbar-dark  fixed-top scrolling-navbar'
     lastScrollTop = 0;
 
     constructor(
-        private modalService: MDBModalService
-    ) { }
+        private modalService: MDBModalService,
+        location: Location, router: Router
+    ) {
+        router.events.subscribe(val => {
+            this.route = location.path();
+        });
+    }
+
+    getSideClass() {
+        return this.notTransparentList.includes(this.route)
+            ? "navbar navbar-expand-lg indigo navbar-dark fixed-top scrolling-navbar"
+            : "navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar"
+    }
+
+    get_authentication_button_color(){
+        return this.notTransparentList.includes(this.route) ? "primary" : "transparent"
+    }
 
     ngOnInit() {
+        this.notTransparentList = []
+        this.notTransparentList.push("/about/privacy_policy")
+
         $(document).ready(function () {
+
             $(window).scroll(function (event) {
                 var st = $(this).scrollTop();
                 if (st > this.lastScrollTop) {
                     // downscroll code
                     $(".navbar").css("background-color", "#3f51b5")
                     $(".authentication-buton").css("background-color", "#4285f4")
-                } else if (st == 0){
+                } else if (st == 0) {
                     // upscroll code
                     $(".navbar").css("background-color", "transparent")
                     $(".authentication-buton").css("background-color", "transparent")

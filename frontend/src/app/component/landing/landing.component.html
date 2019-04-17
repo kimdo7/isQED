@@ -2,12 +2,12 @@
 <app-landing-header id="header"></app-landing-header>
 
 <!-- Body Wthout banner -->
-<div class="body" *ngIf="isSideBanner()">
+<div class="body1" *ngIf="isSideBanner() && !isTransparentNav()">
     <router-outlet></router-outlet>
 </div>
 
 <!-- Body with banner -->
-<div class="body " *ngIf="!isSideBanner()">
+<div class="body2" *ngIf="!isSideBanner() && isTransparentNav()">
     <div class="row pt-4">
         <div class="col-lg-1"></div>
         <div class="col-xl-2 col-lg-2 col-md-2 d-none d-md-block d-lg-block d-xl-block text-center form-group">
@@ -21,8 +21,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Contact US -->
 <div>
