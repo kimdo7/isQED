@@ -10,7 +10,7 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { MaterialModule } from './materials';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /**
  * @Modal
@@ -89,7 +89,8 @@ import { LandingNonTransparentHeaderComponent } from './component/landing/landin
         NgbPaginationModule,
         MaterialModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     entryComponents: [
         LogInModalComponent,

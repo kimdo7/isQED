@@ -12,24 +12,26 @@
     <mdb-card-body class="px-lg-5 pt-0">
 
         <!-- Form -->
-        <form class="text-center" style="color: #757575;" (submit)="onSubmit()">
+        <form class="text-center" style="color: #757575;" (submit)="onSubmit()" [formGroup]='contact_form'>
 
             <!-- Name -->
             <div class="md-form mt-3">
-                <input type="text" id="materialContactFormName" class="form-control" mdbInput>
+                <input formControlName='name'  type="text" id="materialContactFormName"  class="form-control"
+                    mdbInput required>
                 <label for="materialContactFormName">Name</label>
             </div>
 
             <!-- E-mail -->
             <div class="md-form">
-                <input type="email" id="materialContactFormEmail" class="form-control" mdbInput>
+                <input formControlName='email' type="email" id="materialContactFormEmail" class="form-control"
+                    mdbInput>
                 <label for="materialContactFormEmail">E-mail</label>
             </div>
 
             <!--Message-->
-            <div class="md-form">
-                <textarea type="text" id="materialContactFormMessage" class="form-control md-textarea"
-                    mdbInput></textarea>
+            <div  class="md-form">
+                <textarea formControlName='message' type="text" id="materialContactFormMessage"
+                    class="form-control md-textarea" mdbInput></textarea>
                 <label for="materialContactFormMessage">Message</label>
             </div>
 

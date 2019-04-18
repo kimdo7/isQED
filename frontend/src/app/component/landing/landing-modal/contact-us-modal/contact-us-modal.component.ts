@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { LandingModalForms } from '../landing-modal-forms';
 
 @Component({
     selector: 'app-contact-us-modal',
@@ -9,41 +10,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ContactUsModalComponent implements OnInit {
 
-    // form_group : FormGroup
+    contact_form: FormGroup
 
     constructor(
         public modalRef: MDBModalRef,
-        // private formBuilder: FormBuilder,
-        ) { }
+        private formBuilder: FormBuilder
+    ) { }
 
     ngOnInit() {
-        // this.form_group = this.formBuilder.group({
-        //     first_name: ['',
-        //         [
-        //             Validators.required,
-        //             Validators.minLength(2),
-        //             Validators.pattern('^[A-Za-z ]+$')
-        //         ]
-        //     ],
-        //     last_name: ['',
-        //         [
-        //             Validators.required,
-        //             Validators.minLength(2),
-        //             Validators.pattern('^[A-Za-z ]+$')
-        //         ]
-        //     ],
-
-        //     email: ['', [Validators.required, Validators.email]],
-        //     password: ['',
-        //         [
-        //             Validators.required,
-        //             Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
-        //         ]
-        //     ],
-        // })
+        this.contact_form =  LandingModalForms.init_contact_us_form(this.formBuilder)
     }
 
-    onSubmit(){
+    onSubmit() {
+        console.log(this.contact_form.value)
         this.modalRef.hide()
     }
 }
