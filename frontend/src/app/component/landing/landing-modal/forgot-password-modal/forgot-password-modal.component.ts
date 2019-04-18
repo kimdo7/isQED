@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
-
+    
     constructor(
         private userService: UserService,
         public modalRef: MDBModalRef
