@@ -9,9 +9,9 @@ import { MDBModalRef } from 'ng-uikit-pro-standard';
 })
 export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
-
+    text: string;
     constructor(public modalRef: MDBModalRef) { }
-
+    
     ngOnInit() {
     }
 
