@@ -20,7 +20,7 @@ export class ForgotPasswordModalComponent implements OnInit {
     ngOnInit() {
     }
 
-    sendMail() {
+    onSendMail() {
         console.log("Pretending to send mail")
         let tempObservable = this.userService.requestForgotPassword({ email: "fakeemail@example.org" })
         tempObservable.subscribe(data => {

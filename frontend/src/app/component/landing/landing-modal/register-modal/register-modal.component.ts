@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PasswordValidator } from 'src/app/validator/PasswordValidator';
 import { UserValidatorMessage } from 'src/app/validator/user_validation_message';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -55,14 +54,18 @@ export class RegisterModalComponent implements OnInit {
      * @navigate to validation acount that sent by email
      */
     onRegister() {
-        if (this.user_form.invalid) {
-                // showDangerMessage shows up on the webpage.
-                this.showDangerMessage("Error!!! Please confirm email and password")
-            return;
-        }
-
+        console.log("onRegister")
+        // if (this.user_form.invalid) {
+        //         // showDangerMessage shows up on the webpage.
+        //         this.showDangerMessage("Error!!! Please confirm email and password")
+        //     return;
+        // }
+        console.log("onRegister: valid form")
+        var crash = null;
+        crash.something();
         let tempObservable = this.userService.register(this.user_form.value)
         tempObservable.subscribe(data => {
+            console.log("onRegister: userService returned %o", data)
             if (!data) {
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
@@ -93,14 +96,14 @@ export class RegisterModalComponent implements OnInit {
         this.user_form = this.formBuilder.group({
             first_name: ['',
                 [
-                    Validators.required,
+                    //Validators.required,
                     Validators.minLength(2),
                     Validators.pattern('^[A-Za-z ]+$')
                 ]
             ],
             last_name: ['',
                 [
-                    Validators.required,
+                    //Validators.required,
                     Validators.minLength(2),
                     Validators.pattern('^[A-Za-z ]+$')
                 ]
@@ -109,7 +112,7 @@ export class RegisterModalComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             password: ['',
                 [
-                    Validators.required,
+                    //Validators.required,
                     Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
                 ]
             ],

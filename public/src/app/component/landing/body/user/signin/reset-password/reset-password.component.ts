@@ -4,9 +4,9 @@ import { UserService } from 'src/app/service/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { PasswordValidator } from '../frontend/src/app/component/validator/PasswordValidator';
-import { UserValidatorMessage } from '../../../../../../../../../frontend/src/app/validator/user_validation_message';
-import { PasswordStrengthValidator } from '../frontend/src/app/component/validator/PasswordStrengthValidator';
+import { PasswordValidator } from 'src/app/validator/PasswordValidator';
+import { UserValidatorMessage } from '../../../../user_validation_message';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
     selector: 'app-reset-password',
