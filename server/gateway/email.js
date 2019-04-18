@@ -99,12 +99,22 @@ module.exports = {
             return
         }
         
+        logd("sendTempPassword: about to findById " + login_id);
         Login.findById(login_id, function (findErr, login) {
+            logd("sendTempPassword: in findById callback with err: %o and login: %o");
             if (findErr) {
                 logd("Find email error" + findErr)
                 next("Failed to send " + findErr);
-                return;
+                return
             } 
+
+            if (!login) {
+                logd("Find by login ID failed ")
+                next("Failed to find user");
+                return
+            }
+
+            logd("sendTempPassword: about to set options");
 
             var forgotMailOptions = { 
                 from: fromAddress,
@@ -112,19 +122,23 @@ module.exports = {
                 to: login.email,
                 subject: "isQED Password Reset",
                 // Still need to escape the email address
-                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "reset_password/email/" + login.email + "/" + tempPasscode + "\n",
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset_password/email/" + login.email + "/" + tempPasscode + "\n",
             };
+
+            logd("sendTempPassword: about to send mail: %o", forgotMailOptions);
             transporter.sendMail(forgotMailOptions, function (err, info) {
+                logd("sendTempPassword: in send mail callback");
                 if (err) {
-                    logd("sendTempPassword error to "+ email + " : " + err)
+                    logd("sendTempPassword error to %s : %o", login.email, err)
                     next(err);
                     return
                 }
 
-                logd("sendTempPassword success to " + email)
+                logd("sendTempPassword success to %s", login.email)
                 next(null, "Success")
             });
         })
+        logd("sendTempPassword: past findById");
     },
 
 }

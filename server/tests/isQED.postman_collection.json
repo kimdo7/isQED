@@ -44,7 +44,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:8000/api/login/5cb13a2c1b50df7bc7096d0f",
+									"raw": "localhost:8000/api/login/5cb4f919afcb1304905fc003",
 									"host": [
 										"localhost"
 									],
@@ -52,7 +52,7 @@
 									"path": [
 										"api",
 										"login",
-										"5cb13a2c1b50df7bc7096d0f"
+										"5cb4f919afcb1304905fc003"
 									]
 								}
 							},
@@ -72,10 +72,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n        \"isEmailVerified\": false,\n        \"isPhoneVerified\": false,\n        \"type\": 9,\n        \"isForgotPassword\": false,\n        \"_id\": \"5cb13a2c1b50df7bc7096d0f\",\n        \"email\": \"sylviah.yu@gmail.com\",\n        \"first_name\": \"Sylvia\",\n        \"last_name\": \"Yu\",\n        \"passwordHash\": \"$2b$10$6L6WLYOdJb60aVGn3vSJOuySSnIevbFB2/52HGnwWB15Q4DG/w4xG\",\n        \"createdAt\": \"2019-04-13T01:23:56.262Z\",\n        \"updatedAt\": \"2019-04-13T02:20:45.961Z\",\n        \"__v\": 0,\n        \"tempActivationCode\": 299344\n}"
+									"raw": "{\n        \"isEmailVerified\": true,\n        \"isPhoneVerified\": true,\n        \"type\": 9,\n        \"tempActivationCode\": 722777\n}"
 								},
 								"url": {
-									"raw": "localhost:8000/api/login/5cb13a2c1b50df7bc7096d0f",
+									"raw": "localhost:8000/api/login/5cb4f919afcb1304905fc003",
 									"host": [
 										"localhost"
 									],
@@ -83,7 +83,7 @@
 									"path": [
 										"api",
 										"login",
-										"5cb13a2c1b50df7bc7096d0f"
+										"5cb4f919afcb1304905fc003"
 									]
 								}
 							},
@@ -133,16 +133,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"userName\": \"test222@gmail.comy\",\n    \"password\": \"0Ass294d!\"\n}"
+									"raw": "{\n    \"email\": \"test222@example.org\",\n    \"password\": \"0Ass294d!\",\n    \"first_name\": \"Test\",\n    \"last_name\": \"II\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8000/api/register",
+									"raw": "localhost:8000/api/user/register",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"user",
 										"register"
 									]
 								}
@@ -163,7 +164,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"sylviah.yu@gmail.com\",\n    \"password\": \"0Ass294d!!\"\n}"
+									"raw": "{\n    \"email\": \"sylviah.yu@gmail.com\",\n    \"password\": \"0Ass294d!\"\n}"
 								},
 								"url": {
 									"raw": "localhost:8000/api/login",
@@ -232,7 +233,7 @@
 									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\",\n\t\"oldPassword\": \"0Ass294d!\",\n\t\"newPassword\": \"0Ass294d!!\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8000/api/changePassword/5cb13a2c1b50df7bc7096d0f",
+									"raw": "localhost:8000/api/changePassword/5cb4f919afcb1304905fc003",
 									"host": [
 										"localhost"
 									],
@@ -240,7 +241,7 @@
 									"path": [
 										"api",
 										"changePassword",
-										"5cb13a2c1b50df7bc7096d0f"
+										"5cb4f919afcb1304905fc003"
 									]
 								}
 							},
@@ -291,7 +292,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\",\n\t\"tempPassword\": \"tu1zu8ruq14t6186c0xy6dbvdcxbj40c\",\n\t\"newPassword\": \"0Ass294d!\"\n}"
+									"raw": "{\n\t\"email\": \"sylviah.yu@gmail.com\",\n\t\"tempPassword\": \"awh967dz8hhwh7aydjg56vjj6609xt1m\",\n\t\"newPassword\": \"0Ass294d!\"\n}"
 								},
 								"url": {
 									"raw": "localhost:8000/api/login/changePasswordForgot",
@@ -328,10 +329,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"notused\": \"ignored\"\n}"
+									"raw": "{\n    \"code\": \"722777\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8000/api/login/activate/5cb13a2c1b50df7bc7096d0f/299344",
+									"raw": "localhost:8000/api/login/activate/email/5cb4f919afcb1304905fc003",
 									"host": [
 										"localhost"
 									],
@@ -340,8 +341,8 @@
 										"api",
 										"login",
 										"activate",
-										"5cb13a2c1b50df7bc7096d0f",
-										"299344"
+										"email",
+										"5cb4f919afcb1304905fc003"
 									]
 								}
 							},
@@ -361,17 +362,19 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@example.org\",\n    \"password\": \"0Ass294d!\"\n}"
+									"raw": "{\n    \"id\": \"5cb4f919afcb1304905fc003\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8000/api/doRegister",
+									"raw": "localhost:8000/api/login/requestActivationCode/email",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
-										"doRegister"
+										"login",
+										"requestActivationCode",
+										"email"
 									]
 								}
 							},
