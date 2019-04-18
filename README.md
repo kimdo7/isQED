@@ -32,7 +32,6 @@
     * [ ]`mongo`
     * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
 
-/******* IGNORE THIS FOR NOW
 3. path to angular public project folder and run the server
     * [ ] `cd project_name/public`
     * [ ] `ng build --watch`
@@ -61,8 +60,6 @@ logd("unique failure message")
 
 5. In chrome, go to url 
     * [] `localhost: 8000`
-    `
-************ END IGNORE THIS FOR NOW***/
 
 # Github Instructions
 

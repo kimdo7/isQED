@@ -24,6 +24,7 @@ export class LandingHeaderComponent implements OnInit {
 
 
     ngOnInit() {
+        
 
         $(document).ready(function () {
             var isOpenHamburger = false

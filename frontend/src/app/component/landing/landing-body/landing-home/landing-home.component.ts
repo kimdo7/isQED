@@ -12,4 +12,7 @@ export class LandingHomeComponent implements OnInit {
     ngOnInit() {
     }
 
+  
+    
+
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { LandingModalForms } from '../landing-modal-forms';
 
 @Component({
     selector: 'app-contact-us-modal',
@@ -8,12 +10,19 @@ import { MDBModalRef } from 'ng-uikit-pro-standard';
 })
 export class ContactUsModalComponent implements OnInit {
 
-    constructor(public modalRef: MDBModalRef) { }
+    contact_form: FormGroup
+
+    constructor(
+        public modalRef: MDBModalRef,
+        private formBuilder: FormBuilder
+    ) { }
 
     ngOnInit() {
+        this.contact_form =  LandingModalForms.init_contact_us_form(this.formBuilder)
     }
 
-    onSubmit(){
+    onSubmit() {
+        console.log(this.contact_form.value)
         this.modalRef.hide()
     }
 }
