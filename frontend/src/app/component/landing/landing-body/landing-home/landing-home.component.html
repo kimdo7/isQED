@@ -1,128 +1,264 @@
 <div id="main">
+    <!-- Show on lg and xl -->
+    <div class="d-none d-lg-block">
+        <div class=" row my-auto full-screen-height">
+            <!-- Trainning -->
+            <div class="col-lg-3 col-md-6  my-sm-4 my-lg-auto">
+                <!-- Card -->
+                <mdb-card class="w-75 mx-auto">
+                    <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                        <!-- Card img -->
+                        <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                            alt="Card image cap"></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--Card content-->
+                    <mdb-card-body>
+                        <!--Title-->
+                        <mdb-card-title>
+                            <h4>Training</h4>
+                        </mdb-card-title>
 
-    <div class="row my-auto " id="body2">
-        <!-- Trainning -->
-        <div class="col-lg-3 col-md-6  my-sm-4 my-lg-auto">
+                        <!--Text-->
+                        <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
+                            card's
+                            content.
+                        </mdb-card-text>
 
-            <!-- Card -->
-            <mdb-card class="w-75 mx-auto">
-                <div class="view rgba-white-slight waves-light" mdbWavesEffect>
-                    <!-- Card img -->
-                    <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                        alt="Card image cap"></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!--Card content-->
-                <mdb-card-body>
-                    <!--Title-->
-                    <mdb-card-title>
-                        <h4>Training</h4>
-                    </mdb-card-title>
+                        <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                    </mdb-card-body>
+                </mdb-card>
 
-                    <!--Text-->
-                    <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.
-                    </mdb-card-text>
+            </div>
 
-                    <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
-                </mdb-card-body>
-            </mdb-card>
+            <!-- Certifications -->
+            <div class="col-lg-3 col-md-6  my-sm-4 my-lg-auto">
+                <!-- Card -->
+                <mdb-card class="w-75 mx-auto">
+                    <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                        <!-- Card img -->
+                        <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                            alt="Card image cap"></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--Card content-->
+                    <mdb-card-body>
+                        <!--Title-->
+                        <mdb-card-title>
+                            <h4>Certifications</h4>
+                        </mdb-card-title>
+
+                        <!--Text-->
+                        <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
+                            card's
+                            content.
+                        </mdb-card-text>
+
+                        <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                    </mdb-card-body>
+                </mdb-card>
+            </div>
+
+            <!-- Events -->
+            <div class="col-lg-3 col-md-6  my-sm-2 my-lg-auto">
+                <!-- Card -->
+                <mdb-card class="w-75 mx-auto">
+                    <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                        <!-- Card img -->
+                        <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                            alt="Card image cap"></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--Card content-->
+                    <mdb-card-body>
+                        <!--Title-->
+                        <mdb-card-title>
+                            <h4>Events</h4>
+                        </mdb-card-title>
+
+                        <!--Text-->
+                        <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
+                            card's
+                            content.
+                        </mdb-card-text>
+
+                        <button [routerLink]="['/events']" type="button" mdbBtn color="primary" mdbWavesEffect>Learn
+                            More</button>
+                    </mdb-card-body>
+                </mdb-card>
+            </div>
+
+            <!-- Publications -->
+            <div class="col-lg-3 col-md-6  my-sm-2 my-lg-auto">
+                <mdb-card class="w-75 mx-auto">
+                    <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                        <!-- Card img -->
+                        <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                            alt="Card image cap"></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--Card content-->
+                    <mdb-card-body>
+                        <!--Title-->
+                        <mdb-card-title>
+                            <h4>Publications</h4>
+                        </mdb-card-title>
+
+                        <!--Text-->
+                        <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
+                            card's
+                            content.
+                        </mdb-card-text>
+
+                        <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                    </mdb-card-body>
+                </mdb-card>
+            </div>
 
         </div>
-
-        <!-- Certifications -->
-        <div class="col-lg-3 col-md-6  my-sm-4 my-lg-auto">
-            <!-- Card -->
-            <mdb-card class="w-75 mx-auto">
-                <div class="view rgba-white-slight waves-light" mdbWavesEffect>
-                    <!-- Card img -->
-                    <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                        alt="Card image cap"></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!--Card content-->
-                <mdb-card-body>
-                    <!--Title-->
-                    <mdb-card-title>
-                        <h4>Certifications</h4>
-                    </mdb-card-title>
-
-                    <!--Text-->
-                    <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.
-                    </mdb-card-text>
-
-                    <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
-                </mdb-card-body>
-            </mdb-card>
-        </div>
-
-        <!-- Events -->
-        <div class="col-lg-3 col-md-6  my-sm-2 my-lg-auto">
-            <!-- Card -->
-            <mdb-card class="w-75 mx-auto">
-                <div class="view rgba-white-slight waves-light" mdbWavesEffect>
-                    <!-- Card img -->
-                    <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                        alt="Card image cap"></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!--Card content-->
-                <mdb-card-body>
-                    <!--Title-->
-                    <mdb-card-title>
-                        <h4>Events</h4>
-                    </mdb-card-title>
-
-                    <!--Text-->
-                    <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.
-                    </mdb-card-text>
-
-                    <button [routerLink]="['/events']" type="button" mdbBtn color="primary" mdbWavesEffect>Learn
-                        More</button>
-                </mdb-card-body>
-            </mdb-card>
-        </div>
-
-        <!-- Publications -->
-        <div class="col-lg-3 col-md-6  my-sm-2 my-lg-auto">
-            <mdb-card class="w-75 mx-auto">
-                <div class="view rgba-white-slight waves-light" mdbWavesEffect>
-                    <!-- Card img -->
-                    <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                        alt="Card image cap"></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!--Card content-->
-                <mdb-card-body>
-                    <!--Title-->
-                    <mdb-card-title>
-                        <h4>Publications</h4>
-                    </mdb-card-title>
-
-                    <!--Text-->
-                    <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.
-                    </mdb-card-text>
-
-                    <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
-                </mdb-card-body>
-            </mdb-card>
-        </div>
-
     </div>
-    <!-- </div> -->
+
+    <!-- SHow on medium only -->
+    <mdb-carousel [animation]="'slide'" class=" w-100 my-auto d-none d-sm-block d-lg-none">
+        <mdb-carousel-item class="w-100 my-auto" style="width: 100%;">
+            <div class="row justify-content-md-center w-100 my-auto full-screen-height">
+                <!-- Training -->
+                <div class="col col-md-6 col-sm-12 my-auto">
+                    <mdb-card class=" w-75 mx-auto">
+                        <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                            <!-- Card img -->
+                            <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                alt="Card image cap"></mdb-card-img>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--Card content-->
+                        <mdb-card-body>
+                            <!--Title-->
+                            <mdb-card-title>
+                                <h4>Training</h4>
+                            </mdb-card-title>
+
+                            <!--Text-->
+                            <mdb-card-text> Some quick example text to build on the card title and make up the bulk
+                                of
+                                the
+                                card's
+                                content.
+                            </mdb-card-text>
+
+                            <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                        </mdb-card-body>
+                    </mdb-card>
+                </div>
+
+                <!-- Certifications -->
+                <div class="col col-md-6 col-sm-12 my-auto">
+                    <mdb-card class=" w-75 mx-auto">
+                        <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                            <!-- Card img -->
+                            <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                alt="Card image cap"></mdb-card-img>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--Card content-->
+                        <mdb-card-body>
+                            <!--Title-->
+                            <mdb-card-title>
+                                <h4>Certifications</h4>
+                            </mdb-card-title>
+
+                            <!--Text-->
+                            <mdb-card-text> Some quick example text to build on the card title and make up the bulk
+                                of
+                                the
+                                card's
+                                content.
+                            </mdb-card-text>
+
+                            <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                        </mdb-card-body>
+                    </mdb-card>
+                </div>
+            </div>
+        </mdb-carousel-item>
+
+        <mdb-carousel-item class="w-100 my-auto" style="width: 100%;">
+            <div class="row justify-content-md-center w-100 my-auto full-screen-height" >
+                <!-- Events -->
+                <div class="col col-md-6 col-sm-12 my-auto">
+                    <mdb-card class=" w-75 mx-auto">
+                        <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                            <!-- Card img -->
+                            <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                alt="Card image cap"></mdb-card-img>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--Card content-->
+                        <mdb-card-body>
+                            <!--Title-->
+                            <mdb-card-title>
+                                <h4>Events</h4>
+                            </mdb-card-title>
+
+                            <!--Text-->
+                            <mdb-card-text> Some quick example text to build on the card title and make up the bulk
+                                of
+                                the
+                                card's
+                                content.
+                            </mdb-card-text>
+
+                            <button [routerLink]="['/events']" type="button" mdbBtn color="primary" mdbWavesEffect>Learn
+                                More</button>
+                        </mdb-card-body>
+                    </mdb-card>
+                </div>
+
+                <!-- Publications -->
+                <div class="col col-md-6 col-sm-12 my-auto">
+                    <mdb-card class=" w-75 mx-auto">
+                        <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+                            <!-- Card img -->
+                            <mdb-card-img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                alt="Card image cap"></mdb-card-img>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--Card content-->
+                        <mdb-card-body>
+                            <!--Title-->
+                            <mdb-card-title>
+                                <h4>Publications</h4>
+                            </mdb-card-title>
+
+                            <!--Text-->
+                            <mdb-card-text> Some quick example text to build on the card title and make up the bulk
+                                of
+                                the
+                                card's
+                                content.
+                            </mdb-card-text>
+
+                            <button type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+                        </mdb-card-body>
+                    </mdb-card>
+                </div>
+            </div>
+        </mdb-carousel-item>
+    </mdb-carousel>
 </div>
