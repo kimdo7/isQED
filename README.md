@@ -4,15 +4,15 @@
 1. Open your terminal to isQED/ and type in commands:
     * [ ] `git status` Make sure you are on the master branch
     * [ ] `git pull` pull the latest code down from master
-1. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
+2. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
     * [ ] `cd frontend`
-2. Install all dependencies
+3. Install all dependencies
     * [ ] `npm install`
     * [ ] `cd ..`
-3. Install mdpro
+4. Install mdpro
     * [ ] `./mdbpro-installation`
     * [ ] `cd frontend`
-4. See Serving angular below 
+5. See Serving angular below 
 
 ##Serving Frontend for Building
 1. Serving angular
@@ -70,7 +70,7 @@ logd("unique failure message")
     * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
     * [ ] `$ cd isQED`  
     * [ ] `$ npm install` | install all the backend packages
-    * [ ] `$ cd public`
+    * [ ] `$ cd frontend`
     * [ ] `$ npm install` | install all the fontend packages
     * [ ] `$ code ../.`   | open VSCOde
 
@@ -150,4 +150,4 @@ logd("unique failure message")
 
 13.  When you want to pull the latest master into your working branch
 * [ ] `git branch`  ** make sure you NOT ON MASTER, but on your working branch **
-* [ ] `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there is no conflicts, your branch should be up to date. 
+* [ ] `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there are no conflicts, your branch should be up to date. 

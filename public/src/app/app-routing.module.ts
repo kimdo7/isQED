@@ -75,7 +75,7 @@ const routes: Routes = [
                     { path: "", component: SignInDefaultComponent },
                     { path: "validation/:id", component: SignInValidationComponent },
                     { path: "forgot_password", component: ForgotPasswordComponent },
-                    { path: "reset_password/email/:email", component: ResetPasswordComponent }, // Change after forgot password
+                    { path: "reset_password/email/:email", component: ResetPasswordComponent }, // Change after forgot password by typing url themselves
                     { path: "reset_password/email/:email/:tempPasscode", component: ResetPasswordComponent }, // Change after forgot password by clicking link in email
                     { path: "reset_password/id/:login_id", component: ResetPasswordComponent } // Change password when logged in
                 ]

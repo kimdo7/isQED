@@ -19,7 +19,7 @@ module.exports = {
 	/**
 	 * @Get *ALL* users
 	 */
-    getAll: (req, res) => {
+    debugGetAll: (req, res) => {
         User.find({}, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })

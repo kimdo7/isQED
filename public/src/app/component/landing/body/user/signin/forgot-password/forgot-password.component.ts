@@ -36,14 +36,15 @@ export class ForgotPasswordComponent implements OnInit {
         let tempObservable = this.userService.requestForgotPassword({ email: this.emailFormControl.value })
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
+                console.log("sendEmail: got success")
                 // We don't know the ID, and shouldn't
                 // We want to reset the passcode based only on the email
                 this.router.navigate(["/resetPassword/email/",this.emailFormControl.value.email])
             } else {
+                console.log("sendEmail: got no success")
                 this.showDangerMessage("Error!!! That email account doesn’t exist. Please enter a different email address or create a new account")
             }
         });
-
 
     }
 

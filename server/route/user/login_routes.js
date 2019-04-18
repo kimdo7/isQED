@@ -1,5 +1,13 @@
 var logins = require('../../controller/user/logins')
 
+/**
+ * We don't expose the raw database to end users.
+ * Right now while we are debugging, it's OK to have the
+ * user information available to anyone who isn't logged in.
+ * But we NEVER want the DEBUG routes to go to production, 
+ * because there is zero protection here to ensure users 
+ * only get their own info.
+ */
 const DEBUG = true;
 
 /**
@@ -14,16 +22,6 @@ const logd = require('debug')('QEDlog')
 
 
 module.exports = function (app) {
-    
-
-    /**
-    * @get all user
-    */
-    app.get('/api/logins', (req, res) => {
-        logins.getAll(req, res)
-    })
-
-
     /**
      * @Login the user, starting their session
      */
@@ -77,7 +75,7 @@ module.exports = function (app) {
      * This sends a mail to the email address with a temp password.
      * This temp password will allow them to change their real password.
      * Of course, they don't have to be logged in. This will log them out if they are.
-     */
+     */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
         logins.requestMailForForgottenPasscode(req, res)
     })

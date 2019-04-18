@@ -3,6 +3,7 @@ var Login = mongoose.model('Login')
 var User = mongoose.model('User')
 var emailGateway = require("../../gateway/email")
 
+
 /**
  * @DEBUG 
  * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
@@ -12,10 +13,14 @@ var emailGateway = require("../../gateway/email")
  *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
  */
 const logd = require('debug')('QEDlog')
-const DEBUG_DONT_SEND_EMAIL = true; // Set this to false to use the gateway.  
+const DEBUG_DONT_SEND_EMAIL = false; // Set this to false to use the gateway.
+
 
 /**
- * @Ensure the user is logged in
+ * Like findById, but only gives back the login if it is currently signed in
+ * @param {{session}} req The request from the client, used to check the session to see who is logged in
+ * @param {string} login_id The ID that the user claims to be (usually in the URL), this has to match the session
+ * @param {callback} next After the ID is looked up, this is called with (err, login) just like findById would
  */
 var findByIdIfSignedIn = (req, login_id, next) => {
     // If they have a session, they are signed in
@@ -56,20 +61,6 @@ var findByIdIfSignedIn = (req, login_id, next) => {
 };
 
 module.exports = {
-    /**
-	 * @Get *ALL* users
-	 */
-    getAll: (req, res) => {
-        Login.find({}, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-                return
-            }
-            res.json({ message: 'Success', data: data })
-        })
-    },
-
-
     /**
      * @Get *ALL* LOGINS
      * RETURNS EVERY PASSWORD HASH IN THE DATABASE!! DEBUGGING ONLY
@@ -322,8 +313,7 @@ module.exports = {
         var tempPasscode = null;
 
         // Don't allow the user to stay logged in if they forgot.
-        // This may let someone else log you out 
-        // if the session is on the server, but not if we are using cookies
+        // We may want to change this later but it means more testings
         req.session.last_stage = 'forgotPassword'
         req.session.login_id = null;
         req.session.save()
@@ -342,7 +332,7 @@ module.exports = {
                 return
             } else if (!login) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
-                logd("requestMailForForgottenPasscode no login user object for: " + id + " : " + email)
+                logd("requestMailForForgottenPasscode no login user object for: " + email)
                 return;
             }
             if (!login.passwordHash) {
@@ -394,7 +384,7 @@ module.exports = {
                                 logd("requestMailForForgottenPasscode got a null without an err when trying to save invalidateTempForgot after an error");
                                 // already sent a response
                             } else {
-                                // Succeeded to invalidte the temp passcode
+                                // Succeeded to invalidate the temp passcode
                                 // but it still was an error sending the mail
                                 // already sent a response
                             }
@@ -464,7 +454,7 @@ module.exports = {
 
                     logd("changePasswordAfterForgetting saved updated attempt count");
                 });
-                res.json({ message: 'Error', error: "forgotPasswordCode is invalid" });
+                res.json({ message: 'Error', error: "tempPassword is invalid" });
                 return
             }
 
@@ -503,9 +493,11 @@ module.exports = {
     },
 
     /**
-     * @Login the user
-     * Requires either the password
-     * or a hash of the password
+     * Login the user
+     * @param req this request must have a body.email that already exists as a user,
+     *            and body.password or body.passwordHash (this lets you hash in the Angular code or on the server)
+     *            The req must also have a session, and this function sets session.login_id and session.last_stage.
+     * @param res this response is used to send res.json
      */
     loginWithUserPassword: (req, res) => {
         // This is given by the end user
