@@ -17,10 +17,11 @@
 ##Serving Frontend for Building
 1. Serving angular
     * [ ] `cd frontend` 
-    * [ ] `ng serve` | angular serve is running on port 4200
+    * [ ] `ng serve` | Mac Users - angular serve is running on port 4200
+    * [ ] `ng serve --aot` | PC Users - angular serve is running on port 4200
 
 2. In chrome, go to url 
-    * [] `localhost: 4200`
+    * [ ] `localhost: 4200`
 
 ## Start the Server
 1. Leave mongoose running
