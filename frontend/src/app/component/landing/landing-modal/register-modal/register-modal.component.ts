@@ -67,8 +67,9 @@ export class RegisterModalComponent implements OnInit {
                 console.log("server not available")
                 //this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
-                
-                this.router.navigate(["/signin/validation/" + data["login_id"]])
+                // THis isn't right.
+                // Just trying to get the UI to start showing the right thing
+                this.action.next('Registered');
             } else if (data["error"]) {
                 console.log("Error!!! " + data["error"])
                 //this.showDangerMessage("Error!!! " + data["error"])
