@@ -104,7 +104,4 @@ export class SignInDefaultComponent implements OnInit {
     public showDangerMessage(message) {
         this._danger.next(message);
     }
-
-
-    
 }

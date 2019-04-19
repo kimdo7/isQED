@@ -522,7 +522,7 @@ module.exports = {
             req.session.login_id = null
             req.session.save()
         }
-        console.log(req.session);
+        logd(req.session);
 
         // 1. The user has to exist if we want to change a password
         Login.findOne({ email: email }, function (err, login) {
@@ -532,8 +532,8 @@ module.exports = {
                 return
             }
 
-            console.log(login);
-            console.log(login.isEmailVerified);
+            logd(login);
+            logd(login.isEmailVerified);
 
             if (!login || !login.id || !login.isSameEmail(email) || !login.passwordHash) {
                 logd("loginWithUserPassword none found: " + email + " -- " + login.id + " " + login.isSameEmail(email));
