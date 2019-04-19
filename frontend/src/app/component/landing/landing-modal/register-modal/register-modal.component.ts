@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserValidatorMessage } from 'src/app/validator/user_validation_message';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -17,6 +17,13 @@ import { LandingModalForms } from '../landing-modal-forms';
 })
 export class RegisterModalComponent implements OnInit {
     action = new Subject();
+    /**
+    * alert
+    */
+
+    private _danger = new Subject<string>();
+    staticAlertClosed = false;
+    errorMessage: string;
 
     // validation_messages = UserValidatorMessage.message
     // passwordStrengthValidator = PasswordStrengthValidator
@@ -36,14 +43,17 @@ export class RegisterModalComponent implements OnInit {
         private formBuilder: FormBuilder,
         private userService: UserService,
         private router: Router
-        ) { }
+    ) { }
 
     /**
      * @param user_form *init*
      * @param alert *init*
      */
     ngOnInit() {
-        this.register_form =  LandingModalForms.init_register_form(this.formBuilder)
+        this.register_form = LandingModalForms.init_register_form(this.formBuilder)
+        this.initAlert()
+        // this.showDangerMessage("Error!!! Please confirm email and password")
+
     }
 
     /**
@@ -54,11 +64,11 @@ export class RegisterModalComponent implements OnInit {
      */
     onRegister() {
         console.log("onRegister")
-        // if (this.user_form.invalid) {
-        //         // showDangerMessage shows up on the webpage.
-        //         this.showDangerMessage("Error!!! Please confirm email and password")
-        //     return;
-        // }
+        if (this.register_form.invalid) {
+            //         // showDangerMessage shows up on the webpage.
+            this.showDangerMessage("Error!!! Please confirm email and password")
+            return;
+        }
         console.log("onRegister: valid form")
         let tempObservable = this.userService.register(this.register_form.value)
         tempObservable.subscribe(data => {
@@ -75,20 +85,10 @@ export class RegisterModalComponent implements OnInit {
                 //this.showDangerMessage("Error!!! " + data["error"])
             } else {
                 console.log("Error!!! Please confirm email and password")
-               // this.showDangerMessage("Error!!! Please confirm email and password")
+                // this.showDangerMessage("Error!!! Please confirm email and password")
             }
         });
     }
-
-
-    /**
-     * alert
-     */
-
-    private _danger = new Subject<string>();
-
-    staticAlertClosed = false;
-    errorMessage: string;
 
 
     /**
@@ -103,11 +103,23 @@ export class RegisterModalComponent implements OnInit {
         ).subscribe(() => this.errorMessage = null);
     }
 
+    /**
+     * Swap modal to Forgot password
+     */
     openForgotPasswordModal() {
         this.action.next('Forgot Password');
     }
 
+    /**
+     * Swap modal to LogIn
+     */
     openLogInModal() {
         this.action.next('Log In');
     }
+
+    public showDangerMessage(message) {
+        this._danger.next(message);
+    }
+
+
 }

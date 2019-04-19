@@ -6,11 +6,16 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './component/landing/landing.component';
 import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingFooterComponent } from './component/landing/landing-footer/landing-footer.component';
-import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { MaterialModule } from './materials';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+/**
+ * @Alert
+ */
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * @Modal
@@ -84,6 +89,13 @@ import { LandingHomeCardComponent } from './component/landing/landing-body/landi
         LandingHomeCardComponent,
     ],
     imports: [
+        /**
+        * For alert
+        */
+        NgbModule,
+        NgbPaginationModule, 
+        NgbAlertModule,
+
         BrowserModule,
         AppRoutingModule,
         MDBBootstrapModulesPro.forRoot(),
@@ -92,7 +104,9 @@ import { LandingHomeCardComponent } from './component/landing/landing-body/landi
         MaterialModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+
+
     ],
     entryComponents: [
         LogInModalComponent,
