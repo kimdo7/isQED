@@ -500,6 +500,8 @@ module.exports = {
      * @param res this response is used to send res.json
      */
     loginWithUserPassword: (req, res) => {
+        console.log(req.body.email);
+        console.log(req.body.password);
         // This is given by the end user
         var email = req.body.email;
         var givenPassword = req.body.password;

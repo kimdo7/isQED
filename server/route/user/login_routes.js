@@ -26,6 +26,7 @@ module.exports = function (app) {
      * @Login the user, starting their session
      */
     app.post('/api/login', (req, res) => {
+        console.log("Hello World");
         logins.loginWithUserPassword(req, res)
     })
 
