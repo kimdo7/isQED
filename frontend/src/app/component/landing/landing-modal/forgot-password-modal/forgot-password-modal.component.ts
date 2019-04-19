@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -11,11 +12,18 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
+    text: string;
+    validationForm: FormGroup;
     
     constructor(
         private userService: UserService,
-        public modalRef: MDBModalRef
-    ) { }
+        public modalRef: MDBModalRef,
+        public fb: FormBuilder
+    ) { 
+        this.validationForm = fb.group({
+            emailFormEx: [null, [Validators.required, Validators.email]]
+          });
+    }
 
     ngOnInit() {
     }
@@ -42,4 +50,6 @@ export class ForgotPasswordModalComponent implements OnInit {
     openLogInModal() {
         this.action.next('Log In');
     }
+
+    get emailFormEx() { return this.validationForm.get('emailFormEx'); }
 }
