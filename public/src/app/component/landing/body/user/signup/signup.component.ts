@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PasswordValidator } from 'src/app/validator/PasswordValidator';
-import { UserValidatorMessage } from '../user_validation_message';
+import { PasswordValidator } from '../frontend/src/app/component/validator/PasswordValidator';
+import { UserValidatorMessage } from '../../../../../../../../frontend/src/app/validator/user_validation_message';
 import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
+import { PasswordStrengthValidator } from '../frontend/src/app/component/validator/PasswordStrengthValidator';
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
 
