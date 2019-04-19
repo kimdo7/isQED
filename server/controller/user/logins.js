@@ -500,8 +500,6 @@ module.exports = {
      * @param res this response is used to send res.json
      */
     loginWithUserPassword: (req, res) => {
-        console.log(req.body.email);
-        console.log(req.body.password);
         // This is given by the end user
         var email = req.body.email;
         var givenPassword = req.body.password;
@@ -524,6 +522,7 @@ module.exports = {
             req.session.login_id = null
             req.session.save()
         }
+        console.log(req.session);
 
         // 1. The user has to exist if we want to change a password
         Login.findOne({ email: email }, function (err, login) {
@@ -532,6 +531,10 @@ module.exports = {
                 res.json({ message: 'Error', error: err })
                 return
             }
+
+            console.log(login);
+            console.log(login.isEmailVerified);
+
             if (!login || !login.id || !login.isSameEmail(email) || !login.passwordHash) {
                 logd("loginWithUserPassword none found: " + email + " -- " + login.id + " " + login.isSameEmail(email));
                 res.json({ message: 'Error', error: "Bad login record" })

@@ -10,19 +10,6 @@ export class LoginService {
   /* @param data is email and password
   */
  login(data){
-      console.log(data);
      return this.http.post("/api/login", data)
  }
-
-
-
-
-
-
-
-
-
-
-
-
 }

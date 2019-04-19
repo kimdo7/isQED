@@ -57,6 +57,7 @@ export class LogInModalComponent implements OnInit {
         let tempObservable = this.loginService.login(this.contact_form.value)
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
+
                 if(data['data']['isEmailVerified']){
                     this.router.navigate([""]);
             } else {
