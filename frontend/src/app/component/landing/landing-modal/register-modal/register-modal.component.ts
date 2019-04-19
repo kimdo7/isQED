@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LandingModalForms } from '../landing-modal-forms';
-import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
+
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
 @Component({

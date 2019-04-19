@@ -42,6 +42,8 @@ export class LandingNonTransparentHeaderComponent implements OnInit {
                 this.openRegisterModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
+            } else if (result == "Logged In") {
+                this.dismissModal()
             }
         });
     }
