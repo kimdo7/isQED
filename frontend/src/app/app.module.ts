@@ -42,6 +42,7 @@ import { LandingBannerComponent } from './component/landing/landing-body/landing
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
 import { LandingNonTransparentHeaderComponent } from './component/landing/landing-non-transparent-header/landing-non-transparent-header.component';
+import { LandingHomeCardComponent } from './component/landing/landing-body/landing-home/landing-home-card/landing-home-card.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { LandingNonTransparentHeaderComponent } from './component/landing/landin
         PrivacyPolicyComponent,
         SteeringCommitteeComponent,
         LandingNonTransparentHeaderComponent,
+        LandingHomeCardComponent,
     ],
     imports: [
         BrowserModule,
