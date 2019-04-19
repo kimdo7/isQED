@@ -11,20 +11,20 @@
     <mdb-card-body class="px-lg-5 pt-0">
 
         <!-- Form -->
-        <form class="text-center" style="color: #757575;">
+        <form class="text-center" style="color: #757575;" (submit)="onRegister()"  [formGroup]="register_form">
 
             <div class="form-row">
                 <div class="col">
                     <!-- First name -->
                     <div class="md-form">
-                        <input type="text" id="materialRegisterFormFirstName" class="form-control" mdbInput>
+                        <input formControlName='first_name' type="text" id="materialRegisterFormFirstName" class="form-control" mdbInput>
                         <label for="materialRegisterFormFirstName">First name</label>
                     </div>
                 </div>
                 <div class="col">
                     <!-- Last name -->
                     <div class="md-form">
-                        <input type="email" id="materialRegisterFormLastName" class="form-control" mdbInput>
+                        <input formControlName='last_name' type="email" id="materialRegisterFormLastName" class="form-control" mdbInput>
                         <label for="materialRegisterFormLastName">Last name</label>
                     </div>
                 </div>
@@ -32,26 +32,23 @@
 
             <!-- E-mail -->
             <div class="md-form mt-0">
-                <input type="email" id="materialRegisterFormEmail" class="form-control" mdbInput>
+                <input formControlName='email' type="email" id="materialRegisterFormEmail" class="form-control"  mdbInput>
                 <label for="materialRegisterFormEmail">E-mail</label>
             </div>
 
             <!-- Password -->
             <div class="md-form">
-                <input type="password" id="materialRegisterFormPassword" class="form-control"
+                <input formControlName='password' type="password" id="materialRegisterFormPassword" class="form-control"
                     aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput>
                 <label for="materialRegisterFormPassword">Password</label>
                 <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
                     At least 8 characters and 1 digit
                 </small>
             </div>
-
-            <!-- Newsletter -->
-            <mdb-checkbox>Subscribe to our newsletter</mdb-checkbox>
-
+            
             <!-- Sign up button -->
             <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
-                mdbWavesEffect type="submit">Sign up</button>
+            mdbWavesEffect type="submit">REGISTER</button>
 
             <!-- Log In -->
             <p>Already a member?
@@ -64,13 +61,9 @@
             </div>
             <hr>
 
-
             <!-- Terms of service -->
-            <p>By clicking
-                <em>Sign up</em> you agree to our
-                <a href="" target="_blank">terms of service</a> and
-                <a href="" target="_blank">terms of service</a>. </p>
-
+            <p>By Registering, you agree to the
+                <a href="" target="_blank">terms & conditions.</a></p>
 
         </form>
         <!-- Form -->

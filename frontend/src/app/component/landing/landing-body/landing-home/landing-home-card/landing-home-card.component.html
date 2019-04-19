@@ -1,0 +1,26 @@
+<mdb-card class="w-75 mx-auto">
+    <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+        <!-- Card img -->
+        <mdb-card-img [src]="cards[key].img" alt="Card image cap">
+        </mdb-card-img>
+        <a>
+            <div class="mask"></div>
+        </a>
+    </div>
+    <!--Card content-->
+    <mdb-card-body>
+        <!--Title-->
+        <mdb-card-title>
+            <h4>{{cards[key].title}}</h4>
+        </mdb-card-title>
+
+        <!--Text-->
+        <mdb-card-text> Some quick example text to build on the card title and make up the bulk of the
+            card's
+            content.
+        </mdb-card-text>
+
+        <!-- <button [routerLink]="cards[key].link" type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button> -->
+        <button  [routerLink]="cards[key].link" type="button" mdbBtn color="primary" mdbWavesEffect>Learn More</button>
+    </mdb-card-body>
+</mdb-card>

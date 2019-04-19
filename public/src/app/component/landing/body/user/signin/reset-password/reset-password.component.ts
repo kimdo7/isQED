@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { PasswordValidator } from 'src/app/validator/PasswordValidator';
-import { UserValidatorMessage } from '../../user_validation_message';
+import { UserValidatorMessage } from '../../../../user_validation_message';
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
