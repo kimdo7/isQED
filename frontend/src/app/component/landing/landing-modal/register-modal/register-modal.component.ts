@@ -6,6 +6,7 @@ import { UserValidatorMessage } from 'src/app/validator/user_validation_message'
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { LandingModalForms } from '../landing-modal-forms';
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
@@ -17,12 +18,8 @@ import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthVal
 export class RegisterModalComponent implements OnInit {
     action = new Subject();
 
-    validation_messages = UserValidatorMessage.message
-    passwordStrengthValidator = PasswordStrengthValidator
-
-    hidePassword: boolean = true
-    hideErrors: boolean = true
-    user_form: FormGroup
+    // validation_messages = UserValidatorMessage.message
+    // passwordStrengthValidator = PasswordStrengthValidator
 
     /**
      * 
@@ -30,6 +27,9 @@ export class RegisterModalComponent implements OnInit {
      * @param userService 
      * @param router 
      */
+    // hidePassword: boolean = true
+    // hideErrors: boolean = true
+    register_form: FormGroup
 
     constructor(
         public modalRef: MDBModalRef,
@@ -43,8 +43,7 @@ export class RegisterModalComponent implements OnInit {
      * @param alert *init*
      */
     ngOnInit() {
-        this.initForm()
-        this.initAlert()
+        this.register_form =  LandingModalForms.init_register_form(this.formBuilder)
     }
 
     /**
@@ -61,63 +60,25 @@ export class RegisterModalComponent implements OnInit {
         //     return;
         // }
         console.log("onRegister: valid form")
-        var crash = null;
-        crash.something();
-        let tempObservable = this.userService.register(this.user_form.value)
+        let tempObservable = this.userService.register(this.register_form.value)
         tempObservable.subscribe(data => {
             console.log("onRegister: userService returned %o", data)
             if (!data) {
-                this.showDangerMessage("Error!!! Server not available. Please try later.")
+                console.log("server not available")
+                //this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
+                
                 this.router.navigate(["/signin/validation/" + data["login_id"]])
             } else if (data["error"]) {
-                this.showDangerMessage("Error!!! " + data["error"])
+                console.log("Error!!! " + data["error"])
+                //this.showDangerMessage("Error!!! " + data["error"])
             } else {
-                this.showDangerMessage("Error!!! Please confirm email and password")
+                console.log("Error!!! Please confirm email and password")
+               // this.showDangerMessage("Error!!! Please confirm email and password")
             }
         });
     }
 
-        /**
-     * @param first_name  minLength : 2, pattern check
-     * @param last_name minLength : 2, pattern check
-     * @param email validation check
-     * @param password validation check
-     * @param confirm_password validation check
-     * 
-     * @PasswordStrength 
-        * *At least 8 characters in length*
-        * *Lowercase letters*
-        * *Uppercase letters*
-        * *Numbers*
-        * *Special characters*
-     */
-    initForm() {
-        this.user_form = this.formBuilder.group({
-            first_name: ['',
-                [
-                    //Validators.required,
-                    Validators.minLength(2),
-                    Validators.pattern('^[A-Za-z ]+$')
-                ]
-            ],
-            last_name: ['',
-                [
-                    //Validators.required,
-                    Validators.minLength(2),
-                    Validators.pattern('^[A-Za-z ]+$')
-                ]
-            ],
-
-            email: ['', [Validators.required, Validators.email]],
-            password: ['',
-                [
-                    //Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
-                ]
-            ],
-        })
-    }
 
     /**
      * alert
@@ -128,9 +89,6 @@ export class RegisterModalComponent implements OnInit {
     staticAlertClosed = false;
     errorMessage: string;
 
-    public showDangerMessage(message) {
-        this._danger.next(message);
-    }
 
     /**
      * set alert

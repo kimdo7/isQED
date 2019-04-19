@@ -17,7 +17,7 @@ export class UserService {
      * @param data is first, last name, email, pass and confirmpass
      */
     register(data) {
-        return this.http.post("/api/user", data)
+        return this.http.post("/api/user/register", data)
     }
     
     getLoginEmail(id){
