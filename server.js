@@ -26,12 +26,27 @@ app.use(session({
     }
 }))
 
+// Depending on how we want the serve to run, we can use different databases
+// we can start nodemon with different options like
+// DEBUG=QEDlog QEDDB=UNIT_TESTING nodemon server.js
+// https://www.twilio.com/blog/2017/08/working-with-environment-variables-in-node-js.html
+const PRODUCTION = (process.env.QEDDB == "PRODUCTION")
+const UNIT_TESTING = (process.env.QEDDB == "UNIT_TESTING")
+
+
 // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
 // by default, you need to set it to false.
+var mongoDB = 'mongodb://localhost/isQED'
+if (PRODUCTION) {
+    mongoDB = 'mongodb://a.real.server/isQED'
+} else if (UNIT_TESTING) {
+    mongoDB = 'mongodb://localhost/isQEDTestDB'
+}
+console.log("Using " + mongoDB)
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true)
 mongoose.connect(
-	'mongodb://localhost/isQED',
+	mongoDB,
 	{ useNewUrlParser: true }
 )
 

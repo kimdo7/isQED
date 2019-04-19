@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
-import { UserService } from 'src/app/service/user/user.service';
+import { LoginService } from 'src/app/service/user/login.service';
 
 
 @Component({
@@ -13,16 +13,16 @@ export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
 
     constructor(
-        private userService: UserService,
+        private LoginService: LoginService,
         public modalRef: MDBModalRef
     ) { }
 
     ngOnInit() {
     }
 
-    sendMail() {
+    onSendMail() {
         console.log("Pretending to send mail")
-        let tempObservable = this.userService.requestForgotPassword({ email: "fakeemail@example.org" })
+        let tempObservable = this.LoginService.requestForgotPassword({ email: "fakeemail@example.org" })
         tempObservable.subscribe(data => {
             if (data["message"] === "Success") {
                 console.log("sendEmail: got success")

@@ -17,6 +17,10 @@ export class LandingNonTransparentHeaderComponent implements OnInit {
     ngOnInit() {
     }
 
+    dismissModal() {
+        this.modalService.hide(1)
+    }
+
     openLoginModal() {
         this.modalRef = this.modalService.show(LogInModalComponent, {
             backdrop: true,
@@ -38,6 +42,8 @@ export class LandingNonTransparentHeaderComponent implements OnInit {
                 this.openRegisterModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
+            } else if (result == "Logged In") {
+                this.dismissModal()
             }
         });
     }
@@ -63,6 +69,8 @@ export class LandingNonTransparentHeaderComponent implements OnInit {
                 this.openLoginModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
+            } else if (result == "Registered") {
+                this.dismissModal()
             }
         });
     }
