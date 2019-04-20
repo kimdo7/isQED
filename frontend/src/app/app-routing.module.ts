@@ -8,6 +8,7 @@ import { LandingAboutComponent } from './component/landing/landing-body/landing-
 import { CopyrightComponent } from './component/landing/landing-body/landing-about/copyright/copyright.component';
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
+import { UserComponent } from './component/user/user.component';
 
 const routes: Routes = [
     {
@@ -23,6 +24,12 @@ const routes: Routes = [
                 ]
             },
         ]
+    },
+    {
+        path: "user", component: UserComponent
+    },
+    {
+        path: "admin", component: UserComponent
     }
 ];
 
