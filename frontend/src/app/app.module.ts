@@ -50,7 +50,7 @@ import { LandingNonTransparentHeaderComponent } from './component/landing/landin
 import { LandingHomeCardComponent } from './component/landing/landing-body/landing-home/landing-home-card/landing-home-card.component';
 import { UserComponent } from './component/user/user.component';
 import { AdminComponent } from './component/admin/admin.component';
-import { UserNavbarComponent } from './component/user/user-navbar/user-navbar.component';
+import { UserNavbarComponent } from './component/user/user-header/user-navbar/user-navbar.component';
 import { UserSidebarComponent } from './component/user/user-header/user-sidebar/user-sidebar.component';
 
 
