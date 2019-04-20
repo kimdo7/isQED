@@ -15,6 +15,7 @@ export class LandingModalForms  {
             message: ['',
                 [
                     Validators.required,
+                    Validators.minLength(8),
                 ]
             ],
         })
