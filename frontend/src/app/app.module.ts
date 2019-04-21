@@ -4,7 +4,6 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './component/landing/landing.component';
-import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingFooterComponent } from './component/landing/landing-footer/landing-footer.component';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
@@ -46,12 +45,14 @@ import { LandingAboutComponent } from './component/landing/landing-body/landing-
 import { LandingBannerComponent } from './component/landing/landing-body/landing-banner/landing-banner.component';
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
-import { LandingNonTransparentHeaderComponent } from './component/landing/landing-non-transparent-header/landing-non-transparent-header.component';
+import { LandingNonTransparentNavbarComponent } from './component/landing/landing-header/landing-non-transparent-navbar/landing-non-transparent-navbar.component';
 import { LandingHomeCardComponent } from './component/landing/landing-body/landing-home/landing-home-card/landing-home-card.component';
 import { UserComponent } from './component/user/user.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { UserNavbarComponent } from './component/user/user-header/user-navbar/user-navbar.component';
 import { UserSidebarComponent } from './component/user/user-header/user-sidebar/user-sidebar.component';
+import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
+import { LandingNavbarComponent } from './component/landing/landing-header/landing-navbar/landing-navbar.component';
 
 
 @NgModule({
@@ -67,6 +68,8 @@ import { UserSidebarComponent } from './component/user/user-header/user-sidebar/
          * Landing Header and Footer
          */
         LandingHeaderComponent,
+        LandingNavbarComponent,
+        LandingNonTransparentNavbarComponent,
         LandingFooterComponent,
 
         /**
@@ -89,7 +92,7 @@ import { UserSidebarComponent } from './component/user/user-header/user-sidebar/
         LandingBannerComponent,
         PrivacyPolicyComponent,
         SteeringCommitteeComponent,
-        LandingNonTransparentHeaderComponent,
+        
         LandingHomeCardComponent,
         UserComponent,
         AdminComponent,

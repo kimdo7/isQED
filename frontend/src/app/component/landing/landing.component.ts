@@ -21,14 +21,7 @@ export class LandingComponent implements OnInit {
     constructor(location: Location, router: Router, private modalService: MDBModalService) {
 
         router.events.subscribe(val => {
-            // if (location.path() != "") {
-            //     this.route = location.path();
-            // } else {
-            //     this.route = "Home";
-            // }
-
             if (val instanceof NavigationEnd){
-                // console.log("val" + val.url)
                 if (val.url != "/") {
                     this.route = val.url
                 } else {
@@ -57,7 +50,6 @@ export class LandingComponent implements OnInit {
     }
 
     isSideBanner() {
-        // console.log("confirm val" + this.route)
         return this.notSideBannerRoutes.includes(this.route)
     }
 
