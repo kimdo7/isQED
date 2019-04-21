@@ -53,6 +53,7 @@ import { UserNavbarComponent } from './component/user/user-header/user-navbar/us
 import { UserSidebarComponent } from './component/user/user-header/user-sidebar/user-sidebar.component';
 import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingNavbarComponent } from './component/landing/landing-header/landing-navbar/landing-navbar.component';
+import { LandingBodyComponent } from './component/landing/landing-body/landing-body.component';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { LandingNavbarComponent } from './component/landing/landing-header/landi
         AdminComponent,
         UserNavbarComponent,
         UserSidebarComponent,
+        LandingBodyComponent,
     ],
     imports: [
         /**

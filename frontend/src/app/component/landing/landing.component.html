@@ -2,31 +2,8 @@
 <app-landing-header ></app-landing-header>
 
 <!-- Body Wthout banner -->
+<app-landing-body></app-landing-body>
 
-<div *ngFor="let notSideBarRoute of notSideBannerRoutes">
-    <div class="body1" *ngIf="notSideBarRoute == route">
-        <router-outlet></router-outlet>
-    </div>
-</div>
-
-<!-- Body with banner -->
-<div *ngFor="let notSideBarRoute of notTransparentRoutes">
-    <div class="body2" *ngIf="notSideBarRoute == route">
-        <div class="row pt-4">
-            <div class="col-lg-1"></div>
-            <div class="col-xl-2 col-lg-2 col-md-2 d-none d-md-block d-lg-block d-xl-block text-center form-group">
-                <app-landing-banner></app-landing-banner>
-            </div>
-
-            <div class="col-xl-8 col-lg-8 col-md-8">
-                <div class="ml-4">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- <router-outlet></router-outlet> -->
 
 <!-- Contact US -->
 <div>
