@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location } from "@angular/common";
-import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LandingPageRoutes } from '../landing-static/landing-page-routes';
 
 @Component({

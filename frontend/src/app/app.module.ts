@@ -49,11 +49,10 @@ import { LandingNonTransparentNavbarComponent } from './component/landing/landin
 import { LandingHomeCardComponent } from './component/landing/landing-body/landing-home/landing-home-card/landing-home-card.component';
 import { UserComponent } from './component/user/user.component';
 import { AdminComponent } from './component/admin/admin.component';
-import { UserNavbarComponent } from './component/user/user-header/user-navbar/user-navbar.component';
-import { UserSidebarComponent } from './component/user/user-header/user-sidebar/user-sidebar.component';
 import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingNavbarComponent } from './component/landing/landing-header/landing-navbar/landing-navbar.component';
 import { LandingBodyComponent } from './component/landing/landing-body/landing-body.component';
+import { UserHeaderComponent } from './component/user/user-header/user-header.component';
 
 
 @NgModule({
@@ -97,9 +96,8 @@ import { LandingBodyComponent } from './component/landing/landing-body/landing-b
         LandingHomeCardComponent,
         UserComponent,
         AdminComponent,
-        UserNavbarComponent,
-        UserSidebarComponent,
         LandingBodyComponent,
+        UserHeaderComponent,
     ],
     imports: [
         /**

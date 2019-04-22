@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contact-us-modal.component';
+import { Router, NavigationEnd } from '@angular/router';
+import { Location } from "@angular/common";
 
 @Component({
     selector: 'app-landing',
@@ -10,8 +12,19 @@ import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contac
 export class LandingComponent implements OnInit {
 
     modalRef: MDBModalRef;
+    route: string = "Home";
 
-    constructor(private modalService: MDBModalService) {
+    constructor(private modalService: MDBModalService,
+        location: Location, router: Router) {
+        router.events.subscribe(val => {
+            if (val instanceof NavigationEnd) {
+                if (val.url != "/") {
+                    this.route = val.url
+                } else {
+                    this.route = "Home";
+                }
+            }
+        });
     }
 
     ngOnInit() {
@@ -30,6 +43,6 @@ export class LandingComponent implements OnInit {
         });
     }
 
-   
+
 
 }
