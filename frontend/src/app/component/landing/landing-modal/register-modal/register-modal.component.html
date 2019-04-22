@@ -72,10 +72,17 @@
                     id="materialRegisterFormPassword" class="form-control"
                     aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput mdbValidate required>
 
+                <!-- Validation error message -->
+                <div *ngIf="hidePassword">
+                    <div *ngFor="let validation of validation_messages.password">
+                        <mdb-error class="error-message" *ngIf="register_form.get('password').hasError(validation.type) && (register_form.get('password').dirty ||
+                        register_form.get('password').touched)">
+                            {{validation.message}}</mdb-error>
+                    </div>
+                </div>
+
                 <!-- show errors -->
-                <mat-icon matSuffix (click)="hideErrors = !hideErrors" class="float-right">
-                    {{hideErrors ? 'report_off' : 'report'}}</mat-icon>
-                <div *ngIf="!hideErrors" class="text-left mt-2">
+                <div *ngIf="!hidePassword" class="text-left mt-2">
                     <!-- Lower case -->
                     <div for="lowercase">
                         <div class="d-inline text-success"
