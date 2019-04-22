@@ -1,5 +1,3 @@
-# isQED
-
 ## Starting a new Project
 
 Open a terminal, and cd into the folder you’d like to create the project and then type the following:
