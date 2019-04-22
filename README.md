@@ -1,46 +1,47 @@
-# isQED Project
+# isQED
 
-## Setting up the project
+## Starting a new Project
 
-1. Create a copy of the gitHub repository will create a project folder called isQED.
-    * [] `git clone https://github.com/kimdo7/isQED.git`
-    * [] `cd isQED`
+Open a terminal, and cd into the folder you’d like to create the project and then type the following:
 
-2. Installing dependencies:
-    * [] `./installation`
-    * You will see a warning for  `found 1 high severity vulnerability`, this is for angular/build which is waiting for an update to sass. *Don't* run npm audit fix
+1. Create a copy of the gitHub repository which will create a project folder called isQED.
+	* git clone https://github.com/kimdo7/isQED.git
 
+2. Install all dependencies with a script:
+	* cd isQED
+	* ./installation
+	* You will see a warning for  `found 1 high severity vulnerability`, this is for angular/build which is waiting for an update to sass. *Don't* run npm audit fix
 
-##Serving Frontend for Building
-1. Serving angular
-    * [ ] `cd frontend` 
-    * [ ] `ng serve` | Mac Users - angular serve is running on port 4200
-    * [ ] `ng serve --aot` | PC Users - angular serve is running on port 4200
+## Setting Up MongoDB (Skip if you've setup Mongo DB already)
 
-2. In chrome, go to url 
-    * [ ] `localhost: 4200`
+3. Leave mongoDB running.
+    * sudo mongod
+    
+4. Connect to your MongoDB database.
+    * mongo
+    * Reference: https://docs.mongodb.com/manual/reference/mongo-shell/
 
-## Start the Server
-1. Leave mongo running
-    * [ ] `sudo mongod` | start a mongodb
-    * [ ] Kill server if needed `ps -ax | grep mongo sudo kill that_number`
+## Starting the Angular Build and Server 
 
-2. Open to query database
-    * [ ]`mongo`
-    * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
-
-3. path to angular public project folder and run the server
-    * [ ] `cd project_name/public`
-    * [ ] `ng build --watch`
+5. Run angular in the front end folder located in the main project folder isQED.
+    * cd frontend
+    * ng build --watch --aot
  
-4. Run nodemon with debug option to monitor for any changes in your source
-    * [ ] `nodemon server.js`
-    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to display "logd" logs
+6. Go back into the main project fold isQED to run the server.
+    * cd ..
+    * nodemon server.js
+    
+7. Open your project in the url.
+    * http://localhost:8000/
+    
+## Optional - Serving Angular's Front End Only
 
-5. In chrome, go to url 
-    * [] `localhost: 8000`
+1. If you would like to run only the frontend, cd into the frontend folder of the main project folder isQED.
+    * cd frontend
+    * ng serve --aot
 
-
+2. When it's runing, type in the url:
+    * http://localhost:4200/
 
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
