@@ -22,7 +22,6 @@ export class RegisterModalComponent implements OnInit {
     validation_messages = LandingModalValidationErrors.message
     passwordStrengthValidator = PasswordStrengthValidator
     hidePassword = true
-    hideErrors = true
     action = new Subject();
     /**
     * alert

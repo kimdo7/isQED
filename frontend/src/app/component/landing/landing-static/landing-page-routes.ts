@@ -4,7 +4,9 @@ export class LandingPageRoutes {
             "/about/privacy_policy",
             "/about/copyright",
             "/about/steering-committee",
-            "/activate"
+            "/activate",
+            "/reset-password",
+
 
         ]
     }

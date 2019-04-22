@@ -1,8 +1,8 @@
 import { FormBuilder, Validators } from '@angular/forms';
 
-export class LandingModalForms  {
-    
-    static init_contact_us_form(formBuilder){
+export class LandingModalForms {
+
+    static init_contact_us_form(formBuilder) {
         return formBuilder.group({
             name: ['',
                 [
@@ -21,7 +21,7 @@ export class LandingModalForms  {
         })
     }
 
-    static init_register_form(formBuilder){
+    static init_register_form(formBuilder) {
         return formBuilder.group({
             first_name: ['',
                 [
@@ -47,7 +47,7 @@ export class LandingModalForms  {
         })
     }
 
-    static init_login_form(formBuilder){
+    static init_login_form(formBuilder) {
         return formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['',
@@ -59,9 +59,37 @@ export class LandingModalForms  {
         })
     }
 
-    static init_forgot_password_form(formBuilder){
+    static init_forgot_password_form(formBuilder) {
         return formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
+        })
+    }
+
+    static init_verify(formBuilder) {
+        return formBuilder.group({
+            code: ['', [
+                Validators.required,
+                Validators.minLength(6),
+                Validators.maxLength(6),
+                Validators.pattern('^[0-9]*$')
+            ]],
+        })
+    }
+
+    static init_reset_password(formBuilder) {
+        return formBuilder.group({
+            password: ['',
+                [
+                    Validators.required,
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
+                ]
+            ],
+            confirm_password: ['',
+                [
+                    Validators.required,
+                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
+                ]
+            ],
         })
     }
 }
