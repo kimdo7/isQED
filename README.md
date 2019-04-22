@@ -94,22 +94,25 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 > For example:
 >   git push -u origin signin
 
+## Pull Request from your branch to Master.
+
 9. Create a pull request between your branch-name and master.
-	* `https://github.com/<user>/project`
-	* `https://github.com/<user>/isQED/compare?expand=1`
-
-    A pull request has a code review, you can add reviewers.
-
+	* Go to https://github.com/kimdo7/isQED/compare
+	* For the drop-down menus, choose "base:master" and "compare:your branch name".
+	* Click "Create pull request".
+	* Once a pull request has been intiated, reviewers will be added to review the code.
+	
 > For example:
 >   https://github.com/kimdo7/isQED/pull/2
 
+10. If you would like to continue to work, you can still push into your branch as GitHub will update the pull request with your changes.
+	* Repeat steps 5-8 again.
 
-10. You may have to keep making changes before begin ready. Just make the changes locally and then push to your branch when you are ready. Github will update the pull request when the branch is updated.
-	* Do steps 5-8 again
+11. When the reviewers have finisehd reviewing and if there are no conflicts, your code will be merged into the master branch.
 
-11. When ready, approve the pull request. It will merge into master
+## Updating Branches
 
-12. Get your local branches up to date
+12. Get your local branches up to date.
 	* `git pull` in case the branch was updated on the server by someone else
 	* `git checkout master` 
 	* `git pull` now are up to date on master.
