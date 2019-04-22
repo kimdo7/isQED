@@ -66,19 +66,88 @@
 
             <!-- Password -->
             <div class="md-form">
-                <input formControlName='password' type="password" id="materialRegisterFormPassword" class="form-control"
+                <i (click)="hidePassword = !hidePassword" *ngIf="hidePassword" class="far fa-eye-slash prefix"></i>
+                <i (click)="hidePassword = !hidePassword" *ngIf="!hidePassword" class="far fa-eye prefix"></i>
+                <input formControlName='password' [type]="hidePassword ? 'password' : 'text'"
+                    id="materialRegisterFormPassword" class="form-control"
                     aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput mdbValidate required>
-                <label for="materialRegisterFormPassword">Password</label>
-                <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-                    At least 8 characters and 1 digit
-                </small>
 
-                <!-- Validation error message -->
-                <div *ngFor="let validation of validation_messages.password">
-                    <mdb-error class="error-message" *ngIf="register_form.get('password').hasError(validation.type) && (register_form.get('password').dirty ||
-                    register_form.get('password').touched)">
-                        {{validation.message}}</mdb-error>
+                <!-- show errors -->
+                <mat-icon matSuffix (click)="hideErrors = !hideErrors" class="float-right">
+                    {{hideErrors ? 'report_off' : 'report'}}</mat-icon>
+                <div *ngIf="!hideErrors" class="text-left mt-2">
+                    <!-- Lower case -->
+                    <div for="lowercase">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passLowerCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passLowerCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                        </div>
+                    </div>
+
+                    <!-- Upper case -->
+                    <div for="upper case">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passUpperCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passUpperCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                        </div>
+                    </div>
+
+                    <!-- Digit case -->
+                    <div for="digit case">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passDigitCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passDigitCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                        </div>
+                    </div>
+
+                    <!-- Min Length -->
+                    <div for="min length">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passMinLength(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passMinLength(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                        </div>
+                    </div>
                 </div>
+
+
+                <label for="materialRegisterFormPassword">Password</label>
+                <!-- <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                    At least 8 characters and 1 digit
+                </small> -->
+
+
             </div>
 
             <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>
@@ -98,7 +167,7 @@
                     <a (click)="openForgotPasswordModal()" class="text-primary">Forgot password?</a>
                 </div>
                 <hr>
-    
+
                 <!-- Terms of service -->
                 <p>By Registering, you agree to the
                     <a href="" target="_blank">terms & conditions.</a></p>

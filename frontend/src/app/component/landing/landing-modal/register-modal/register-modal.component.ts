@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LandingModalForms } from '../landing-modal-forms';
 import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
@@ -19,7 +20,9 @@ import { LandingModalValidationErrors } from '../landing-modal-validations-error
 export class RegisterModalComponent implements OnInit {
     register_form: FormGroup
     validation_messages = LandingModalValidationErrors.message
-
+    passwordStrengthValidator = PasswordStrengthValidator
+    hidePassword = true
+    hideErrors = true
     action = new Subject();
     /**
     * alert
