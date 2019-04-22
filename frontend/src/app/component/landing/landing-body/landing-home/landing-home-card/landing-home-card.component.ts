@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./landing-home-card.component.scss']
 })
 export class LandingHomeCardComponent implements OnInit {
-    @Input()  key : String
+    @Input()  key : String = "training"
 
-    cards : any
+    cards : any 
     constructor(private _router: Router) { }
 
     ngOnInit() {
@@ -18,31 +18,36 @@ export class LandingHomeCardComponent implements OnInit {
 
     init_cards(){
         this.cards = {
-            "training": {
+            training: {
                 title: "Training",
                 img: "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg",
                 description: "This is description",
                 link : ""
             },
-            "certifications": {
+            certifications: {
                 title: "Certification",
                 img: "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg",
                 description: "This is description",
                 link : ""
             },
-            "events": {
+            events: {
                 title: "Events",
                 img: "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg",
                 description: "This is description",
                 link : ['/events']
             },
-            "publications": {
+            publications: {
                 title: "Publications",
                 img: "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg",
                 description: "This is description",
                 link : ""
             },
         }
+    }
+
+    getCard(){
+        var key : any = this.key //DONT TAKE TYPE STRING
+        return this.cards[key]
     }
 
 }
