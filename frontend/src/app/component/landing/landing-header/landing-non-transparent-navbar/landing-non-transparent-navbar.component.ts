@@ -3,6 +3,7 @@ import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LogInModalComponent } from '../../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-password-modal/forgot-password-modal.component';
+import { LoginService } from 'src/app/service/user/login.service';
 
 @Component({
     selector: 'app-landing-non-transparent-navbar',
@@ -11,10 +12,24 @@ import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-passwor
 })
 export class LandingNonTransparentNavbarComponent implements OnInit {
 
-    modalRef: MDBModalRef;
-    constructor(private modalService: MDBModalService) { }
+    loggedIn: boolean = false
+    modalRef: MDBModalRef
+
+    constructor(
+        private modalService: MDBModalService,
+        private loginService: LoginService,
+        ) { }
 
     ngOnInit() {
+        // This lets the component know if the user is logged in or logged out.
+        this.loggedIn = this.loginService.isLoggedInNow()
+        console.log("LandingNonTransparentNavbar: ngOnInit: logged in = " + this.loggedIn)
+        // This gets called everytime whenever the loggedIn gets changed
+        // If someone gets loggred out, this component will know.
+        this.loginService.isLoggedIn().subscribe(isLoggedIn => {
+            this.loggedIn = isLoggedIn
+            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
+        })
     }
 
     dismissModal() {
@@ -22,6 +37,15 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
     }
 
     openLoginModal() {
+        // TEST: Treat the login button as a logout button, if someone is already logged in.
+        // -- We currently don't have a logout button, but this is the code to run for logout.
+        // -- To get registration working, This change was made to get the login state working properly.
+        
+        // if (this.loggedIn) {
+        //     console.log("LandingNavbar: openLoginModal: Someone is logged in already, so logging them out")
+        //     this.loginService.logout()
+        // }
+
         this.modalRef = this.modalService.show(LogInModalComponent, {
             backdrop: true,
             keyboard: true,

@@ -1,18 +1,15 @@
 # isQED Project
 
-## We are moving code from isQED/Public with isQED/Frontend
-1. Open your terminal to isQED/ and type in commands:
-    * [ ] `git status` Make sure you are on the master branch
-    * [ ] `git pull` pull the latest code down from master
-2. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
-    * [ ] `cd frontend`
-3. Install all dependencies
-    * [ ] `npm install`
-    * [ ] `cd ..`
-4. Install mdpro
-    * [ ] `./mdbpro-installation`
-    * [ ] `cd frontend`
-5. See Serving angular below 
+## Setting up the project
+
+1. Create a copy of the gitHub repository will create a project folder called isQED.
+    * [] `git clone https://github.com/kimdo7/isQED.git`
+    * [] `cd isQED`
+
+2. Installing dependencies:
+    * [] `./installation`
+    * You will see a warning for  `found 1 high severity vulnerability`, this is for angular/build which is waiting for an update to sass. *Don't* run npm audit fix
+
 
 ##Serving Frontend for Building
 1. Serving angular
@@ -24,7 +21,7 @@
     * [ ] `localhost: 4200`
 
 ## Start the Server
-1. Leave mongoose running
+1. Leave mongo running
     * [ ] `sudo mongod` | start a mongodb
     * [ ] Kill server if needed `ps -ax | grep mongo sudo kill that_number`
 
@@ -38,42 +35,12 @@
  
 4. Run nodemon with debug option to monitor for any changes in your source
     * [ ] `nodemon server.js`
-    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to displays logs
-
-a. Add this to the top of your code
-
-```
-/**
-* @DEBUG 
-* Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
-*  - Use logd() for server side code only because we don't launch chrome in debug mode
-*  - To see this output, you have to pass it into nodemon when you run it:
-*          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
-*  - To shut off logs, just run nodemon normally:
-*          In isQED directory, run "nodemon.server.js" (this shuts off logs)
-*/
-
-const logd = require('debug')('QEDlog')
-```
-b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find exactly where the errored occurred.
-
-logd("unique failure message")
+    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to display "logd" logs
 
 5. In chrome, go to url 
     * [] `localhost: 8000`
 
-# Github Instructions
 
-## Clone the isQED team project skeleton to your desktop.
-1. Open your terminal and type in commands:
-    * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
-    * [ ] `$ cd isQED`  
-    * [ ] `$ npm install` | install all the backend packages
-    * [ ] `$ cd frontend`
-    * [ ] `$ npm install` | install all the fontend packages
-    * [ ] `$ code ../.`   | open VSCOde
-
-2. Open your project in VSCode editor. All files should be downloaded
 
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
@@ -87,19 +54,23 @@ logd("unique failure message")
 		modified: README.md
 		no changes added to commit (use "git add" and/or "git commit -A")`
 
+
 3. Pull the file before attempting to push to avoid any errors
     * [ ] `git pull --rebase` if you have any local commits that hasn't been pushed yet,     it rebases it on top of remote.  It also keeps it more linear by preventing       unnecessary merge commits
+
 
 4. Creates a new branch and Checks it out. This will automatically switch you to your new branch.  Make sure you work off of master 
     * [] `git checkout -b branch-name` 
 > For example:
 >   git checkout -b signin
 
+
 5. To switch between branches
     *[] `git checkout branch-name`
 > For example:
 >   git checkout master
 >   git checkout signin
+
 
 6. When you are ready to push code up stream, In the command line, add the file
     a. Adds the file <filename> to index (stage) to be tracked
@@ -109,6 +80,7 @@ logd("unique failure message")
 
     b. Adds all files to index (stage) to be tracked
     * [ ] `git add .`  adds everything in a directory and below 
+
 
 7. Commit files
     * [ ] `git commit -m "comment what you did"`
@@ -140,6 +112,7 @@ logd("unique failure message")
 
 
 11. When ready, approve the pull request. It will merge into master
+
 
 12. Get your local branches up to date
 * [ ] `git pull` in case the branch was updated on the server by someone else

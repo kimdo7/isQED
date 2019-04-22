@@ -159,7 +159,15 @@ module.exports = {
                             // SO DO NOTHING HERE!
                         }
                     })
-                    res.json({ message: 'Success', login_id: newUser.loginId })
+                    // server responds with LoginInfo
+                    // Before when we were doing a register, we weren't telling the front end enough info.
+                    // Now we make sure the client has more to show. See LoginInfo in login.service.ts
+                    res.json({ message: 'Success', data: {
+                            login_id: newUser.loginId,
+                            email: savedLogin.email,
+                            isEmailVerified: savedLogin.isEmailVerified,
+                            state: "Registered",
+                    }})
                 }
             )
         });

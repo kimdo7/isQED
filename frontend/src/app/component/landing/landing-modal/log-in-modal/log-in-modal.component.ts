@@ -53,26 +53,25 @@ export class LogInModalComponent implements OnInit {
             this.showDangerMessage("Error! Please check your email and password");
             return
         }
-
-        let tempObservable = this.loginService.login(this.contact_form.value)
-        tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-
-                if(data['data']['isEmailVerified']){
+        /**
+         * When we do the login info, you don't need to subscrib here.  
+         * We call the loginInfo to get the info. 
+         * We need it because the loginService is saving it in localStorage
+         * whenever it gets a new value back.
+         */
+        this.loginService.login(this.contact_form.value, (err, loginInfo) => {
+            if (loginInfo) {
+                if(loginInfo.isEmailVerified) {
                     this.router.navigate([""]);
+                } else {
+                    //placeholder for future route that hasn't been created yet
+                    // this.router.navigate(["/signin/validation/" + data["data"]["login_id"]]);
+                }
             } else {
-                //placeholder for future route that hasn't been created yet
-                // this.router.navigate(["/signin/validation/" + data["data"]["login_id"]]);
+                console.log("onLogin errors %o", err)
+                this.showDangerMessage("Error! Please check your email and password.");
             }
-        } else {
-            this.showDangerMessage("Error! Please check your email and password.");
-        }
-
         });
-
-
-
-
     }
 
 

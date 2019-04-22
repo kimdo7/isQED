@@ -16,8 +16,8 @@ export class ContactUsModalComponent implements OnInit {
     contact_form: FormGroup
     validation_messages = LandingModalValidationErrors.message
     /**
-* alert
-*/
+    * alert
+    */
 
     private _danger = new Subject<string>();
     staticAlertClosed = false;
