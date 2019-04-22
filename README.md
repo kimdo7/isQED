@@ -14,7 +14,7 @@
     * [ ] `cd frontend`
 5. See Serving angular below 
 
-##Serving Frontend for Building
+## Serving Frontend for Building
 1. Serving angular
     * [ ] `cd frontend` 
     * [ ] `ng serve` | Mac Users - angular serve is running on port 4200
@@ -39,25 +39,6 @@
 4. Run nodemon with debug option to monitor for any changes in your source
     * [ ] `nodemon server.js`
     * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to displays logs
-
-a. Add this to the top of your code
-
-```
-/**
-* @DEBUG 
-* Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
-*  - Use logd() for server side code only because we don't launch chrome in debug mode
-*  - To see this output, you have to pass it into nodemon when you run it:
-*          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
-*  - To shut off logs, just run nodemon normally:
-*          In isQED directory, run "nodemon.server.js" (this shuts off logs)
-*/
-
-const logd = require('debug')('QEDlog')
-```
-b. add logd instead of console.log before res.json messaging to help you target exactly where the error is.  Slight modifications make the message unique, making it easier to find exactly where the errored occurred.
-
-logd("unique failure message")
 
 5. In chrome, go to url 
     * [] `localhost: 8000`
