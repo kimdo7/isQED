@@ -5,43 +5,43 @@
 Open a terminal, and cd into the folder you’d like to create the project and then type the following:
 
 1. Create a copy of the gitHub repository which will create a project folder called isQED.
-	* git clone https://github.com/kimdo7/isQED.git
+	* `git clone https://github.com/kimdo7/isQED.git`
 
 2. Install all dependencies with a script:
-	* cd isQED
-	* ./installation
+	* `cd isQED`
+	* `./installation`
 	* You will see a warning for  `found 1 high severity vulnerability`, this is for angular/build which is waiting for an update to sass. *Don't* run npm audit fix
 
 ## Setting Up MongoDB (Skip if you've setup Mongo DB already)
 
 3. Leave mongoDB running.
-    * sudo mongod
+    * `sudo mongod`
     
 4. Connect to your MongoDB database.
-    * mongo
+    * `mongo`
     * Reference: https://docs.mongodb.com/manual/reference/mongo-shell/
 
 ## Starting the Angular Build and Server 
 
 5. Run angular in the front end folder located in the main project folder isQED.
-    * cd frontend
-    * ng build --watch --aot
+    * `cd frontend`
+    * `ng build --watch --aot`
  
 6. Go back into the main project fold isQED to run the server.
-    * cd ..
-    * nodemon server.js
+    * `cd ..`
+    * `nodemon server.js`
     
 7. Open your project in the url.
-    * http://localhost:8000/
+    * `http://localhost:8000/`
     
 ## Optional - Serving Angular's Front End Only
 
 1. If you would like to run only the frontend, cd into the frontend folder of the main project folder isQED.
-    * cd frontend
-    * ng serve --aot
+    * `cd frontend`
+    * `ng serve --aot`
 
 2. When it's runing, type in the url:
-    * http://localhost:4200/
+    * `http://localhost:4200/`
 
 ## Push code changes back onto branch master
 1. cd .. back to isQED folder
