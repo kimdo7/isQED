@@ -59,16 +59,18 @@ module.exports = {
             login.save((saveErr, savedLogin) => {
                 if(saveErr) {
                     logd("Failed to save activation code")
-                    next("Failed to save activation code " + saveErr);
+                    next("Failed to save activation code " + saveErr) + "\n " + serverUrl + "/activate/" + login_id + "/" + codeString + "\n"
+                    // localhost:8000/activate/:login_id/:user_validationcode
                     return;
                 }
+                var emailBody = "Your activation code is " + codeString
                 // Successfully saved the code, so we can send the email
                 var activateMailOptions = {
                     from: fromAddress, 
                     //to: fakeToAddress, // for now, instead of login.email,
                     to: login.email, 
                     subject: "isQED account verification",
-                    text: "Your activation code is " + codeString,
+                    text: emailBody,
                 }
                 transporter.sendMail(activateMailOptions, function (sendErr, info) {
                     if (sendErr) {
