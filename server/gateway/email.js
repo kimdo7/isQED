@@ -59,11 +59,10 @@ module.exports = {
             login.save((saveErr, savedLogin) => {
                 if(saveErr) {
                     logd("Failed to save activation code")
-                    next("Failed to save activation code " + saveErr) + "\n " + serverUrl + "/activate/" + login_id + "/" + codeString + "\n"
-                    // localhost:8000/activate/:login_id/:user_validationcode
+                    next("Failed to save activation code " + saveErr)
                     return;
                 }
-                var emailBody = "Your activation code is " + codeString
+                var emailBody = "Your activation code is " + codeString + "\n Click this link " + serverUrl + "/activate/" + login_id + "/" + codeString + "\n" // localhost:8000/activate/:login_id/:user_validationcode
                 // Successfully saved the code, so we can send the email
                 var activateMailOptions = {
                     from: fromAddress, 
