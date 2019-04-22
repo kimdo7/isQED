@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
+import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserValidatorMessage } from 'src/app/validator/user_validation_message';
 import { Router } from '@angular/router';
@@ -42,6 +43,7 @@ export class RegisterModalComponent implements OnInit {
         public modalRef: MDBModalRef,
         private formBuilder: FormBuilder,
         private userService: UserService,
+        private loginService: LoginService,
         private router: Router
     ) { }
 
@@ -67,7 +69,7 @@ export class RegisterModalComponent implements OnInit {
         if (this.register_form.invalid) {
             //         // showDangerMessage shows up on the webpage.
             this.showDangerMessage("Error!!! Please confirm email and password")
-            return;
+            //return;
         }
         console.log("onRegister: valid form")
         let tempObservable = this.userService.register(this.register_form.value)
@@ -77,7 +79,9 @@ export class RegisterModalComponent implements OnInit {
                 console.log("server not available")
                 //this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
-                // THis isn't right.
+                var loginInfo : LoginInfo = data["data"]
+                // We are logged in
+                this.loginService.changeLoginInfo(loginInfo)
                 // Just trying to get the UI to start showing the right thing
                 this.action.next('Registered');
             } else if (data["error"]) {

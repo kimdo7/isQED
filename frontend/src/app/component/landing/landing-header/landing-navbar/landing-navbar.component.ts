@@ -3,6 +3,7 @@ import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LogInModalComponent } from '../../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-password-modal/forgot-password-modal.component';
+import { LoginService } from 'src/app/service/user/login.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -15,17 +16,35 @@ export class LandingNavbarComponent implements OnInit {
     modalRef: MDBModalRef;
     route: string;
     lastScrollTop = 0;
+    loggedIn: boolean = false
+    loginState: string = ""
 
 
     constructor(
         private modalService: MDBModalService,
+        private loginService: LoginService,
     ) {
     }
 
 
     ngOnInit() {
-        
+        // This lets the component know if the user is logged in or logged out.
+        this.loggedIn = this.loginService.isLoggedInNow()
+        console.log("LandingNonTransparentNavbar: ngOnInit: logged in = " + this.loggedIn)
 
+        this.loginState = this.loginService.getLoginInfo().state
+        this.loginService.isLoggedIn().subscribe(isLoggedIn => {
+            this.loggedIn = isLoggedIn
+            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
+        })
+
+        this.loginService.loginInformation().subscribe(loginInfo => {
+            this.loginState = loginInfo.state
+            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
+        })
+
+
+        // DOM actions
         $(document).ready(function () {
             var isOpenHamburger = false
             /**
@@ -60,6 +79,14 @@ export class LandingNavbarComponent implements OnInit {
     }
 
     openLoginModal() {
+
+        // TEST: Treat the login button as a logout button, if someone is already logged in.
+        // This will work if user clicks login or clicks log out. It won't work if the server logs them out (ex. login record is deleted on the server)
+        // if (this.loggedIn) {
+        //     console.log("LandingNavbar: openLoginModal: Someone is logged in already, so logging them out")
+        //     this.loginService.logout()
+        // }
+
         this.modalRef = this.modalService.show(LogInModalComponent, {
             backdrop: true,
             keyboard: true,
