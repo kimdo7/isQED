@@ -59,6 +59,7 @@ export class RegisterModalComponent implements OnInit {
         console.log("onRegister")
         if (this.register_form.invalid) {
             //         // showDangerMessage shows up on the webpage.
+            console.log(this.register_form.value)
             this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
@@ -70,7 +71,7 @@ export class RegisterModalComponent implements OnInit {
                 console.log("server not available")
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
-                var loginInfo : LoginInfo = data["data"]
+                var loginInfo: LoginInfo = data["data"]
                 // We are logged in
                 this.loginService.changeLoginInfo(loginInfo)
                 // Just trying to get the UI to start showing the right thing

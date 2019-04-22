@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Insitall all dependentcies for backend
+npm install
+
+# Insitall all dependentcies for 
+cd frontend; npm install
+
+cd ..
+cp -r mdbpro/ng-uikit-pro-standard frontend/node_modules/ng-uikit-pro-standard
+cp -r mdbpro/ng-admin-pro frontend/node_modules/ng-admin-pro
+
+# build frontend
+cd frontend; ng build --aot
+
+cd ..
+
+
