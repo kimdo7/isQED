@@ -59,7 +59,7 @@ export class LandingModalForms  {
         })
     }
 
-    static init_forgot_password_formn(formBuilder){
+    static init_forgot_password_form(formBuilder){
         return formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
         })

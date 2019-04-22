@@ -72,10 +72,6 @@ export class LogInModalComponent implements OnInit {
                 this.showDangerMessage("Error! Please check your email and password.");
             }
         });
-
-
-
-
     }
 
 

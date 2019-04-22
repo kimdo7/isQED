@@ -1,13 +1,13 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
 import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { UserValidatorMessage } from 'src/app/validator/user_validation_message';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LandingModalForms } from '../landing-modal-forms';
+import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
 
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
@@ -17,6 +17,9 @@ import { LandingModalForms } from '../landing-modal-forms';
     styleUrls: ['./register-modal.component.scss']
 })
 export class RegisterModalComponent implements OnInit {
+    register_form: FormGroup
+    validation_messages = LandingModalValidationErrors.message
+
     action = new Subject();
     /**
     * alert
@@ -27,17 +30,7 @@ export class RegisterModalComponent implements OnInit {
     errorMessage: string;
 
     // validation_messages = UserValidatorMessage.message
-    // passwordStrengthValidator = PasswordStrengthValidator
-
-    /**
-     * 
-     * @param formBuilder 
-     * @param userService 
-     * @param router 
-     */
-    // hidePassword: boolean = true
-    // hideErrors: boolean = true
-    register_form: FormGroup
+    // passwordStrengthValidator = PasswordStrengthValidator    
 
     constructor(
         public modalRef: MDBModalRef,
@@ -54,8 +47,6 @@ export class RegisterModalComponent implements OnInit {
     ngOnInit() {
         this.register_form = LandingModalForms.init_register_form(this.formBuilder)
         this.initAlert()
-        // this.showDangerMessage("Error!!! Please confirm email and password")
-
     }
 
     /**
@@ -69,7 +60,7 @@ export class RegisterModalComponent implements OnInit {
         if (this.register_form.invalid) {
             //         // showDangerMessage shows up on the webpage.
             this.showDangerMessage("Error!!! Please confirm email and password")
-            //return;
+            return;
         }
         console.log("onRegister: valid form")
         let tempObservable = this.userService.register(this.register_form.value)
@@ -77,7 +68,7 @@ export class RegisterModalComponent implements OnInit {
             console.log("onRegister: userService returned %o", data)
             if (!data) {
                 console.log("server not available")
-                //this.showDangerMessage("Error!!! Server not available. Please try later.")
+                this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
                 var loginInfo : LoginInfo = data["data"]
                 // We are logged in
@@ -86,10 +77,10 @@ export class RegisterModalComponent implements OnInit {
                 this.action.next('Registered');
             } else if (data["error"]) {
                 console.log("Error!!! " + data["error"])
-                //this.showDangerMessage("Error!!! " + data["error"])
+                this.showDangerMessage("Error!!! " + data["error"])
             } else {
                 console.log("Error!!! Please confirm email and password")
-                // this.showDangerMessage("Error!!! Please confirm email and password")
+                this.showDangerMessage("Error!!! Please confirm email and password")
             }
         });
     }
