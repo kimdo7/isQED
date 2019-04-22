@@ -33,6 +33,7 @@ export class LandingNavbarComponent implements OnInit {
         console.log("LandingNonTransparentNavbar: ngOnInit: logged in = " + this.loggedIn)
 
         this.loginState = this.loginService.getLoginInfo().state
+        
         this.loginService.isLoggedIn().subscribe(isLoggedIn => {
             this.loggedIn = isLoggedIn
             console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
@@ -93,7 +94,7 @@ export class LandingNavbarComponent implements OnInit {
             focus: true,
             show: false,
             ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
+            class: 'modal-dialog-centered modal-lg',
             containerClass: 'right',
             animated: true
         });
@@ -118,7 +119,7 @@ export class LandingNavbarComponent implements OnInit {
             focus: true,
             show: false,
             ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
+            class: 'modal-dialog-centered modal-lg',
             containerClass: 'right',
             animated: true
         });
@@ -143,7 +144,7 @@ export class LandingNavbarComponent implements OnInit {
             focus: true,
             show: false,
             ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
+            class: 'modal-dialog-centered modal-lg',
             containerClass: 'right',
             animated: true
         });
