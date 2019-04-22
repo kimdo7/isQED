@@ -66,6 +66,7 @@ export class RegisterModalComponent implements OnInit {
         console.log("onRegister")
         if (this.register_form.invalid) {
             //         // showDangerMessage shows up on the webpage.
+            console.log(this.register_form.value)
             this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
