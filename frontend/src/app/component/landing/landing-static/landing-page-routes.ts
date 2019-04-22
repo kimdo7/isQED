@@ -3,7 +3,9 @@ export class LandingPageRoutes {
         return [
             "/about/privacy_policy",
             "/about/copyright",
-            "/about/steering-committee"
+            "/about/steering-committee",
+            "/activate"
+
         ]
     }
 

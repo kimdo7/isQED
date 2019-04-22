@@ -20,8 +20,14 @@ export class LandingBodyComponent implements OnInit {
                 } else {
                     this.route = "Home";
                 }
+
+                if (this.route.match("/activate")){
+                    this.route = "/activate"
+                }
             }
         });
+
+        
     }
 
     ngOnInit() {

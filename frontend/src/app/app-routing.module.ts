@@ -9,6 +9,7 @@ import { CopyrightComponent } from './component/landing/landing-body/landing-abo
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
 import { UserComponent } from './component/user/user.component';
+import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
 
 const routes: Routes = [
     {
@@ -23,6 +24,9 @@ const routes: Routes = [
                     { path: "privacy_policy", component:  PrivacyPolicyComponent}
                 ]
             },
+            {
+                path: "activate/:login_id/:verify_code",  component: ActivationComponent
+            }
         ]
     },
     {
