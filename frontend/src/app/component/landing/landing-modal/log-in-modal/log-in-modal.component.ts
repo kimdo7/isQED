@@ -8,6 +8,8 @@ import { LoginService } from 'src/app/service/user/login.service';
 import { debounceTime } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
+import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
     selector: 'app-log-in',
@@ -16,7 +18,13 @@ import { Router } from '@angular/router';
 })
 export class LogInModalComponent implements OnInit {
     action = new Subject();
-    contact_form: FormGroup;
+    login_form: FormGroup;
+    validation_messages = LandingModalValidationErrors.message;
+    passwordStrengthValidator = PasswordStrengthValidator;
+    hidePassword = true
+    private _danger = new Subject<string>();
+    staticAlertClosed = false;
+    errorMessage: string;
 
     constructor(
         public modalRef: MDBModalRef,
@@ -29,7 +37,7 @@ export class LogInModalComponent implements OnInit {
     ngOnInit() {
         this.initUserForm();
         this.initAlert();
-        this.contact_form = LandingModalForms.init_login_form(this.formBuilder);
+        this.login_form = LandingModalForms.init_login_form(this.formBuilder);
     }
 
     openRegisterModal() {
@@ -41,15 +49,15 @@ export class LogInModalComponent implements OnInit {
     }
 
     initUserForm() {
-        this.contact_form = this.formBuilder.group({
+        this.login_form = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]]
         })
     }
 
     onLogin() {
-        console.log(this.contact_form.value);
-        if (this.contact_form.invalid) {
+        // console.log(this.login_form.value);
+        if (this.login_form.invalid) {
             this.showDangerMessage("Error! Please check your email and password");
             return
         }
@@ -59,16 +67,16 @@ export class LogInModalComponent implements OnInit {
          * We need it because the loginService is saving it in localStorage
          * whenever it gets a new value back.
          */
-        this.loginService.login(this.contact_form.value, (err, loginInfo) => {
+        this.loginService.login(this.login_form.value, (err, loginInfo) => {
             if (loginInfo) {
                 if(loginInfo.isEmailVerified) {
-                    this.router.navigate([""]);
+                    this.router.navigate(["/user"]);
                 } else {
                     //placeholder for future route that hasn't been created yet
                     // this.router.navigate(["/signin/validation/" + data["data"]["login_id"]]);
                 }
             } else {
-                console.log("onLogin errors %o", err)
+                // console.log("onLogin errors %o", err)
                 this.showDangerMessage("Error! Please check your email and password.");
             }
         });
@@ -78,11 +86,6 @@ export class LogInModalComponent implements OnInit {
     /**
      * @alert
      */
-
-    private _danger = new Subject<string>();
-    staticAlertClosed = false;
-    successMessage: string;
-    errorMessage: string;
     /**
      * *init alert*
      */
