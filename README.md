@@ -25,8 +25,8 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `cd frontend`
 	* `ng build --watch --aot`
  
-6. Go back into the main project fold isQED to run the server.
-	* `cd ..`
+6. Open a `New Terminal`. Go back into the main project folder isQED and run the server.
+	* `cd isQED`
 	* `nodemon server.js`
     
 7. Open your project in the url.
@@ -94,7 +94,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 > For example:
 >   git push -u origin signin
 
-## Pull Request from your branch to Master.
+## Pull Request from your branch to Master
 
 9. Create a pull request between your branch-name and master.
 	* Go to https://github.com/kimdo7/isQED/compare
