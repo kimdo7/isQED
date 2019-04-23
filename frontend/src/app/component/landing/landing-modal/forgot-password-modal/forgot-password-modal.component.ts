@@ -4,7 +4,7 @@ import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { LoginService } from 'src/app/service/user/login.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-
+import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
 
 @Component({
     selector: 'app-forgot-password-modal',
@@ -13,8 +13,9 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 })
 export class ForgotPasswordModalComponent implements OnInit {
     action = new Subject();
-    text: string;
-    validationForm: FormGroup;
+    errorMessage: string;
+    forgot_password: FormGroup;
+    validation_messages = LandingModalValidationErrors.message
     
     constructor(
         private LoginService: LoginService,
@@ -22,8 +23,8 @@ export class ForgotPasswordModalComponent implements OnInit {
         private userService: UserService,
         public fb: FormBuilder
     )  { 
-        this.validationForm = fb.group({
-            emailFormEx: [null, [Validators.required, Validators.email]]
+        this.forgot_password = fb.group({
+            email: [null, [Validators.required, Validators.email]]
         });
     }
 
@@ -31,17 +32,20 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     onSendMail() {
-        console.log("Pretending to send mail")
-        let tempObservable = this.LoginService.requestForgotPassword({ email: "fakeemail@example.org" })
+        console.log("forgot-password-modal-component.ts"+this.forgot_password.value)+"success";
+        console.log("Pretending to send mail");
+        let tempObservable = this.LoginService.requestForgotPassword({ email: this.forgot_password.value })
         tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-                console.log("sendEmail: got success")
-                // We don't know the ID, and shouldn't
-                // We want to reset the passcode based only on the email
-                this.action.next('Change After Forgot Password');
-            } else {
-                console.log("sendEmail: got no success")
-            }
+            // if (data["message"] === "Success") {
+            //     console.log("sendEmail: got success")
+            //     // We don't know the ID, and shouldn't
+            //     // We want to reset the passcode based only on the email
+            //     this.action.next('Change After Forgot Password');
+            // } else {
+            //     console.log("sendEmail: got no success")
+            // }
+
+            console.log("tempObservable.subscribe(data => "+data+"success")
         });
     }
 
@@ -53,5 +57,6 @@ export class ForgotPasswordModalComponent implements OnInit {
         this.action.next('Log In');
     }
 
-    get emailFormEx() { return this.validationForm.get('emailFormEx'); }
+    get email() { return this.forgot_password.get('email'); }
 }
+
