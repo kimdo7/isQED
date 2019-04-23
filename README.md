@@ -68,11 +68,11 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	
 ## Creating a Branch for your development work
 	
-4. Create a new branch and Checks it out.
+4. Create a new branch and check it out.
 	* `git checkout -b branch-name` 
 	* This will automatically switch you to your new branch.
 
-5. In the future, to switch to your new branch type:
+5. In the future, to switch to the new branch.
 	* `git checkout branch-name`
 	
 ## Adding and Committing Files for your Branch
