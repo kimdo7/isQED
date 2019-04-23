@@ -62,6 +62,10 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `git pull --rebase` 
 	* If you have any local commits that hasn't been pushed yet, it rebases it on top of remote. It also keeps it more linear by preventing unnecessary merge commits
 	
+4. Install dependencies whenever everytime you've pulled the latest files from GitHub.
+	* `cd isQED`
+	* `./installation`
+	
 ## Creating a Branch for your development work
 	
 4. Create a new branch and Checks it out.
