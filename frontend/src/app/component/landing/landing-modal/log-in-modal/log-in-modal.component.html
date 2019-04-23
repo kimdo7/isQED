@@ -5,69 +5,152 @@
 
         <mdb-card-header class="info-color white-text text-center py-4">
             <h5>
-                <strong>Sign in</strong>
+                <strong>Log in</strong>
             </h5>
         </mdb-card-header>
-
-
+    
         <!--Card content-->
         <mdb-card-body class="px-lg-5 pt-0">
-
+    
             <!-- Form -->
-            <form class="" style="color: #757575;" (submit)="onLogin()" [formGroup]='login_form'>
-
-                <!-- Email Validation Error Message -->
-                <div *ngFor="let validation of validation_messages.email">
-                    <mdb-error class="error-message" *ngIf="login_form.get('email').hasError(validation.type) && (login_form.get('email').dirty ||
-                    login_form.get('email').touched)">
-                        {{validation.message}}</mdb-error>
+            <form class="" style="color: #757575;" (submit)="onLogin()" [formGroup]="login_form">
+    
+                <!-- E-mail -->
+                <div class="md-form mt-6">
+                    <i class="fas fa-envelope prefix"></i>
+                    <input formControlName='email' type="email" id="materialRegisterFormEmail" class="form-control" mdbInput
+                        mdbValidate>
+                    <label for="materialRegisterFormEmail">E-mail</label>
+    
+                    <!-- Validation error message -->
+                    <div *ngFor="let validation of validation_messages.email">
+                        <mdb-error class="error-message" *ngIf="login_form.get('email').hasError(validation.type) && (login_form.get('email').dirty ||
+                        login_form.get('email').touched)">
+                            {{validation.message}}</mdb-error>
                     </div>
-
-                <!-- Email -->
-                <div class="md-form">
-                    <input formControlName='email' type="email" id="materialLoginFormEmail" class="form-control" mdbInput mdbValidate required>
-                    <label for="materialLoginFormEmail">E-mail</label>
                 </div>
-
+    
                 <!-- Password -->
                 <div class="md-form">
-                    <input formControlName='password' type="password" id="materialLoginFormPassword" class="form-control" mdbInput required>
-                    <label for="materialLoginFormPassword">Password</label>
+                    <i (click)="hidePassword = !hidePassword" *ngIf="hidePassword" class="far fa-eye-slash prefix"></i>
+                    <i (click)="hidePassword = !hidePassword" *ngIf="!hidePassword" class="far fa-eye prefix"></i>
+                    <input formControlName='password' [type]="hidePassword ? 'password' : 'text'"
+                        id="materialRegisterFormPassword" class="form-control"
+                        aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput mdbValidate required>
+    
+                    <!-- Validation error message -->
+                    <div *ngIf="hidePassword">
+                        <div *ngFor="let validation of validation_messages.password">
+                            <mdb-error class="error-message" *ngIf="login_form.get('password').hasError(validation.type) && (login_form.get('password').dirty ||
+                            login_form.get('password').touched)">
+                                {{validation.message}}</mdb-error>
+                        </div>
+                    </div>
+    
+                    <!-- show errors -->
+                    <div *ngIf="!hidePassword" class="text-left mt-2">
+                        <!-- Lower case -->
+                        <div for="lowercase">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passLowerCase(login_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+    
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passLowerCase(login_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                            </div>
+                        </div>
+    
+                        <!-- Upper case -->
+                        <div for="upper case">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passUpperCase(login_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+    
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passUpperCase(login_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                            </div>
+                        </div>
+    
+                        <!-- Digit case -->
+                        <div for="digit case">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passDigitCase(login_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+    
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passDigitCase(login_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                            </div>
+                        </div>
+    
+                        <!-- Min Length -->
+                        <div for="min length">
+                            <div class="d-inline text-success"
+                                *ngIf="passwordStrengthValidator.passMinLength(login_form.value.password)">
+                                <mat-icon>check</mat-icon>
+                                <!-- <mat-icon>close</mat-icon> -->
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                            </div>
+    
+                            <div class="d-inline text-danger"
+                                *ngIf="!passwordStrengthValidator.passMinLength(login_form.value.password)">
+                                <mat-icon>close</mat-icon>
+                                <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                    <label for="materialRegisterFormPassword">Password</label>
+                    <!-- <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                        At least 8 characters and 1 digit
+                    </small> -->
+    
                 </div>
-
-                <!-- Password Validation Error Message -->
-                <div *ngFor="let validation of validation_messages.password">
-                    <mdb-error class="error-message" *ngIf="login_form.get('password').hasError(validation.type) && (login_form.get('password').dirty ||
-                    login_form.get('password').touched)">
-                        {{validation.message}}</mdb-error>
-                    </div>
-
-
-                <div class="d-flex justify-content-around">
+    
+                <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>
+    
+                <!-- Log In -->
+                <div class="text-center">
+                    <button mdbBtn color="info" outline="true" rounded="true" block="true"
+                    class="my-4 waves-effect z-depth-0" mdbWavesEffect type="submit">Sign in</button>
                     <div>
-                        <!-- Remember me -->
-                        <mdb-checkbox>Remember me</mdb-checkbox>
-                    </div>
-                    <div>
+
+                        <div>
+                            <!-- Remember me -->
+                            <mdb-checkbox>Remember me</mdb-checkbox>
+                        </div>
+
                         <!-- Forgot password -->
                         <a (click)="openForgotPasswordModal()" class="text-primary">Forgot password?</a>
                     </div>
+                    <hr>
+    
+                    <!-- Register -->
+                    <p>Not a member?
+                        <a (click)="openRegisterModal()" class="text-primary">Register</a>
+                    </p>
+
                 </div>
-
-                <!-- Sign in button -->
-                <button mdbBtn color="info" outline="true" rounded="true" block="true"
-                    class="my-4 waves-effect z-depth-0" mdbWavesEffect type="submit">Sign in</button>
-
-                <!-- Register -->
-                <p>Not a member?
-                    <a (click)="openRegisterModal()" class="text-primary">Register</a>
-                </p>
-
-
+    
             </form>
             <!-- Form -->
-
+    
         </mdb-card-body>
-
+    
     </mdb-card>
 </div>

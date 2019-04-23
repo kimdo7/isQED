@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
 import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
+import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
     selector: 'app-log-in',
@@ -19,7 +20,8 @@ export class LogInModalComponent implements OnInit {
     action = new Subject();
     login_form: FormGroup;
     validation_messages = LandingModalValidationErrors.message;
-
+    passwordStrengthValidator = PasswordStrengthValidator;
+    hidePassword = true
     private _danger = new Subject<string>();
     staticAlertClosed = false;
     errorMessage: string;
@@ -54,7 +56,7 @@ export class LogInModalComponent implements OnInit {
     }
 
     onLogin() {
-        console.log(this.login_form.value);
+        // console.log(this.login_form.value);
         if (this.login_form.invalid) {
             this.showDangerMessage("Error! Please check your email and password");
             return
@@ -68,13 +70,13 @@ export class LogInModalComponent implements OnInit {
         this.loginService.login(this.login_form.value, (err, loginInfo) => {
             if (loginInfo) {
                 if(loginInfo.isEmailVerified) {
-                    this.router.navigate([""]);
+                    this.router.navigate(["/user"]);
                 } else {
                     //placeholder for future route that hasn't been created yet
                     // this.router.navigate(["/signin/validation/" + data["data"]["login_id"]]);
                 }
             } else {
-                console.log("onLogin errors %o", err)
+                // console.log("onLogin errors %o", err)
                 this.showDangerMessage("Error! Please check your email and password.");
             }
         });
