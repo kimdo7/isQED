@@ -50,7 +50,7 @@ module.exports = function (app) {
      * This requires the user to be logged in.
      */
     app.get('/api/login/email/:id', (req, res) => {
-        logins.getLoginEmail(req, res)
+        logins.getLoginInfo(req, res)
     })
 
     /**

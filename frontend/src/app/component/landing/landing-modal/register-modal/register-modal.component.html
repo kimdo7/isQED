@@ -7,68 +7,178 @@
         </h5>
     </mdb-card-header>
 
+
     <!--Card content-->
     <mdb-card-body class="px-lg-5 pt-0">
 
         <!-- Form -->
-        <form class="text-center" style="color: #757575;" (submit)="onRegister()" [formGroup]="register_form">
+        <form class="" style="color: #757575;" (submit)="onRegister()" [formGroup]="register_form">
 
             <div class="form-row">
                 <div class="col">
                     <!-- First name -->
                     <div class="md-form">
+                        <i class="fas fa-user prefix"></i>
                         <input formControlName='first_name' type="text" id="materialRegisterFormFirstName"
-                            class="form-control" mdbInput>
+                            class="form-control" mdbInput mdbValidate required>
                         <label for="materialRegisterFormFirstName">First name</label>
+
+                        <!-- Validation error message -->
+                        <div *ngFor="let validation of validation_messages.first_name">
+                            <mdb-error class="error-message" *ngIf="register_form.get('first_name').hasError(validation.type) && (register_form.get('first_name').dirty ||
+                            register_form.get('first_name').touched)">
+                                {{validation.message}}</mdb-error>
+                        </div>
                     </div>
                 </div>
                 <div class="col">
                     <!-- Last name -->
                     <div class="md-form">
-                        <input formControlName='last_name' type="email" id="materialRegisterFormLastName"
-                            class="form-control" mdbInput>
+                        <i class="fas fa-user prefix"></i>
+                        <input formControlName='last_name' type="text" id="materialRegisterFormLastName"
+                            class="form-control" mdbInput mdbValidate required>
                         <label for="materialRegisterFormLastName">Last name</label>
+
+                        <!-- Validation error message -->
+                        <div *ngFor="let validation of validation_messages.last_name">
+                            <mdb-error class="error-message" *ngIf="register_form.get('last_name').hasError(validation.type) && (register_form.get('last_name').dirty ||
+                            register_form.get('last_name').touched)">
+                                {{validation.message}}</mdb-error>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- E-mail -->
             <div class="md-form mt-0">
-                <input formControlName='email' type="email" id="materialRegisterFormEmail" class="form-control"
-                    mdbInput>
+                <i class="fas fa-envelope prefix"></i>
+                <input formControlName='email' type="email" id="materialRegisterFormEmail" class="form-control" mdbInput
+                    mdbValidate>
                 <label for="materialRegisterFormEmail">E-mail</label>
+
+                <!-- Validation error message -->
+                <div *ngFor="let validation of validation_messages.email">
+                    <mdb-error class="error-message" *ngIf="register_form.get('email').hasError(validation.type) && (register_form.get('email').dirty ||
+                    register_form.get('email').touched)">
+                        {{validation.message}}</mdb-error>
+                </div>
             </div>
 
             <!-- Password -->
             <div class="md-form">
-                <input formControlName='password' type="password" id="materialRegisterFormPassword" class="form-control"
-                    aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput>
+                <i (click)="hidePassword = !hidePassword" *ngIf="hidePassword" class="far fa-eye-slash prefix"></i>
+                <i (click)="hidePassword = !hidePassword" *ngIf="!hidePassword" class="far fa-eye prefix"></i>
+                <input formControlName='password' [type]="hidePassword ? 'password' : 'text'"
+                    id="materialRegisterFormPassword" class="form-control"
+                    aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput mdbValidate required>
+
+                <!-- Validation error message -->
+                <div *ngIf="hidePassword">
+                    <div *ngFor="let validation of validation_messages.password">
+                        <mdb-error class="error-message" *ngIf="register_form.get('password').hasError(validation.type) && (register_form.get('password').dirty ||
+                        register_form.get('password').touched)">
+                            {{validation.message}}</mdb-error>
+                    </div>
+                </div>
+
+                <!-- show errors -->
+                <div *ngIf="!hidePassword" class="text-left mt-2">
+                    <!-- Lower case -->
+                    <div for="lowercase">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passLowerCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passLowerCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Lower Case Letter</p>
+                        </div>
+                    </div>
+
+                    <!-- Upper case -->
+                    <div for="upper case">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passUpperCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passUpperCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Upper Case Letter</p>
+                        </div>
+                    </div>
+
+                    <!-- Digit case -->
+                    <div for="digit case">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passDigitCase(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passDigitCase(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 1 Number</p>
+                        </div>
+                    </div>
+
+                    <!-- Min Length -->
+                    <div for="min length">
+                        <div class="d-inline text-success"
+                            *ngIf="passwordStrengthValidator.passMinLength(register_form.value.password)">
+                            <mat-icon>check</mat-icon>
+                            <!-- <mat-icon>close</mat-icon> -->
+                            <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                        </div>
+
+                        <div class="d-inline text-danger"
+                            *ngIf="!passwordStrengthValidator.passMinLength(register_form.value.password)">
+                            <mat-icon>close</mat-icon>
+                            <p class="d-inline my-auto h-100">At Least 8 Characters In Length</p>
+                        </div>
+                    </div>
+                </div>
+
+
                 <label for="materialRegisterFormPassword">Password</label>
-                <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                <!-- <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
                     At least 8 characters and 1 digit
-                </small>
+                </small> -->
+
+
             </div>
-            
+
             <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>
-            
+
             <!-- Sign up button -->
             <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
                 mdbWavesEffect type="submit">REGISTER</button>
 
             <!-- Log In -->
-            <p>Already a member?
-                <a (click)="openLogInModal()" class="text-primary">Log In</a>
-            </p>
+            <div class="text-center">
+                <p>Already a member?
+                    <a (click)="openLogInModal()" class="text-primary">Log In</a>
+                </p>
 
-            <div>
-                <!-- Forgot password -->
-                <a (click)="openForgotPasswordModal()" class="text-primary">Forgot password?</a>
+                <div>
+                    <!-- Forgot password -->
+                    <a (click)="openForgotPasswordModal()" class="text-primary">Forgot password?</a>
+                </div>
+                <hr>
+
+                <!-- Terms of service -->
+                <p>By Registering, you agree to the
+                    <a href="" target="_blank">terms & conditions.</a></p>
             </div>
-            <hr>
-
-            <!-- Terms of service -->
-            <p>By Registering, you agree to the
-                <a href="" target="_blank">terms & conditions.</a></p>
 
         </form>
         <!-- Form -->

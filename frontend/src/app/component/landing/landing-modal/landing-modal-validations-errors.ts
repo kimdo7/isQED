@@ -38,6 +38,11 @@ export class LandingModalValidationErrors {
         "message": [
             { type: 'required', message: 'Your Name is required' },
             { type: 'minlength', message: 'Must be at least 8 characters long' },
+        ],
+        "code":[
+            { type: 'minlength', message: 'Must be a 6 digits' },
+            { type: 'maxlength', message: 'Must be a 6 digits' },
+            { type: 'pattern', message: 'Must be a 6 digits' },
         ]
         
     }

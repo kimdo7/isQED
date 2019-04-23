@@ -4,7 +4,7 @@
     <!-- Navbar brand -->
     <mdb-navbar-brand>
         <a class="navbar-brand" [routerLink]="['/']">
-            <img id="navbar-brand" src="assets/logo/ISQED_logo.svgz" width="100" alt="">
+            <img id="navbar-brand" src="assets/logo/ISQED_logoa.svgz" width="100" alt="">
         </a>
     </mdb-navbar-brand>
 
@@ -19,7 +19,6 @@
                 <!-- <i class="fas fa-user text-white"></i> -->
                 <mdb-icon fas icon="user-alt"></mdb-icon>
             </button>
-
             <div class="dropdown-menu dropdown-primary">
                 <a class="dropdown-item" (click)="openLoginModal()">
                     <mdb-icon fas icon="sign-in-alt"></mdb-icon>
@@ -42,7 +41,7 @@
 
             <!-- Trainning -->
             <li class="nav-item">
-                <a class="nav-link waves-light" [routerLink]="['/trainning']">Trainning</a>
+                <a class="nav-link waves-light" [routerLink]="['/trainning']">Training</a>
             </li>
 
             <!-- Certification -->
@@ -76,6 +75,11 @@
                 </div>
             </li>
 
+            <li class="loggedIn">
+                {{loggedIn? "LoggedIn " + loginState :"" + loginState}}
+            </li>
+                
+        
         </ul>
 
         <!-- Search form -->
