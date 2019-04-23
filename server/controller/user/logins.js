@@ -22,30 +22,39 @@ const DEBUG_DONT_SEND_EMAIL = false; // Set this to false to use the gateway.
  * @returns An object with the LoginInfo for the frontend
  */
 var clientLoginInfo = (login) => {
-    // DEBUG:  Show logged in state at the top of the screen
-    var state = "LoggedOut"
-    if (login.id) {
-        if (login.isEmailVerified) {
-            if (login.type == 9) {
-                state = "Student"
+    var info = {
+        login_id: null,
+        email: null,
+        isSignedIn: false,
+        isEmailVerified: false,
+        state: "LoggedOut",
+    }
+
+    if (login) {
+        // login_id is for the client and login.id is for the server
+        info.login_id = login.id? login.id: null
+        info.email =  login.email? login.email: null
+        info.isSignedIn = login.id? true: false
+        info.isEmailVerified = login.isEmailVerified? true: false
+
+        // DEBUG:  Show logged in state at the top of the screen
+        if (login.id) {
+            if (login.isEmailVerified) {
+                if (login.type == 9) {
+                    info.state = "Student"
+                } else if (login.type == 2) {
+                    info.state = "Administrator"
+                } else {
+                    info.state = "NonStudent"
+                }
             } else {
-                state = "NonStudent"
+                info.state = "NeedEmailVerification"
             }
-        } else {
-            state = "NeedEmailVerification"
         }
     }
 
-    //logd("clientLoginInfo: %s --> %o", state, login)
-
-    // Return the client LoginInfo
-    return {
-        // login_id is for the client and login.id is for the server
-        login_id: login.id,
-        email: login.email,
-        isEmailVerified: login.isEmailVerified,
-        state: state,
-    }
+    logd("LoginInfo: %o", info)
+    return info
 }
 
 /**
@@ -93,6 +102,40 @@ var findByIdIfSignedIn = (req, login_id, next) => {
 };
 
 module.exports = {
+    /**
+     * @return the log in email base on user request
+     */
+    getLoginInfo: (req, res) => {
+        Login.findById(req.params.id, function (err, login) {
+            if (err) {
+                // We couldn't search the database, or it wasn't found
+                res.json({message: 'Error', error: "Error on server" })
+                return
+            }
+            if (!login) {
+                res.json({message: 'Error', error: "Login id not found" })
+            }
+            if (login.id !== req.params.id) {
+                // We didn't have an error, but we didn't find the login (or the record is bad)
+                res.json({message: 'Error', error: "Bad login record" })
+                return
+            }
+    
+            // We do a === because it will only match if the string is the same
+            // and will return false if one is undefined
+            if (login.id === req.session['login_id']) {
+                // We didn't have any error
+                // And the signed in user is still in the DB
+                res.json( {message: 'Success', data: clientLoginInfo(login) })
+            } else {
+                // We found a login, but that's not the one in the session!
+                // Something bad is happening, don't say it's signed in
+                // So we will tell the client they are logged out
+                res.json( {message: 'Success', data: clientLoginInfo(null) })
+            }
+        })
+    },
+
     /**
      * @Get *ALL* LOGINS
      * RETURNS EVERY PASSWORD HASH IN THE DATABASE!! DEBUGGING ONLY
@@ -161,9 +204,11 @@ module.exports = {
     /**
      * @activate account by id
      * *Confirm* with the *activation code*
+     * @param req Request from frontend {params.id, body.code, session.login_id}
+     * @param res Response back to frontend {message: 'Error', error} or {message: 'Success', data}
      */
-    activateById: (req, res) => {
-        logd("activateById")
+    verifyEmailUsingActivationCode: (req, res) => {
+        logd("verifyEmailUsingActivationCode")
         if (!req.params.id) {
             res.json({ message: 'Error', error: "Missing id" })
             return
@@ -172,19 +217,19 @@ module.exports = {
             res.json({ message: 'Error', error: "Missing code" })
             return
         }
-        logd("activateById: About to find signed in ID " + req.params.id)
+        logd("verifyEmailUsingActivationCode: About to find signed in ID " + req.params.id)
         findByIdIfSignedIn(req, req.params.id, (err, login) => {
             if (err && err == "User is not logged in") {
-                res.json({ message: 'Error', error: "You need to sign in", errorDetail: err, signInNeeded: true })
+                res.json({ message: 'Error', error: "You need to sign in", loginNeeded: true })
                 return
-            } else if (err || !login) {
-                logd("login can't be an error or null")
-                res.json({ message: 'Error', error: "You need to sign in", errorDetail: err })
+            }
+            if (err) {
+                res.json({ message: 'Error', error: "Error when activating", errorDetail: err })
                 return
             }
 
             // If we are signed in, now check the activation
-            logd("activateById: compare request " + req.body.code + " to " + login["tempActivationCode"])
+            logd("verifyEmailUsingActivationCode: compare request " + req.body.code + " to " + login["tempActivationCode"])
             if (req.body.code === "" + login.tempActivationCode) {
                 login.isEmailVerified = true
                 login.save()
@@ -194,7 +239,6 @@ module.exports = {
                 res.json({ message: 'Error', error: "Wrong activation code" })
                 return
             }
-
         })
     },
 
@@ -608,21 +652,5 @@ module.exports = {
             res.json({ message: 'Success', data: clientLoginInfo(login) })
 
         });
-    },
-
-    /**
-     * @return the log in email base on user request
-     */
-    getLoginInfo: (req, res) => {
-        findByIdIfSignedIn(req, req.params.id, function (err, data) {
-            if (err) {
-                res.json({ message: 'Error', error: err })
-                return
-            }
-
-            // returning state back to the client
-            res.json({ message: 'Success', email: data.email, data: clientLoginInfo(data) })
-        });
-    },
-
+    }
 }
