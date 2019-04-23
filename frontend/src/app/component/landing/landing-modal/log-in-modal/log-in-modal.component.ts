@@ -62,10 +62,12 @@ export class LogInModalComponent implements OnInit {
         this.loginService.login(this.contact_form.value, (err, loginInfo) => {
             if (loginInfo) {
                 if(loginInfo.isEmailVerified) {
-                    this.router.navigate([""]);
+                    this.action.next('Logged In')
+                    this.router.navigate(["/user"]);
                 } else {
-                    //placeholder for future route that hasn't been created yet
-                    // this.router.navigate(["/signin/validation/" + data["data"]["login_id"]]);
+                    // need activation code to be entered from email
+                    this.action.next('Logged In')
+                    this.router.navigate(["/activate", loginInfo.login_id, ""]);
                 }
             } else {
                 console.log("onLogin errors %o", err)

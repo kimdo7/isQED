@@ -73,11 +73,20 @@ export class RegisterModalComponent implements OnInit {
                 console.log("server not available")
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
+                // userService doesn't update loginService. So we have to tell it what happened
                 var loginInfo: LoginInfo = data["data"]
-                // We are logged in
                 this.loginService.changeLoginInfo(loginInfo)
-                // Just trying to get the UI to start showing the right thing
-                this.action.next('Registered');
+
+                if (loginInfo.isEmailVerified) {
+                    // This shouldn't happen because we just registered and haven't validated yet...
+                    // But just in case 
+                    this.action.next('Registered');
+                    this.router.navigate(["/user"])
+                } else {
+                    // User has to enter the activation code
+                    this.action.next('Registered');
+                    this.router.navigate(["/activate", loginInfo.login_id, ""])
+                }
             } else if (data["error"]) {
                 console.log("Error!!! " + data["error"])
                 this.showDangerMessage("Error!!! " + data["error"])

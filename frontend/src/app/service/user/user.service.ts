@@ -20,17 +20,6 @@ export class UserService {
         return this.http.post("/api/user/register", data)
     }
 
-    getLoginEmail(id){
-        return this.http.get("/api/login/email/" + id)
-    }
-    
-    checkIsEmailVerified(id, code){
-        return this.http.post("/api/login/activate/email/" + id, { code: code })
-    }
-
-    resendActivationCode(id){
-        return this.http.post("/api/login/requestActivationCode/email", { id: id })
-    }
     /**
      * 
      * @param id user id

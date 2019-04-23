@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user/user.service';
+import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -10,8 +11,8 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ActivationComponent implements OnInit {
 
-    user = { email: "" }
-    user_id = ""
+    login_id = ""
+    loginInfo : LoginInfo = null
     command = "Active Your Account"
     activationCode = ""
 
@@ -35,43 +36,59 @@ export class ActivationComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private userService: UserService
-    ) { }
+        private userService: UserService,
+        private loginService: LoginService,
+    ) { 
+        this.loginInfo = this.loginService.getLoginInfo()
+        this.loginService.loginInformation().subscribe(loginInfo => {
+            this.loginInfo = loginInfo
+            if (loginInfo.isEmailVerified) {
+                this.showSuccessMessage("Activated!")
+                this.router.navigate(["/user"])
+            } else if (!loginInfo.isSignedIn) {
+                this.showDangerMessage("You must sign in")
+                this.router.navigate([""])
+            }
+        })
+    }
 
     /**
      * init alert and user
      */
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            console.log(params['login_id'])
-            console.log(params['verify_code'])
-            this.user_id = params["id"]
-            this.getLoginEmail(params['id'])
+            this.login_id = params["login_id"]
+            this.loginService.refreshLoginInfoForId(this.login_id)
+            if (params["verify_code"]) {
+                this.activationCode = params["verify_code"]
+                this.checkValidation()
+            }
         });
 
         this.initAlert();
     }
-        /**
+
+    /**
      * check activation code
      * @return to *reset password* if *isForgotPasswword = TRUE*
      * @return to *Dashboard* 
      */
     checkValidation() {
-        if (this.activationCode == "") {
+        if (!this.activationCode || this.activationCode.length < 6) {
             return
         }
 
-        let tempObservable = this.userService.checkIsEmailVerified(this.user_id, this.activationCode)
-        tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-                this.router.navigate(["/learning"])
-            } else if (data["message"] == "Error" && data["signInNeeded"]) {
+        this.loginService.verifyEmailActivationCode(this.login_id, this.activationCode, (err, data) => {
+            if (!err) {
+                this.showSuccessMessage("Activated!")
+                this.router.navigate(["/user"])
+            } else if (err == "loginNeeded") {
                 // If the server knows that we aren't signed in, 
                 // then we need to send the user to the sign in page.
                 // It would be better if we can tell them why,
                 // but the dangerMessage doens't show on the new page.
                 this.showDangerMessage("You must sign in")
-                this.router.navigate(["/signin"])
+                this.router.navigate([""])
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }
@@ -79,28 +96,16 @@ export class ActivationComponent implements OnInit {
     }
 
     /**
-     * 
-     * @param id user id
-     */
-    getLoginEmail(id) {
-        let tempObservable = this.userService.getLoginEmail(id)
-        tempObservable.subscribe(data => {
-            this.user.email = data["email"]
-        });
-    }
-
-    /**
      * resend validtion code *button listener*
      */
     resendValidationCode() {
-        let tempObservable = this.userService.resendActivationCode(this.user_id)
-        tempObservable.subscribe(data => {
-            if (data["message"] === "Success") {
-                this.showSuccessMessage("The new validation code has sended to your email")
+        let tempObservable = this.loginService.resendActivationCode(this.login_id, (err, loginInfo) => {
+            if (err) {
+                this.showDangerMessage("Could not send a new activation code to your email")
             } else {
-                this.showDangerMessage("The new validation code can not send to your email")
+                this.showSuccessMessage("The new activation code has been sent to your email")
             }
-        });
+        })
     }
 
     /**

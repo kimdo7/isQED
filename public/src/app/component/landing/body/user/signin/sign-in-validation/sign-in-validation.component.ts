@@ -84,7 +84,7 @@ export class SignInValidationComponent implements OnInit {
      * @param id user id
      */
     getLoginEmail(id) {
-        let tempObservable = this.userService.getLoginEmail(id)
+        let tempObservable = this.loginService.refresh(id)
         tempObservable.subscribe(data => {
             this.user.email = data["email"]
         });

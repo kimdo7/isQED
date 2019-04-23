@@ -11,7 +11,16 @@ export class LoginInfo {
     public email: string
     public login_id: string
     public isEmailVerified: boolean
+    public isSignedIn: boolean
     public state: string
+
+    constructor() {
+        this.login_id = null
+        this.email = null
+        this.isEmailVerified = false
+        this.isSignedIn = false
+        this.state = "LoggedOut"
+    }
 }
 
 // Save the logged in user in local storage so that we can remember it
@@ -82,7 +91,7 @@ export class LoginService {
     /**
      * Information about the logged in user. 
      * Subscribe to loginInformation() if you want to get called when this info changes.
-     * @returns LoginInfo (email, login_id, isEmailVerfiied)
+     * @returns LoginInfo (email, login_id, isEmailVerfiied, isSignedIn, state)
      */
     getLoginInfo(): LoginInfo {
         return this.loginInfo
@@ -101,6 +110,7 @@ export class LoginService {
             }
 
             this.changeLoginInfo(data['data'])
+            next(null, this.loginInfo)
         })
     }
 
@@ -144,16 +154,66 @@ export class LoginService {
         this.loggedInSub.next(this.loginInfo['login_id'] ? true : false);
     }
 
-    refreshLoginInfo(id) {
-        return this.http.get("/api/login/email/" + id)
+    refreshLoginInfoForId(id) {
+        if (id) {
+            this.http.get("/api/login/email/" + id).subscribe(data => {
+                if (data['message'] == 'Success') {
+                    this.changeLoginInfo(data['data'])
+                    return
+                }
+                // error. We aren't logged in as far as we can tell
+                this.changeLoginInfo(null)
+            })
+            } else {
+            console.log("refreshLoginInfoForId: no id provided (may be logged out)")
+        }
     }
 
-    checkIsEmailVerified(id, code) {
-        return this.http.post("/api/login/activate/email/" + id, { code: code })
+    refreshLoginInfo() {
+        this.refreshLoginInfoForId(this.loginInfo.login_id)
+
     }
 
-    resendActivationCode(id) {
-        return this.http.post("/api/login/requestActivationCode/email", { id: id })
+    /**
+     * Send activationcode to the server
+     * @param login_id the current logged in user
+     * @param code email activation code
+     * @param next a callback (err, data) that returns the login info or an error
+     */
+    verifyEmailActivationCode(login_id, code, next) {
+        console.log("verifyEmailActivationCode")
+        this.http.post("/api/login/activate/email/" + login_id, { code: code }).subscribe(data => {
+            if (data['message'] == "Success") {
+                this.changeLoginInfo(data['data'])
+                next(null, this.loginInfo)
+                return
+            } 
+            // Special error saying that the user needs to sign in before trying to activate
+            if (data['loginNeeded']) {
+                next("loginNeeded", null)
+                return
+            }
+            // Other kinds of error
+            next(data['error'], null)
+        })
+    }
+
+    /**
+     * Ask server to send a new activation code in email.
+     * @param id the current logged in user
+     * @param next a callback (err, loginInfo) that returns an error or the login info
+     */
+    resendActivationCode(id, next) {
+        console.log("resendActivationCode")
+        this.http.post("/api/login/requestActivationCode/email", { id: id }).subscribe(data => {
+            if (data['message'] == "Success") {
+                this.changeLoginInfo(data['data'])
+                next(null, this.loginInfo)
+                return
+            } 
+            // error
+            next(data['error'], null)
+        })
     }
 
     /**
