@@ -1,4 +1,5 @@
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { PasswordValidator } from 'src/app/validator/PasswordValidator';
 
 export class LandingModalForms {
 
@@ -11,7 +12,11 @@ export class LandingModalForms {
                     Validators.pattern('^[A-Za-z ]+$')
                 ]
             ],
-            email: ['', [Validators.required, Validators.email]],
+            email: ['', [
+                Validators.required,
+                Validators.email,
+                // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+            ]],
             message: ['',
                 [
                     Validators.required,
@@ -65,31 +70,33 @@ export class LandingModalForms {
         })
     }
 
-    static init_verify(formBuilder) {
+    static init_verify(formBuilder, verify_code) {
+        
+        var regex = new RegExp(verify_code, 'i')
         return formBuilder.group({
             code: ['', [
                 Validators.required,
                 Validators.minLength(6),
                 Validators.maxLength(6),
-                Validators.pattern('^[0-9]*$')
+                Validators.pattern('^[0-9]*$'),
+                Validators.pattern(regex)
+                // Validators.
             ]],
         })
     }
 
-    static init_reset_password(formBuilder) {
-        return formBuilder.group({
-            password: ['',
-                [
-                    Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
-                ]
-            ],
-            confirm_password: ['',
-                [
-                    Validators.required,
-                    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
-                ]
-            ],
-        })
+    static init_reset_password() {
+        return new FormGroup({
+            password: new FormControl('', Validators.compose([
+                Validators.required,
+                Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
+            ])),
+            confirm_password: new FormControl('', Validators.compose([
+                Validators.required,
+                Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}')
+            ]))
+        }, (formGroup: FormGroup) => {
+            return PasswordValidator.areEqual(formGroup);
+        });
     }
 }
