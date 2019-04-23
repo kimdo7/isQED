@@ -75,7 +75,7 @@ export class LogInModalComponent implements OnInit {
                 } else {
                     // need activation code to be entered from email
                     this.action.next('Logged In')
-                    this.router.navigate(["/activate", loginInfo.login_id, ""]);
+                    this.router.navigate(["/user"])
                 }
             } else {
                 // console.log("onLogin errors %o", err)

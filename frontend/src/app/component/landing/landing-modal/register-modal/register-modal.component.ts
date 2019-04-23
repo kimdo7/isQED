@@ -58,19 +58,19 @@ export class RegisterModalComponent implements OnInit {
      * @navigate to validation acount that sent by email
      */
     onRegister() {
-        console.log("onRegister")
+        //console.log("onRegister")
         if (this.register_form.invalid) {
-            //         // showDangerMessage shows up on the webpage.
-            console.log(this.register_form.value)
+            //showDangerMessage shows up on the webpage.
+            //console.log(this.register_form.value)
             this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
-        console.log("onRegister: valid form")
+        //console.log("onRegister: valid form")
         let tempObservable = this.userService.register(this.register_form.value)
         tempObservable.subscribe(data => {
-            console.log("onRegister: userService returned %o", data)
+            //console.log("onRegister: userService returned %o", data)
             if (!data) {
-                console.log("server not available")
+                //console.log("server not available")
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
             } if (data["message"] === "Success") {
                 // userService doesn't update loginService. So we have to tell it what happened
@@ -85,13 +85,18 @@ export class RegisterModalComponent implements OnInit {
                 } else {
                     // User has to enter the activation code
                     this.action.next('Registered');
-                    this.router.navigate(["/activate", loginInfo.login_id, ""])
+
+                    // NOTE: After user registers, we send them to /user route.
+                    //       Then user will go activate route after clicking the email link
+                    this.router.navigate(["/user"])
+                    // this.router.navigate(["/activate", loginInfo.login_id, ""])
+
                 }
             } else if (data["error"]) {
-                console.log("Error!!! " + data["error"])
+                //console.log("Error!!! " + data["error"])
                 this.showDangerMessage("Error!!! " + data["error"])
             } else {
-                console.log("Error!!! Please confirm email and password")
+                //console.log("Error!!! Please confirm email and password")
                 this.showDangerMessage("Error!!! Please confirm email and password")
             }
         });
