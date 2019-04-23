@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LandingModalForms } from '../../landing-modal/landing-modal-forms';
 import { LandingModalValidationErrors } from '../../landing-modal/landing-modal-validations-errors';
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
@@ -15,7 +15,10 @@ export class ResestPasswordComponent implements OnInit {
     secondFormGroup: FormGroup;
     validation_messages = LandingModalValidationErrors.message
     passwordStrengthValidator = PasswordStrengthValidator
-    hidePassword = true
+    hidePassword1 = true
+    hidePassword2 = true
+
+    attempt = 0
 
     constructor(private _route: ActivatedRoute,
         private _router: Router,
@@ -26,16 +29,24 @@ export class ResestPasswordComponent implements OnInit {
             console.log(params['login_id'])
         });
 
-        this.firstFormGroup = LandingModalForms.init_verify(this.formBuilder)
-        this.secondFormGroup = LandingModalForms.init_reset_password(this.formBuilder)
+        var tempCode = "123456"
+
+        this.firstFormGroup = LandingModalForms.init_verify(this.formBuilder, tempCode)
+        this.secondFormGroup = LandingModalForms.init_reset_password()
     }
 
-    onVerifyCode(){
+    resendPasscodeViaEmail() {
 
     }
 
-    onResetPassword(){
+    onSubmit() {
+        alert("here")
+    }
 
+    onActivationCodeChange(newInput: string) {
+        if (newInput.length == 6){
+            this.attempt += 1
+        }
     }
 }
 
