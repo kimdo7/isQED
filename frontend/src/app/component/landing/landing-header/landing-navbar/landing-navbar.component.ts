@@ -5,6 +5,7 @@ import { RegisterModalComponent } from '../../landing-modal/register-modal/regis
 import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-password-modal/forgot-password-modal.component';
 import { LoginService } from 'src/app/service/user/login.service';
 import * as $ from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-landing-navbar',
@@ -23,6 +24,7 @@ export class LandingNavbarComponent implements OnInit {
     constructor(
         private modalService: MDBModalService,
         private loginService: LoginService,
+        private router: Router,
     ) {
     }
 
@@ -30,19 +32,22 @@ export class LandingNavbarComponent implements OnInit {
     ngOnInit() {
         // This lets the component know if the user is logged in or logged out.
         this.loggedIn = this.loginService.isLoggedInNow()
-        console.log("LandingNonTransparentNavbar: ngOnInit: logged in = " + this.loggedIn)
-
         this.loginState = this.loginService.getLoginInfo().state
+        console.log("LandingNavbarComponent: ngOnInit: logged in %s %o", this.loggedIn, this.loginState) 
+
         
         this.loginService.isLoggedIn().subscribe(isLoggedIn => {
             this.loggedIn = isLoggedIn
-            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
+            console.log("LandingNavbarComponent: changed logged in = " + this.loggedIn)
         })
 
         this.loginService.loginInformation().subscribe(loginInfo => {
             this.loginState = loginInfo.state
-            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
+            console.log("LandingNavbarComponent: changed login state = " + this.loginState)
         })
+
+        // Contact the server for updated login state. This will call the two subscribe events above if any
+        this.loginService.refreshLoginInfo()
 
 
         // DOM actions
@@ -133,8 +138,14 @@ export class LandingNavbarComponent implements OnInit {
                 this.openLoginModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
+            } else if (result == "Logged In") {
+                this.dismissModal()
             }
         });
+    }
+
+    dismissModal() {
+        this.modalService.hide(1)
     }
 
     openForgotPasswordModal() {
@@ -160,6 +171,16 @@ export class LandingNavbarComponent implements OnInit {
                 this.openRegisterModal()
             }
         });
+    }
+
+    onClickDebugState() {
+        if (this.loggedIn) {
+            if (this.loginState == "Student") {
+                // user is not using the same router for some reason.  Doesn't work
+                //this.router.navigate(["/user"])
+                window.location.assign("/user")
+            }
+        }
     }
 
 }

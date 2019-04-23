@@ -58,7 +58,7 @@ module.exports = function (app) {
      * This requires the user to be logged in but not isEmailVerified
      */
     app.post("/api/login/activate/email/:id", (req, res) => {
-        logins.activateById(req, res)
+        logins.verifyEmailUsingActivationCode(req, res)
     })
 
     /**

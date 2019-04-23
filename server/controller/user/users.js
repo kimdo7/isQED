@@ -190,6 +190,7 @@ module.exports = {
                             login_id: newUser.loginId,
                             email: savedLogin.email,
                             isEmailVerified: savedLogin.isEmailVerified,
+                            isSignedIn: savedLogin.id? true: false,
                             state: "Registered",
                     }})
                 }

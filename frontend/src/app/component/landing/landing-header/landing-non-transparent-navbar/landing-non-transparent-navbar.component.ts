@@ -12,8 +12,9 @@ import { LoginService } from 'src/app/service/user/login.service';
 })
 export class LandingNonTransparentNavbarComponent implements OnInit {
 
-    loggedIn: boolean = false
     modalRef: MDBModalRef
+    loggedIn: boolean = false
+    loginState: string = ""
 
     constructor(
         private modalService: MDBModalService,
@@ -23,13 +24,21 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
     ngOnInit() {
         // This lets the component know if the user is logged in or logged out.
         this.loggedIn = this.loginService.isLoggedInNow()
-        console.log("LandingNonTransparentNavbar: ngOnInit: logged in = " + this.loggedIn)
-        // This gets called everytime whenever the loggedIn gets changed
-        // If someone gets loggred out, this component will know.
+        this.loginState = this.loginService.getLoginInfo().state
+        console.log("LandingNonTransparentNavbar: ngOnInit: logged in %s %o", this.loggedIn, this.loginState) 
+
         this.loginService.isLoggedIn().subscribe(isLoggedIn => {
             this.loggedIn = isLoggedIn
             console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
         })
+
+        this.loginService.loginInformation().subscribe(loginInfo => {
+            this.loginState = loginInfo.state
+            console.log("LandingNonTransparentNavbar: changed login state = " + this.loginState)
+        })
+
+        // Contact the server for updated login state. This will call the two subscribe events above if any
+        this.loginService.refreshLoginInfo()
     }
 
     dismissModal() {
