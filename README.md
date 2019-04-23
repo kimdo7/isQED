@@ -46,7 +46,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 ## Pulling Latest Files from Master
 
 1. Go to your main project folder.
-	* cd isQED
+	* `cd isQED`
 	
 2. Check that you are on the master branch before pulling files
 	* `git status`
