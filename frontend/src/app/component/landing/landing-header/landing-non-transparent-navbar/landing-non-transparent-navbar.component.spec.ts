@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LandingNonTransparentHeaderComponent } from './landing-non-transparent-header.component';
+import { LandingNonTransparentNavbarComponent } from './landing-non-transparent-navbar.component';
 
 describe('LandingNonTransparentHeaderComponent', () => {
-  let component: LandingNonTransparentHeaderComponent;
-  let fixture: ComponentFixture<LandingNonTransparentHeaderComponent>;
+  let component: LandingNonTransparentNavbarComponent;
+  let fixture: ComponentFixture<LandingNonTransparentNavbarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LandingNonTransparentHeaderComponent ]
+      declarations: [ LandingNonTransparentNavbarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LandingNonTransparentHeaderComponent);
+    fixture = TestBed.createComponent(LandingNonTransparentNavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

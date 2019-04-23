@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LandingHeaderComponent } from './landing-header.component';
+import { ResestPasswordComponent } from './resest-password.component';
 
-describe('LandingHeaderComponent', () => {
-  let component: LandingHeaderComponent;
-  let fixture: ComponentFixture<LandingHeaderComponent>;
+describe('ResestPasswordComponent', () => {
+  let component: ResestPasswordComponent;
+  let fixture: ComponentFixture<ResestPasswordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LandingHeaderComponent ]
+      declarations: [ ResestPasswordComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LandingHeaderComponent);
+    fixture = TestBed.createComponent(ResestPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

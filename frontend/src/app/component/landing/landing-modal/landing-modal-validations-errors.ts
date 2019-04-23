@@ -13,6 +13,7 @@ export class LandingModalValidationErrors {
         'email': [
             { type: 'required', message: 'Email is required' },
             { type: 'email', message: 'Invalid Email Address' },
+            { type: 'pattern', message: 'Invalid Email Address' },
         ],
         'phone': [
             { type: 'required', message: 'Phone is required' },
@@ -28,6 +29,21 @@ export class LandingModalValidationErrors {
             { type: 'areEqual', message: 'Password mismatch' },
             { type: 'pattern', message: 'Pattern problem' },
             { type: 'minlength', message: 'Must be at least 8 characters long' }
+        ], 
+        'name': [
+            { type: 'required', message: 'Your Name is required' },
+            { type: 'minlength', message: 'Must be at least 2 characters long' },
+            { type: 'pattern', message: 'Your name must contain only letters and white space' },
         ],
+        "message": [
+            { type: 'required', message: 'Your Name is required' },
+            { type: 'minlength', message: 'Must be at least 8 characters long' },
+        ],
+        "code":[
+            { type: 'minlength', message: 'Must be a 6 digits' },
+            { type: 'maxlength', message: 'Must be a 6 digits' },
+            { type: 'pattern', message: 'Must be a 6 digits' },
+        ]
+        
     }
 }

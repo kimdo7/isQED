@@ -15,6 +15,38 @@ var emailGateway = require("../../gateway/email")
 const logd = require('debug')('QEDlog')
 const DEBUG_DONT_SEND_EMAIL = false; // Set this to false to use the gateway.
 
+/**
+ * This is the information about the login that the client is allowed to know.
+ * We don't send the activation code or passwordHash to the client (this information should be hidden from the browser)
+ * @param login The Login model object
+ * @returns An object with the LoginInfo for the frontend
+ */
+var clientLoginInfo = (login) => {
+    // DEBUG:  Show logged in state at the top of the screen
+    var state = "LoggedOut"
+    if (login.id) {
+        if (login.isEmailVerified) {
+            if (login.type == 9) {
+                state = "Student"
+            } else {
+                state = "NonStudent"
+            }
+        } else {
+            state = "NeedEmailVerification"
+        }
+    }
+
+    //logd("clientLoginInfo: %s --> %o", state, login)
+
+    // Return the client LoginInfo
+    return {
+        // login_id is for the client and login.id is for the server
+        login_id: login.id,
+        email: login.email,
+        isEmailVerified: login.isEmailVerified,
+        state: state,
+    }
+}
 
 /**
  * Like findById, but only gives back the login if it is currently signed in
@@ -156,13 +188,8 @@ module.exports = {
             if (req.body.code === "" + login.tempActivationCode) {
                 login.isEmailVerified = true
                 login.save()
-                res.json({
-                    message: 'Success', data: {
-                        login_id: login.id,
-                        email: login.email,
-                        isEmailVerified: login.isEmailVerified
-                    }
-                })
+                // returning state back to the client
+                res.json({ message: 'Success', data: clientLoginInfo(login) })
             } else {
                 res.json({ message: 'Error', error: "Wrong activation code" })
                 return
@@ -576,27 +603,25 @@ module.exports = {
 
             req.session.last_stage = 'loggedIn'
             req.session.login_id = login.id;
-            res.json({
-                message: 'Success', data: {
-                    login_id: login.id,
-                    email: login.email,
-                    isEmailVerified: login.isEmailVerified,
-                }
-            }) // DO NOT RETURN PASSWORD HASH
+
+            // returning state back to the client
+            res.json({ message: 'Success', data: clientLoginInfo(login) })
+
         });
     },
 
     /**
      * @return the log in email base on user request
      */
-    getLoginEmail: (req, res) => {
+    getLoginInfo: (req, res) => {
         findByIdIfSignedIn(req, req.params.id, function (err, data) {
             if (err) {
                 res.json({ message: 'Error', error: err })
                 return
             }
 
-            res.json({ message: 'Success', email: data.email })
+            // returning state back to the client
+            res.json({ message: 'Success', email: data.email, data: clientLoginInfo(data) })
         });
     },
 

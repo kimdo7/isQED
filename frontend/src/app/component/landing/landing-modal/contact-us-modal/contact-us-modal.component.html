@@ -1,5 +1,5 @@
 <!-- Material form contact -->
-<mdb-card>
+<mdb-card class="w-100">
 
     <mdb-card-header class="info-color white-text text-center py-4">
         <h5>
@@ -12,27 +12,47 @@
     <mdb-card-body class="px-lg-5 pt-0">
 
         <!-- Form -->
-        <form class="text-center" style="color: #757575;" (submit)="onSubmit()" [formGroup]='contact_form'>
+        <form class="" style="color: #757575;" (submit)="onSubmit()" [formGroup]='contact_form'>
 
             <!-- Name -->
-            <div class="md-form mt-3">
-                <input formControlName='name'  type="text" id="materialContactFormName"  class="form-control"
-                    mdbInput required>
+            <div class="md-form mt-3 ">
+                <!-- HINT REMOVE TEXT_CENTER FROM FORM CLASS -->
+                <i class="fas fa-male prefix"></i>
+                <input formControlName='name' type="text" id="materialContactFormName" class="form-control" mdbInput
+                    mdbValidate required>
                 <label for="materialContactFormName">Name</label>
+
+                <!-- Validation error message -->
+                <div *ngFor="let validation of validation_messages.name">
+                    <mdb-error class="error-message" *ngIf="contact_form.get('name').hasError(validation.type) && (contact_form.get('name').dirty ||
+                    contact_form.get('name').touched)">
+                        {{validation.message}}</mdb-error>
+                </div>
             </div>
 
             <!-- E-mail -->
             <div class="md-form">
-                <input formControlName='email' type="email" id="materialContactFormEmail" class="form-control"
-                    mdbInput>
+                <i class="fas fa-envelope prefix"></i>
+                <input formControlName='email' type="email" id="materialContactFormEmail" class="form-control" mdbInput
+                    mdbValidate>
                 <label for="materialContactFormEmail">E-mail</label>
+
+                <!-- Validation error message -->
+                <div *ngFor="let validation of validation_messages.email">
+                    <mdb-error class="error-message" *ngIf="contact_form.get('email').hasError(validation.type) && (contact_form.get('email').dirty ||
+                        contact_form.get('email').touched)">
+                        {{validation.message}}</mdb-error>
+                </div>
             </div>
 
             <!--Message-->
-            <div  class="md-form">
+            <div class="md-form">
+                    <i class="fas fa-pencil-alt prefix"></i>
                 <textarea formControlName='message' type="text" id="materialContactFormMessage"
-                    class="form-control md-textarea" mdbInput></textarea>
+                    class="form-control md-textarea" mdbInput mdbValidate></textarea>
                 <label for="materialContactFormMessage">Message</label>
+
+
             </div>
 
             <!-- Copy -->
@@ -41,6 +61,8 @@
                     <mdb-checkbox>Send me a copy of this message</mdb-checkbox>
                 </div>
             </div>
+
+            <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>
 
             <!-- Send button -->
             <button mdbBtn color="info" outline="true" rounded="true" block="true" class="z-depth-0 my-4 waves-effect"

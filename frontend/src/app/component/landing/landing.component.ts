@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Location } from "@angular/common";
 import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { ContactUsModalComponent } from './landing-modal/contact-us-modal/contact-us-modal.component';
-import * as $ from 'jquery';
-import { LandingPageRoutes } from './landing-static/landing-page-routes';
+import { Router, NavigationEnd } from '@angular/router';
+import { Location } from "@angular/common";
 
 @Component({
     selector: 'app-landing',
@@ -13,34 +11,23 @@ import { LandingPageRoutes } from './landing-static/landing-page-routes';
 })
 export class LandingComponent implements OnInit {
 
-    route: string = "Home";
     modalRef: MDBModalRef;
-    notTransparentRoutes
-    notSideBannerRoutes 
+    route: string = "Home";
 
-    constructor(location: Location, router: Router, private modalService: MDBModalService) {
-
+    constructor(private modalService: MDBModalService,
+        location: Location, router: Router) {
         router.events.subscribe(val => {
-            // if (location.path() != "") {
-            //     this.route = location.path();
-            // } else {
-            //     this.route = "Home";
-            // }
-
-            if (val instanceof NavigationEnd){
-                // console.log("val" + val.url)
+            if (val instanceof NavigationEnd) {
                 if (val.url != "/") {
                     this.route = val.url
                 } else {
                     this.route = "Home";
                 }
-            } 
+            }
         });
     }
 
     ngOnInit() {
-        this.notSideBannerRoutes = LandingPageRoutes.getNoSideBanerRoutes()
-        this.notTransparentRoutes = LandingPageRoutes.getNonTransparentHeaderRoutes()
     }
 
     openContactUsModal() {
@@ -56,13 +43,6 @@ export class LandingComponent implements OnInit {
         });
     }
 
-    isSideBanner() {
-        // console.log("confirm val" + this.route)
-        return this.notSideBannerRoutes.includes(this.route)
-    }
 
-    isTransparentNav(){
-        return this.notSideBannerRoutes.includes(this.route)
-    }
 
 }

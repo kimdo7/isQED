@@ -43,6 +43,7 @@ module.exports = {
             * *Special characters*
          */
         var regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9].{7,}/;
+        logd("register")
 
         if (!req.body.password.match(regex)) {
             res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
@@ -72,8 +73,8 @@ module.exports = {
         })
 
         var password = req.body.password
-
         if (!newLogin.setPassword(password)) {
+            logd("register: bad password")
             // Password is no good. Let's give the best error we can
             if (!newLogin.isValidPassword(password)) {
                 res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
@@ -90,10 +91,12 @@ module.exports = {
         }
 
         if (!newLogin.passwordMatchesHash(req.body.password)) {
+            logd("register: setPassword doesn't match hash")
             res.json({ message: 'Error', error: "Internal server error with password" })
             return
         }
         if (!newLogin.isSameEmail(req.body.email)) {
+            logd("register: email doesn't match")
             res.json({ message: 'Error', error: "Internal server error with email" })
             return
         }
@@ -102,18 +105,22 @@ module.exports = {
                 if (err && err.code === 11000) {
                     // If there is a Login and no User, we can create the User
                     // This is useful in development when our DB is messed up
+                    logd("register: login already exists. does user?")
                     User.findOne({ email: req.body.email }, (err2, existingUser) => {
                         if (!existingUser) {
                             // There is a Login with no user.
                             // We can hit this when there is a bug
                             // For now we will DELETE the Login. DANGEROUS DEBUG ONLY
+                            logd("register: No existing user record. Cleaning up prior failed login record")
                             Login.findOneAndDelete({ email: req.body.email }, (err3, existingLogin) => {
                                 // Deleted!
                                 logd("register: didn't find a login user " + err + " then " + err2 + " then " + err3)
-                                res.json({ message: 'Error', error: "Error on server, please retry" })
+                                res.json({ message: 'Error', error: "Error on server, please click register once more" })
                                 return
                             })
+                            return
                         }
+                        logd("register: There is already an existing login and user")
                         res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
                     })
                     return
@@ -136,7 +143,22 @@ module.exports = {
                     loginId: savedLogin.id,
                 },
                 (err, newUser) => {
-                    if (err) {
+                    logd("register: saved user: (error %o)", err)
+
+                    if (err && err.code === 11000) {
+                        // If there was no Login but an existing User record
+                        // Let's delete the old user record
+                        logd("register: Login is new, but old user already exists. Clean up the prior user record")
+                        User.findOneAndDelete({ email: req.body.email }, (err2, existingUser) => {
+                            if (!existingUser) {
+                                logd("register: Failed to clean up prior user record")
+                                return
+                            }
+                            logd("register: Cleaned up prior user record")
+                        })
+                        res.json({ message: 'Error', error: "Registration error. Please click register again." })
+                        return
+                    } else if (err) {
                         res.json({ message: 'Error', error: err })
                         return
                     }
@@ -146,6 +168,8 @@ module.exports = {
                     }
 
                     // Success!
+                    logd("register: success")
+
                     // Log in the user, send them activation mail
                     req.session.last_stage = 'registered'
                     req.session.login_id = savedLogin.id;
@@ -159,7 +183,15 @@ module.exports = {
                             // SO DO NOTHING HERE!
                         }
                     })
-                    res.json({ message: 'Success', login_id: newUser.loginId })
+                    // server responds with LoginInfo
+                    // Before when we were doing a register, we weren't telling the front end enough info.
+                    // Now we make sure the client has more to show. See LoginInfo in login.service.ts
+                    res.json({ message: 'Success', data: {
+                            login_id: newUser.loginId,
+                            email: savedLogin.email,
+                            isEmailVerified: savedLogin.isEmailVerified,
+                            state: "Registered",
+                    }})
                 }
             )
         });

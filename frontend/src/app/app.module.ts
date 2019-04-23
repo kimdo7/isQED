@@ -4,13 +4,17 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './component/landing/landing.component';
-import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
 import { LandingFooterComponent } from './component/landing/landing-footer/landing-footer.component';
-import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingHomeComponent } from './component/landing/landing-body/landing-home/landing-home.component';
 import { LandingEventComponent } from './component/landing/landing-body/landing-event/landing-event.component';
 import { MaterialModule } from './materials';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+/**
+ * @Alert
+ */
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * @Modal
@@ -41,8 +45,16 @@ import { LandingAboutComponent } from './component/landing/landing-body/landing-
 import { LandingBannerComponent } from './component/landing/landing-body/landing-banner/landing-banner.component';
 import { PrivacyPolicyComponent } from './component/landing/landing-body/landing-about/privacy-policy/privacy-policy.component';
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
-import { LandingNonTransparentHeaderComponent } from './component/landing/landing-non-transparent-header/landing-non-transparent-header.component';
+import { LandingNonTransparentNavbarComponent } from './component/landing/landing-header/landing-non-transparent-navbar/landing-non-transparent-navbar.component';
 import { LandingHomeCardComponent } from './component/landing/landing-body/landing-home/landing-home-card/landing-home-card.component';
+import { UserComponent } from './component/user/user.component';
+import { AdminComponent } from './component/admin/admin.component';
+import { LandingHeaderComponent } from './component/landing/landing-header/landing-header.component';
+import { LandingNavbarComponent } from './component/landing/landing-header/landing-navbar/landing-navbar.component';
+import { LandingBodyComponent } from './component/landing/landing-body/landing-body.component';
+import { UserHeaderComponent } from './component/user/user-header/user-header.component';
+import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
+import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
 
 
 @NgModule({
@@ -58,6 +70,8 @@ import { LandingHomeCardComponent } from './component/landing/landing-body/landi
          * Landing Header and Footer
          */
         LandingHeaderComponent,
+        LandingNavbarComponent,
+        LandingNonTransparentNavbarComponent,
         LandingFooterComponent,
 
         /**
@@ -80,10 +94,23 @@ import { LandingHomeCardComponent } from './component/landing/landing-body/landi
         LandingBannerComponent,
         PrivacyPolicyComponent,
         SteeringCommitteeComponent,
-        LandingNonTransparentHeaderComponent,
+        
         LandingHomeCardComponent,
+        UserComponent,
+        AdminComponent,
+        LandingBodyComponent,
+        UserHeaderComponent,
+        ActivationComponent,
+        ResestPasswordComponent,
     ],
     imports: [
+        /**
+        * For alert
+        */
+        NgbModule,
+        NgbPaginationModule, 
+        NgbAlertModule,
+
         BrowserModule,
         AppRoutingModule,
         MDBBootstrapModulesPro.forRoot(),
@@ -92,7 +119,9 @@ import { LandingHomeCardComponent } from './component/landing/landing-body/landi
         MaterialModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+
+
     ],
     entryComponents: [
         LogInModalComponent,

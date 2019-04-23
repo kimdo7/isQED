@@ -3,7 +3,6 @@ import { FormControl, FormGroup, NgForm, FormGroupDirective } from '@angular/for
 export class PasswordValidator {
     // Inspired on: http://plnkr.co/edit/Zcbg2T3tOxYmhxs7vaAm?p=preview
     static areEqual(formGroup: FormGroup) {
-
         let value;
         let valid = true;
         for (let key in formGroup.controls) {
@@ -21,11 +20,14 @@ export class PasswordValidator {
             }
         }
 
-
         if (valid) {
             return null;
         }
 
-        return { areEqual: true };
+        // console.log("Invalid")
+
+        return {
+            areEqual: true
+        };
     }
 }
