@@ -38,7 +38,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `cd frontend`
 	* `ng serve --aot`
 
-2. When it's runing, type in the url:
+2. When it's running, type in the url:
 	* `http://localhost:4200/`
 
 # Pushing Code into the Master Branch
