@@ -23,7 +23,7 @@ export class LandingBodyComponent implements OnInit {
 
                 if (this.route.match("/activate")){
                     this.route = "/activate"
-                }else if (this.route.match("/reset-password")){
+                } else if (this.route.match("/reset-password")){
                     this.route = "/reset-password"
                 }
             }

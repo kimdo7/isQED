@@ -11,11 +11,14 @@ import { SteeringCommitteeComponent } from './component/landing/landing-body/lan
 import { UserComponent } from './component/user/user.component';
 import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
 import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
+import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
+import { LogInModalComponent } from './component/landing/landing-modal/log-in-modal/log-in-modal.component';
 
 const routes: Routes = [
     {
         path: "", component: LandingComponent, children: [
             { path: "", component: LandingHomeComponent },
+            { path: "signin", component: LandingHomeComponent },
             { path: "events", component: LandingEventComponent },
             {
                 path: "about", component: LandingAboutComponent, children: [
@@ -26,6 +29,7 @@ const routes: Routes = [
                 ]
             },
             { path: "activate/:login_id/:verify_code", component: ActivationComponent },
+            
             { path: "reset-password/:login_id", component: ResestPasswordComponent }
         ]
     },

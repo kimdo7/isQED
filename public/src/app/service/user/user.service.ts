@@ -24,7 +24,7 @@ export class UserService {
         return this.http.get("/api/login/email/" + id)
     }
     checkIsEmailVerified(id, code){
-        return this.http.post("/api/login/activate/email/"+id, { code: code })
+        return this.http.post("/api/login/activate/email/" + id, { code: code })
     }
 
     resendActivationCode(id){

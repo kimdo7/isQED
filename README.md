@@ -1,84 +1,4 @@
-<<<<<<< HEAD
 # Starting a new Project
-=======
-# isQED Project
-
-## We are moving code from isQED/Public with isQED/Frontend
-1. Open your terminal to isQED/ and type in commands:
-    * [ ] `git status` Make sure you are on the master branch
-    * [ ] `git pull` pull the latest code down from master
-2. change directory to frontend (isQED/Public is in the process of being migrated to frontend)
-    * [ ] `cd frontend`
-3. Install all dependencies
-    * [ ] `npm install`
-    * [ ] `cd ..`
-4. Install mdpro
-    * [ ] `./mdbpro-installation`
-    * [ ] `cd frontend`
-5. See Serving angular below 
-
-## Serving Frontend for Building
-1. Serving angular
-    * [ ] `cd frontend` 
-    * [ ] `ng serve` | Mac Users - angular serve is running on port 4200
-    * [ ] `ng serve --aot` | PC Users - angular serve is running on port 4200
-
-2. In chrome, go to url 
-    * [ ] `localhost: 4200`
-
-## Start the Server
-1. Leave mongoose running
-    * [ ] `sudo mongod` | start a mongodb
-    * [ ] Kill server if needed `ps -ax | grep mongo sudo kill that_number`
-
-2. Open to query database
-    * [ ]`mongo`
-    * [ ]`https://docs.mongodb.com/manual/reference/mongo-shell/`
-
-3. path to angular public project folder and run the server
-    * [ ] `cd project_name/public`
-    * [ ] `ng build --watch`
- 
-4. Run nodemon with debug option to monitor for any changes in your source
-    * [ ] `nodemon server.js`
-    * [ ] `DEBUG=QEDlog nodemon server.js` // debug mode to displays logs
-
-5. In chrome, go to url 
-    * [] `localhost: 8000`
-
-# Github Instructions
-
-## Clone the isQED team project skeleton to your desktop.
-1. Open your terminal and type in commands:
-    * [ ] `$ git clone https://github.com/kimdo7/isQED.git`
-    * [ ] `$ cd isQED`  
-    * [ ] `$ npm install` | install all the backend packages
-    * [ ] `$ cd frontend`
-    * [ ] `$ npm install` | install all the fontend packages
-    * [ ] `$ code ../.`   | open VSCOde
-
-2. Open your project in VSCode editor. All files should be downloaded
-
-## Push code changes back onto branch master
-1. cd .. back to isQED folder
-2. Check that you are on the master branch and status  before pulling files
-    * [] `git status`
-		On branch master
-		Your branch is up to date with 'origin/master'.
-		Changes not staged for commit:
-		(use "git add <file>..." to update what will be committed)
-		(use "git checkout -- <file>..." to discard changes in working directory)
-		modified: README.md
-		no changes added to commit (use "git add" and/or "git commit -A")`
-
-3. Pull the file before attempting to push to avoid any errors
-    * [ ] `git pull --rebase` if you have any local commits that hasn't been pushed yet,     it rebases it on top of remote.  It also keeps it more linear by preventing       unnecessary merge commits
-
-4. Creates a new branch and Checks it out. This will automatically switch you to your new branch.  Make sure you work off of master 
-    * [] `git checkout -b branch-name` 
-> For example:
->   git checkout -b signin
->>>>>>> 22d61a85fbb729ead703b4d90b124dce4d9df94a
 
 Open a terminal, and cd into the folder you’d like to create the project and then type the following:
 
@@ -188,7 +108,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 10. If you would like to continue to work, you can still push into your branch as GitHub will update the pull request with your changes.
 	* Repeat steps 5-8 again.
 
-11. When the reviewers have finisehd reviewing and if there are no conflicts, your code will be merged into the master branch.
+11. When the reviewers have finished reviewing and if there are no conflicts, your code will be merged into the master branch.
 
 ## Updating Branches
 
