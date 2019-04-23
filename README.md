@@ -10,7 +10,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `./installation`
 	* You will see a warning for  `found 1 high severity vulnerability`, this is for angular/build which is waiting for an update to sass. *Don't* run npm audit fix
 
-## Setting Up MongoDB (Skip if you've setup Mongo DB already)
+## Setting Up MongoDB (Skip if you've setup Mongo DB and have running already)
 
 3. Leave mongoDB running.
 	* `sudo mongod`
