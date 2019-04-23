@@ -85,7 +85,12 @@ export class RegisterModalComponent implements OnInit {
                 } else {
                     // User has to enter the activation code
                     this.action.next('Registered');
-                    this.router.navigate(["/activate", loginInfo.login_id, ""])
+
+                    // NOTE: After user registers, we send them to /user route.
+                    //       Then user will go activate route after clicking the email link
+                    this.router.navigate(["/user"])
+                    // this.router.navigate(["/activate", loginInfo.login_id, ""])
+
                 }
             } else if (data["error"]) {
                 console.log("Error!!! " + data["error"])

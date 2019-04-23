@@ -31,7 +31,7 @@ export class ActivationComponent implements OnInit {
     /**
      * @param route 
      * @param router 
-     * @param userService 
+     * @param loginService 
      */
     constructor(
         private route: ActivatedRoute,
