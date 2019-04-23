@@ -34,7 +34,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
     
 ## Optional - Serving Angular's Front End Only
 
-1. If you would like to run only the frontend, cd into the frontend folder of the main project folder isQED.
+1. If you would like to run only the frontend, cd into the frontend folder of the main project folder isQED.   (Do not Run this in addition to ng build --watch --aot.)
 	* `cd frontend`
 	* `ng serve --aot`
 
