@@ -35,6 +35,10 @@ export class ResestPasswordComponent implements OnInit {
         this.secondFormGroup = LandingModalForms.init_reset_password()
     }
 
+    resendPasscodeViaEmail() {
+
+    }
+
     onSubmit() {
         alert("here")
     }
