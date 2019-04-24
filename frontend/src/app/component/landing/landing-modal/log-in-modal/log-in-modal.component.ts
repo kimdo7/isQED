@@ -122,3 +122,4 @@ export class LogInModalComponent implements OnInit {
         this.action.next('Forgot Password');
     }
 }
+
