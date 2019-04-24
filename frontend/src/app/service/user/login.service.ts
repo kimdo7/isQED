@@ -220,7 +220,7 @@ export class LoginService {
     * @param data contains user's email
     */
     requestForgotPassword(data) {
-        console.log("login.service.ts"+data+"===success");
+        console.log("login.service.ts===success", data);
         return this.http.post("/api/login/requestForgotPassword", data);
     }
 

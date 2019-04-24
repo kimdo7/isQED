@@ -32,8 +32,7 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     onSendMail() {
-        // console.log("forgot-password-modal-component.ts"+this.forgot_password.value+"===success");
-        console.log(this.forgot_password.value);
+        console.log("forgot-password-modal-component.ts===success",this.forgot_password.value);
         console.log("Pretending to send mail");
         let tempObservable = this.LoginService.requestForgotPassword({ email: this.forgot_password.value })
         tempObservable.subscribe(data => {
@@ -46,8 +45,6 @@ export class ForgotPasswordModalComponent implements OnInit {
             } else {
                 console.log("sendEmail: got no success");
             }
-
-            
         });
     }
 
