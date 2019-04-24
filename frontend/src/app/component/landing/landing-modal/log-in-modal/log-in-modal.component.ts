@@ -82,6 +82,7 @@ export class LogInModalComponent implements OnInit {
              */
             if (loginInfo) {
                 this.router.navigate(["/user"]);
+                this.modalRef.hide()
             } else {
                 this.showDangerMessage("Error! Please check your email and password.");
             }

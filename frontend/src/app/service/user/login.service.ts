@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/40393703/rxjs-observable-angular-2-on-localstorage-change
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
@@ -11,7 +13,9 @@ import { LocalStorage } from 'src/app/localStorage/localStorage';
     providedIn: 'root'
 })
 export class LoginService {
-    // https://stackoverflow.com/questions/40393703/rxjs-observable-angular-2-on-localstorage-change
+    /**
+     * @param loginInfo
+     */
 
     private loginInfo = new LoginInfo()
     private localHost = new LocalStorage()
@@ -19,38 +23,19 @@ export class LoginService {
     private loggedInSub = new Subject<boolean>() // tell me when log in changes
     private loginInfoSub = new Subject<LoginInfo>() // tell me when log in information changes
 
+    /**
+     * 
+     * @param http request to conenct to backend
+     * @param loginInfo current login ifo
+     * 
+     * *NOTE* empty login info if empty *local storage*
+     */
     constructor(private http: HttpClient) {
-        // It has to have everything about the login info, otherwise we leave it with the empty login info.
         this.loginInfo = this.localHost.load()
     }
 
-
     /**
-     * Components can listen for this Observable to see when logged in or out state changes.
-     * This is the simplest way but only tells you logged in or not
-     */
-    isLoggedIn(): Observable<boolean> {
-        return this.loggedInSub.asObservable();
-    }
-
-    /**
-     * Components can listen for this to see when info about being logged in changes.
-     * This has more detailed info than just logged in or not
-     */
-    loginInformation(): Observable<LoginInfo> {
-        return this.loginInfoSub.asObservable();
-    }
-
-    /**
-     * Is there a logged in user? Does not talk to the backend. 
-     * Subscribe to isLoggedIn() if you want to get called when this state changes.
-     * @returns Whether there is currently a logged in user as far as the frontend knows. D
-     */
-    isLoggedInNow(): boolean {
-        return this.loginInfo['login_id'] ? true : false
-    }
-
-    /**
+     * *NEED TO REMOVE*
      * Information about the logged in user. 
      * Subscribe to loginInformation() if you want to get called when this info changes.
      * @returns LoginInfo (email, login_id, isEmailVerfiied, isSignedIn, state)
@@ -90,10 +75,10 @@ export class LoginService {
             // We are logged out. Let other components know
             this.changeLoginInfo(null)
         })
-
     }
 
     /**
+     * *NEED TO CHANGE TO PRIVATE*
      * Save changes to login info, and report it to other components
      * @param newLoginInfo The new login info. If null it means logged out.
      */

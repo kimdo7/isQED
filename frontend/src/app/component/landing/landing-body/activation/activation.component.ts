@@ -41,15 +41,15 @@ export class ActivationComponent implements OnInit {
         private loginService: LoginService,
     ) { 
         this.loginInfo = this.loginService.getLoginInfo()
-        this.loginService.loginInformation().subscribe(loginInfo => {
-            this.loginInfo = loginInfo
-            if (loginInfo.isEmailVerified) {
-                this.showSuccessMessage("Activated!")
-                this.router.navigate(["/user"])
-            } else if (!loginInfo.isSignedIn) {
-                this.showDangerMessage("Please log in first")
-            }
-        })
+        // this.loginService.loginInformation().subscribe(loginInfo => {
+        //     this.loginInfo = loginInfo
+        //     if (loginInfo.isEmailVerified) {
+        //         this.showSuccessMessage("Activated!")
+        //         this.router.navigate(["/user"])
+        //     } else if (!loginInfo.isSignedIn) {
+        //         this.showDangerMessage("Please log in first")
+        //     }
+        // })
     }
 
     /**
