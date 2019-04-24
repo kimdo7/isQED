@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MDBModalRef } from 'ng-uikit-pro-standard';
 import { UserService } from 'src/app/service/user/user.service';
-import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
+import { LoginService } from 'src/app/service/user/login.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs/operators';
 import { LandingModalForms } from '../landing-modal-forms';
 import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
+import { LoginInfo } from 'src/app/object/LoginInfo';
 
 
 // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern

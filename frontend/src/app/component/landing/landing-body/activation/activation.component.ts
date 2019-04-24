@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user/user.service';
-import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
+import { LoginService } from 'src/app/service/user/login.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { LoginInfo } from 'src/app/object/LoginInfo';
 @Component({
     selector: 'app-activation',
     templateUrl: './activation.component.html',
