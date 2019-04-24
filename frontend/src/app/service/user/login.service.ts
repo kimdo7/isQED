@@ -134,6 +134,8 @@ export class LoginService {
                 next(null, this.loginInfo)
                 return
             }
+
+            console.log("data: " + data["error"] + "| ")
             // Special error saying that the user needs to sign in before trying to activate
             if (data['loginNeeded']) {
                 next("loginNeeded", null)
