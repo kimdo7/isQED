@@ -35,7 +35,7 @@ export class ForgotPasswordModalComponent implements OnInit {
         // console.log("forgot-password-modal-component.ts"+this.forgot_password.value+"===success");
         console.log(this.forgot_password.value);
         console.log("Pretending to send mail");
-        let tempObservable = this.LoginService.requestForgotPassword({ email: this.forgot_password.value })
+        let tempObservable = this.LoginService.requestForgotPassword(this.forgot_password.value )
         tempObservable.subscribe(data => {
             console.log("tempObservable.subscribe(data => "+data+"success");
             if (data["message"] === "Success") {

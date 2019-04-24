@@ -399,14 +399,14 @@ module.exports = {
         Login.findOne({ email: email }, function (findErr, login) {
             if (findErr) {
                 res.json({ message: 'Error', error: "Failed to find login user" })
-                logd("requestMailForForgottenPasscode failed to find login user for: " + id + " : " + email + " -- " + findErr)
+                logd("requestMailForForgottenPasscode failed to find login user for: %o -- %s", email, findErr)
                 return
             } else if (!login) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
                 logd("requestMailForForgottenPasscode no login user object for: " + email)
                 return;
             }
-            if (!_passwordHash) {
+            if (!login.passwordHash) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
                 logd("requestMailForForgottenPasscode login user has no hash: " + id + " : " + email);
                 return;
