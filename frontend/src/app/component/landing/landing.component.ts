@@ -10,7 +10,6 @@ import { Location } from "@angular/common";
     styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
-
     modalRef: MDBModalRef;
     route: string = "Home";
 
@@ -42,7 +41,4 @@ export class LandingComponent implements OnInit {
             animated: true
         });
     }
-
-
-
 }
