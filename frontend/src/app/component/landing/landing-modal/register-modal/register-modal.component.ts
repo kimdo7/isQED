@@ -19,22 +19,34 @@ import { LoginInfo } from 'src/app/object/LoginInfo';
     styleUrls: ['./register-modal.component.scss']
 })
 export class RegisterModalComponent implements OnInit {
+    /**
+     * @param action swap components
+     * @param register_form contains first, last name email and password
+     * @param validation_messages error messages for form
+     * @param passwordStrengthValidator password strength hint message
+     * @param hidePassword hide or display password
+     */
+
+    action = new Subject();
     register_form: FormGroup
     validation_messages = LandingModalValidationErrors.message
     passwordStrengthValidator = PasswordStrengthValidator
     hidePassword = true
-    action = new Subject();
-    /**
-    * alert
-    */
 
+    /**
+     * *ERROR* @Alert variables
+     */
     private _danger = new Subject<string>();
     staticAlertClosed = false;
     errorMessage: string;
 
-    // validation_messages = UserValidatorMessage.message
-    // passwordStrengthValidator = PasswordStrengthValidator    
-
+    /**
+     * @param modalRef current modal
+     * @param formBuilder to build form
+     * @param userService to connect to service (api)
+     * @param loginService to connect to service (api)
+     * @param router to navigate to
+     */
     constructor(
         public modalRef: MDBModalRef,
         private formBuilder: FormBuilder,
@@ -59,17 +71,16 @@ export class RegisterModalComponent implements OnInit {
      * @navigate to validation acount that sent by email
      */
     onRegister() {
-        //console.log("onRegister")
+        /**
+         * @Validation FRONTEND
+         */
         if (this.register_form.invalid) {
-            //showDangerMessage shows up on the webpage.
-            //console.log(this.register_form.value)
             this.showDangerMessage("Error!!! Please confirm email and password")
             return;
         }
-        //console.log("onRegister: valid form")
+
         let tempObservable = this.userService.register(this.register_form.value)
         tempObservable.subscribe(data => {
-            //console.log("onRegister: userService returned %o", data)
             if (!data) {
                 //console.log("server not available")
                 this.showDangerMessage("Error!!! Server not available. Please try later.")
@@ -105,34 +116,33 @@ export class RegisterModalComponent implements OnInit {
 
 
     /**
-     * set alert
+     * *init alert*
+     * set alert to *10s*
      */
     initAlert() {
         setTimeout(() => this.staticAlertClosed = true, 20000);
 
         this._danger.subscribe((message) => this.errorMessage = message);
         this._danger.pipe(
-            debounceTime(5000)
+            debounceTime(10000)
         ).subscribe(() => this.errorMessage = null);
-    }
-
-    /**
-     * Swap modal to Forgot password
-     */
-    openForgotPasswordModal() {
-        this.action.next('Forgot Password');
-    }
-
-    /**
-     * Swap modal to LogIn
-     */
-    openLogInModal() {
-        this.action.next('Log In');
     }
 
     public showDangerMessage(message) {
         this._danger.next(message);
     }
 
+    /**
+     * @swap to modal *passwowrd*
+     */
+    openForgotPasswordModal() {
+        this.action.next('Forgot Password');
+    }
 
+    /**
+     * @swap to modal *register*
+     */
+    openLogInModal() {
+        this.action.next('Log In');
+    }
 }

@@ -36,7 +36,6 @@ export class LogInModalComponent implements OnInit {
     errorMessage: string;
 
     /**
-     * 
      * @param modalRef current modal
      * @param formBuilder to build form
      * @param loginService to connect to service (api)
@@ -60,10 +59,15 @@ export class LogInModalComponent implements OnInit {
     }
 
     /**
-     * 
+     * *Validation*
+     * @login account
+     * @alert if failure
+     * @navigate to validation acount that sent by email
      */
     onLogin() {
-        // console.log(this.login_form.value);
+        /**
+         * @Validation FRONTEND
+         */
         if (this.login_form.invalid) {
             this.showDangerMessage("Error! Please check your email and password");
             return
