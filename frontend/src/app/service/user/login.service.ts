@@ -131,7 +131,6 @@ export class LoginService {
 
     }
 
-
     /**
      * Save changes to login info, and report it to other components
      * @param newLoginInfo The new login info. If null it means logged out.
@@ -181,7 +180,7 @@ export class LoginService {
      * @param next a callback (err, data) that returns the login info or an error
      */
     verifyEmailActivationCode(login_id, code, next) {
-        console.log("verifyEmailActivationCode")
+        //console.log("verifyEmailActivationCode")
         this.http.post("/api/login/activate/email/" + login_id, { code: code }).subscribe(data => {
             if (data['message'] == "Success") {
                 this.changeLoginInfo(data['data'])
@@ -204,7 +203,7 @@ export class LoginService {
      * @param next a callback (err, loginInfo) that returns an error or the login info
      */
     resendActivationCode(id, next) {
-        console.log("resendActivationCode")
+        //console.log("resendActivationCode")
         this.http.post("/api/login/requestActivationCode/email", { id: id }).subscribe(data => {
             if (data['message'] == "Success") {
                 this.changeLoginInfo(data['data'])
