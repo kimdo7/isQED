@@ -23,19 +23,10 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
 
     ngOnInit() {
         // This lets the component know if the user is logged in or logged out.
-        this.loggedIn = this.loginService.isLoggedInNow()
         this.loginState = this.loginService.getLoginInfo().state
         console.log("LandingNonTransparentNavbar: ngOnInit: logged in %s %o", this.loggedIn, this.loginState) 
 
-        this.loginService.isLoggedIn().subscribe(isLoggedIn => {
-            this.loggedIn = isLoggedIn
-            console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
-        })
-
-        this.loginService.loginInformation().subscribe(loginInfo => {
-            this.loginState = loginInfo.state
-            console.log("LandingNonTransparentNavbar: changed login state = " + this.loginState)
-        })
+        
 
         // Contact the server for updated login state. This will call the two subscribe events above if any
         this.loginService.refreshLoginInfo()

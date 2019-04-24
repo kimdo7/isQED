@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user/user.service';
-import { LoginService, LoginInfo } from 'src/app/service/user/login.service';
+import { LoginService } from 'src/app/service/user/login.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { LoginInfo } from 'src/app/object/LoginInfo';
 @Component({
     selector: 'app-activation',
     templateUrl: './activation.component.html',
@@ -40,15 +41,15 @@ export class ActivationComponent implements OnInit {
         private loginService: LoginService,
     ) { 
         this.loginInfo = this.loginService.getLoginInfo()
-        this.loginService.loginInformation().subscribe(loginInfo => {
-            this.loginInfo = loginInfo
-            if (loginInfo.isEmailVerified) {
-                this.showSuccessMessage("Activated!")
-                this.router.navigate(["/user"])
-            } else if (!loginInfo.isSignedIn) {
-                this.showDangerMessage("Please log in first")
-            }
-        })
+        // this.loginService.loginInformation().subscribe(loginInfo => {
+        //     this.loginInfo = loginInfo
+        //     if (loginInfo.isEmailVerified) {
+        //         this.showSuccessMessage("Activated!")
+        //         this.router.navigate(["/user"])
+        //     } else if (!loginInfo.isSignedIn) {
+        //         this.showDangerMessage("Please log in first")
+        //     }
+        // })
     }
 
     /**
