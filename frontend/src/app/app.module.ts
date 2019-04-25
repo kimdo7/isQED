@@ -57,7 +57,8 @@ import { LandingBodyComponent } from './component/landing/landing-body/landing-b
 import { UserHeaderComponent } from './component/user/user-header/user-header.component';
 import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
 import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
-import { UserModalComponent } from './component/user/user-header/user-modal/user-modal.component';
+import { UserModalComponent } from './component/user/user-header/modal/user-modal/user-modal.component';
+import { IsActivateModalComponent } from './component/user/user-header/modal/is-activate-modal/is-activate-modal.component';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { UserModalComponent } from './component/user/user-header/user-modal/user
         ActivationComponent,
         ResestPasswordComponent,
         UserModalComponent,
+        IsActivateModalComponent,
     ],
     imports: [
         /**
@@ -132,7 +134,8 @@ import { UserModalComponent } from './component/user/user-header/user-modal/user
         RegisterModalComponent,
         ForgotPasswordModalComponent,
         ContactUsModalComponent,
-        UserModalComponent
+        UserModalComponent,
+        IsActivateModalComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [
