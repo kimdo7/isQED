@@ -109,18 +109,41 @@ module.exports = {
      * @return the log in email base on user request
      */
     getLoginInfo: (req, res) => {
-        Login.findById(req.params.id, function (err, login) {
+        logd('getLoginInfo')
+        var id = null
+        
+        if (req.params.id) {
+            // The frontend can tell us which ID they expect
+            id = req.params.id
+            logd('getLoginInfo: using param ' + id)
+        } else if (req.session.login_id) {
+            // We can get the user's login ID from the cookie
+            id = req.session.login_id
+            logd('getLoginInfo: using session ' + id)
+        } else {
+            // Not logged in. This isn't an error!
+            // Our info is that the user isn't logged in
+            logd('getLoginInfo: no session or param id')
+            res.json({ message: 'Success', data: clientLoginInfo(null) })
+            return
+        }
+
+        Login.findById(id, function (err, login) {
             if (err) {
                 // We couldn't search the database, or it wasn't found
+                logd('getLoginInfo: error %o', err)
                 res.json({ message: 'Error', error: "Error on server" })
                 return
             }
             if (!login) {
                 res.json({ message: 'Error', error: "Login id not found" })
+                return
             }
-            if (login.id !== req.params.id) {
-                // We didn't have an error, but we didn't find the login (or the record is bad)
-                res.json({ message: 'Error', error: "Bad login record" })
+            if (req.params.id && login.id !== req.params.id) {
+                // Not logged in. This isn't an error!
+                // We didn't find the login that the frontend wanted
+                // Our info is that their user is logged out
+                res.json({ message: 'Success', data: clientLoginInfo(null)} )
                 return
             }
 
@@ -132,8 +155,8 @@ module.exports = {
                 res.json({ message: 'Success', data: clientLoginInfo(login) })
             } else {
                 // We found a login, but that's not the one in the session!
-                // Something bad is happening, don't say it's signed in
-                // So we will tell the client they are logged out
+                // We didn't find the login that the frontend wanted
+                // Our info is that their user is logged out
                 res.json({ message: 'Success', data: clientLoginInfo(null) })
             }
         })
@@ -216,7 +239,7 @@ module.exports = {
             res.json({ message: 'Error', error: "Missing id" })
             return
         }
-        if (!req.body.code) {
+        if (!req.body['code']) {
             res.json({ message: 'Error', error: "Missing code" })
             return
         }

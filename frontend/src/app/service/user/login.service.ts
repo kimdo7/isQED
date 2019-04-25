@@ -19,11 +19,8 @@ export class LoginService {
     private localStore = new LocalStorage()
 
     /**
-     * 
-     * @param http request to conenct to backend
-     * @param loginInfo current login ifo
-     * 
-     * *NOTE* empty login info if empty *local storage*
+     * Constructor
+     * @param http request to connect to backend
      */
     constructor(private http: HttpClient) {
     }
@@ -72,20 +69,23 @@ export class LoginService {
     /**
      * Call this when you want to get the latest login info from the server. The server will check the session to ensure whether you are actually signed in or not.
      * @param id The id you think may be logged in
-     * @callback next Callback (loginInfo) with what the server returned
+     * @callback next Callback (loginInfo) with what the server returned (null if there was an error)
      */
     refreshLoginInfoForId(id, next) {
-        var url = "/api/login/email/"
+        var url = "/api/logininfo"
         if (id) {
-            url = url + id
+            url = url + "/" + id
         }
         this.http.get(url).subscribe(data => {
             var serverInfo = null
-            if (data['message'] == 'Success') {
-                serverInfo = data['data']
+            if (data['message'] !== 'Success') {
+                next(null)
+                // We shouldn't saveLoginInfo here because that will erase the user's localStorage information. The server will tell us Success if they want us to log out.
+                return
             }
 
-            var loginInfo = this.localStore.saveLoginInfo(serverInfo)
+            // Success
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
             next(loginInfo)
         })
     }

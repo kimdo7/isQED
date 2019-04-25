@@ -9,8 +9,6 @@ export class LoginInfo {
     public isEmailVerified: boolean
     public isSignedIn: boolean
     public state: string
-    public first_name: string
-    public last_name: string
 
     /**
      * If you use this contructor, all the properties will be populated properly
@@ -23,16 +21,12 @@ export class LoginInfo {
             this.isEmailVerified = data['isEmailVerified']? true: false
             this.isSignedIn = data['isSignedIn']? true: false
             this.state = data['state']
-            this.first_name = data['first_name']
-            this.last_name = data['last_name']
         } else {
             this.login_id = null
             this.email = null
             this.isEmailVerified = false
             this.isSignedIn = false
             this.state = "LoggedOut"
-            this.first_name = null
-            this.last_name = null
         }
     }
 }

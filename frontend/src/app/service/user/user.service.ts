@@ -18,6 +18,7 @@ export class UserService {
 
     /**
      * Constructor
+     * @param http request to connect to backend
      */
     constructor(private http: HttpClient) { }
 
@@ -34,7 +35,27 @@ export class UserService {
             }
 
             // Success
-            next(null, data['data'])
+            var userInfo = this.localStore.saveUserInfo(data['data'])
+            var name = userInfo.first_name + " " + userInfo.last_name
+            next(null, name)
+        })
+    }
+
+    /**
+     * Get the user name from the server
+     * @param login_id The login ID for the user
+     * @callback next Callback (err, userInfo) from the server
+     */
+    getInfo(login_id, next) {
+        this.http.get("http://localhost:8000/api/user/"+login_id).subscribe(data => {
+            if (data['message'] !== 'Success') {
+                next(data['error'], null)
+                return
+            }
+
+            // Success
+            var userInfo = this.localStore.saveUserInfo(data['data'])
+            next(null, userInfo)
         })
     }
 

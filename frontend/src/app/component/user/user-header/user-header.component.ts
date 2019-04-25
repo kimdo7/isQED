@@ -35,26 +35,42 @@ export class UserHeaderComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit() {
-        // If the name is in storage, we will get it
-        var loadedInfo = this.localStore.loadLoginInfo()
-        if (loadedInfo.isSignedIn) {
-            this.user_name = loadedInfo.first_name + " " + loadedInfo.last_name
+        // Get our user info from LOCAL STORAGE
+        // Which user do we remember?
+        var user = this.localStore.loadUserInfo()
+        var login = this.localStore.loadLoginInfo()
+        this.user_name = "User"
+        if (user.isLoggedIn(login)) {
+            this.user_name = user.first_name + " " + user.last_name
         }
+        this.initModalConfig()
 
-        // If we have to get the name from the server
+        // Now get our user info from the SERVER
+        // Are we actually logged in? Only the server knows for sure.
         this.loginService.refreshLoginInfo(loginInfo => {
+            if (!loginInfo) {
+                // server error. ignore because server didn't say we were logged out
+                return
+            }
             if (!loginInfo.isSignedIn) {
+                // server is telling us we are logged out. we have to obey
                 this.onLogout()
                 return
             }
             if (!loginInfo.isEmailVerified) {
+                // server is telling us we aren't activated
                 this.displayActivateModal()
-                return
             }
-            this.user_name = loginInfo.first_name + " " + loginInfo.last_name
+            this.userService.getInfo(loginInfo.login_id, (err, userInfo) => {
+                if (!userInfo) {
+                    // server error. ignore
+                    return
+                }
+                // server is giving us the user name. update it
+                this.user_name = userInfo.first_name + " " + userInfo.last_name
+                this.initModalConfig()
+            })
         })
-
-        this.initModalConfig()
     }
 
     /**

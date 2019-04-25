@@ -49,9 +49,18 @@ module.exports = function (app) {
      * @Get the email for the signed in user
      * This requires the user to be logged in.
      */
-    app.get('/api/login/email/:id', (req, res) => {
+    app.get('/api/logininfo/:id', (req, res) => {
         logins.getLoginInfo(req, res)
     })
+
+    /**
+     * @Get the email for the signed in user (using the cookie)
+     * This requires the user to be logged in.
+     */
+    app.get('/api/logininfo', (req, res) => {
+        logins.getLoginInfo(req, res)
+    })
+
 
     /**
      * @Activate a user (they got the email from registration)
