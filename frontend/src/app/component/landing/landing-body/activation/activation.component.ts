@@ -74,11 +74,6 @@ export class ActivationComponent implements OnInit {
      * @return to *Dashboard* 
      */
     checkValidation() {
-        if (!this.loginInfo.isSignedIn) {
-            this.showDangerMessage("Please log in first")
-            return
-        }
-
         if (!this.activationCode || this.activationCode.length != 6) {
             this.showDangerMessage("The activation code is 6 digits")
             return
@@ -87,13 +82,6 @@ export class ActivationComponent implements OnInit {
         this.loginService.verifyEmailActivationCode(this.login_id, this.activationCode, (err, data) => {
             if (!err) {
                 this.showSuccessMessage("Activated!")
-                this.router.navigate(["/user"])
-            } else if (err == "loginNeeded") {
-                // If the server knows that we aren't signed in, 
-                // then we need to send the user to the sign in page.
-                // It would be better if we can tell them why,
-                // but the dangerMessage doens't show on the new page.
-                this.showDangerMessage("Please log in first")
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }

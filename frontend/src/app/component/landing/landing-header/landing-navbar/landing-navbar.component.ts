@@ -3,9 +3,7 @@ import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LogInModalComponent } from '../../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-password-modal/forgot-password-modal.component';
-import { LoginService } from 'src/app/service/user/login.service';
 import * as $ from 'jquery';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-landing-navbar',
@@ -13,31 +11,92 @@ import { Router } from '@angular/router';
     styleUrls: ['./landing-navbar.component.scss']
 })
 export class LandingNavbarComponent implements OnInit {
-
+    /**
+     * @param modalRef modal
+     * @param route current route
+     * @param lastScrollTop last scroll position
+     * @param modalConfig 
+     */
     modalRef: MDBModalRef;
     route: string;
     lastScrollTop = 0;
-    loggedIn: boolean = false
-    loginState: string = ""
-
+    modalConfig = {}
 
     constructor(
         private modalService: MDBModalService,
-        private loginService: LoginService,
-        private router: Router,
-    ) {
+    ) {}
+
+    /**
+     * @init transparent navbar
+     * @init modal cofig
+     */
+    ngOnInit() {
+        this.initScrollTransparentNavabr()
+        this.initModalConfig()
     }
 
+    /**
+     * @Modal Login
+     */
+    openLoginModal() {
+        this.modalRef = this.modalService.show(LogInModalComponent, this.modalConfig);
 
-    ngOnInit() {
-        // This lets the component know if the user is logged in or logged out.
-        this.loginState = this.loginService.getLoginInfo().state
-        console.log("LandingNavbarComponent: ngOnInit: logged in %s %o", this.loggedIn, this.loginState) 
+        /**
+         * @listener to *SWAP MODAL*
+         */
+        this.modalRef.content.action.subscribe((result: any) => {
+            this.modalRef.hide()
+            if (result == "Register") {
+                this.openRegisterModal()
+            } else if (result == "Forgot Password") {
+                this.openForgotPasswordModal()
+            }
+        });
+    }
 
-        
-        this.loginService.refreshLoginInfo()
+    /**
+     * @Modal Register
+     */
+    openRegisterModal() {
+        this.modalRef = this.modalService.show(RegisterModalComponent, this.modalConfig);
 
+        /**
+        * @listener to *SWAP MODAL*
+        */
+        this.modalRef.content.action.subscribe((result: any) => {
+            this.modalRef.hide()
+            if (result == "Log In") {
+                this.openLoginModal()
+            } else if (result == "Forgot Password") {
+                this.openForgotPasswordModal()
+            }
+        });
+    }
 
+    /**
+     * @Modal Forgot password
+     */
+    openForgotPasswordModal() {
+        this.modalRef = this.modalService.show(ForgotPasswordModalComponent, this.modalConfig);
+
+        /**
+        * @listener to *SWAP MODAL*
+        */
+        this.modalRef.content.action.subscribe((result: any) => {
+            this.modalRef.hide()
+            if (result == "Log In") {
+                this.openLoginModal()
+            } else if (result == "Register") {
+                this.openRegisterModal()
+            }
+        });
+    }
+
+    /**
+     * @JQERY with navbar on scroll
+     * @HAMBURGER not transparent on click
+     */
+    initScrollTransparentNavabr() {
         // DOM actions
         $(document).ready(function () {
             var isOpenHamburger = false
@@ -72,16 +131,11 @@ export class LandingNavbarComponent implements OnInit {
         })
     }
 
-    openLoginModal() {
-
-        // TEST: Treat the login button as a logout button, if someone is already logged in.
-        // This will work if user clicks login or clicks log out. It won't work if the server logs them out (ex. login record is deleted on the server)
-        // if (this.loggedIn) {
-        //     console.log("LandingNavbar: openLoginModal: Someone is logged in already, so logging them out")
-        //     this.loginService.logout()
-        // }
-
-        this.modalRef = this.modalService.show(LogInModalComponent, {
+    /**
+     * @init modal config
+     */
+    initModalConfig(){
+        this.modalConfig = {
             backdrop: true,
             keyboard: true,
             focus: true,
@@ -90,85 +144,6 @@ export class LandingNavbarComponent implements OnInit {
             class: 'modal-dialog-centered modal-lg',
             containerClass: 'right',
             animated: true
-        });
-
-        /**
-         * @listener to *SWAP MODAL*
-         */
-        this.modalRef.content.action.subscribe((result: any) => {
-            this.modalRef.hide()
-            if (result == "Register") {
-                this.openRegisterModal()
-            } else if (result == "Forgot Password") {
-                this.openForgotPasswordModal()
-            }
-        });
-    }
-
-    openRegisterModal() {
-        this.modalRef = this.modalService.show(RegisterModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered modal-lg',
-            containerClass: 'right',
-            animated: true
-        });
-
-        /**
-        * @listener to *SWAP MODAL*
-        */
-        this.modalRef.content.action.subscribe((result: any) => {
-            this.modalRef.hide()
-            if (result == "Log In") {
-                this.openLoginModal()
-            } else if (result == "Forgot Password") {
-                this.openForgotPasswordModal()
-            } else if (result == "Logged In") {
-                this.dismissModal()
-            }
-        });
-    }
-
-    dismissModal() {
-        this.modalService.hide(1)
-    }
-
-    openForgotPasswordModal() {
-        this.modalRef = this.modalService.show(ForgotPasswordModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered modal-lg',
-            containerClass: 'right',
-            animated: true
-        });
-
-        /**
-        * @listener to *SWAP MODAL*
-        */
-        this.modalRef.content.action.subscribe((result: any) => {
-            this.modalRef.hide()
-            if (result == "Log In") {
-                this.openLoginModal()
-            } else if (result == "Register") {
-                this.openRegisterModal()
-            }
-        });
-    }
-
-    onClickDebugState() {
-        if (this.loggedIn) {
-            if (this.loginState == "Student") {
-                // user is not using the same router for some reason.  Doesn't work
-                //this.router.navigate(["/user"])
-                window.location.assign("/user")
-            }
         }
     }
-
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivationModalComponent } from './activation-modal.component';
+import { IsActivateModalComponent } from './is-activate-modal.component';
 
-describe('ActivationModalComponent', () => {
-  let component: ActivationModalComponent;
-  let fixture: ComponentFixture<ActivationModalComponent>;
+describe('IsActivateModalComponent', () => {
+  let component: IsActivateModalComponent;
+  let fixture: ComponentFixture<IsActivateModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivationModalComponent ]
+      declarations: [ IsActivateModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActivationModalComponent);
+    fixture = TestBed.createComponent(IsActivateModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

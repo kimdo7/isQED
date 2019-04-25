@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return;
+    getName(login_id) {
+        return this.http.get("http://localhost:8000/api/user/"+login_id)
     }
 
     /**

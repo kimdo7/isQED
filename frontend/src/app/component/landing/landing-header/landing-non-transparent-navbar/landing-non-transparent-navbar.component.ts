@@ -3,7 +3,6 @@ import { MDBModalRef, MDBModalService } from 'ng-uikit-pro-standard';
 import { LogInModalComponent } from '../../landing-modal/log-in-modal/log-in-modal.component';
 import { RegisterModalComponent } from '../../landing-modal/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../../landing-modal/forgot-password-modal/forgot-password-modal.component';
-import { LoginService } from 'src/app/service/user/login.service';
 
 @Component({
     selector: 'app-landing-non-transparent-navbar',
@@ -11,51 +10,28 @@ import { LoginService } from 'src/app/service/user/login.service';
     styleUrls: ['./landing-non-transparent-navbar.component.scss']
 })
 export class LandingNonTransparentNavbarComponent implements OnInit {
-
+    /**
+     * @param modalRef modal
+     * @param route current route
+     * @param lastScrollTop last scroll position
+     * @param modalConfig 
+     */
     modalRef: MDBModalRef
-    loggedIn: boolean = false
-    loginState: string = ""
+    modalConfig = {}
 
     constructor(
         private modalService: MDBModalService,
-        private loginService: LoginService,
-        ) { }
+    ) { }
 
     ngOnInit() {
-        // This lets the component know if the user is logged in or logged out.
-        this.loginState = this.loginService.getLoginInfo().state
-        console.log("LandingNonTransparentNavbar: ngOnInit: logged in %s %o", this.loggedIn, this.loginState) 
-
-        
-
-        // Contact the server for updated login state. This will call the two subscribe events above if any
-        this.loginService.refreshLoginInfo()
+        this.initModalConfig()
     }
 
-    dismissModal() {
-        this.modalService.hide(1)
-    }
-
+    /**
+     * @Modal Login
+     */
     openLoginModal() {
-        // TEST: Treat the login button as a logout button, if someone is already logged in.
-        // -- We currently don't have a logout button, but this is the code to run for logout.
-        // -- To get registration working, This change was made to get the login state working properly.
-        
-        // if (this.loggedIn) {
-        //     console.log("LandingNavbar: openLoginModal: Someone is logged in already, so logging them out")
-        //     this.loginService.logout()
-        // }
-
-        this.modalRef = this.modalService.show(LogInModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
-            containerClass: 'right',
-            animated: true
-        });
+        this.modalRef = this.modalService.show(LogInModalComponent, this.modalConfig);
 
         /**
          * @listener to *SWAP MODAL*
@@ -66,23 +42,15 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
                 this.openRegisterModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
-            } else if (result == "Logged In") {
-                this.dismissModal()
-            }
+            } 
         });
     }
 
+    /**
+     * @Modal Register
+     */
     openRegisterModal() {
-        this.modalRef = this.modalService.show(RegisterModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
-            containerClass: 'right',
-            animated: true
-        });
+        this.modalRef = this.modalService.show(RegisterModalComponent, this.modalConfig);
 
         /**
         * @listener to *SWAP MODAL*
@@ -93,23 +61,15 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
                 this.openLoginModal()
             } else if (result == "Forgot Password") {
                 this.openForgotPasswordModal()
-            } else if (result == "Registered") {
-                this.dismissModal()
-            }
+            } 
         });
     }
 
+    /**
+     * @Modal Forgot Password
+     */
     openForgotPasswordModal() {
-        this.modalRef = this.modalService.show(ForgotPasswordModalComponent, {
-            backdrop: true,
-            keyboard: true,
-            focus: true,
-            show: false,
-            ignoreBackdropClick: false,
-            class: 'modal-dialog-centered',
-            containerClass: 'right',
-            animated: true
-        });
+        this.modalRef = this.modalService.show(ForgotPasswordModalComponent, this.modalConfig);
 
         /**
         * @listener to *SWAP MODAL*
@@ -122,5 +82,21 @@ export class LandingNonTransparentNavbarComponent implements OnInit {
                 this.openRegisterModal()
             }
         });
+    }
+
+    /**
+     * @init modal config
+     */
+    initModalConfig(){
+        this.modalConfig = {
+            backdrop: true,
+            keyboard: true,
+            focus: true,
+            show: false,
+            ignoreBackdropClick: false,
+            class: 'modal-dialog-centered modal-lg',
+            containerClass: 'right',
+            animated: true
+        }
     }
 }

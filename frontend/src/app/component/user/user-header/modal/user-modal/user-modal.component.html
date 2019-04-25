@@ -1,0 +1,22 @@
+<mdb-card class="testimonial-card">
+    <!--Bacground color-->
+    <div class="card-up indigo lighten-1">
+    </div>
+
+    <!--Avatar-->
+    <div class="avatar mx-auto">
+        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle">
+    </div>
+
+    <mdb-card-body>
+        <!--Name-->
+        <mdb-card-title>
+            <h4>{{user_name}}</h4>
+        </mdb-card-title>
+        <hr>
+        <!--Quotation-->
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="modalRef.hide()"
+            mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect (click)=onLogout()>Log out</button>
+    </mdb-card-body>
+</mdb-card>

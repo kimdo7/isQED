@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Location } from "@angular/common";
 import { LandingPageRoutes } from '../landing-static/landing-page-routes';
 
 @Component({
@@ -9,17 +8,22 @@ import { LandingPageRoutes } from '../landing-static/landing-page-routes';
     styleUrls: ['./landing-body.component.scss']
 })
 export class LandingBodyComponent implements OnInit {
+    /**
+     * @param route current route
+     * @param notTransparentRoutes
+     * @param notSideBannerRoutes
+     */
     route: string = "Home";
     notTransparentRoutes
     notSideBannerRoutes
-    constructor(location: Location, router: Router) {
+
+    /**
+     * @listen to the current route
+     */
+    constructor(router: Router) {
         router.events.subscribe(val => {
             if (val instanceof NavigationEnd) {
-                if (val.url != "/") {
-                    this.route = val.url
-                } else {
-                    this.route = "Home";
-                }
+                this.route = (val.url != "/") ? val.url : "Home"
 
                 if (this.route.match("/activate")){
                     this.route = "/activate"
@@ -28,13 +32,10 @@ export class LandingBodyComponent implements OnInit {
                 }
             }
         });
-
-        
     }
 
     ngOnInit() {
         this.notSideBannerRoutes = LandingPageRoutes.getNoSideBanerRoutes()
         this.notTransparentRoutes = LandingPageRoutes.getNonTransparentHeaderRoutes()
     }
-
 }

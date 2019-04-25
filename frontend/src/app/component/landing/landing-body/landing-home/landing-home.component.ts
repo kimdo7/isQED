@@ -6,13 +6,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./landing-home.component.scss']
 })
 export class LandingHomeComponent implements OnInit {
-
     constructor() { }
 
     ngOnInit() {
     }
-
-  
-    
-
 }
