@@ -2,10 +2,10 @@ import { LoginInfo } from '../object/LoginInfo';
 
 export class LocalStorage {
     // Save the logged in user in local storage so that we can remember it
-    LOCAL_STORAGE_LOGIN_INFO = 'currentLogin'
+    static LOCAL_STORAGE_LOGIN_INFO = 'currentLogin'
     constructor() { }
-
-    load() {
+    
+    static load() {
         try {
             var info = JSON.parse(localStorage.getItem(this.LOCAL_STORAGE_LOGIN_INFO))
             if (info['login_id']) {
@@ -19,7 +19,7 @@ export class LocalStorage {
         return new LoginInfo()
     }
 
-    save(loginInfo) {
+   static save(loginInfo) {
         localStorage.setItem(this.LOCAL_STORAGE_LOGIN_INFO, JSON.stringify(loginInfo))
     }
 
@@ -29,7 +29,7 @@ export class LocalStorage {
      * Subscribe to isLoggedIn() if you want to get called when this state changes.
      * @returns Whether there is currently a logged in user as far as the frontend knows. D
      */
-    isLoggedInNow(): boolean {
+    static isLoggedInNow(): boolean {
         return this.load()['login_id'] ? true : false
     }
 
@@ -39,8 +39,12 @@ export class LocalStorage {
      * Subscribe to loginInformation() if you want to get called when this info changes.
      * @returns LoginInfo (email, login_id, isEmailVerfiied, isSignedIn, state)
      */
-    getLoginInfo(): LoginInfo {
+    static getLoginInfo(): LoginInfo {
         return this.load()
+    }
+
+    static getLoginId() {
+        return this.getLoginInfo()["login_id"]
     }
 
 

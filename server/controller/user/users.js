@@ -201,14 +201,16 @@ module.exports = {
 	/**
 	 * @GET USER BY *ID*
 	 */
-    getById: (req, res) => {
-        var id = req.params.id
-        User.findById(id, function (err, data) {
-            if (err) {
+    getByLoginId: (req, res) => {
+        var login_id = req.params.id
+        console.log("here" + login_id)
+        User.find({loginId: login_id}, function (err, data) {
+            if (err || data.length  == 0) {
                 res.json({ message: 'Error', error: err })
                 return
             }
-            res.json({ message: 'Success', data: data })
+
+            res.json({ message: 'Success', data: data [0]})
         })
     },
 

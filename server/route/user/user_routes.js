@@ -29,7 +29,7 @@ module.exports = function (app) {
          * @get user by id
          */
         app.get('/api/user/:id', (req, res) => {
-            users.getById(req, res)
+            users.getByLoginId(req, res)
         })
 
         /**

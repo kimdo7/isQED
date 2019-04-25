@@ -31,7 +31,7 @@ export class LoginService {
      * *NOTE* empty login info if empty *local storage*
      */
     constructor(private http: HttpClient) {
-        this.loginInfo = this.localHost.load()
+        this.loginInfo = LocalStorage.load()
     }
 
     /**
@@ -45,7 +45,6 @@ export class LoginService {
     }
 
     /**
-     *
      *  @param emailPass is email and password
      *  @callback next callback with (err, loginInfo)
     */
@@ -93,7 +92,7 @@ export class LoginService {
         }
 
         // Save it. We always write a JSON string to local storage
-        this.localHost.save(this.loginInfo)
+        LocalStorage.save(this.loginInfo)
 
         // We tell other components about it
         this.loginInfoSub.next(this.loginInfo);
