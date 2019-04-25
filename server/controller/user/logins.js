@@ -357,12 +357,11 @@ module.exports = {
                     return;
                 }
 
-                // 4. Success! The login user should really have to re-login to ensure the password worked. 
-                //          We shouldn't let the login user stay logged in with the old password on any
-                //          other browser either. How?
+                // 4. Success!  Let the user be logged in
                 req.session.last_stage = 'changePassword'
-                req.session.login_id = null;
-                res.json({ message: 'Success', data: "yay" }); // not sure we should return the password hash
+                req.session.login_id = save_data.login_id;
+                // we returned to the client the cleaned saved data
+                res.json({ message: 'Success', data: this.clientLoginInfo(save_data) });
             });
         })
     },

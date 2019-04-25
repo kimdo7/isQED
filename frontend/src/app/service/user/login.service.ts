@@ -25,7 +25,6 @@ export class LoginService {
     constructor(private http: HttpClient) {
     }
 
-
     /**
      *
      *  @param emailPass is email and password
@@ -135,7 +134,6 @@ export class LoginService {
      * @param next a callback (err, loginInfo) that returns an error or the login info
      */
     resendActivationCode(id, next) {
-        //console.log("resendActivationCode")
         this.http.post("/api/login/requestActivationCode/email", { id: id }).subscribe(data => {
             if (data['message'] != "Success") {
                 next(data['error'], null)
@@ -174,6 +172,7 @@ export class LoginService {
         this.http.post("/api/login/changePasswordForgot", data).subscribe(data => {
             if (data["message"] !== "Success") {
                 next(data['error'], null)
+                return
             }
             
             //Success
@@ -187,7 +186,16 @@ export class LoginService {
      * @param id user id
      * @param data contains user's email, oldPassword and newPassword
      */
-    changePassword(id, data){
-        return this.http.post("/api/user/changePassword/" + id, data)
+    changePassword(id, data, next ){
+        this.http.post("/api/changePassword/" + id, data).subscribe(data => {
+            if (data["message"] !== "Success") {
+                next(data['error'], null)
+                return
+            }
+            
+            //Success
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
+            next(null, loginInfo)
+        })
     }
 }

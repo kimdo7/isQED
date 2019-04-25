@@ -57,7 +57,6 @@ export class ActivationComponent implements OnInit {
                 this.checkValidation()
             }
         });
-
         this.initAlert();
     }
 
