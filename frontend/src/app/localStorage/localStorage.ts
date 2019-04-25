@@ -47,7 +47,9 @@ export class LocalStorage {
         return this.getLoginInfo()["login_id"]
     }
 
-
+    static isUserActivate(){
+        return this.getLoginInfo()["isEmailVerified"]
+    }
 }
 
 
