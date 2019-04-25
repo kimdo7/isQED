@@ -22,6 +22,23 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     /**
+     * Get the user name from the server
+     * @param login_id The login ID for the user
+     * @callback next Callback (err, name) from the server
+     */
+    getName(login_id, next) {
+        this.http.get("http://localhost:8000/api/user/"+login_id).subscribe(data => {
+            if (data['message'] !== 'Success') {
+                next(data['error'], null)
+                return
+            }
+
+            // Success
+            next(null, data['data'])
+        })
+    }
+
+    /**
      * Call this when user registers
      * @param data is first_name, last_name, email, password
      * @callback next Callback (err, data) with server response

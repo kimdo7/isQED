@@ -1,6 +1,5 @@
 var mongoose = require('mongoose')
 var Login = mongoose.model('Login')
-var User = mongoose.model('User')
 var emailGateway = require("../../gateway/email")
 
 
@@ -28,6 +27,8 @@ var clientLoginInfo = (login) => {
         isSignedIn: false,
         isEmailVerified: false,
         state: "LoggedOut",
+        first_name: null,
+        last_name: null,
     }
 
     if (login) {
@@ -36,6 +37,8 @@ var clientLoginInfo = (login) => {
         info.email = login.email ? login.email : null
         info.isSignedIn = login.id ? true : false
         info.isEmailVerified = login.isEmailVerified ? true : false
+        info.first_name = login.first_name ? login.first_name : null
+        info.last_name = login.last_name ? login.last_name : null
 
         // DEBUG:  Show logged in state at the top of the screen
         if (login.id) {

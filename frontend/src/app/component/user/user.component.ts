@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/user/login.service';
 import { Router } from '@angular/router';
+import { LocalStorage } from 'src/app/localStorage/localStorage';
 
 @Component({
     selector: 'app-user',
@@ -8,19 +9,14 @@ import { Router } from '@angular/router';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
     constructor(
-        private loginService: LoginService,
-        private router: Router,
+        private localStore: LocalStorage
     ) { }
 
-    onLogout(): void {
-        this.loginService.logout()
-        this.router.navigate([""]);
-    }
+    
 
     ngOnInit() { 
-        console.log(localStorage)
+        
     }
 
 }
