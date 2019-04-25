@@ -61,7 +61,7 @@ export class UserHeaderComponent implements OnInit {
                 // server is telling us we aren't activated
                 this.displayActivateModal()
             }
-            this.userService.getInfo(loginInfo.login_id, (err, userInfo) => {
+            this.userService.refreshUserInfo(loginInfo.login_id, (err, userInfo) => {
                 if (!userInfo) {
                     // server error. ignore
                     return

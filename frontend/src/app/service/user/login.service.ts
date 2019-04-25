@@ -67,11 +67,13 @@ export class LoginService {
 
 
     /**
-     * Call this when you want to get the latest login info from the server. The server will check the session to ensure whether you are actually signed in or not.
+     * Call this when you want to get the latest login info from the server. The 
+     * server will check the session to ensure whether you are actually signed in or 
+     * not. 
      * @param id The id you think may be logged in
      * @callback next Callback (loginInfo) with what the server returned (null if there was an error)
      */
-    refreshLoginInfoForId(id, next) {
+    refreshLoginInfoForId(id, next?) {
         var url = "/api/logininfo"
         if (id) {
             url = url + "/" + id
@@ -79,20 +81,24 @@ export class LoginService {
         this.http.get(url).subscribe(data => {
             var serverInfo = null
             if (data['message'] !== 'Success') {
-                next(null)
+                if(next) { next(null) }
                 // We shouldn't saveLoginInfo here because that will erase the user's localStorage information. The server will tell us Success if they want us to log out.
                 return
             }
 
             // Success
             var loginInfo = this.localStore.saveLoginInfo(data['data'])
-            next(loginInfo)
+            if(next) {next(loginInfo)}
         })
     }
 
     /**
-     * Call this if you think you might be logged in but don't know your id
+     * Call this if you think you might be logged in but don't know your id.
+     * If you didn't have an id, which can happen when your local 
+     * storage is deleted, but you still have a cookie.
+     * The cookie will let the server tell you what your id is.
      * @param next Callback (loginInfo) with what the server returned
+     * 
      */
     refreshLoginInfo(next) {
         this.refreshLoginInfoForId(null, next)
@@ -105,7 +111,6 @@ export class LoginService {
      * @param next a callback (err, data) that returns the login info or an error
      */
     verifyEmailActivationCode(login_id, code, next) {
-        //console.log("verifyEmailActivationCode")
         this.http.post("/api/login/activate/email/" + login_id, { code: code }).subscribe(data => {
             if (data['loginNeeded']) {
                 // User needs to sign in before activating
@@ -136,7 +141,7 @@ export class LoginService {
                 next(data['error'], null)
                 return
             }
-            // Success
+            // Success: callback "loginInfo" returns the cleaned data from the local storage
             var loginInfo = this.localStore.saveLoginInfo(data['data'])
             next(null, loginInfo)
         })
@@ -155,6 +160,8 @@ export class LoginService {
             }
 
             //Success
+            //Not logged in when changing the password, so we do
+            //not save to local storage. TODO: What are we returning? 
             next(null, data['data'])
         })
     }
@@ -170,6 +177,7 @@ export class LoginService {
             }
             
             //Success
+            // TODO: At change password page, are you logged in or not? Will you have your login info in it
             next(null, data['data'])
         })
     }

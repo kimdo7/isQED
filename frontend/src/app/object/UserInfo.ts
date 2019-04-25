@@ -13,9 +13,9 @@ export class UserInfo {
 
     /**
      * If you use this contructor, all the properties will be populated properly
-     * @param data The userInfo from the server or localstorage
+     * @param data The userInfo from the server or localstorage (can be null)
      */
-    constructor(data) {
+    constructor(data?) {
         if (data) {
             this.loginId = data['loginId']? data['loginId']: null
             this.first_name = data['first_name']? data['first_name']: null

@@ -51,7 +51,7 @@ export class ActivationComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             this.login_id = params["login_id"]
-            this.loginService.refreshLoginInfoForId(this.login_id, loginInfo => {})
+            this.loginService.refreshLoginInfoForId(this.login_id)
             if (params["verify_code"]) {
                 this.activationCode = params["verify_code"]
                 this.checkValidation()
@@ -74,7 +74,6 @@ export class ActivationComponent implements OnInit {
 
         this.loginService.verifyEmailActivationCode(this.login_id, this.activationCode, (err, data) => {
             if (!err) {
-                console.log("navigate in checkValidation success")
                 this.showSuccessMessage("Activated!")
                 this.router.navigate(["user"])
             } else {

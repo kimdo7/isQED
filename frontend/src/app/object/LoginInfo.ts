@@ -12,9 +12,9 @@ export class LoginInfo {
 
     /**
      * If you use this contructor, all the properties will be populated properly
-     * @param data The loginInfo from the server or localstorage
+     * @param data The loginInfo from the server or localstorage (can be null)
      */
-    constructor(data) {
+    constructor(data?) {
         if (data && data['login_id']) {
             this.login_id = data['login_id']
             this.email = data['email']

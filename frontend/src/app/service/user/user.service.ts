@@ -46,7 +46,7 @@ export class UserService {
      * @param login_id The login ID for the user
      * @callback next Callback (err, userInfo) from the server
      */
-    getInfo(login_id, next) {
+    refreshUserInfo(login_id, next) {
         this.http.get("http://localhost:8000/api/user/"+login_id).subscribe(data => {
             if (data['message'] !== 'Success') {
                 next(data['error'], null)
@@ -71,7 +71,7 @@ export class UserService {
                 next(data['error'], null)
                 return
             }
-
+            // returns the cleaned version of data from local storage
             var loginInfo = this.localStore.saveLoginInfo(data['data'])
             next(null, loginInfo)
         })
