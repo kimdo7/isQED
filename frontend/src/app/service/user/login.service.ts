@@ -178,4 +178,5 @@ export class LoginService {
     changePasswordAfterForgetting(data) {
         return this.http.post("/api/login/changePasswordForgot", data)
     }
+    
 }

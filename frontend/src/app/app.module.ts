@@ -54,7 +54,7 @@ import { LandingNavbarComponent } from './component/landing/landing-header/landi
 import { LandingBodyComponent } from './component/landing/landing-body/landing-body.component';
 import { UserHeaderComponent } from './component/user/user-header/user-header.component';
 import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
-import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
+import { ResetPasswordComponent } from './component/landing/landing-body/reset-password/reset-password.component';
 import { UserModalComponent } from './component/user/user-header/user-modal/user-modal.component';
 import { ActivationModalComponent } from './component/user/user-header/activation-modal/activation-modal.component';
 
@@ -103,7 +103,7 @@ import { ActivationModalComponent } from './component/user/user-header/activatio
         LandingBodyComponent,
         UserHeaderComponent,
         ActivationComponent,
-        ResestPasswordComponent,
+        ResetPasswordComponent,
         UserModalComponent,
         ActivationModalComponent,
     ],
