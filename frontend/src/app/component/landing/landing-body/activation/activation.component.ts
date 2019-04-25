@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorage } from 'src/app/localStorage/localStorage';
 import { UserService } from 'src/app/service/user/user.service';
 import { LoginService } from 'src/app/service/user/login.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -39,17 +40,9 @@ export class ActivationComponent implements OnInit {
         private router: Router,
         private userService: UserService,
         private loginService: LoginService,
+        private localStore: LocalStorage,
     ) { 
-        this.loginInfo = this.loginService.getLoginInfo()
-        // this.loginService.loginInformation().subscribe(loginInfo => {
-        //     this.loginInfo = loginInfo
-        //     if (loginInfo.isEmailVerified) {
-        //         this.showSuccessMessage("Activated!")
-        //         this.router.navigate(["/user"])
-        //     } else if (!loginInfo.isSignedIn) {
-        //         this.showDangerMessage("Please log in first")
-        //     }
-        // })
+        this.loginInfo = this.localStore.loadLoginInfo()
     }
 
     /**
@@ -58,7 +51,7 @@ export class ActivationComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             this.login_id = params["login_id"]
-            this.loginService.refreshLoginInfoForId(this.login_id)
+            this.loginService.refreshLoginInfoForId(this.login_id, loginInfo => {})
             if (params["verify_code"]) {
                 this.activationCode = params["verify_code"]
                 this.checkValidation()
@@ -81,7 +74,9 @@ export class ActivationComponent implements OnInit {
 
         this.loginService.verifyEmailActivationCode(this.login_id, this.activationCode, (err, data) => {
             if (!err) {
+                console.log("navigate in checkValidation success")
                 this.showSuccessMessage("Activated!")
+                this.router.navigate(["user"])
             } else {
                 this.showDangerMessage("Error!!! Please confirm your validation code")
             }
@@ -134,7 +129,6 @@ export class ActivationComponent implements OnInit {
         this._danger.pipe(
             debounceTime(5000)
         ).subscribe(() => this.errorMessage = null);
-
     }
 }
 

@@ -2,26 +2,21 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs';
-import { LoginInfo } from 'src/app/object/LoginInfo';
 import { LocalStorage } from 'src/app/localStorage/localStorage';
 
 /**
  * @class LoginService
+ * The login service handles everything dealing with security, 
+ * such as user passwords, login, and log out
  */
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
     /**
-     * @param loginInfo
+     * Every time we get login info from the server, we save it
      */
-
-    private loginInfo = new LoginInfo()
-    private localHost = new LocalStorage()
-    // any page should be able to check to see if we are logged in by asking login.service here.
-    private loggedInSub = new Subject<boolean>() // tell me when log in changes
-    private loginInfoSub = new Subject<LoginInfo>() // tell me when log in information changes
+    private localStore = new LocalStorage()
 
     /**
      * 
@@ -31,18 +26,8 @@ export class LoginService {
      * *NOTE* empty login info if empty *local storage*
      */
     constructor(private http: HttpClient) {
-        this.loginInfo = this.localHost.load()
     }
 
-    /**
-     * *NEED TO REMOVE*
-     * Information about the logged in user. 
-     * Subscribe to loginInformation() if you want to get called when this info changes.
-     * @returns LoginInfo (email, login_id, isEmailVerfiied, isSignedIn, state)
-     */
-    getLoginInfo(): LoginInfo {
-        return this.loginInfo
-    }
 
     /**
      *
@@ -56,68 +41,61 @@ export class LoginService {
                 return
             }
 
-            this.changeLoginInfo(data['data'])
-            next(null, this.loginInfo)
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
+            next(null, loginInfo)
         })
     }
 
+
     /**
      * Logs out the user. OK to call even if they aren't logged in yet.
+     * @callback next? Callback (loginInfo) with the result of logout
      */
-    logout() {
+    logout(next?) {
         // We post instead of get because it changes login state 
         this.http.post("/api/logout", {}).subscribe((data) => {
             if (!data || data['message'] == 'Error') {
                 // not going to do anything right now
-                return
+                // Note that we may still have the session cookie,
+                // but the frontend thinks it is logged out
             }
 
             // We are logged out. Let other components know
-            this.changeLoginInfo(null)
+            var loginInfo = this.localStore.saveLoginInfo(null)
+            if (next) {
+                next(loginInfo)
+            }
+        })
+    }
+
+
+    /**
+     * Call this when you want to get the latest login info from the server. The server will check the session to ensure whether you are actually signed in or not.
+     * @param id The id you think may be logged in
+     * @callback next Callback (loginInfo) with what the server returned
+     */
+    refreshLoginInfoForId(id, next) {
+        var url = "/api/login/email/"
+        if (id) {
+            url = url + id
+        }
+        this.http.get(url).subscribe(data => {
+            var serverInfo = null
+            if (data['message'] == 'Success') {
+                serverInfo = data['data']
+            }
+
+            var loginInfo = this.localStore.saveLoginInfo(serverInfo)
+            next(loginInfo)
         })
     }
 
     /**
-     * *NEED TO CHANGE TO PRIVATE*
-     * Save changes to login info, and report it to other components
-     * @param newLoginInfo The new login info. If null it means logged out.
+     * Call this if you think you might be logged in but don't know your id
+     * @param next Callback (loginInfo) with what the server returned
      */
-    changeLoginInfo(newLoginInfo: LoginInfo) {
-        // Are we logged in?
-        if (newLoginInfo && newLoginInfo['login_id']) {
-            this.loginInfo = newLoginInfo
-        } else {
-            // If anything is missing, we put in empty LoginInfo
-            // This is like logging out
-            this.loginInfo = new LoginInfo()
-        }
-
-        // Save it. We always write a JSON string to local storage
-        this.localHost.save(this.loginInfo)
-
-        // We tell other components about it
-        this.loginInfoSub.next(this.loginInfo);
-        this.loggedInSub.next(this.loginInfo['login_id'] ? true : false);
-    }
-
-    refreshLoginInfoForId(id) {
-        if (id) {
-            this.http.get("/api/login/email/" + id).subscribe(data => {
-                if (data['message'] == 'Success') {
-                    this.changeLoginInfo(data['data'])
-                    return
-                }
-                // error. We aren't logged in as far as we can tell
-                this.changeLoginInfo(null)
-            })
-        } else {
-            console.log("refreshLoginInfoForId: no id provided (may be logged out)")
-        }
-    }
-
-    refreshLoginInfo() {
-        this.refreshLoginInfoForId(this.loginInfo.login_id)
-
+    refreshLoginInfo(next) {
+        this.refreshLoginInfoForId(null, next)
     }
 
     /**
@@ -129,20 +107,20 @@ export class LoginService {
     verifyEmailActivationCode(login_id, code, next) {
         //console.log("verifyEmailActivationCode")
         this.http.post("/api/login/activate/email/" + login_id, { code: code }).subscribe(data => {
-            if (data['message'] == "Success") {
-                this.changeLoginInfo(data['data'])
-                next(null, this.loginInfo)
-                return
-            }
-
-            console.log("data: " + data["error"] + "| ")
-            // Special error saying that the user needs to sign in before trying to activate
             if (data['loginNeeded']) {
+                // User needs to sign in before activating
                 next("loginNeeded", null)
                 return
             }
-            // Other kinds of error
-            next(data['error'], null)
+            if (data['message'] != "Success") {
+                // Other kinds of error
+                next(data['error'], null)
+                return
+            }
+
+            // Success
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
+            next(null, loginInfo)
         })
     }
 
@@ -154,30 +132,54 @@ export class LoginService {
     resendActivationCode(id, next) {
         //console.log("resendActivationCode")
         this.http.post("/api/login/requestActivationCode/email", { id: id }).subscribe(data => {
-            if (data['message'] == "Success") {
-                this.changeLoginInfo(data['data'])
-                next(null, this.loginInfo)
+            if (data['message'] != "Success") {
+                next(data['error'], null)
                 return
             }
-            // error
-            next(data['error'], null)
+            // Success
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
+            next(null, loginInfo)
         })
     }
 
     /**
-    * 
+    * Ask server to send a forgotten password to the users email
     * @param data contains user's email
+    * @callback next Callback (err, data) with server response
     */
-    requestForgotPassword(data) {
-        console.log("login.service.ts" + data + "===success");
-        return this.http.post("/api/login/requestForgotPassword", data);
+    requestForgotPassword(data, next) {
+        console.log("requestForgotPassword " + data);
+        this.http.post("/api/login/requestForgotPassword", data).subscribe(data => {
+            if (data["message"] !== "Success") {
+                next(data['error'], null)
+            }
+
+            //Success
+            next(null, data['data'])
+        })
     }
 
     /**
-    * 
+    * Ask the server to change the password
     * @param data contains user's email, tempPassword and newPassword
     */
-    changePasswordAfterForgetting(data) {
-        return this.http.post("/api/login/changePasswordForgot", data)
+    changePasswordAfterForgetting(data, next) {
+        this.http.post("/api/login/changePasswordForgot", data).subscribe(data => {
+            if (data["message"] !== "Success") {
+                next(data['error'], null)
+            }
+            
+            //Success
+            next(null, data['data'])
+        })
+    }
+
+    /**
+     * Call this when use
+     * @param id user id
+     * @param data contains user's email, oldPassword and newPassword
+     */
+    changePassword(id, data){
+        return this.http.post("/api/user/changePassword/" + id, data)
     }
 }

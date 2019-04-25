@@ -1,32 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LocalStorage } from 'src/app/localStorage/localStorage';
 
-
+/**
+ * @class UserService
+* The user service handles everything dealing with friendly user 
+* information. But not security, which is handled by LoginService
+*/
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
+    /**
+     * Every time we get login info from the server, we save it
+     */
+    private localStore = new LocalStorage()
+
+    /**
+     * Constructor
+     */
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return;
-    }
-
     /**
-     * 
-     * @param data is first, last name, email, pass and confirmpass
+     * Call this when user registers
+     * @param data is first_name, last_name, email, password
+     * @callback next Callback (err, data) with server response
      */
-    register(data) {
-        return this.http.post("/api/user/register", data)
-    }
+    register(data, next) {
+        this.http.post("/api/user/register", data).subscribe(
+        (data) => {
+            if (data['message'] !== 'Success') {
+                next(data['error'], null)
+                return
+            }
 
-    /**
-     * 
-     * @param id user id
-     * @param data contains user's email, oldPassword and newPassword
-     */
-    changePassword(id, data){
-        return this.http.post("/api/user/changePassword/" + id, data)
+            var loginInfo = this.localStore.saveLoginInfo(data['data'])
+            next(null, loginInfo)
+        })
     }
-
 }

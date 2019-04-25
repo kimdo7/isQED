@@ -10,11 +10,23 @@ export class LoginInfo {
     public isSignedIn: boolean
     public state: string
 
-    constructor() {
-        this.login_id = null
-        this.email = null
-        this.isEmailVerified = false
-        this.isSignedIn = false
-        this.state = "LoggedOut"
+    /**
+     * If you use this contructor, all the properties will be populated properly
+     * @param data The loginInfo from the server or localstorage
+     */
+    constructor(data) {
+        if (data && data['login_id']) {
+            this.login_id = data['login_id']
+            this.email = data['email']
+            this.isEmailVerified = data['isEmailVerified']? true: false
+            this.isSignedIn = data['isSignedIn']? true: false
+            this.state = data['state']
+        } else {
+            this.login_id = null
+            this.email = null
+            this.isEmailVerified = false
+            this.isSignedIn = false
+            this.state = "LoggedOut"
+        }
     }
 }

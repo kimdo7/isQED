@@ -32,6 +32,8 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
  * @Service
  */
 import { HttpClientModule } from '@angular/common/http';
+import { LocalStorage } from './localStorage/localStorage';
+import { LoginService } from './service/user/login.service';
 import { UserService } from './service/user/user.service';
 
 
@@ -136,7 +138,9 @@ import { ActivationModalComponent } from './component/user/user-header/activatio
     schemas: [NO_ERRORS_SCHEMA],
     providers: [
         MDBSpinningPreloader,
-        UserService
+        UserService,
+        LoginService,
+        LocalStorage,
     ],
     bootstrap: [AppComponent]
 })
