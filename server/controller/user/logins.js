@@ -513,7 +513,7 @@ module.exports = {
                         return
                     }
 
-                    res.json({ message: 'Success', data: { info: "Passcode was generated, please check mail" } })
+                    res.json({ message: 'Success', data: login.id })
                 });
             });
         });

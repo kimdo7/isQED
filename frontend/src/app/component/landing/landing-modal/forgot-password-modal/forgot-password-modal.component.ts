@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/service/user/login.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-forgot-password-modal',
@@ -21,7 +22,8 @@ export class ForgotPasswordModalComponent implements OnInit {
         private LoginService: LoginService,
         public modalRef: MDBModalRef,
         private userService: UserService,
-        public fb: FormBuilder
+        public fb: FormBuilder,
+        private router: Router
     )  { 
         this.forgot_password = fb.group({
             email: [null, [Validators.required, Validators.email]]
@@ -34,13 +36,14 @@ export class ForgotPasswordModalComponent implements OnInit {
     onSendMail() {
         let tempObservable = this.LoginService.requestForgotPassword(this.forgot_password.value )
         tempObservable.subscribe(data => {
+            console.log("DATA =>" + data["message"])
             if (data["message"] === "Success") {
-                console.log("sendEmail: got success")
+                this.router.navigate(["/reset-password", data["data"]])
+                console.log("data" + data["data"])
                 // We don't know the ID, and shouldn't
                 // We want to reset the passcode based only on the email
                 this.action.next('Change After Forgot Password');
             } else {
-                console.log("sendEmail: got no success");
             }
         });
     }

@@ -14,8 +14,6 @@ var emailGateway = require("../../gateway/email")
 const logd = require('debug')('QEDlog')
 
 module.exports = {
-
-
 	/**
 	 * @Get *ALL* users
 	 */
