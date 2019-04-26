@@ -31,55 +31,29 @@ export class ResetPasswordComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this._route.params.subscribe((params: Params) => {
-            console.log("reset-password.component.ts",params['login_id'])
-
-            // kirk start: reset-password
-            this.login_id = params["login_id"]
-            let tempObservable = this.loginService.tempActivationCodeVerification(this.login_id)
-            // tempObservable.subscribe(data => {
-            //     //     this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
-            // });
-            // kirk end:
-
-        });
-       
-        var tempCode = "123456"
-
-        // kirk start:
-        // this.route.params.subscribe(params => {
-        //     console.log(params) //log the entire params object
-        //     console.log(params['id']) //log the value of id
-        //   });
-
-
-        // example observable isQED/frontend/src/app/component/user/user-header/user-header.component.ts
-        // let tempObservable = this.userService.getName(LocalStorage.getLoginId())
-        // tempObservable.subscribe(data => {
-        //     this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
-        // });
-
-        // isQED/frontend/src/app/service/user/user.service.ts - for LoginInfo.service.ts
-        // getName(login_id) {
-        //     return this.http.get("http://localhost:8000/api/user/"+login_id)
-        // }
-        // kirk end:
-
+        var tempCode = "000000";
         this.firstFormGroup = LandingModalForms.init_verify(this.formBuilder, tempCode)
         this.secondFormGroup = LandingModalForms.init_reset_password()
+        this._route.params.subscribe((params: Params) => {
+            this.login_id = params["login_id"]
+            let tempObservable = this.loginService.tempActivationCodeVerification(this.login_id)
+            tempObservable.subscribe(data => {
+                if(data['message']=="Success"){
+                    var tempCode = data["data"]
+                    this.firstFormGroup = LandingModalForms.init_verify(this.formBuilder, tempCode)
+                    this.secondFormGroup = LandingModalForms.init_reset_password()
+                }
+            });
+        });
     }
-     // kirk start:
-    // test(){
-    //     console.log("ppppppppppppppppppyeeeeessssssssss");
-    // }
-    // kirk end:
 
     resendPasscodeViaEmail() {
 
     }
 
     onSubmit() {
-        alert("here")
+
+
     }
 
     onActivationCodeChange(newInput: string) {

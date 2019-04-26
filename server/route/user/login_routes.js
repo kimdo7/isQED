@@ -99,9 +99,7 @@ module.exports = function (app) {
      * Of course, they don't have to be logged in. This will log them out if they are.
      */ 
     app.get("/api/requestTempActivationCodeVerification/:id", (req, res) => {
-        console.log("hello_routes.js-reset-password", req.body);
-        // logins.getLoginInfo(req, res);
-        // logins.requestMailForForgottenPasscode(req, res)
+        logins.requestTempActivationCode(req, res);
     })
     // kirk end:
 

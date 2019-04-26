@@ -186,7 +186,7 @@ export class LoginService {
      */
     tempActivationCodeVerification(id) {
         console.log("login.service.ts-reset-password-success",id)
-        return this.http.post("/api/login/requestTempActivationCodeVerification", id)
+        return this.http.get("/api/requestTempActivationCodeVerification/"+id)
     }
     
     // kirk end:

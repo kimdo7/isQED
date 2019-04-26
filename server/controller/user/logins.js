@@ -228,7 +228,7 @@ module.exports = {
                  * *email verified*
                  * *MATCH CODE*
                  */
-                if ( data.isEmailVerified == true
+                if (data.isEmailVerified == true
                     || (req.body.code === data.tempActivationCode.toString())) {
 
                     data.isEmailVerified = true
@@ -563,6 +563,18 @@ module.exports = {
         })
     },
 
+
+    // kirk 
+    requestTempActivationCode: (req, res) => {
+        Login.findById(req.params.id, function (error, data) {
+            if (error) {
+                res.json({ message: 'Error', error: "Invalid Login Id" });
+                return
+            }
+            res.json({ message: 'Success', data : data.tempActivationCode });
+        })
+    },
+
     /**
      * Login the user
      * @param req this request must have a body.email that already exists as a user,
@@ -653,4 +665,8 @@ module.exports = {
 
         });
     }
+
+
+
+
 }
