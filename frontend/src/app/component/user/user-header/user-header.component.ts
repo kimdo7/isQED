@@ -32,10 +32,11 @@ export class UserHeaderComponent implements OnInit {
         private userService: UserService,
         private loginService: LoginService,
         private localStore: LocalStorage,
-        private router: Router) { }
+        private router: Router
+        ) { }
 
     ngOnInit() {
-        // Get our user info from LOCAL STORAGE
+        // Get our user info from LOCAL STORE
         // Which user do we remember?
         var user = this.localStore.loadUserInfo()
         var login = this.localStore.loadLoginInfo()

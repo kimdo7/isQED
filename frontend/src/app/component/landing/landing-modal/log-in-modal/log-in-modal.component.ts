@@ -55,7 +55,7 @@ export class LogInModalComponent implements OnInit {
      */
     ngOnInit() {
         this.initAlert();
-        this.login_form = LandingModalForms.init_login_form(this.formBuilder);
+        this.login_form = LandingModalForms.init_login_form(this.formBuilder)
     }
 
     /**
@@ -69,11 +69,11 @@ export class LogInModalComponent implements OnInit {
          * @Validation FRONTEND
          */
         if (this.login_form.invalid) {
-            this.showDangerMessage("Error! Please check your email and password");
+            this.showDangerMessage("Error! Please check your email and password")
             return
         }
         /**
-         * When we do the login info, you don't need to subscrib here.  
+         * When we do the login info, you don't need to subscribe here.  
          * We call the loginInfo to get the info. 
          * We need it because the loginService is saving it in localStorage
          * whenever it gets a new value back.
@@ -85,7 +85,7 @@ export class LogInModalComponent implements OnInit {
              * @invalid -> *display error message for 10 seconds*
              */
             if (loginInfo) {
-                this.router.navigate(["/user"]);
+                this.router.navigate(["/user"])
                 this.modalRef.hide()
             } else {
                 this.showDangerMessage("Error! Please check your email and password.");

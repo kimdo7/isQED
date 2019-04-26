@@ -32,7 +32,7 @@ export class UserInfo {
     }
 
     /**
-     * This verifies the user is logged in or loged off
+     * This verifies the user is logged in or logged off
      * @param {LoginInfo} loginInfo 
      */
     isLoggedIn(loginInfo: LoginInfo) {
@@ -41,5 +41,6 @@ export class UserInfo {
         } else {
             return false
         }
+
     }
 }

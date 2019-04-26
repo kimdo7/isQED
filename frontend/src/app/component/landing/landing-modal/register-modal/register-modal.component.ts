@@ -76,11 +76,9 @@ export class RegisterModalComponent implements OnInit {
          */
         if (this.register_form.invalid) {
             this.showDangerMessage("Error!!! Please confirm email and password")
-            return;
+            return
         }
 
-        //let tempObservable = this.userService.register(this.register_form.value)
-        //tempObservable.subscribe(data => {
         this.userService.register(this.register_form.value, (err, loginInfo) => {
             if (err) {
                 this.showDangerMessage("Error!!! " + err)
@@ -92,7 +90,7 @@ export class RegisterModalComponent implements OnInit {
                 return
             } 
             // Success
-            this.action.next('Registered');
+            this.action.next('Registered')
             this.router.navigate(["/user"])
         });
     }
