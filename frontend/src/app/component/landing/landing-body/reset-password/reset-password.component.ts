@@ -62,7 +62,6 @@ export class ResetPasswordComponent implements OnInit {
         let tempObservable = this.loginService.replacePassword(this.login_id, this.firstFormGroup.value.code, this.secondFormGroup.value.password)
         tempObservable.subscribe(data => {
             if(data['message']=="Success"){
-                console.log(data["data"]['email']);
                 this.onLogin({
                     "email" : data["data"]['email'],
                     "password" : this.secondFormGroup.value.password
