@@ -209,7 +209,7 @@ module.exports = {
                  * *email verified*
                  * *MATCH CODE*
                  */
-                if ( data.isEmailVerified == true
+                if (data.isEmailVerified == true
                     || (req.body.code === data.tempActivationCode.toString())) {
 
                     data.isEmailVerified = true
@@ -325,12 +325,10 @@ module.exports = {
         })
     },
 
-
     /**
      * @requestMailForActivation
      */
     requestMailForActivation: (req, res) => {
-
         if (!req.session) {
             res.json({ message: 'Error', error: "You need to be signed in" })
             return;
@@ -360,7 +358,8 @@ module.exports = {
      * @requestMailForForgottenPasscode
      */
     requestMailForForgottenPasscode: (req, res) => {
-        var email = req.body.email;
+        var email = req.body['email'];
+        var DEMO_login_id = req.body['login_id'];
         var tempPasscode = null;
 
         // Don't allow the user to stay logged in if they forgot.
@@ -369,14 +368,21 @@ module.exports = {
         req.session.login_id = null;
         req.session.save()
 
-        if (!email) {
+        var search = null;
+        if (DEMO_login_id) {
+            // For the DEMO, we will accept a login ID.
+            // Users don't know their login ID, they know their email
+            search = { _id: DEMO_login_id }
+        } else if (email) {
+            search = { email: email }
+        } else {
             logd("requestMailForForgottenPasscode email is null or empty");
             res.json({ message: 'Error', error: "missing email" });
             return
         }
 
         // 1. The login user has to exist if we want to change a password
-        Login.findOne({ email: email }, function (findErr, login) {
+        Login.findOne(search, function (findErr, login) {
             if (findErr) {
                 res.json({ message: 'Error', error: "Failed to find login user" })
                 logd("requestMailForForgottenPasscode failed to find login user for: %o -- %s", email, findErr)
@@ -427,17 +433,17 @@ module.exports = {
 
                         // Clean up since the temppasscode can never be used
                         savedUser.invalidateTempForgot();
-                        savedUser.save(function (err, secondSavedUser) {
+                        savedUser.save((err, secondSavedUser) => {
                             if (err) {
                                 logd("requestMailForForgottenPasscode could not save the invalidateTempForgot after an error");
-                                // already sent a respons
+                                // already sent a res.json
                             } else if (!secondSavedUser) {
                                 logd("requestMailForForgottenPasscode got a null without an err when trying to save invalidateTempForgot after an error");
-                                // already sent a response
+                                // already sent a res.json
                             } else {
                                 // Succeeded to invalidate the temp passcode
                                 // but it still was an error sending the mail
-                                // already sent a response
+                                // already sent a res.json
                             }
                         });
                         return
@@ -446,7 +452,9 @@ module.exports = {
                         return
                     }
 
-                    res.json({ message: 'Success', data: { info: "Passcode was generated, please check mail" } })
+                    // TO MAKE THE DEMO WORK, we are sendign the actual passcode back
+                    // THIS IS VERY INSECURE
+                    res.json({ message: 'Success', data: { login_id: login.id, DEBUG_ActualTempPasscode: tempPasscode } })
                 });
             });
         });
@@ -542,6 +550,7 @@ module.exports = {
             })
         })
     },
+
 
     /**
      * Login the user

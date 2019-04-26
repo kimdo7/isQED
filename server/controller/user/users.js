@@ -70,6 +70,8 @@ module.exports = {
             type: 9,
         })
 
+        newLogin.tempActivationCode = newLogin.createSecure6DigitCode()
+
         var password = req.body.password
         if (!newLogin.setPassword(password)) {
             logd("register: bad password")

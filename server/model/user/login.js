@@ -237,16 +237,39 @@ LoginSchema.methods.createTempForgottenPassword = function () {
     
     this.tempForgotAttemptsRemaining = MAX_FORGOTTEN_ATTEMPTS;
     this.tempForgotExpiry = Date.now() + MAX_FORGOTTEN_TIME_IN_MS;
-    var tempPasscode = base32.sha1(bcrypt.genSaltSync(10));// this is just random, but the letters are typable
-    this.tempForgotHash = bcrypt.hashSync(tempPasscode, 10);
-    
+
+    // This is how to make a strong random password
+    // this is just random, but base32 letters are all typable
+    //var secureTempPasscode = base32.sha1(bcrypt.genSaltSync(10));
+
+    // We have been asked to make the temp passcode easier 
+    var easier6NumberTempPasscode = this.createSecure6DigitCode()
+
+    // We don't store the temp passcode just like we don't store any password
+    this.tempForgotHash = bcrypt.hashSync(easier6NumberTempPasscode, 10);
     if (!this.tempForgotHash) {
         return null;
     }
     
-    // If we made it here, there is a temp  forgotten password
+    // If we made it here, there is a temp forgotten password
     // The caller needs to mail it out
-    return tempPasscode;
+    return easier6NumberTempPasscode;
+}
+
+/**
+ * Math.random() does not provide cryptographically secure random numbers.
+ * Do not use them for anything related to security.
+ * Use this instead
+ */ 
+LoginSchema.methods.createSecure6DigitCode = function () {
+    var code = 0
+    while (code < 100000 || code > 999999) {
+        // secure random
+        var random = bcrypt.genSaltSync(10)
+        // from 0 to 1 meg (5 hex digits is 0 to around 1 million)
+        var numberUpToOneMeg = parseInt(random.substring(0,5), 16)
+        code = 100000 +  numberUpToOneMeg
+    }
 }
 
 /**

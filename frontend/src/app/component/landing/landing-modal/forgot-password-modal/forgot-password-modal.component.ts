@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/service/user/login.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { LandingModalValidationErrors } from '../landing-modal-validations-errors';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-forgot-password-modal',
@@ -21,7 +22,8 @@ export class ForgotPasswordModalComponent implements OnInit {
         private loginService: LoginService,
         public modalRef: MDBModalRef,
         private userService: UserService,
-        public fb: FormBuilder
+        public fb: FormBuilder,
+        private router: Router,
     )  { 
         this.forgot_password = fb.group({
             email: [null, [Validators.required, Validators.email]]
@@ -32,20 +34,13 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     onSendMail() {
-        // kirk start: forgot-password
-        console.log("forgot-password-modal-component.ts===success",this.forgot_password.value);
-        console.log("Pretending to send mail");
         this.loginService.requestForgotPassword(this.forgot_password.value, (err, data) => {
             if (data) {
-                console.log("sendEmail: got success")
-                // We don't know the ID, and shouldn't
-                // We want to reset the passcode based only on the email
-                this.action.next('Change After Forgot Password');
+                this.router.navigate(["/reset-password", data)
+                console.log("onSendMail: data" + data)
             } else {
-                console.log("sendEmail: got no success");
             }
         });
-        // kirk end:
     }
 
     openRegisterModal() {

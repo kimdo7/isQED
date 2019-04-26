@@ -33,20 +33,20 @@ module.exports = {
      */
     sendActivation: (login_id, next) => {
         if (!login_id) {
-            logd("sendActivation: Missing required login_id: " +  login_id)
+            logd("sendActivation: Missing required login_id: " + login_id)
             next("Missing user login id");
-            return;  
+            return;
         }
         Login.findById(login_id, (findErr, login) => {
             if (findErr) {
                 logd("Send email error 12" + findErr)
                 next("Failed to send " + findErr);
                 return;
-            } 
+            }
             if (!login) {
-                logd("sendActivation: Could not find " +  login_id)
+                logd("sendActivation: Could not find " + login_id)
                 next("Could not find user");
-                return;  
+                return;
             }
             if (login.isEmailVerified) {
                 logd("not sending email because it is already verified");
@@ -57,7 +57,7 @@ module.exports = {
             var codeString = "" + code;
             login.tempActivationCode = codeString;
             login.save((saveErr, savedLogin) => {
-                if(saveErr) {
+                if (saveErr) {
                     logd("Failed to save activation code")
                     next("Failed to save activation code " + saveErr)
                     return;
@@ -65,9 +65,9 @@ module.exports = {
                 var emailBody = "Your activation code is " + codeString + "\n Click this link " + serverUrl + "/activate/" + login_id + "/" + codeString + "\n" // localhost:8000/activate/:login_id/:user_validationcode
                 // Successfully saved the code, so we can send the email
                 var activateMailOptions = {
-                    from: fromAddress, 
+                    from: fromAddress,
                     //to: fakeToAddress, // for now, instead of login.email,
-                    to: login.email, 
+                    to: login.email,
                     subject: "isQED account verification",
                     text: emailBody,
                 }
@@ -76,22 +76,15 @@ module.exports = {
                         logd("Send email error");
                         next("Send email error " + sendErr);
                         return
-                    } 
+                    }
                     logd("Send email success");
                     next(null);
                 })
             });
         })
     },
-// tempActivationCode
+
     sendTempPassword: (login_id, tempPasscode, next) => {
-        // kirk start: set tempPasscode to tempActivationCode for 6-digit code
-        // Login.findById(login_id, function (findErr, login) {
-        //     console.log("--------XXXXX" + login);
-        //     tempPasscode = login.tempActivationCode;
-        //     console.log("--------XXXXX" + tempPasscode);
-        // });
-        // kirk end:
 
         logd("sendTempPassword: " + login_id);
 
@@ -107,30 +100,17 @@ module.exports = {
             next("missing tempPasscode");
             return
         }
-        
+
         logd("sendTempPassword: about to findById " + login_id);
         Login.findById(login_id, function (findErr, login) {
             tempPasscode = login.tempActivationCode;
-            // kirk start: change login to true, store new random tempActivationCode 
-            // console.log("--------" + login);
-            // login.isForgotPassword = true;
-            // function newtempActivationCode(){
-            //     let newtempActivationCode = "";
-            //     for(let i = 1; i <=6; i++){
-            //         newtempActivationCode += Math.floor(Math.random() * 10);
-            //     }
-            //     return newtempActivationCode;
-            // }
-            // login.tempActivationCode = newtempActivationCode();
-            // login.save();
-            //kirk end:
 
             logd("sendTempPassword: in findById callback with err: %o and login: %o");
             if (findErr) {
                 logd("Find email error" + findErr)
                 next("Failed to send " + findErr);
                 return
-            } 
+            }
 
             if (!login) {
                 logd("Find by login ID failed ")
@@ -140,20 +120,15 @@ module.exports = {
 
             logd("sendTempPassword: about to set options");
 
-            var forgotMailOptions = { 
+            var forgotMailOptions = {
                 from: fromAddress,
                 // to: fakeToAddress,// for now, instead of to: login.email
                 to: login.email,
                 subject: "isQED Password Reset",
-                
+
                 // original
                 // Still need to escape the email address
-                // text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset_password/email/" + login.email + "/" + tempPasscode + "\n",
-                
-                // kirk start: tempActivationCode
-                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id +  "\n",
-                // kirk end:
-
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id + "/"+ tempPasscode +"\n",
 
             };
 
@@ -172,5 +147,4 @@ module.exports = {
         })
         logd("sendTempPassword: past findById");
     },
-
 }

@@ -198,18 +198,4 @@ export class LoginService {
             next(null, loginInfo)
         })
     }
-
-    // kirk start: reset-password
-    // See verifyEmailActivationCode above
-    /**
-     * Ask server the tempActivationCode for verification.
-     * @param id the current logged in user
-     */
-    tempActivationCodeVerification(id) {
-        console.log("login.service.ts-reset-password-success",id)
-        return this.http.post("/api/login/requestTempActivationCodeVerification", id)
-    }
-    
-    // kirk end:
-    
 }
