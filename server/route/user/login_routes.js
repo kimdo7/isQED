@@ -45,18 +45,22 @@ module.exports = function (app) {
         logins.changePassword(req, res);
     })
 
-    app.post('/api/replacePassword/:id', (req, res) => {
-        logins.replacePassword(req, res);
-    })
-    
-
     /**
      * @Get the email for the signed in user
      * This requires the user to be logged in.
      */
-    app.get('/api/login/email/:id', (req, res) => {
+    app.get('/api/logininfo/:id', (req, res) => {
         logins.getLoginInfo(req, res)
     })
+
+    /**
+     * @Get the email for the signed in user (using the cookie)
+     * This requires the user to be logged in.
+     */
+    app.get('/api/logininfo', (req, res) => {
+        logins.getLoginInfo(req, res)
+    })
+
 
     /**
      * @Activate a user (they got the email from registration)
@@ -92,18 +96,7 @@ module.exports = function (app) {
      * This does NOT log them in, they have to do that as the next step.
      */
     app.post('/api/login/changePasswordForgot', (req, res) => {
-        logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
         logins.changePasswordAfterForgetting(req, res)
-    })
-
-    /**
-     * @Send tempActivationCode to user for verification
-     * This sends the tempActivationCode to the reset-password.component.ts.
-     * This tempActivationCode will verify them to change their real password.
-     * Of course, they don't have to be logged in. This will log them out if they are.
-     */ 
-    app.get("/api/requestTempActivationCodeVerification/:id", (req, res) => {
-        logins.requestTempActivationCode(req, res);
     })
 
     // DEBUG ONLY - don't use this in production!

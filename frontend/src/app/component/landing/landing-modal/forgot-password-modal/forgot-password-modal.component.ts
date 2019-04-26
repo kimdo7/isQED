@@ -19,11 +19,11 @@ export class ForgotPasswordModalComponent implements OnInit {
     validation_messages = LandingModalValidationErrors.message
     
     constructor(
-        private LoginService: LoginService,
+        private loginService: LoginService,
         public modalRef: MDBModalRef,
         private userService: UserService,
         public fb: FormBuilder,
-        private router: Router
+        private router: Router,
     )  { 
         this.forgot_password = fb.group({
             email: [null, [Validators.required, Validators.email]]
@@ -34,15 +34,10 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     onSendMail() {
-        let tempObservable = this.LoginService.requestForgotPassword(this.forgot_password.value )
-        tempObservable.subscribe(data => {
-            console.log("DATA =>" + data["message"])
-            if (data["message"] === "Success") {
-                this.router.navigate(["/reset-password", data["data"]])
-                console.log("data" + data["data"])
-                // We don't know the ID, and shouldn't
-                // We want to reset the passcode based only on the email
-                this.action.next('Change After Forgot Password');
+        this.loginService.requestForgotPassword(this.forgot_password.value, (err, data) => {
+            if (data) {
+                this.router.navigate(["/reset-password", data])
+                console.log("onSendMail: data" + data)
             } else {
             }
         });

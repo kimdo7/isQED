@@ -72,14 +72,15 @@ export class LandingModalForms {
 
     static init_verify(formBuilder, verify_code) {
         
-        var regex = new RegExp(verify_code, 'i')
+        if (!verify_code) {
+            verify_code = ''
+        }
         return formBuilder.group({
-            code: ['', [
+            code: [verify_code, [
                 Validators.required,
                 Validators.minLength(6),
                 Validators.maxLength(6),
-                Validators.pattern('^[0-9]*$'),
-                Validators.pattern(regex)
+                Validators.pattern('^[0-9]{6}$')
                 // Validators.
             ]],
         })
