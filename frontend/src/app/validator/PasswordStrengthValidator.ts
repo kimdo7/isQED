@@ -1,44 +1,5 @@
 export class PasswordStrengthValidator {
     /**
-     * @return boolean
-     * @PasswordStrength 
-        * *At least 8 characters in length*
-        * *Lowercase letters*
-        * *Uppercase letters*
-        * *Numbers*
-        * *Special characters*
-     */
-    static getStrength(password) {
-        var match = 0;
-        /**
-         * Match lower case
-         */
-        match += this.passLowerCase(password) ? 25 : 0
-        
-        /**
-         * Match upper case
-         */
-        match += this.passUpperCase(password) ? 25 : 0
-        
-        /**
-         * Match digit
-         */
-        match += this.passDigitCase(password) ? 25 : 0
-
-        /**
-         * Match speicail character
-         */
-        // match += this.passSpecialCase(password) ? 25 : 0
-
-        /**
-         * Length
-         */
-        match += this.passMinLength(password) ? 25 : 0
-
-        return match;
-    }
-
-    /**
      * 
      * @return boolean
      * @param password 
@@ -88,12 +49,4 @@ export class PasswordStrengthValidator {
         return password.length >= 8
     }
 
-     /**
-     * 
-     * @return int *range* 0-100 *percent*
-     * 
-     */
-    static getColor(password) {
-        return (this.getStrength(password) == 100) ? "priamry" : "warn"
-    }
 }
