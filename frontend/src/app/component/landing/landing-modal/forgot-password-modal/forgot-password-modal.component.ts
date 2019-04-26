@@ -36,7 +36,7 @@ export class ForgotPasswordModalComponent implements OnInit {
     onSendMail() {
         this.loginService.requestForgotPassword(this.forgot_password.value, (err, data) => {
             if (data) {
-                this.router.navigate(["/reset-password", data)
+                this.router.navigate(["/reset-password", data])
                 console.log("onSendMail: data" + data)
             } else {
             }
