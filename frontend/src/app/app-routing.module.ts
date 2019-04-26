@@ -11,8 +11,7 @@ import { SteeringCommitteeComponent } from './component/landing/landing-body/lan
 import { UserComponent } from './component/user/user.component';
 import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
 import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
-import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
-import { LogInModalComponent } from './component/landing/landing-modal/log-in-modal/log-in-modal.component';
+import { LandingCertificationComponent } from './component/landing/landing-body/landing-certification/landing-certification.component';
 
 const routes: Routes = [
     {
@@ -20,6 +19,7 @@ const routes: Routes = [
             { path: "", component: LandingHomeComponent },
             { path: "signin", component: LandingHomeComponent },
             { path: "events", component: LandingEventComponent },
+            { path: "certification", component: LandingCertificationComponent },
             {
                 path: "about", component: LandingAboutComponent, children: [
                     { path: "steering-committee", component: SteeringCommitteeComponent },

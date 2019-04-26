@@ -228,7 +228,7 @@ module.exports = {
                  * *email verified*
                  * *MATCH CODE*
                  */
-                if ( data.isEmailVerified == true
+                if (data.isEmailVerified == true
                     || (req.body.code === data.tempActivationCode.toString())) {
 
                     data.isEmailVerified = true

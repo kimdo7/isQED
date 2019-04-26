@@ -37,12 +37,12 @@ export class UserHeaderComponent implements OnInit {
             this.onLogout()
         }
 
-        this.initModalConfig()
         this.displayActivateModal()
 
         let tempObservable = this.userService.getName(LocalStorage.getLoginId())
         tempObservable.subscribe(data => {
             this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
+            this.initModalConfig() 
         });
     }
 
@@ -68,6 +68,7 @@ export class UserHeaderComponent implements OnInit {
      * Open user modal
      */
     openUserModal() {
+        
         this.modalRef = this.modalService.show(UserModalComponent, this.modal_config)
 
         this.modalRef.content.action.subscribe((result: any) => {

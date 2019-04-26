@@ -6,8 +6,6 @@ export class LandingPageRoutes {
             "/about/steering-committee",
             "/activate",
             "/reset-password",
-
-
         ]
     }
 
@@ -16,6 +14,7 @@ export class LandingPageRoutes {
             "Home",
             "/about/contact-us",
             "/events",
+            "/certification",
             
         ]
     }
