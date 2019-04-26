@@ -59,8 +59,6 @@ import { ActivationComponent } from './component/landing/landing-body/activation
 import { ResetPasswordComponent } from './component/landing/landing-body/reset-password/reset-password.component';
 import { UserModalComponent } from './component/user/user-header/modal/user-modal/user-modal.component';
 import { IsActivateModalComponent } from './component/user/user-header/modal/is-activate-modal/is-activate-modal.component';
-import { ResetPasswordComponent } from './component/landing/landing-body/reset-password/reset-password.component';
-
 
 @NgModule({
     declarations: [
@@ -109,7 +107,6 @@ import { ResetPasswordComponent } from './component/landing/landing-body/reset-p
         ResetPasswordComponent,
         UserModalComponent,
         IsActivateModalComponent,
-        ResetPasswordComponent,
     ],
     imports: [
         /**
