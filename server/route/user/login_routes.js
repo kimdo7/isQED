@@ -96,7 +96,6 @@ module.exports = function (app) {
      * This does NOT log them in, they have to do that as the next step.
      */
     app.post('/api/login/changePasswordForgot', (req, res) => {
-        logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
         logins.changePasswordAfterForgetting(req, res)
     })
 

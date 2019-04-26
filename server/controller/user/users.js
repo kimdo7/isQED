@@ -70,126 +70,128 @@ module.exports = {
             type: 9,
         })
 
-        newLogin.tempActivationCode = newLogin.createSecure6DigitCode()
+        newLogin.createSecure6DigitCode(code => {
+            newLogin.tempActivationCode = code
 
-        var password = req.body.password
-        if (!newLogin.setPassword(password)) {
-            logd("register: bad password")
-            // Password is no good. Let's give the best error we can
-            if (!newLogin.isValidPassword(password)) {
-                res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
-                return
-            }
-
-            if (!newLogin.isStrongPassword(password)) {
-                res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
-                return
-            }
-
-            res.json({ message: 'Error', error: "Password isn't set" })
-            return
-        }
-
-        if (!newLogin.passwordMatchesHash(req.body.password)) {
-            logd("register: setPassword doesn't match hash")
-            res.json({ message: 'Error', error: "Internal server error with password" })
-            return
-        }
-        if (!newLogin.isSameEmail(req.body.email)) {
-            logd("register: email doesn't match")
-            res.json({ message: 'Error', error: "Internal server error with email" })
-            return
-        }
-        newLogin.save((err, savedLogin) => {
-            if (!savedLogin) {
-                if (err && err.code === 11000) {
-                    // If there is a Login and no User, we can create the User
-                    // This is useful in development when our DB is messed up
-                    logd("register: login already exists. does user?")
-                    User.findOne({ email: req.body.email }, (err2, existingUser) => {
-                        if (!existingUser) {
-                            // There is a Login with no user.
-                            // We can hit this when there is a bug
-                            // For now we will DELETE the Login. DANGEROUS DEBUG ONLY
-                            logd("register: No existing user record. Cleaning up prior failed login record")
-                            Login.findOneAndDelete({ email: req.body.email }, (err3, existingLogin) => {
-                                // Deleted!
-                                logd("register: didn't find a login user " + err + " then " + err2 + " then " + err3)
-                                res.json({ message: 'Error', error: "Error on server, please click register once more" })
-                                return
-                            })
-                            return
-                        }
-                        logd("register: There is already an existing login and user")
-                        res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
-                    })
+            var password = req.body.password
+            if (!newLogin.setPassword(password)) {
+                logd("register: bad password")
+                // Password is no good. Let's give the best error we can
+                if (!newLogin.isValidPassword(password)) {
+                    res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
                     return
                 }
 
-                logd("register: couldn't save");
-                res.json({ message: 'Error', error: "Password must be 8 characters or more", errorDetail: err })
+                if (!newLogin.isStrongPassword(password)) {
+                    res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
+                    return
+                }
+
+                res.json({ message: 'Error', error: "Password isn't set" })
                 return
             }
 
-            /** 
-             * We saved the login. 
-             * Now @Create new user
-             */
-            User.create(
-                {
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
-                    loginId: savedLogin.id,
-                },
-                (err, newUser) => {
-                    logd("register: saved user: (error %o)", err)
-
+            if (!newLogin.passwordMatchesHash(req.body.password)) {
+                logd("register: setPassword doesn't match hash")
+                res.json({ message: 'Error', error: "Internal server error with password" })
+                return
+            }
+            if (!newLogin.isSameEmail(req.body.email)) {
+                logd("register: email doesn't match")
+                res.json({ message: 'Error', error: "Internal server error with email" })
+                return
+            }
+            newLogin.save((err, savedLogin) => {
+                if (!savedLogin) {
                     if (err && err.code === 11000) {
-                        // If there was no Login but an existing User record
-                        // Let's delete the old user record
-                        logd("register: Login is new, but old user already exists. Clean up the prior user record")
-                        User.findOneAndDelete({ email: req.body.email }, (err2, existingUser) => {
+                        // If there is a Login and no User, we can create the User
+                        // This is useful in development when our DB is messed up
+                        logd("register: login already exists. does user?")
+                        User.findOne({ email: req.body.email }, (err2, existingUser) => {
                             if (!existingUser) {
-                                logd("register: Failed to clean up prior user record")
+                                // There is a Login with no user.
+                                // We can hit this when there is a bug
+                                // For now we will DELETE the Login. DANGEROUS DEBUG ONLY
+                                logd("register: No existing user record. Cleaning up prior failed login record")
+                                Login.findOneAndDelete({ email: req.body.email }, (err3, existingLogin) => {
+                                    // Deleted!
+                                    logd("register: didn't find a login user " + err + " then " + err2 + " then " + err3)
+                                    res.json({ message: 'Error', error: "Error on server, please click register once more" })
+                                    return
+                                })
                                 return
                             }
-                            logd("register: Cleaned up prior user record")
+                            logd("register: There is already an existing login and user")
+                            res.json({ message: 'Error', error: "Email is already registered", errorDetail: err })
                         })
-                        res.json({ message: 'Error', error: "Registration error. Please click register again." })
-                        return
-                    } else if (err) {
-                        res.json({ message: 'Error', error: err })
-                        return
-                    }
-                    if (!newLogin.isSameEmail(newUser.email)) {
-                        res.json({ message: 'Error', error: "Internal server error with user email" })
                         return
                     }
 
-                    // Success!
-                    logd("register: success")
-
-                    // Log in the user, send them activation mail
-                    req.session.last_stage = 'registered'
-                    req.session.login_id = savedLogin.id;
-                    req.session.save()
-                    emailGateway.sendActivation(savedLogin.id, (sendErr) => {
-                        if (sendErr) {
-                            // we weren't able to send the email
-                            // but we were able to create the user
-                            // pretend that we sent them the email
-                            // they can always click the button on the activation form to resend
-                            // SO DO NOTHING HERE!
-                        }
-                    })
-                    // server responds with LoginInfo
-                    // Before when we were doing a register, we weren't telling the front end enough info.
-                    // Now we make sure the client has more to show. See LoginInfo in login.service.ts
-                    res.json({ message: 'Success', data: Login.prototype.cleanedClientInfo(savedLogin) })
+                    logd("register: couldn't save");
+                    res.json({ message: 'Error', error: "Password must be 8 characters or more", errorDetail: err })
+                    return
                 }
-            )
-        });
+
+                /** 
+                 * We saved the login. 
+                 * Now @Create new user
+                 */
+                User.create(
+                    {
+                        first_name: req.body.first_name,
+                        last_name: req.body.last_name,
+                        email: req.body.email,
+                        loginId: savedLogin.id,
+                    },
+                    (err, newUser) => {
+                        logd("register: saved user: (error %o)", err)
+
+                        if (err && err.code === 11000) {
+                            // If there was no Login but an existing User record
+                            // Let's delete the old user record
+                            logd("register: Login is new, but old user already exists. Clean up the prior user record")
+                            User.findOneAndDelete({ email: req.body.email }, (err2, existingUser) => {
+                                if (!existingUser) {
+                                    logd("register: Failed to clean up prior user record")
+                                    return
+                                }
+                                logd("register: Cleaned up prior user record")
+                            })
+                            res.json({ message: 'Error', error: "Registration error. Please click register again." })
+                            return
+                        } else if (err) {
+                            res.json({ message: 'Error', error: err })
+                            return
+                        }
+                        if (!newLogin.isSameEmail(newUser.email)) {
+                            res.json({ message: 'Error', error: "Internal server error with user email" })
+                            return
+                        }
+
+                        // Success!
+                        logd("register: success")
+
+                        // Log in the user, send them activation mail
+                        req.session.last_stage = 'registered'
+                        req.session.login_id = savedLogin.id;
+                        req.session.save()
+                        emailGateway.sendActivation(savedLogin.id, (sendErr) => {
+                            if (sendErr) {
+                                // we weren't able to send the email
+                                // but we were able to create the user
+                                // pretend that we sent them the email
+                                // they can always click the button on the activation form to resend
+                                // SO DO NOTHING HERE!
+                            }
+                        })
+                        // server responds with LoginInfo
+                        // Before when we were doing a register, we weren't telling the front end enough info.
+                        // Now we make sure the client has more to show. See LoginInfo in login.service.ts
+                        res.json({ message: 'Success', data: Login.prototype.cleanedClientInfo(savedLogin) })
+                    }
+                )
+            })
+        })
     },
 
 	/**

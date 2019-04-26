@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
+var crypto = require('crypto')
 var bcrypt = require('bcrypt');
 var base32 = require('base32');
 
@@ -61,11 +62,10 @@ const logd = require('debug')('QEDlog')
     // because there is no password in the database, only a hash and te pre 'save' middleware doesn't work
 
 
-
 /**
  * This is the information about the login that the client is allowed to know.
  * We don't send the activation code or passwordHash to the client (this information should be hidden from the browser)
- * @param login The Login model object
+ * @param login The Login model object, or null
  * @returns An object with the LoginInfo for the frontend
  */
 LoginSchema.methods.cleanedClientInfo = function(login) {
@@ -75,6 +75,13 @@ LoginSchema.methods.cleanedClientInfo = function(login) {
         isSignedIn: false,
         isEmailVerified: false,
         state: "LoggedOut",
+    }
+
+    // Someone can call login.cleanedClientInfo()
+    // but if they call Login.prototype.cleanedClientInfo(null)
+    // we need this to work
+    if (typeof login === "undefined") {
+        login = this
     }
 
     if (login) {
@@ -228,10 +235,41 @@ LoginSchema.methods.invalidateTempForgot = function () {
 }
 
 /**
+ * Math.random() does not provide cryptographically secure random numbers.
+ * Do not use them for anything related to security.
+ * Use this instead
+ * @callback next Callback (code) with the string
+ */ 
+LoginSchema.methods.createSecure6DigitCode = function (next) {
+    // secure random, not Math.random
+    // https://stackoverflow.com/questions/15821447/converting-random-bytes-to-an-integer-range-how
+    crypto.randomBytes(3, function(ex, buf) {
+        var hex = buf.toString('hex');
+        logd('createSecure6DigitCode random: ' + hex)
+        numberUpToOneMeg = Math.floor(parseInt(hex, 16) / 4) // OK to divide by 2, 4, 8 etc
+        logd('createSecure6DigitCode number: ' + numberUpToOneMeg)
+        code = 100000 +  numberUpToOneMeg
+        logd('createSecure6DigitCode code: ' + code)
+        if (code < 100000 || code > 999999) {
+            // Try again
+            LoginSchema.methods.createSecure6DigitCode((code) => {
+                next(code)
+            })
+            return
+        }
+        // Success
+        // return a string
+        next("" + code)
+    });
+}
+
+
+/**
  * @createTempForgottenPassword
  * USED WHEN USER FORGOT THEIR OWN PASSWORD
+ * @callback next Callback (tempPassword) with the generated passwor
  */
-LoginSchema.methods.createTempForgottenPassword = function () {
+LoginSchema.methods.createTempForgottenPassword = function (next) {
     // Get rid of any existing temp passcode first
     this.invalidateTempForgot();
     
@@ -243,33 +281,18 @@ LoginSchema.methods.createTempForgottenPassword = function () {
     //var secureTempPasscode = base32.sha1(bcrypt.genSaltSync(10));
 
     // We have been asked to make the temp passcode easier 
-    var easier6NumberTempPasscode = this.createSecure6DigitCode()
+    this.createSecure6DigitCode(easier6NumberTempPasscode => {
+        // We don't store the temp passcode just like we don't store any password
+        this.tempForgotHash = bcrypt.hashSync(easier6NumberTempPasscode, 10);
+        if (!this.tempForgotHash) {
+            logd('createTempForgottenPassword: error creating tempForgotHash')
+            next(null);
+        }
 
-    // We don't store the temp passcode just like we don't store any password
-    this.tempForgotHash = bcrypt.hashSync(easier6NumberTempPasscode, 10);
-    if (!this.tempForgotHash) {
-        return null;
-    }
-    
-    // If we made it here, there is a temp forgotten password
-    // The caller needs to mail it out
-    return easier6NumberTempPasscode;
-}
-
-/**
- * Math.random() does not provide cryptographically secure random numbers.
- * Do not use them for anything related to security.
- * Use this instead
- */ 
-LoginSchema.methods.createSecure6DigitCode = function () {
-    var code = 0
-    while (code < 100000 || code > 999999) {
-        // secure random
-        var random = bcrypt.genSaltSync(10)
-        // from 0 to 1 meg (5 hex digits is 0 to around 1 million)
-        var numberUpToOneMeg = parseInt(random.substring(0,5), 16)
-        code = 100000 +  numberUpToOneMeg
-    }
+        // If we made it here, there is a temp forgotten password
+        // The caller needs to mail it out
+        next(easier6NumberTempPasscode)
+    })
 }
 
 /**
