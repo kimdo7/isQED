@@ -501,7 +501,7 @@ module.exports = {
             return
         }
         if (!newPassword) {
-            logd("changePasswordAfterForgetting newPassword is null or empty");
+            logd("changePasswordAfterForgetting newPassword is null or empty %o", req.body.newPassword);
             res.json({ message: 'Error', error: "missing newPassword" })
             return
         }

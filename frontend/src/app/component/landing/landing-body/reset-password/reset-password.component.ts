@@ -59,10 +59,14 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     onSubmit() {
-        var request = { email: null, tempPassword: this.firstFormGroup.value.code, newPassword: this.secondFormGroup.value.password }
+        var request = { login_id: this.login_id, tempPassword: this.firstFormGroup.value.code, newPassword: this.secondFormGroup.value.confirm_password }
         this.loginService.changePasswordAfterForgetting(request, (err, data) => {
           if (data) {
+            // Success
             this.router.navigate(["/user"]);
+          } else {
+            // Error
+            this.secondFormGroup.value.password = ""
           }
         })
     }
