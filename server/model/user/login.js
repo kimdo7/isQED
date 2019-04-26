@@ -60,13 +60,58 @@ const logd = require('debug')('QEDlog')
     // You cannot Login.findOneAndUpdate({email: 'foo@bar.com'}, {set: {password: 'password}})
     // because there is no password in the database, only a hash and te pre 'save' middleware doesn't work
 
+
+
+/**
+ * This is the information about the login that the client is allowed to know.
+ * We don't send the activation code or passwordHash to the client (this information should be hidden from the browser)
+ * @param login The Login model object
+ * @returns An object with the LoginInfo for the frontend
+ */
+LoginSchema.methods.cleanedClientInfo = function(login) {
+    var info = {
+        login_id: null,
+        email: null,
+        isSignedIn: false,
+        isEmailVerified: false,
+        state: "LoggedOut",
+    }
+
+    if (login) {
+        // login_id is for the client and login.id is for the server
+        info.login_id = login.id ? login.id : null
+        info.email = login.email ? login.email : null
+        info.isSignedIn = login.id ? true : false
+        info.isEmailVerified = login.isEmailVerified ? true : false
+
+        // DEBUG:  Show logged in state at the top of the screen
+        if (login.id) {
+            if (login.isEmailVerified) {
+                if (login.type == 9) {
+                    info.state = "Student"
+                } else if (login.type == 2) {
+                    info.state = "Administrator"
+                } else {
+                    info.state = "NonStudent"
+                }
+            } else {
+                info.state = "NeedEmailVerification"
+            }
+        }
+    }
+
+    logd("LoginInfo: %o", info)
+    return info
+}
+
+
 /**
  * @Password_Strength checks password strength
  *      Strength score must be greater than 2 to pass
  *      NOTE: if you want to get rid of easy to guess dictionary words, 
  *      uncomment isStrongPassword.
  */
-zxcvbn = require('../../config/zxcvbn');
+//zxcvbn = require('../../config/zxcvbn');
 LoginSchema.methods.isStrongPassword = function (newPassword) {
     // NOTE: We aren't enforcing good passwords yet
     //var strength = zxcvbn(newPassword);
