@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LandingModalForms } from '../../landing-modal/landing-modal-forms';
 import { LandingModalValidationErrors } from '../../landing-modal/landing-modal-validations-errors';
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 import { LoginInfo } from '../../../../object/LoginInfo';
+import { LoginService } from 'src/app/service/user/login.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -18,21 +19,31 @@ export class ResetPasswordComponent implements OnInit {
     passwordStrengthValidator = PasswordStrengthValidator
     hidePassword1 = true
     hidePassword2 = true
+    login_id = ""
 
     attempt = 0
 
-    constructor(private _route: ActivatedRoute,
+    constructor(
+        private _route: ActivatedRoute,
         private _router: Router,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder,
+        private loginService: LoginService,
+    ) { }
 
     ngOnInit() {
         this._route.params.subscribe((params: Params) => {
-            console.log(params['login_id'])
-            console.log("ppppppppppppppppppyeeeeessssssssss");
+            console.log("reset-password.component.ts",params['login_id'])
+
+            // kirk start: reset-password
+            this.login_id = params["login_id"]
+            let tempObservable = this.loginService.tempActivationCodeVerification(this.login_id)
+            // tempObservable.subscribe(data => {
+            //     //     this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
+            // });
+            // kirk end:
 
         });
-        console.log("ppppppppppppppppppyeeeeessssssssss");
-        this.test();
+       
         var tempCode = "123456"
 
         // kirk start:
@@ -58,9 +69,9 @@ export class ResetPasswordComponent implements OnInit {
         this.secondFormGroup = LandingModalForms.init_reset_password()
     }
      // kirk start:
-    test(){
-        console.log("ppppppppppppppppppyeeeeessssssssss");
-    }
+    // test(){
+    //     console.log("ppppppppppppppppppyeeeeessssssssss");
+    // }
     // kirk end:
 
     resendPasscodeViaEmail() {

@@ -168,7 +168,6 @@ export class LoginService {
     * @param data contains user's email
     */
     requestForgotPassword(data) {
-        console.log("login.service.ts===success", data);
         return this.http.post("/api/login/requestForgotPassword", data);
     }
 
@@ -179,5 +178,17 @@ export class LoginService {
     changePasswordAfterForgetting(data) {
         return this.http.post("/api/login/changePasswordForgot", data)
     }
+
+    // kirk start: reset-password
+    /**
+     * Ask server the tempActivationCode for verification.
+     * @param id the current logged in user
+     */
+    tempActivationCodeVerification(id) {
+        console.log("login.service.ts-reset-password-success",id)
+        return this.http.post("/api/login/requestTempActivationCodeVerification", id)
+    }
+    
+    // kirk end:
     
 }

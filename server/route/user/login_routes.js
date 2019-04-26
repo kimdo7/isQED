@@ -77,7 +77,6 @@ module.exports = function (app) {
      * Of course, they don't have to be logged in. This will log them out if they are.
      */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
-        console.log("login_routes.js===success",req.body);
         logins.requestMailForForgottenPasscode(req, res)
     })
 
@@ -91,6 +90,20 @@ module.exports = function (app) {
         logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
         logins.changePasswordAfterForgetting(req, res)
     })
+
+    // kirk start: reset-password
+    /**
+     * @Send tempActivationCode to user for verification
+     * This sends the tempActivationCode to the reset-password.component.ts.
+     * This tempActivationCode will verify them to change their real password.
+     * Of course, they don't have to be logged in. This will log them out if they are.
+     */ 
+    app.get("/api/requestTempActivationCodeVerification/:id", (req, res) => {
+        console.log("hello_routes.js-reset-password", req.body);
+        // logins.getLoginInfo(req, res);
+        // logins.requestMailForForgottenPasscode(req, res)
+    })
+    // kirk end:
 
     // DEBUG ONLY - don't use this in production!
     if (DEBUG) {

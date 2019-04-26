@@ -16,7 +16,7 @@ var LoginSchema = new Schema({
 
     // Email verification / activation
     isEmailVerified: { type: Boolean, default: false },
-    tempActivationCode: { type: Number, min: 100001, max: 999999 },
+    tempActivationCode: { type: Number, min: 99999, max: 999999 },
 
     // Phone number and verification
     isPhoneVerified: { type: Boolean, default: false },
