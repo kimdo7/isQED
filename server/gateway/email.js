@@ -83,8 +83,16 @@ module.exports = {
             });
         })
     },
-
+// tempActivationCode
     sendTempPassword: (login_id, tempPasscode, next) => {
+        // kirk start: set tempPasscode to tempActivationCode for 6-digit code
+        // Login.findById(login_id, function (findErr, login) {
+        //     console.log("--------XXXXX" + login);
+        //     tempPasscode = login.tempActivationCode;
+        //     console.log("--------XXXXX" + tempPasscode);
+        // });
+        // kirk end:
+
         logd("sendTempPassword: " + login_id);
 
         if (!next) {
@@ -102,6 +110,21 @@ module.exports = {
         
         logd("sendTempPassword: about to findById " + login_id);
         Login.findById(login_id, function (findErr, login) {
+            tempPasscode = login.tempActivationCode;
+            // kirk start: change login to true, store new random tempActivationCode 
+            // console.log("--------" + login);
+            // login.isForgotPassword = true;
+            // function newtempActivationCode(){
+            //     let newtempActivationCode = "";
+            //     for(let i = 1; i <=6; i++){
+            //         newtempActivationCode += Math.floor(Math.random() * 10);
+            //     }
+            //     return newtempActivationCode;
+            // }
+            // login.tempActivationCode = newtempActivationCode();
+            // login.save();
+            //kirk end:
+
             logd("sendTempPassword: in findById callback with err: %o and login: %o");
             if (findErr) {
                 logd("Find email error" + findErr)
@@ -122,8 +145,16 @@ module.exports = {
                 // to: fakeToAddress,// for now, instead of to: login.email
                 to: login.email,
                 subject: "isQED Password Reset",
+                
+                // original
                 // Still need to escape the email address
-                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset_password/email/" + login.email + "/" + tempPasscode + "\n",
+                // text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset_password/email/" + login.email + "/" + tempPasscode + "\n",
+                
+                // kirk start: tempActivationCode
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id +  "\n",
+                // kirk end:
+
+
             };
 
             logd("sendTempPassword: about to send mail: %o", forgotMailOptions);

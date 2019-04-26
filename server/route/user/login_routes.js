@@ -86,7 +86,6 @@ module.exports = function (app) {
      * Of course, they don't have to be logged in. This will log them out if they are.
      */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
-        console.log("login_routes.js===success");
         logins.requestMailForForgottenPasscode(req, res)
     })
 
