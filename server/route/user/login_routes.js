@@ -45,6 +45,11 @@ module.exports = function (app) {
         logins.changePassword(req, res);
     })
 
+    app.post('/api/replacePassword/:id', (req, res) => {
+        logins.replacePassword(req, res);
+    })
+    
+
     /**
      * @Get the email for the signed in user
      * This requires the user to be logged in.
@@ -91,7 +96,6 @@ module.exports = function (app) {
         logins.changePasswordAfterForgetting(req, res)
     })
 
-    // kirk start: reset-password
     /**
      * @Send tempActivationCode to user for verification
      * This sends the tempActivationCode to the reset-password.component.ts.
@@ -101,7 +105,6 @@ module.exports = function (app) {
     app.get("/api/requestTempActivationCodeVerification/:id", (req, res) => {
         logins.requestTempActivationCode(req, res);
     })
-    // kirk end:
 
     // DEBUG ONLY - don't use this in production!
     if (DEBUG) {

@@ -179,16 +179,20 @@ export class LoginService {
         return this.http.post("/api/login/changePasswordForgot", data)
     }
 
-    // kirk start: reset-password
     /**
      * Ask server the tempActivationCode for verification.
      * @param id the current logged in user
      */
     tempActivationCodeVerification(id) {
-        console.log("login.service.ts-reset-password-success",id)
         return this.http.get("/api/requestTempActivationCodeVerification/"+id)
     }
-    
-    // kirk end:
+
+    replacePassword(login_id, tempActivationCode, newPassword) {
+        var data = {
+            "tempActivationCode" : tempActivationCode,
+            "newPassword" : newPassword
+        }
+        return this.http.post("/api/replacePassword/"+login_id, data)
+    }
     
 }
