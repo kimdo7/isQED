@@ -35,15 +35,14 @@ export class UserHeaderComponent implements OnInit {
     ngOnInit() {
         if (LocalStorage.isLoggedInNow() == false) {
             this.onLogout()
+        }else{
+            this.displayActivateModal()
+            let tempObservable = this.userService.getName(LocalStorage.getLoginId())
+            tempObservable.subscribe(data => {
+                this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
+                this.initModalConfig() 
+            });
         }
-
-        this.displayActivateModal()
-
-        let tempObservable = this.userService.getName(LocalStorage.getLoginId())
-        tempObservable.subscribe(data => {
-            this.user_name = data["data"]["first_name"] + " " + data["data"]["last_name"]
-            this.initModalConfig() 
-        });
     }
 
     /**
