@@ -168,7 +168,6 @@ export class LoginService {
     * @param data contains user's email
     */
     requestForgotPassword(data) {
-        console.log("login.service.ts" + data + "===success");
         return this.http.post("/api/login/requestForgotPassword", data);
     }
 
@@ -179,4 +178,21 @@ export class LoginService {
     changePasswordAfterForgetting(data) {
         return this.http.post("/api/login/changePasswordForgot", data)
     }
+
+    /**
+     * Ask server the tempActivationCode for verification.
+     * @param id the current logged in user
+     */
+    tempActivationCodeVerification(id) {
+        return this.http.get("/api/requestTempActivationCodeVerification/"+id)
+    }
+
+    replacePassword(login_id, tempActivationCode, newPassword) {
+        var data = {
+            "tempActivationCode" : tempActivationCode,
+            "newPassword" : newPassword
+        }
+        return this.http.post("/api/replacePassword/"+login_id, data)
+    }
+    
 }

@@ -345,6 +345,53 @@ module.exports = {
         })
     },
 
+   
+    replacePassword: (req, res) => {
+        var activationCode = req.body.tempActivationCode;
+        var password = req.body.newPassword;
+
+        if (!req.body.newPassword) {
+            res.json({ message: 'Error', error: "missing password" });
+            return;
+        }
+
+        Login.findById(req.params.id, function (error, data) {
+            if (error) {
+                res.json({ message: 'Error', error: "Invalid Login Id" });
+                return
+            } else if (data.tempActivationCode.toString() !== activationCode) {
+                res.json({ message: 'Error', error: "Invalid Activation Code" });
+                return
+            }
+
+            if (!data.setPassword(password)) {
+                logd("register: bad password")
+                // Password is no good. Let's give the best error we can
+                if (!data.isValidPassword(password)) {
+                    res.json({ message: 'Error', error: "Password must be 8 or more characters. Must have least one A-Z, one a-z, one 0-9'" })
+                    return
+                }
+
+                if (!data.isStrongPassword(password)) {
+                    res.json({ message: 'Error', error: "Password isn't strong enough. Try to make it more random." })
+                    return
+                }
+
+                res.json({ message: 'Error', error: "Password isn't set" })
+                return
+            }
+            data.save((err, savedLogin) => {
+                if (err) {
+                    // If there is a Login and no User, we can create the User
+                    // This is useful in development when our DB is messed up
+                    res.json({ message: 'Error', error: err })
+                    return
+                }
+                res.json({ message: 'Success', data: clientLoginInfo(data) });
+            })
+        })
+        
+    },
 
     /**
      * @requestMailForActivation
@@ -563,6 +610,17 @@ module.exports = {
         })
     },
 
+
+    requestTempActivationCode: (req, res) => {
+        Login.findById(req.params.id, function (error, data) {
+            if (error) {
+                res.json({ message: 'Error', error: "Invalid Login Id" });
+                return
+            }
+            res.json({ message: 'Success', data: data.tempActivationCode });
+        })
+    },
+
     /**
      * Login the user
      * @param req this request must have a body.email that already exists as a user,
@@ -653,4 +711,8 @@ module.exports = {
 
         });
     }
+
+
+
+
 }

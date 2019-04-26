@@ -85,6 +85,7 @@ module.exports = {
     },
 
     sendTempPassword: (login_id, tempPasscode, next) => {
+
         logd("sendTempPassword: " + login_id);
 
         if (!next) {
@@ -102,6 +103,8 @@ module.exports = {
         
         logd("sendTempPassword: about to findById " + login_id);
         Login.findById(login_id, function (findErr, login) {
+            tempPasscode = login.tempActivationCode;
+
             logd("sendTempPassword: in findById callback with err: %o and login: %o");
             if (findErr) {
                 logd("Find email error" + findErr)
@@ -122,8 +125,11 @@ module.exports = {
                 // to: fakeToAddress,// for now, instead of to: login.email
                 to: login.email,
                 subject: "isQED Password Reset",
+                
+                // original
                 // Still need to escape the email address
-                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset_password/email/" + login.email + "/" + tempPasscode + "\n",
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id +  "\n",
+
             };
 
             logd("sendTempPassword: about to send mail: %o", forgotMailOptions);

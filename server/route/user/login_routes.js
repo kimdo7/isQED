@@ -45,6 +45,11 @@ module.exports = function (app) {
         logins.changePassword(req, res);
     })
 
+    app.post('/api/replacePassword/:id', (req, res) => {
+        logins.replacePassword(req, res);
+    })
+    
+
     /**
      * @Get the email for the signed in user
      * This requires the user to be logged in.
@@ -77,7 +82,6 @@ module.exports = function (app) {
      * Of course, they don't have to be logged in. This will log them out if they are.
      */ 
     app.post("/api/login/requestForgotPassword", (req, res) => {
-        console.log("login_routes.js===success");
         logins.requestMailForForgottenPasscode(req, res)
     })
 
@@ -90,6 +94,16 @@ module.exports = function (app) {
     app.post('/api/login/changePasswordForgot', (req, res) => {
         logd('Hit route /api/changePasswordForgot, about to call logins.changePasswordAfterForgetting')
         logins.changePasswordAfterForgetting(req, res)
+    })
+
+    /**
+     * @Send tempActivationCode to user for verification
+     * This sends the tempActivationCode to the reset-password.component.ts.
+     * This tempActivationCode will verify them to change their real password.
+     * Of course, they don't have to be logged in. This will log them out if they are.
+     */ 
+    app.get("/api/requestTempActivationCodeVerification/:id", (req, res) => {
+        logins.requestTempActivationCode(req, res);
     })
 
     // DEBUG ONLY - don't use this in production!

@@ -32,12 +32,8 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     onSendMail() {
-        // console.log("forgot-password-modal-component.ts"+this.forgot_password.value+"===success");
-        console.log(this.forgot_password.value);
-        console.log("Pretending to send mail");
         let tempObservable = this.LoginService.requestForgotPassword(this.forgot_password.value )
         tempObservable.subscribe(data => {
-            console.log("tempObservable.subscribe(data => "+data+"success");
             if (data["message"] === "Success") {
                 console.log("sendEmail: got success")
                 // We don't know the ID, and shouldn't
@@ -46,8 +42,6 @@ export class ForgotPasswordModalComponent implements OnInit {
             } else {
                 console.log("sendEmail: got no success");
             }
-
-            
         });
     }
 
@@ -60,23 +54,5 @@ export class ForgotPasswordModalComponent implements OnInit {
     }
 
     get email() { return this.forgot_password.get('email'); }
-
-    // onForgetPasswordEmailVerification() {
-    //     console.log("forgot-password-modal-component.ts"+this.forgot_password.value+"===success");
-    //     console.log("Pretending to send mail");
-    //     let tempObservable = this.LoginService.requestForgotPassword({ email: this.forgot_password.value })
-    //     tempObservable.subscribe(data => {
-    //         if (data["message"] === "Success") {
-    //             console.log("sendEmail: got success")
-    //             // We don't know the ID, and shouldn't
-    //             // We want to reset the passcode based only on the email
-    //             this.action.next('Change After Forgot Password');
-    //         } else {
-    //             console.log("sendEmail: got no success")
-    //         }
-
-    //         console.log("tempObservable.subscribe(data => "+data+"success")
-    //     });
-    // }
 
 }

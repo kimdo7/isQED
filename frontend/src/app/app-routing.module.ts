@@ -10,7 +10,9 @@ import { PrivacyPolicyComponent } from './component/landing/landing-body/landing
 import { SteeringCommitteeComponent } from './component/landing/landing-body/landing-about/steering-committee/steering-committee.component';
 import { UserComponent } from './component/user/user.component';
 import { ActivationComponent } from './component/landing/landing-body/activation/activation.component';
-import { ResestPasswordComponent } from './component/landing/landing-body/resest-password/resest-password.component';
+import { ResetPasswordComponent } from './component/landing/landing-body/reset-password/reset-password.component';
+import { RegisterModalComponent } from './component/landing/landing-modal/register-modal/register-modal.component';
+import { LogInModalComponent } from './component/landing/landing-modal/log-in-modal/log-in-modal.component';
 import { LandingCertificationComponent } from './component/landing/landing-body/landing-certification/landing-certification.component';
 
 const routes: Routes = [
@@ -30,7 +32,7 @@ const routes: Routes = [
             },
             { path: "activate/:login_id/:verify_code", component: ActivationComponent },
             
-            { path: "reset-password/:login_id", component: ResestPasswordComponent }
+            { path: "reset-password/:login_id", component: ResetPasswordComponent }
         ]
     },
     {
