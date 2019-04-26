@@ -6,11 +6,11 @@ import { LandingModalValidationErrors } from '../../landing-modal/landing-modal-
 import { PasswordStrengthValidator } from 'src/app/validator/PasswordStrengthValidator';
 
 @Component({
-    selector: 'app-resest-password',
-    templateUrl: './resest-password.component.html',
-    styleUrls: ['./resest-password.component.scss']
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss']
 })
-export class ResestPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
     validation_messages = LandingModalValidationErrors.message
