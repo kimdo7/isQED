@@ -183,28 +183,6 @@ LoginSchema.methods.invalidateTempForgot = function () {
 }
 
 /**
- * @createTempForgottenPassword
- * USED WHEN USER FORGOT THEIR OWN PASSWORD
- */
-LoginSchema.methods.createTempForgottenPassword = function () {
-    // Get rid of any existing temp passcode first
-    this.invalidateTempForgot();
-    
-    this.tempForgotAttemptsRemaining = MAX_FORGOTTEN_ATTEMPTS;
-    this.tempForgotExpiry = Date.now() + MAX_FORGOTTEN_TIME_IN_MS;
-    var tempPasscode = base32.sha1(bcrypt.genSaltSync(10));// this is just random, but the letters are typable
-    this.tempForgotHash = bcrypt.hashSync(tempPasscode, 10);
-    
-    if (!this.tempForgotHash) {
-        return null;
-    }
-    
-    // If we made it here, there is a temp  forgotten password
-    // The caller needs to mail it out
-    return tempPasscode;
-}
-
-/**
  * @isTempForgottenPassword
  */
 LoginSchema.methods.isTempForgottenPassword = function () {

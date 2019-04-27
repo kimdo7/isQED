@@ -84,8 +84,8 @@ module.exports = {
         })
     },
 
-    sendTempPassword: (login_id, tempPasscode, next) => {
-
+    sendTempPassword: (login_id, next) => {
+        var tempPasscode
         logd("sendTempPassword: " + login_id);
 
         if (!next) {
@@ -94,10 +94,6 @@ module.exports = {
         } else if (!login_id) {
             logd("sendTempPassword missing login_id");
             next("missing login_id");
-            return
-        } else if (!tempPasscode) {
-            logd("sendTempPassword missing tempPasscode");
-            next("missing tempPasscode");
             return
         }
 

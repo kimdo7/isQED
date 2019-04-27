@@ -428,8 +428,6 @@ module.exports = {
      */
     requestMailForForgottenPasscode: (req, res) => {
         var email = req.body.email;
-        var tempPasscode = null;
-
         // Don't allow the user to stay logged in if they forgot.
         // We may want to change this later but it means more testings
         req.session.last_stage = 'forgotPassword'
@@ -446,49 +444,29 @@ module.exports = {
         Login.findOne({ email: email }, function (findErr, login) {
             if (findErr) {
                 res.json({ message: 'Error', error: "Failed to find login user" })
-                logd("requestMailForForgottenPasscode failed to find login user for: %o -- %s", email, findErr)
                 return
             } else if (!login) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
-                logd("requestMailForForgottenPasscode no login user object for: " + email)
                 return;
             }
             if (!login.passwordHash) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
-                logd("requestMailForForgottenPasscode login user has no hash: " + id + " : " + email);
                 return;
             }
             if (!login.isSameEmail(email)) {
                 res.json({ message: 'Error', error: "Failed to find login user" });
-                logd("requestMailForForgottenPasscode login user email doesn't match");
                 return;
             }
 
-            // 2. the login user exists, lets make sure the login user knows the forgotten password code
-            tempPasscode = login.createTempForgottenPassword();
             // passcode doesn't work unless we save it
             login.save(function (err, savedUser) {
                 if (err) {
-                    logd("requestMailForForgottenPasscode could not save the new temp passcode. Wont' take effect.");
                     res.json({ message: 'Error', error: err })
-                    return
-                }
-                if (!tempPasscode) {
-                    logd("requestMailForForgottenPasscode did not create a temp passcode.");
-                    res.json({ message: 'Error', error: "Could not generate temp passcode" })
-                    return
-                }
-                if (DEBUG_DONT_SEND_EMAIL) {
-                    // Normally in production we would send email
-                    // But we are debugging and want to avoid that
-                    // So instead just log the temp passcode
-                    logd("requestMailForForgottenPasscode DEBUG not sending email, would have sent to %s the temp passcode %s", email, tempPasscode);
-                    res.json({ message: 'Success', error: "Passcode was generated, DEBUG success" })
                     return
                 }
 
                 // we should send the email from here
-                emailGateway.sendTempPassword(login.id, tempPasscode, function (err, success) {
+                emailGateway.sendTempPassword(login.id, function (err, success) {
                     if (err) {
                         res.json({ message: 'Error', error: "Could not send mail for forgotten passcode" });
 
@@ -651,18 +629,17 @@ module.exports = {
             req.session.login_id = null
             req.session.save()
         }
-        // console.log(req.session);
 
         // 1. The user has to exist if we want to change a password
         Login.findOne({ email: email }, function (err, login) {
             if (err) {
-                logd("loginWithUserPassword error finding: " + email);
                 res.json({ message: 'Error', error: err })
+                return
+            }else if (login == null){
+                res.json({ message: 'Error', error: "Please check your email and password" })
                 return
             }
 
-            console.log(login);
-            console.log(login.isEmailVerified);
 
             if (!login || !login.id || !login.isSameEmail(email) || !login.passwordHash) {
                 logd("loginWithUserPassword none found: " + email + " -- " + login.id + " " + login.isSameEmail(email));
