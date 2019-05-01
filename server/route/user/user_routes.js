@@ -13,7 +13,6 @@ module.exports = function (app) {
      * @get all user
      */
     app.get('/api/users', (req, res) => {
-        console.log("all user")
         users.getAll(req, res)
     })
 
