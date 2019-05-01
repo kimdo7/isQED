@@ -1,3 +1,5 @@
+// https://www.npmjs.com/package/bcrypt
+
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var crypto = require('crypto')
@@ -30,3 +32,6 @@ var LoginSchema = new Schema({
 
 module.exports = mongoose.model('Login', LoginSchema)
 
+LoginSchema.methods.hashPassword = function(password){
+    return  bcrypt.hashSync(password, saltRounds);
+}
