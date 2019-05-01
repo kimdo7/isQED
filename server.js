@@ -3,12 +3,7 @@ var mongoose = require('mongoose')
 var app = express()
 var bodyParser = require('body-parser')
 
-const STATE = {
-    RUNNING: 'RUNNING',
-    PAUSE: 'PAUSE',
-    CREATE_SUPER_USER: 'CREATE_SUPER_USER',
-    UNIT_TEST: 'UNIT_TEST'
-}
+const STATE = require("./server/config/state").getAll()
 
 /**
  * Start with pasuse state
@@ -31,7 +26,6 @@ process.argv.forEach(function (val, index, array) {
         case "createSuperUser": state = STATE.CREATE_SUPER_USER; break;
     }
 });
-
 
 /**
  * *ONLY spin the serve on running and test*
