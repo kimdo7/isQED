@@ -3,8 +3,6 @@ var mongoose = require('mongoose')
 var app = express()
 var bodyParser = require('body-parser')
 
-
-
 const STATE = {
     RUNNING: 'RUNNING',
     PAUSE: 'PAUSE',
@@ -17,9 +15,11 @@ const STATE = {
  */
 var state = STATE.PAUSE
 
-
+/**
+ * *LISTENING to 3 ARGUMENTS*
+ * @Command @file @option
+ */
 process.argv.forEach(function (val, index, array) {
-    // console.log(array.length)
     if (array.length != 3) {
         console.error("Error!! Must have $nodemon server.js 'option'")
         process.exit(1)
@@ -33,6 +33,9 @@ process.argv.forEach(function (val, index, array) {
 });
 
 
+/**
+ * *ONLY spin the serve on running and test*
+ */
 if (state == STATE.RUNNING || state == STATE.UNIT_TEST) {
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
