@@ -16,6 +16,7 @@ module.exports = function (app) {
          * @get all user
          */
         app.get('/api/user', (req, res) => {
+            console.log("get all")
             users.debugGetAll(req, res)
         })
 
@@ -29,6 +30,7 @@ module.exports = function (app) {
          * @get user by id
          */
         app.get('/api/user/:id', (req, res) => {
+            console.log("user id")
             users.getByLoginId(req, res)
         })
 

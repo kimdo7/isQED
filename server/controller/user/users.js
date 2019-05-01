@@ -199,7 +199,6 @@ module.exports = {
 	 */
     getByLoginId: (req, res) => {
         var login_id = req.params.id
-        console.log("here" + login_id)
         User.find({loginId: login_id}, function (err, data) {
             if (err || data.length  == 0) {
                 res.json({ message: 'Error', error: err })
