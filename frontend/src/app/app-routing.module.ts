@@ -32,7 +32,8 @@ const routes: Routes = [
             },
             { path: "activate/:login_id/:verify_code", component: ActivationComponent },
             
-            { path: "reset-password/:login_id", component: ResetPasswordComponent }
+            { path: "reset-password/:login_id", component: ResetPasswordComponent },
+            { path: "reset-password/:login_id/:temp_code", component: ResetPasswordComponent },
         ]
     },
     {
@@ -40,7 +41,7 @@ const routes: Routes = [
     },
     {
         path: "admin", component: UserComponent
-    }
+    },
 ];
 
 @NgModule({

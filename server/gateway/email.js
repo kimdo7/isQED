@@ -124,7 +124,7 @@ module.exports = {
 
                 // original
                 // Still need to escape the email address
-                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id + "\n",
+                text: "You have asked to reset your password. Please go to the validation page and enter the following reset code.\n " + tempPasscode + "\n Or click this link\n  " + serverUrl + "/reset-password/" + login._id + "/"+ tempPasscode +"\n",
 
             };
 

@@ -32,6 +32,8 @@ import { MDBBootstrapModulesPro, MDBModalService, MDBSpinningPreloader } from 'n
  * @Service
  */
 import { HttpClientModule } from '@angular/common/http';
+import { LocalStorage } from './localStorage/localStorage';
+import { LoginService } from './service/user/login.service';
 import { UserService } from './service/user/user.service';
 
 
@@ -59,7 +61,6 @@ import { UserModalComponent } from './component/user/user-header/modal/user-moda
 import { IsActivateModalComponent } from './component/user/user-header/modal/is-activate-modal/is-activate-modal.component';
 import { UserBodyComponent } from './component/user/user-body/user-body.component';
 import { LandingCertificationComponent } from './component/landing/landing-body/landing-certification/landing-certification.component';
-
 
 @NgModule({
     declarations: [
@@ -142,7 +143,9 @@ import { LandingCertificationComponent } from './component/landing/landing-body/
     schemas: [NO_ERRORS_SCHEMA],
     providers: [
         MDBSpinningPreloader,
-        UserService
+        UserService,
+        LoginService,
+        LocalStorage,
     ],
     bootstrap: [AppComponent]
 })

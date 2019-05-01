@@ -9,9 +9,8 @@ import { LocalStorage } from 'src/app/localStorage/localStorage';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-    
     constructor(
-        
+        private localStore: LocalStorage
     ) { }
 
     

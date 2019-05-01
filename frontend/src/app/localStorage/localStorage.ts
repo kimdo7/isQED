@@ -1,82 +1,127 @@
 import { LoginInfo } from '../object/LoginInfo';
+import { UserInfo } from '../object/UserInfo';
+import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
 
-export class LocalStorage {
-    // Save the logged in user in local storage so that we can remember it
-    static LOCAL_STORAGE_LOGIN_INFO = 'currentLogin'
+/**
+ * @class LocalStorage
+ *  Anytime you want to store something in the front end, it will
+ *  remember.  LocalStorage is like a browser filesystem stored 
+ *  for our site. This way, you don't have to pass information 
+ *  between components. You just call class model "LocalStorage"
+ *  You can see these in Chrome debugger under Application, Local Storage, your site.
+ * 
+ *  Our Keys: (this is like a filename for loading and saving)
+ *    currentLogin:  this is the last LoginInfo we got from the server
+ *    currentUser: this is the last UserInfo we got from the server
+ * 
+ *  Why don't we use cookies? Our backend reads and writes encrypted cookies. We don't want the frontend to
+ *  modify them and pretend to be logged in as someone else. So we need someplace else (LocalStorage) to 
+ *  save what the frontend is allowed to modify.
+ */
+@Injectable({
+    providedIn: 'root'
+})
+ export class LocalStorage {
+    // Save the logged in user in local storage so that we can remember it (it's like a 'filename')
+    CURRENT_LOGIN_KEY = 'currentLogin'
+    CURRENT_USER_KEY = 'currentUser'
+
+    /**
+     * This variable is used in this class
+     * Call loginInfoSub.next() when LoginInfo changes
+     */
+    private loginInfoSub = new Subject<LoginInfo>() 
+
+    /**
+     * This variable is used in this class
+     * Call userInfoSub.next() when UserInfo changes
+     */
+    private userInfoSub = new Subject<UserInfo>() 
+
+    /**
+     * Constructor
+     */
     constructor() { }
-    
-    static load() {
-        try {
-            var info = JSON.parse(localStorage.getItem(this.LOCAL_STORAGE_LOGIN_INFO))
-            if (info['login_id']) {
-                // We loaded good LoginInfo from a logged in user
-                return info
-            }
+
+    /**
+     * You can subscribe to this to get every change to LoginInfo
+     */
+    loginInformation(): Observable<LoginInfo> {
+        return this.loginInfoSub.asObservable()
+    }
+
+    /**
+     * You can subscribe to this to get every change to UserinInfo
+     */
+    userInformation(): Observable<UserInfo> {
+        return this.userInfoSub.asObservable()
+    }
+
+    /**
+     * Call this when you want loginInfo from localStorage
+     * @returns LoginInfo
+     */
+    loadLoginInfo(): LoginInfo {
+        var data = null
+        try { // try to read the last LoginInfo
+            data = JSON.parse(localStorage.getItem(this.CURRENT_LOGIN_KEY))
         } catch {
         }
 
-        // We could not load a logged in user
-        return new LoginInfo()
-    }
+        // Use the constructor to make it's properly filled out
+        var loginInfo = new LoginInfo(data)
 
-   static save(loginInfo) {
-        localStorage.setItem(this.LOCAL_STORAGE_LOGIN_INFO, JSON.stringify(loginInfo))
-    }
-
-    /**
-     * *NEED TO REMOVE*
-     * Is there a logged in user? Does not talk to the backend. 
-     * Subscribe to isLoggedIn() if you want to get called when this state changes.
-     * @returns Whether there is currently a logged in user as far as the frontend knows. D
-     */
-    static isLoggedInNow(): boolean {
-        return this.load()['login_id'] ? true : false
+        // Let subscribers know
+        this.loginInfoSub.next(loginInfo);
+        return loginInfo
     }
 
     /**
-     * *NEED TO REMOVE*
-     * Information about the logged in user. 
-     * Subscribe to loginInformation() if you want to get called when this info changes.
-     * @returns LoginInfo (email, login_id, isEmailVerfiied, isSignedIn, state)
+     * Call this when you want userInfo from localStorage
+     * @returns UserInfo
      */
-    static getLoginInfo(): LoginInfo {
-        return this.load()
+    loadUserInfo(): UserInfo {
+        var data = null
+        try { // try to read the last LoginInfo
+            data = JSON.parse(localStorage.getItem(this.CURRENT_USER_KEY))
+        } catch {
+        }
+
+        // Use the constructor to make it's properly filled out
+        var userInfo = new UserInfo(data)
+
+        // Let subscribers know
+        this.userInfoSub.next(userInfo);
+        return userInfo
     }
 
-    static getLoginId() {
-        return this.getLoginInfo()["login_id"]
+    /**
+     * Call this when you get new loginInfo from the server
+     * @param loginInfo From the server
+     */
+    saveLoginInfo(loginInfo) {
+        // Make sure what we save is populated properly by using the constructor
+        var savedInfo = new LoginInfo(loginInfo)
+
+        // Now save it and let subscribers know
+        localStorage.setItem(this.CURRENT_LOGIN_KEY, JSON.stringify(savedInfo))
+        this.loginInfoSub.next(savedInfo);
+        return savedInfo
     }
 
-    static isUserActivate(){
-        return this.getLoginInfo()["isEmailVerified"]
+    /**
+     * Call this when you get new userInfo from the server
+     * @param userInfo From the server
+     */
+    saveUserInfo(userInfo) {
+        // Make sure what we save is populated properly by using the constructor
+        var savedInfo = new UserInfo(userInfo)
+
+        // Now save it and let subscribers know
+        localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(savedInfo))
+        this.userInfoSub.next(savedInfo);
+        return savedInfo
     }
+
 }
-
-
-/**
-     * *NEED TO TAKE A LOOK*
-     * Components can listen for this Observable to see when logged in or out state changes.
-     * This is the simplest way but only tells you logged in or not
-     */
-    // isLoggedIn(): Observable<boolean> {
-    //     return this.loggedInSub.asObservable();
-    // }
-
-/**
- * * *NEED TO TAKE A LOOK*
- * Components can listen for this to see when info about being logged in changes.
- * This has more detailed info than just logged in or not
- */
-    // loginInformation(): Observable<LoginInfo> {
-    //     return this.loginInfoSub.asObservable();
-    // }
-    
-// this.loginService.isLoggedIn().subscribe(isLoggedIn => {
-//     this.loggedIn = isLoggedIn
-//     console.log("LandingNonTransparentNavbar: changed logged in = " + this.loggedIn)
-// })
-
-// this.loginService.loginInformation().subscribe(loginInfo => {
-//     this.loginState = loginInfo.state
-//     console.log("LandingNonTransparentNavbar: changed login state = " + this.loginState)
-// })

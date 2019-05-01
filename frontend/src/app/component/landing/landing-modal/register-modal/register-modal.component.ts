@@ -76,41 +76,22 @@ export class RegisterModalComponent implements OnInit {
          */
         if (this.register_form.invalid) {
             this.showDangerMessage("Error!!! Please confirm email and password")
-            return;
+            return
         }
 
-        let tempObservable = this.userService.register(this.register_form.value)
-        tempObservable.subscribe(data => {
-            if (!data) {
-                //console.log("server not available")
-                this.showDangerMessage("Error!!! Server not available. Please try later.")
-            } if (data["message"] === "Success") {
-                // userService doesn't update loginService. So we have to tell it what happened
-                var loginInfo: LoginInfo = data["data"]
-                this.loginService.changeLoginInfo(loginInfo)
-
-                if (loginInfo.isEmailVerified) {
-                    // This shouldn't happen because we just registered and haven't validated yet...
-                    // But just in case 
-                    this.action.next('Registered');
-                    this.router.navigate(["/user"])
-                } else {
-                    // User has to enter the activation code
-                    this.action.next('Registered');
-
-                    // NOTE: After user registers, we send them to /user route.
-                    //       Then user will go activate route after clicking the email link
-                    this.router.navigate(["/user"])
-                    // this.router.navigate(["/activate", loginInfo.login_id, ""])
-
-                }
-            } else if (data["error"]) {
-                //console.log("Error!!! " + data["error"])
-                this.showDangerMessage("Error!!! " + data["error"])
-            } else {
-                //console.log("Error!!! Please confirm email and password")
-                this.showDangerMessage("Error!!! Please confirm email and password")
+        this.userService.register(this.register_form.value, (err, loginInfo) => {
+            if (err) {
+                this.showDangerMessage("Error!!! " + err)
+                return
             }
+
+            if (!loginInfo) {
+                this.showDangerMessage("Error!!! Server not available. Please try later.")
+                return
+            } 
+            // Success
+            this.action.next('Registered')
+            this.router.navigate(["/user"])
         });
     }
 
