@@ -27,7 +27,7 @@ Open a terminal, and cd into the folder you’d like to create the project and t
  
 6. Open a `New Terminal`. Go back into the main project folder isQED and run the server.
 	* `cd isQED`
-	* `nodemon server.js`
+	* `nodemon server.js run`
     
 7. Open your project in the url.
 	* `http://localhost:8000/`
@@ -126,6 +126,11 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there are no conflicts, your branch should be up to date. 
 
 # UNIT TEST
-1. cd /server/unit-test
-2. npm install
-3. npm test
+1. Run testing enviroment
+	* `cd isQED`
+	* `nodemon server.js unitTest`
+
+2. Unit Test
+	* `cd server/unit-test`
+	* `npm install`
+	* `npm test`
