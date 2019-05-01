@@ -8,7 +8,7 @@ const STATE = require("./server/config/state").getAll()
 /**
  * Start with pasuse state
  */
-var state = STATE.PAUSE
+var currState = STATE.PAUSE
 
 /**
  * *LISTENING to 3 ARGUMENTS*
@@ -21,23 +21,23 @@ process.argv.forEach(function (val, index, array) {
     }
 
     switch (array[2]) {
-        case "run": state = STATE.RUNNING; break;
-        case "unitTest": state = STATE.UNIT_TEST; break;
-        case "createSuperUser": state = STATE.CREATE_SUPER_USER; break;
+        case "run": currState = STATE.RUNNING; break;
+        case "unitTest": currState = STATE.UNIT_TEST; break;
+        case "createSuperUser": currState = STATE.CREATE_SUPER_USER; break;
     }
 });
 
 /**
  * *ONLY spin the serve on running and test*
  */
-if (state == STATE.RUNNING || state == STATE.UNIT_TEST) {
+if (currState == STATE.RUNNING || currState == STATE.UNIT_TEST) {
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
     app.use(express.static(__dirname + '/frontend/dist/frontend'))
 
     // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
     // by default, you need to set it to false.
-    var mongoDB = (state == STATE.RUNNING) ? 'mongodb://localhost/isQED' : 'mongodb://localhost/isQEDTestDB'
+    var mongoDB = (currState == STATE.RUNNING) ? 'mongodb://localhost/isQED' : 'mongodb://localhost/isQEDTestDB'
 
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true)
