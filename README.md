@@ -125,12 +125,12 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 	* `git branch`  ** make sure you NOT ON MASTER, but on your working branch **
 	* `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there are no conflicts, your branch should be up to date. 
 
-# UNIT TEST
-1. Run testing enviroment
+# Unit Test
+1. Run the test enviroment.
 	* `cd isQED`
 	* `nodemon server.js unitTest`
 
-2. Unit Test
+2. Run the unit test.
 	* `cd server/unit-test`
 	* `npm install`
 	* `npm test`
