@@ -10,7 +10,7 @@ it('Get All Users', async () => {
     const data_json = JSON.parse(data_str)
 
     //unit testing
-    expect(data_json.message).toEqual('Success')
+    expect(data_json.status).toEqual('Success')
 
     // Uncomment to see failure
     // expect(data_json.message).toEqual('Banana')

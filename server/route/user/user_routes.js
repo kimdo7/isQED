@@ -8,44 +8,47 @@ var users = require('../../controller/user/users')
  * because there is zero protection here to ensure users 
  * only get their own info.
  */
-const DEBUG = true;
-
 module.exports = function (app) {
-    if (DEBUG) {
-        /**
-         * @get all user
-         */
-        app.get('/api/user', (req, res) => {
-            console.log("get all")
-            users.debugGetAll(req, res)
-        })
+    /**
+     * @get all user
+     */
+    app.get('/api/users', (req, res) => {
+        console.log("all user")
+        users.getAll(req, res)
+    })
 
-        /**
-         * @Register a user
-         */
-        app.post('/api/user/register', (req, res) => {
-            users.register(req, res)
-        })
-        /**
-         * @get user by id
-         */
-        app.get('/api/user/:id', (req, res) => {
-            console.log("user id")
-            users.getByLoginId(req, res)
-        })
+    /**
+     * @Register a user
+     */
+    app.post('/api/user/register', (req, res) => {
+        users.register(req, res)
+    })
 
-        /**
-         * @update user by id
-         */
-        app.put('/api/user/:id', (req, res) => {
-            users.updateById(req, res)
-        })
+    /**
+     * @get user by  id
+     */
+    app.get('/api/user/:id', (req, res) => {
+        // users.getById(req, res)
+    })
 
-        /**
-         * @delete user by id
-         */
-        app.delete('/api/user/:id', (req, res) => {
-            users.deleteById(req, res)
-        })
-    }
+    /**
+     * @get user by login id
+     */
+    app.get('/api/userByLogin/:id', (req, res) => {
+        users.getByLoginId(req, res)
+    })
+
+    /**
+     * @update user by id
+     */
+    app.put('/api/user/:id', (req, res) => {
+        users.updateById(req, res)
+    })
+
+    /**
+     * @delete user by id
+     */
+    app.delete('/api/user/:id', (req, res) => {
+        users.deleteById(req, res)
+    })
 }
