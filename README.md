@@ -124,3 +124,8 @@ Open a terminal, and cd into the folder you’d like to create the project and t
 13.  When you want to pull the latest master into your working branch
 	* `git branch`  ** make sure you NOT ON MASTER, but on your working branch **
 	* `git merge origin master`  ** this will merge the latest master branch upstream to your branch.  Assuming there are no conflicts, your branch should be up to date. 
+
+# UNIT TEST
+1. cd /server/unit-test
+2. npm install
+3. npm test
