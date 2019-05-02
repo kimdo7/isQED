@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-
 var UserSchema = new Schema({
     loginId : {type: String, unique: true},
     first_name: { type: String, required: true, minlength: 2, match: /^[A-Za-z][A-Za-z ]*[A-Za-z]$/ }, // No space at beginning or end

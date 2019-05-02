@@ -1,3 +1,5 @@
+'use strict'
+
 var express = require('express')
 var mongoose = require('mongoose')
 var app = express()
@@ -9,6 +11,11 @@ const STATE = require("./server/config/state").getAll()
  * Start with pasuse state
  */
 var currState = STATE.PAUSE
+
+
+
+
+
 
 /**
  * *LISTENING to 3 ARGUMENTS*
@@ -50,5 +57,25 @@ if (currState == STATE.RUNNING || currState == STATE.UNIT_TEST) {
     app.listen(8000, function () {
         console.log('listening on http://localhost:8000')
     })
+} else if (currState == STATE.CREATE_SUPER_USER) {
+    
+    var mongoDB = 'mongodb://localhost/isQED'
+
+    // mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true)
+    mongoose.connect(mongoDB, { useNewUrlParser: true })
+
+    require('./server/config/mongoose.js')
+
+    //create super user
+    require("./server/config/super-user").create()
+
 }
+
+
+
+
+
+
+
 

@@ -3,7 +3,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var crypto = require('crypto')
-var bcrypt = require('bcrypt');
 
 var LoginSchema = new Schema({
     // Needed for Login
@@ -27,11 +26,7 @@ var LoginSchema = new Schema({
     //attempt
     login_attempt: { type: Number, default: 0, required: true },
     forgot_password_code_attempt: { type: Number, default: 0, required: true },
-}, { timestamps: true, upsert: true, collection: 'login' })
-
+}, { timestamps: true, upsert: true})
 
 module.exports = mongoose.model('Login', LoginSchema)
 
-LoginSchema.methods.hashPassword = function(password){
-    return  bcrypt.hashSync(password, saltRounds);
-}

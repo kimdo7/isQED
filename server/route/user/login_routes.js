@@ -1,27 +1,10 @@
 var logins = require('../../controller/user/logins')
 
-/**
- * We don't expose the raw database to end users.
- * Right now while we are debugging, it's OK to have the
- * user information available to anyone who isn't logged in.
- * But we NEVER want the DEBUG routes to go to production, 
- * because there is zero protection here to ensure users 
- * only get their own info.
- */
-const DEBUG = true;
-
-/**
- * @DEBUG 
- * Instead of console.log, use logd("Hello World"), or format parameters like logd("Hello %s", "world")
- *  - To see this output, you have to pass it into nodemon when you run it:
- *          In isQED directory, run "DEBUG=QEDlog nodemon server.js" 
- *  - To shut off logs, just run nodemon normally:
- *          In isQED directory, run "nodemon.server.js" (this shuts off logs)
- */
-const logd = require('debug')('QEDlog')
-
-
 module.exports = function (app) {
+    app.get("/api/logins", (req, res) =>{
+        logins.getAll(req, res)
+    })
+
     /**
      * @Login the user, starting their session
      */
@@ -99,22 +82,4 @@ module.exports = function (app) {
         logins.changePasswordAfterForgetting(req, res)
     })
 
-    // DEBUG ONLY - don't use this in production!
-    if (DEBUG) {
-        app.get('/api/login', (req, res) => {
-            logins.debugGetAll(req, res)
-        })
-
-        app.get('/api/login/:id', (req, res) => {
-            logins.debugGetById(req, res)
-        })
-
-        app.put('/api/login/:id', (req, res) => {
-            logins.debugUpdateById(req, res)
-        })
-
-        app.delete('/api/login/:id', (req, res) => {
-            logins.debugDeleteById(req, res)
-        })
-    }
 }

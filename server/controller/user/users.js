@@ -17,6 +17,7 @@ module.exports = {
     getAll: (req, res) => {
         User.find({}, function (err, data) {
             if (err) {
+                console.log("err")
                 user_res.error(res, err)
                 return
             }
